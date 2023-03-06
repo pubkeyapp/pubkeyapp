@@ -231,9 +231,11 @@ type Query {
   queueJobs(type: QueueType!, statuses: [JobStatus!]!): [Job!]
   queues: [Queue!]
   user(username: String!): User
+  userPages(username: String!): [Page!]
   userFollowers(username: String!): [User!]
   userFollowing(username: String!): [User!]
   userInvites(username: String!): [Invite!]
+  userProfiles(username: String!): JSON
   adminUser(userId: String!): User
   adminUsers: [User!]
 }

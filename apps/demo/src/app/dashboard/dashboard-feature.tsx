@@ -1,4 +1,5 @@
 import { Container, Grid, SimpleGrid, Skeleton, Stack } from '@mantine/core'
+import { UiDebugModal } from '@pubkeyapp/web/ui/core'
 
 const PRIMARY_COL_HEIGHT = 300
 export function DashboardFeature() {
@@ -35,6 +36,7 @@ export function DashboardFeature() {
           </Grid>
           <Skeleton height={PRIMARY_COL_HEIGHT} radius="md" animate={false} />
         </SimpleGrid>
+        <UiDebugModal data={{ key: 'value' }} />
       </Stack>
     </Container>
   )

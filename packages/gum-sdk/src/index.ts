@@ -1,2 +1,5 @@
 export * from './generated'
 export * from './lib/gum-sdk'
+export * from './lib/interfaces/gum-sdk.user.interface'
+export * from './lib/interfaces/gum-sdk-profile.interface'
+export * from './lib/interfaces/gum-sdk-profile-meta.interface'

@@ -5,7 +5,7 @@
   "scripts": {
     "build": "yarn build:web && yarn prisma generate && yarn build:api",
     "build:api": "nx build api --prod",
-    "build:gum-sdk": "genql --endpoint 'https://aware-earwig-49.hasura.app/v1/graphql' --output ./packages/gum-sdk/src/generated",
+    "build:gum-sdk": "genql --endpoint 'https://aware-earwig-49.hasura.app/v1/graphql' --output ./packages/gum-sdk/src/generated && nx format:write --files ./packages/gum-sdk/src/generated",
     "build:sdk": "yarn openapi-generator-cli generate -i ./api-swagger.json -g typescript-axios -o packages/sdk/src/generated --additional-properties=withInterfaces=true && nx format:write --uncommitted",
     "build:web": "nx build web --prod",
     "build:web-sdk": "graphql-codegen --config libs/web/util/sdk/src/codegen.yml",
@@ -24,6 +24,7 @@
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@golevelup/nestjs-modules": "^0.6.1",
+    "@gumhq/sdk": "^1.0.12",
     "@mantine/core": "^6.0.0",
     "@mantine/dates": "^6.0.0",
     "@mantine/form": "^6.0.0",

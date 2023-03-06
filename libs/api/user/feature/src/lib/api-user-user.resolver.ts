@@ -1,8 +1,10 @@
 import { ApiAuthGraphqlGuard, CtxUser } from '@pubkeyapp/api/auth/data-access'
 import { Invite } from '@pubkeyapp/api/invite/data-access'
+import { Page } from '@pubkeyapp/api/page/data-access'
 import { ApiUserUserService, User, UserRelation } from '@pubkeyapp/api/user/data-access'
 import { UseGuards } from '@nestjs/common'
 import { Args, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
+import { GraphQLJSON } from 'graphql-scalars'
 
 @Resolver(() => User)
 @UseGuards(ApiAuthGraphqlGuard)
@@ -12,6 +14,11 @@ export class ApiUserUserResolver {
   @Query(() => User, { nullable: true })
   user(@Args('username') username: string) {
     return this.service.user(username)
+  }
+
+  @Query(() => [Page], { nullable: true })
+  userPages(@Args('username') username: string) {
+    return this.service.userPages(username)
   }
 
   @Query(() => [User], { nullable: true })
@@ -32,6 +39,11 @@ export class ApiUserUserResolver {
   @Mutation(() => User, { nullable: true })
   userFollow(@CtxUser() user: User, @Args('username') username: string) {
     return this.service.userFollow(user.id, username)
+  }
+
+  @Query(() => GraphQLJSON, { nullable: true })
+  userProfiles(@Args('username') username: string) {
+    return this.service.userProfiles(username)
   }
 
   @Mutation(() => User, { nullable: true })

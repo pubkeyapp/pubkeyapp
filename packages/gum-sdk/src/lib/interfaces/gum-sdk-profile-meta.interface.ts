@@ -1,21 +1,22 @@
 import { gum_0_1_0_decoded_profilemetadata } from '@pubkeyapp/gum-sdk'
+import { GumSdkProfile } from './gum-sdk-profile.interface'
 
 export function convertGumSdkProfileMetadata(input: gum_0_1_0_decoded_profilemetadata): GumSdkProfileMetadata {
   return {
-    bf: input.cl_bf,
-    decoded_updated_on: input.cl_decoded_updated_on,
+    // bf: input.cl_bf,
+    // decoded_updated_on: input.cl_decoded_updated_on,
     executable: input.cl_executable,
     lamports: input.cl_lamports,
     owner: input.cl_owner,
     pubkey: input.cl_pubkey,
-    rent_epoch: input.cl_rent_epoch,
-    slot: input.cl_slot,
-    txn_signature: input.cl_txn_signature,
+    // rent_epoch: input.cl_rent_epoch,
+    // slot: input.cl_slot,
+    // txn_signature: input.cl_txn_signature,
     updated_on: input.cl_updated_on,
     write_version: input.cl_write_version,
     metadata: input.metadata,
     metadatauri: input.metadatauri,
-    profile: input.profile,
+    profileId: input.profile,
   }
 }
 
@@ -33,5 +34,6 @@ export interface GumSdkProfileMetadata {
   write_version?: bigint
   metadata?: any
   metadatauri?: string
-  profile?: string
+  profileId?: string
+  profile?: GumSdkProfile
 }

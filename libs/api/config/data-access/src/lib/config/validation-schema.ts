@@ -11,6 +11,7 @@ export const validationSchema = Joi.object({
   DISCORD_BOT_TOKEN: Joi.string().required(),
   DISCORD_DEVELOPMENT_GUILD_ID: Joi.string(),
   DISCORD_BOT_PERMISSIONS: Joi.string().default('517543872576'),
+  GUM_ENDPOINT: Joi.string().required(),
   HOST: Joi.string().default('0.0.0.0'),
   JWT_SECRET: Joi.string().required(),
   LOG_COLOR: Joi.boolean().default('true'),

@@ -438,6 +438,8 @@ export type Query = {
   userFollowers?: Maybe<Array<User>>
   userFollowing?: Maybe<Array<User>>
   userInvites?: Maybe<Array<Invite>>
+  userPages?: Maybe<Array<Page>>
+  userProfiles?: Maybe<Scalars['JSON']>
 }
 
 export type QueryAdminDomainArgs = {
@@ -511,6 +513,14 @@ export type QueryUserFollowingArgs = {
 }
 
 export type QueryUserInvitesArgs = {
+  username: Scalars['String']
+}
+
+export type QueryUserPagesArgs = {
+  username: Scalars['String']
+}
+
+export type QueryUserProfilesArgs = {
   username: Scalars['String']
 }
 
@@ -599,6 +609,7 @@ export type MeQuery = {
     avatarUrl?: string | null
     metaUrl?: string | null
     profileUrl?: string | null
+    publicKey?: string | null
     followersCount?: number | null
     followingCount?: number | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
@@ -638,6 +649,7 @@ export type RespondChallengeMutation = {
     avatarUrl?: string | null
     metaUrl?: string | null
     profileUrl?: string | null
+    publicKey?: string | null
     followersCount?: number | null
     followingCount?: number | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
@@ -768,6 +780,7 @@ export type AdminDomainQuery = {
         avatarUrl?: string | null
         metaUrl?: string | null
         profileUrl?: string | null
+        publicKey?: string | null
         followersCount?: number | null
         followingCount?: number | null
         relation?: {
@@ -954,6 +967,7 @@ export type AdminInviteQuery = {
       avatarUrl?: string | null
       metaUrl?: string | null
       profileUrl?: string | null
+      publicKey?: string | null
       followersCount?: number | null
       followingCount?: number | null
       relation?: {
@@ -1116,6 +1130,7 @@ export type PublicInviteQuery = {
       avatarUrl?: string | null
       metaUrl?: string | null
       profileUrl?: string | null
+      publicKey?: string | null
       followersCount?: number | null
       followingCount?: number | null
       relation?: {
@@ -1338,6 +1353,7 @@ export type PageDetailsFragment = {
     avatarUrl?: string | null
     metaUrl?: string | null
     profileUrl?: string | null
+    publicKey?: string | null
     followersCount?: number | null
     followingCount?: number | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
@@ -1392,6 +1408,7 @@ export type AdminPageQuery = {
       avatarUrl?: string | null
       metaUrl?: string | null
       profileUrl?: string | null
+      publicKey?: string | null
       followersCount?: number | null
       followingCount?: number | null
       relation?: {
@@ -1443,6 +1460,7 @@ export type AdminPagesQuery = {
       avatarUrl?: string | null
       metaUrl?: string | null
       profileUrl?: string | null
+      publicKey?: string | null
       followersCount?: number | null
       followingCount?: number | null
       relation?: {
@@ -1484,6 +1502,7 @@ export type AdminCreatePageMutation = {
       avatarUrl?: string | null
       metaUrl?: string | null
       profileUrl?: string | null
+      publicKey?: string | null
       followersCount?: number | null
       followingCount?: number | null
       relation?: {
@@ -1526,6 +1545,7 @@ export type AdminUpdatePageMutation = {
       avatarUrl?: string | null
       metaUrl?: string | null
       profileUrl?: string | null
+      publicKey?: string | null
       followersCount?: number | null
       followingCount?: number | null
       relation?: {
@@ -1567,6 +1587,7 @@ export type AdminDeletePageMutation = {
       avatarUrl?: string | null
       metaUrl?: string | null
       profileUrl?: string | null
+      publicKey?: string | null
       followersCount?: number | null
       followingCount?: number | null
       relation?: {
@@ -1627,6 +1648,7 @@ export type PublicPageQuery = {
       avatarUrl?: string | null
       metaUrl?: string | null
       profileUrl?: string | null
+      publicKey?: string | null
       followersCount?: number | null
       followingCount?: number | null
       relation?: {
@@ -1818,6 +1840,7 @@ export type UserDetailsFragment = {
   avatarUrl?: string | null
   metaUrl?: string | null
   profileUrl?: string | null
+  publicKey?: string | null
   followersCount?: number | null
   followingCount?: number | null
   relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
@@ -1841,6 +1864,7 @@ export type AdminUserQuery = {
     avatarUrl?: string | null
     metaUrl?: string | null
     profileUrl?: string | null
+    publicKey?: string | null
     followersCount?: number | null
     followingCount?: number | null
     identities?: Array<{
@@ -1872,6 +1896,7 @@ export type AdminUsersQuery = {
     avatarUrl?: string | null
     metaUrl?: string | null
     profileUrl?: string | null
+    publicKey?: string | null
     followersCount?: number | null
     followingCount?: number | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
@@ -1896,6 +1921,7 @@ export type AdminCreateUserMutation = {
     avatarUrl?: string | null
     metaUrl?: string | null
     profileUrl?: string | null
+    publicKey?: string | null
     followersCount?: number | null
     followingCount?: number | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
@@ -1921,6 +1947,7 @@ export type AdminUpdateUserMutation = {
     avatarUrl?: string | null
     metaUrl?: string | null
     profileUrl?: string | null
+    publicKey?: string | null
     followersCount?: number | null
     followingCount?: number | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
@@ -1945,6 +1972,7 @@ export type AdminDeleteUserMutation = {
     avatarUrl?: string | null
     metaUrl?: string | null
     profileUrl?: string | null
+    publicKey?: string | null
     followersCount?: number | null
     followingCount?: number | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
@@ -1969,6 +1997,7 @@ export type UserQuery = {
     avatarUrl?: string | null
     metaUrl?: string | null
     profileUrl?: string | null
+    publicKey?: string | null
     followersCount?: number | null
     followingCount?: number | null
     identities?: Array<{
@@ -2002,6 +2031,7 @@ export type UserFollowersQuery = {
     avatarUrl?: string | null
     metaUrl?: string | null
     profileUrl?: string | null
+    publicKey?: string | null
     followersCount?: number | null
     followingCount?: number | null
     identities?: Array<{
@@ -2035,6 +2065,7 @@ export type UserFollowingQuery = {
     avatarUrl?: string | null
     metaUrl?: string | null
     profileUrl?: string | null
+    publicKey?: string | null
     followersCount?: number | null
     followingCount?: number | null
     identities?: Array<{
@@ -2080,6 +2111,7 @@ export type UserInvitesQuery = {
       avatarUrl?: string | null
       metaUrl?: string | null
       profileUrl?: string | null
+      publicKey?: string | null
       followersCount?: number | null
       followingCount?: number | null
       relation?: {
@@ -2117,6 +2149,7 @@ export type UserFollowMutation = {
     avatarUrl?: string | null
     metaUrl?: string | null
     profileUrl?: string | null
+    publicKey?: string | null
     followersCount?: number | null
     followingCount?: number | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
@@ -2141,10 +2174,59 @@ export type UserUnfollowMutation = {
     avatarUrl?: string | null
     metaUrl?: string | null
     profileUrl?: string | null
+    publicKey?: string | null
     followersCount?: number | null
     followingCount?: number | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
   } | null
+}
+
+export type UserProfilesQueryVariables = Exact<{
+  username: Scalars['String']
+}>
+
+export type UserProfilesQuery = { __typename?: 'Query'; item?: any | null }
+
+export type UserPagesQueryVariables = Exact<{
+  username: Scalars['String']
+}>
+
+export type UserPagesQuery = {
+  __typename?: 'Query'
+  items?: Array<{
+    __typename?: 'Page'
+    id?: string | null
+    createdAt?: string | null
+    updatedAt?: string | null
+    title?: string | null
+    description?: string | null
+    color?: string | null
+    previewUrl?: string | null
+    siteUrl?: string | null
+    viewUrl?: string | null
+    owner?: {
+      __typename?: 'User'
+      id?: string | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      role?: UserRole | null
+      username?: string | null
+      name?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      followersCount?: number | null
+      followingCount?: number | null
+      relation?: {
+        __typename?: 'UserRelation'
+        isYou: boolean
+        isFollowedByYou: boolean
+        isFollowingYou: boolean
+      } | null
+    } | null
+  }> | null
 }
 
 export const AuthChallengeRequestDetailsFragmentDoc = gql`
@@ -2287,6 +2369,7 @@ export const UserDetailsFragmentDoc = gql`
     avatarUrl
     metaUrl
     profileUrl
+    publicKey
     followersCount
     followingCount
     relation {
@@ -3018,4 +3101,25 @@ export const UserUnfollowDocument = gql`
 
 export function useUserUnfollowMutation() {
   return Urql.useMutation<UserUnfollowMutation, UserUnfollowMutationVariables>(UserUnfollowDocument)
+}
+export const UserProfilesDocument = gql`
+  query UserProfiles($username: String!) {
+    item: userProfiles(username: $username)
+  }
+`
+
+export function useUserProfilesQuery(options: Omit<Urql.UseQueryArgs<UserProfilesQueryVariables>, 'query'>) {
+  return Urql.useQuery<UserProfilesQuery, UserProfilesQueryVariables>({ query: UserProfilesDocument, ...options })
+}
+export const UserPagesDocument = gql`
+  query UserPages($username: String!) {
+    items: userPages(username: $username) {
+      ...PageDetails
+    }
+  }
+  ${PageDetailsFragmentDoc}
+`
+
+export function useUserPagesQuery(options: Omit<Urql.UseQueryArgs<UserPagesQueryVariables>, 'query'>) {
+  return Urql.useQuery<UserPagesQuery, UserPagesQueryVariables>({ query: UserPagesDocument, ...options })
 }

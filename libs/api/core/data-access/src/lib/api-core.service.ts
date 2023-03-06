@@ -1,6 +1,7 @@
-import { ApiConfigDataAccessService } from '@pubkeyapp/api/config/data-access'
 import { Injectable } from '@nestjs/common'
 import { Identity, IdentityProvider, UserRole } from '@prisma/client'
+import { ApiConfigDataAccessService } from '@pubkeyapp/api/config/data-access'
+import { GumSdk } from '@pubkeyapp/gum-sdk'
 
 import { convertCoreDbUser, CoreDbUser, CoreUser } from './api-core.helpers'
 import { ApiCoreCacheService } from './cache/api-core-cache.service'
@@ -8,6 +9,7 @@ import { ApiCoreDataService } from './data/api-core-data.service'
 
 @Injectable()
 export class ApiCoreService {
+  readonly gum = new GumSdk({ endpoint: process.env.GUM_ENDPOINT })
   constructor(
     readonly cache: ApiCoreCacheService,
     readonly config: ApiConfigDataAccessService,

@@ -36,7 +36,7 @@ export function convertCoreDbUser(user: CoreDbUser, apiUrl: string): CoreUser {
     ...user,
     name: user.name ? user.name : ellipsify(user.username),
     avatar: user.avatarUrl,
-    bio: user.bio ? user.bio : 'No bio :(',
+    bio: user.bio ? user.bio : 'No bio found :(',
     publicKey,
     identities,
     metaUrl: `${apiUrl}/user/meta/${user.username}`,

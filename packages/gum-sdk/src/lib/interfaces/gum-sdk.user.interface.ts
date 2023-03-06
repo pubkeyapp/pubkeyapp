@@ -3,17 +3,17 @@ import { gum_0_1_0_decoded_user } from '@pubkeyapp/gum-sdk'
 export function convertGumSdkUser(input: gum_0_1_0_decoded_user): GumSdkUser {
   return {
     authority: input.authority,
-    bf: input.cl_bf,
-    decoded_updated_on: input.cl_decoded_updated_on,
-    executable: input.cl_executable,
-    lamports: input.cl_lamports,
     owner: input.cl_owner,
     pubkey: input.cl_pubkey,
-    rent_epoch: input.cl_rent_epoch,
-    txn_signature: input.cl_txn_signature,
+    executable: input.cl_executable,
+    lamports: input.cl_lamports,
     updated_on: input.cl_updated_on,
     write_version: input.cl_write_version,
-    randomhash: input.randomhash,
+    // bf: input.cl_bf,
+    // decoded_updated_on: input.cl_decoded_updated_on,
+    // randomhash: input.randomhash,
+    // rent_epoch: input.cl_rent_epoch,
+    // txn_signature: input.cl_txn_signature,
   }
 }
 

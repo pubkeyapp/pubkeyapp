@@ -18,9 +18,7 @@
             }
           }
         },
-        "tags": [
-          "auth"
-        ]
+        "tags": ["auth"]
       }
     },
     "/api/auth/logout": {
@@ -40,9 +38,7 @@
             }
           }
         },
-        "tags": [
-          "auth"
-        ]
+        "tags": ["auth"]
       }
     },
     "/api/auth/request-challenge/{publicKey}": {
@@ -71,9 +67,7 @@
             }
           }
         },
-        "tags": [
-          "auth"
-        ]
+        "tags": ["auth"]
       }
     },
     "/api/auth/respond-challenge": {
@@ -103,9 +97,7 @@
             }
           }
         },
-        "tags": [
-          "auth"
-        ]
+        "tags": ["auth"]
       }
     },
     "/api/config": {
@@ -125,9 +117,7 @@
             }
           }
         },
-        "tags": [
-          "config"
-        ]
+        "tags": ["config"]
       }
     },
     "/api/page/get-page-by-id/{pageId}": {
@@ -156,9 +146,7 @@
             }
           }
         },
-        "tags": [
-          "page"
-        ]
+        "tags": ["page"]
       }
     },
     "/api/page/get-page-by-url": {
@@ -187,9 +175,7 @@
             }
           }
         },
-        "tags": [
-          "page"
-        ]
+        "tags": ["page"]
       }
     },
     "/api/user/get-user-by-id/{userId}": {
@@ -218,9 +204,7 @@
             }
           }
         },
-        "tags": [
-          "user"
-        ]
+        "tags": ["user"]
       }
     },
     "/api/user/get-user-by-identity/{provider}/{providerId}": {
@@ -257,9 +241,7 @@
             }
           }
         },
-        "tags": [
-          "user"
-        ]
+        "tags": ["user"]
       }
     },
     "/api/user/get-user-by-username/{username}": {
@@ -288,9 +270,7 @@
             }
           }
         },
-        "tags": [
-          "user"
-        ]
+        "tags": ["user"]
       }
     },
     "/api/user/meta/{username}": {
@@ -319,9 +299,7 @@
             }
           }
         },
-        "tags": [
-          "user"
-        ]
+        "tags": ["user"]
       }
     }
   },
@@ -339,7 +317,7 @@
   ],
   "servers": [
     {
-      "url": "http://localhost:3040"
+      "url": "https://pubkey.ngrok.io"
     }
   ],
   "components": {
@@ -353,10 +331,7 @@
     "schemas": {
       "UserRole": {
         "type": "string",
-        "enum": [
-          "Admin",
-          "User"
-        ]
+        "enum": ["Admin", "User"]
       },
       "Identity": {
         "type": "object",
@@ -374,12 +349,7 @@
             "type": "boolean"
           }
         },
-        "required": [
-          "id",
-          "provider",
-          "providerId",
-          "verified"
-        ]
+        "required": ["id", "provider", "providerId", "verified"]
       },
       "User": {
         "type": "object",
@@ -455,12 +425,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "challenge",
-          "expiresAt",
-          "publicKey",
-          "message"
-        ]
+        "required": ["challenge", "expiresAt", "publicKey", "message"]
       },
       "ResponseChallengeOptions": {
         "type": "object",
@@ -475,11 +440,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "challenge",
-          "publicKey",
-          "signature"
-        ]
+        "required": ["challenge", "publicKey", "signature"]
       },
       "ConfigApi": {
         "type": "object",
@@ -494,11 +455,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "name",
-          "version",
-          "url"
-        ]
+        "required": ["name", "version", "url"]
       },
       "ConfigApp": {
         "type": "object",
@@ -513,20 +470,11 @@
             "type": "string"
           }
         },
-        "required": [
-          "description",
-          "name",
-          "url"
-        ]
+        "required": ["description", "name", "url"]
       },
       "ClusterType": {
         "type": "string",
-        "enum": [
-          "Custom",
-          "Devnet",
-          "Mainnet",
-          "Testnet"
-        ]
+        "enum": ["Custom", "Devnet", "Mainnet", "Testnet"]
       },
       "Cluster": {
         "type": "object",
@@ -547,13 +495,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "id",
-          "name",
-          "type",
-          "endpoint",
-          "explorerUrl"
-        ]
+        "required": ["id", "name", "type", "endpoint", "explorerUrl"]
       },
       "Config": {
         "type": "object",
@@ -598,20 +540,11 @@
             ]
           }
         },
-        "required": [
-          "api",
-          "app",
-          "cluster",
-          "clusters",
-          "user"
-        ]
+        "required": ["api", "app", "cluster", "clusters", "user"]
       },
       "PageBlockType": {
         "type": "string",
-        "enum": [
-          "Header",
-          "Link"
-        ]
+        "enum": ["Header", "Link"]
       },
       "PageBlock": {
         "type": "object",
@@ -633,12 +566,7 @@
             "$ref": "#/components/schemas/PageBlockType"
           }
         },
-        "required": [
-          "id",
-          "name",
-          "order",
-          "type"
-        ]
+        "required": ["id", "name", "order", "type"]
       },
       "Page": {
         "type": "object",
@@ -677,24 +605,11 @@
             }
           }
         },
-        "required": [
-          "id",
-          "title",
-          "color",
-          "description",
-          "viewUrl",
-          "siteUrl",
-          "urls",
-          "owner",
-          "blocks"
-        ]
+        "required": ["id", "title", "color", "description", "viewUrl", "siteUrl", "urls", "owner", "blocks"]
       },
       "IdentityProvider": {
         "type": "string",
-        "enum": [
-          "Discord",
-          "Solana"
-        ]
+        "enum": ["Discord", "Solana"]
       }
     }
   }

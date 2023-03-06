@@ -1,27 +1,31 @@
-import { Container, Grid, SimpleGrid, Skeleton, useMantineTheme, rem } from '@mantine/core'
-
-const PRIMARY_COL_HEIGHT = rem(300)
+import { Container, Grid, SimpleGrid, Stack } from '@mantine/core'
+import { useAuth } from '@pubkeyapp/web/auth/data-access'
+import { UiDebug } from '@pubkeyapp/web/ui/core'
+import { useUserPagesQuery, useUserProfilesQuery, useUserQuery } from '@pubkeyapp/web/util/sdk'
+import React from 'react'
+import { DashboardConnectIdentities } from './dashboard-connect.identities'
 
 export function DashboardFeature() {
-  const theme = useMantineTheme()
-  const SECONDARY_COL_HEIGHT = `calc(${PRIMARY_COL_HEIGHT} / 2 - ${theme.spacing.md} / 2)`
+  const { user } = useAuth()
+  const [{ data: userData }] = useUserQuery({ variables: { username: `${user?.username}` } })
+  const [{ data: profiles }] = useUserProfilesQuery({ variables: { username: `${user?.username}` } })
+  const [{ data: pages }] = useUserPagesQuery({ variables: { username: `${user?.username}` } })
 
   return (
     <Container my="md">
-      <SimpleGrid cols={2} spacing="md" breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
-        <Skeleton height={PRIMARY_COL_HEIGHT} radius="md" animate={false} />
-        <Grid gutter="md">
-          <Grid.Col>
-            <Skeleton height={SECONDARY_COL_HEIGHT} radius="md" animate={false} />
-          </Grid.Col>
-          <Grid.Col span={6}>
-            <Skeleton height={SECONDARY_COL_HEIGHT} radius="md" animate={false} />
-          </Grid.Col>
-          <Grid.Col span={6}>
-            <Skeleton height={SECONDARY_COL_HEIGHT} radius="md" animate={false} />
-          </Grid.Col>
-        </Grid>
-      </SimpleGrid>
+      <Stack>
+        <SimpleGrid cols={2} spacing="md" breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
+          <UiDebug data={{ userData, pages }} />
+          <Grid gutter="md">
+            <Grid.Col>
+              <DashboardConnectIdentities identities={userData?.item?.identities ?? []} />
+            </Grid.Col>
+            <Grid.Col>
+              <UiDebug data={{ userData, profiles }} />
+            </Grid.Col>
+          </Grid>
+        </SimpleGrid>
+      </Stack>
     </Container>
   )
 }

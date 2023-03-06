@@ -13,7 +13,6 @@ export function UiDebug({ data, hideButton, open }: { data: string | unknown; op
         fz="xs"
         m={0}
         p={theme.spacing.xs}
-        radius="md"
         sx={{ overflow: 'auto', textOverflow: 'ellipsis' }}
         withBorder
       >

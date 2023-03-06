@@ -105,15 +105,18 @@ export class GumSdk {
       .then((res) => res.gum_0_1_0_decoded_user.map((item) => convertGumSdkUser(item)))
   }
 
-  async getAll() {
+  async getAll(): Promise<{ gum_0_1_0_decoded_all: any[] }> {
     return this.client.query({
       gum_0_1_0_decoded_all: {
         __args: {
-          where: {
-            account_type: {
-              _eq: 'profile',
-            },
-          },
+          // order_by: {
+          //   account_type: 'asc',
+          // },
+          // where: {
+          //   account_type: {
+          //     _eq: 'profile',
+          //   },
+          // },
         },
         owner: true,
         pubkey: true,

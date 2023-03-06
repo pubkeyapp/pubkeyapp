@@ -1,6 +1,7 @@
-import { ApiCoreService } from '@pubkeyapp/api/core/data-access'
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { User } from '@prisma/client'
+import { ApiCoreService } from '@pubkeyapp/api/core/data-access'
+import { GumSdkProfileMetadata } from '@pubkeyapp/gum-sdk'
 import { UserRelation } from './entity/user.relation'
 
 @Injectable()
@@ -126,5 +127,70 @@ export class ApiUserUserService {
       throw new NotFoundException(`User ${username} not found`)
     }
     return user
+  }
+
+  async userProfiles(username: string) {
+    const found = await this.core.data.findUserByUsername(username)
+    if (!found) {
+      throw new NotFoundException(`User ${username} not found`)
+    }
+    if (!found.publicKey) {
+      throw new BadRequestException(`User ${username} has no public key`)
+    }
+
+    const users = await this.core.cache.wrap(
+      'gum',
+      `get-users-for-pk:${found.publicKey}`,
+      () => this.core.gum.getUsersForPk(found.publicKey),
+      60 * 10,
+    )
+    const userPks = users.map((item) => item.pubkey)
+    if (userPks.length === 0) {
+      return {
+        users: users,
+        usersLength: users.length,
+        profiles: [],
+        profilesLength: 0,
+      }
+    }
+
+    const profiles = await this.core.cache.wrap(
+      'gum',
+      `get-profiles-for-pks:${userPks.sort().join('-')}`,
+      () => this.core.gum.getProfilesForPks(userPks),
+      60 * 10,
+    )
+
+    const profilePks = profiles.map((item) => item.pubkey)
+    const profileMetas = await this.core.cache.wrap(
+      'gum',
+      `get-profile-metas-for-pks:${profilePks.sort().join('-')}`,
+      () => this.core.gum.getProfileMetasForPks(profilePks),
+      10,
+    )
+
+    const result: GumSdkProfileMetadata[] = profileMetas.map((item) => {
+      const profile = profiles.find((profile) => profile.pubkey === item.profileId)
+      const user = users.find((user) => user.pubkey === profile?.username)
+      return {
+        ...item,
+        profile: {
+          ...profile,
+          user,
+        },
+      }
+    })
+
+    return {
+      users,
+      profiles: result,
+    }
+  }
+
+  userPages(username: string) {
+    return this.core.data.page.findMany({
+      where: { owner: { username } },
+      include: { owner: true, domains: { include: { domain: true } }, blocks: true },
+    })
   }
 }

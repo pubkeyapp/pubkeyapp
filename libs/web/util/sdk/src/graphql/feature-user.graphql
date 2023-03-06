@@ -15,6 +15,7 @@ fragment UserDetails on User {
   avatarUrl
   metaUrl
   profileUrl
+  publicKey
   followersCount
   followingCount
   relation {
@@ -100,5 +101,15 @@ mutation UserFollow($username: String!) {
 mutation UserUnfollow($username: String!) {
   item: userUnfollow(username: $username) {
     ...UserDetails
+  }
+}
+
+query UserProfiles($username: String!) {
+  item: userProfiles(username: $username)
+}
+
+query UserPages($username: String!) {
+  items: userPages(username: $username) {
+    ...PageDetails
   }
 }
