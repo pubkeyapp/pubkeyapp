@@ -115,6 +115,9 @@ export function validatePubKeySdkConfig(config: PubKeySdkConfig): PubKeySdkConfi
   if (!config.endpoint.startsWith('http')) {
     throw new Error(`validatePubKeySdkConfig: the endpoint should start with http or https.`)
   }
+  if (config.endpoint.endsWith('/api')) {
+    config.endpoint = config.endpoint.replace(/\/api$/, '')
+  }
   return {
     ...config,
     endpoint: removeTrailingSlash(config.endpoint),

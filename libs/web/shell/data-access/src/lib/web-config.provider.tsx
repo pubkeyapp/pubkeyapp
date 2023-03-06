@@ -3,6 +3,7 @@ import { Cluster, useConfigQuery } from '@pubkeyapp/web/util/sdk'
 import { createContext, ReactNode, useContext } from 'react'
 
 export interface ConfigProviderContext {
+  apiUrl?: string | undefined
   cluster?: Cluster | undefined
   clusters: Cluster[]
 }
@@ -13,6 +14,7 @@ function ConfigProvider({ children }: { children: ReactNode }) {
   const [{ data, fetching, error }] = useConfigQuery()
 
   const value: ConfigProviderContext = {
+    apiUrl: data?.config?.api?.url,
     cluster: data?.config?.cluster,
     clusters: data?.config?.clusters || [],
   }

@@ -14,7 +14,6 @@ function headerAndCookieExtractor(req: Request) {
 
 export function cookieExtractor(cookies: Record<string, string>) {
   const name = process.env.COOKIE_NAME
-  console.log(`cookies[name] = ${cookies?.[name]}`)
   return cookies?.[name] ? cookies[name] : undefined
 }
 

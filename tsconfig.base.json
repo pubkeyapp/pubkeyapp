@@ -45,6 +45,8 @@
       "@pubkeyapp/sdk": ["packages/sdk/src/index.ts"],
       "@pubkeyapp/solana": ["packages/solana/src/index.ts"],
       "@pubkeyapp/wallet-adapter-mantine-ui": ["packages/wallet-adapter-mantine-ui/src/index.ts"],
+      "@pubkeyapp/web/auth/data-access": ["libs/web/auth/data-access/src/index.ts"],
+      "@pubkeyapp/web/shell/data-access": ["libs/web/shell/data-access/src/index.ts"],
       "@pubkeyapp/web/shell/feature": ["libs/web/shell/feature/src/index.ts"],
       "@pubkeyapp/web/ui/core": ["libs/web/ui/core/src/index.ts"],
       "@pubkeyapp/web/ui/layout": ["libs/web/ui/layout/src/index.ts"],

@@ -1,7 +1,8 @@
 import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common'
 import { IdentityProvider, PrismaClient, UserRole } from '@prisma/client'
 import { ApiConfigDataAccessService } from '@pubkeyapp/api/config/data-access'
-import { convertCoreDbUser, CoreUser, ellipsify } from '../api-core.helpers'
+import { getSolanaName } from 'sol-namor/src'
+import { convertCoreDbUser, CoreUser } from '../api-core.helpers'
 
 @Injectable()
 export class ApiCoreDataService extends PrismaClient implements OnModuleDestroy, OnModuleInit {
@@ -18,18 +19,6 @@ export class ApiCoreDataService extends PrismaClient implements OnModuleDestroy,
   async onModuleInit() {
     await this.$connect()
     await this.provisionUses()
-    this.user.findMany().then(async (users) => {
-      for (const user of users) {
-        if (user.username.length > 30) {
-          this.logger.warn(`User ${user.username} has a username longer than 30 characters`)
-          const updated = await this.user.update({
-            where: { id: user.id },
-            data: { username: shortenUsername(user.username) },
-          })
-          console.log(`Updated ${user.username} to ${updated.username}`)
-        }
-      }
-    })
   }
 
   findUserByUsername(username: string) {
@@ -96,7 +85,7 @@ export class ApiCoreDataService extends PrismaClient implements OnModuleDestroy,
 
     return this.user.create({
       data: {
-        username: shortenUsername(publicKey),
+        username: getUsername(publicKey),
         role,
         identities: {
           create: {
@@ -109,9 +98,14 @@ export class ApiCoreDataService extends PrismaClient implements OnModuleDestroy,
   }
 }
 
-export function shortenUsername(name: string) {
+export function getUsername(name: string) {
   if (name.length > 30) {
-    return ellipsify(name, 10)
+    const newName = getSolanaName(name)
+    // slugify the name
+    return newName
+      .replace(/[^a-z0-9]/gi, '-')
+      .replace(/-+/g, '-')
+      .toLowerCase()
   }
   return name
 }
