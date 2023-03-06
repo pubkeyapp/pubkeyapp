@@ -5,6 +5,7 @@
   "scripts": {
     "build": "yarn build:web && yarn prisma generate && yarn build:api",
     "build:api": "nx build api --prod",
+    "build:gum-sdk": "genql --endpoint 'https://aware-earwig-49.hasura.app/v1/graphql' --output ./packages/gum-sdk/src/generated",
     "build:sdk": "yarn openapi-generator-cli generate -i ./api-swagger.json -g typescript-axios -o packages/sdk/src/generated --additional-properties=withInterfaces=true && nx format:write --uncommitted",
     "build:web": "nx build web --prod",
     "build:web-sdk": "graphql-codegen --config libs/web/util/sdk/src/codegen.yml",
@@ -88,6 +89,7 @@
   "devDependencies": {
     "@babel/core": "^7.21.0",
     "@babel/preset-react": "^7.14.5",
+    "@genql/cli": "^3.0.4",
     "@graphql-codegen/add": "^3.2.3",
     "@graphql-codegen/cli": "^2.16.2",
     "@graphql-codegen/fragment-matcher": "^3.3.3",

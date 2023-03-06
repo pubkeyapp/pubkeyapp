@@ -1,0 +1,3492 @@
+schema {
+  query: query_root
+  subscription: subscription_root
+}
+
+"""
+whether this query should be cached (Hasura Cloud only)
+"""
+directive @cached(
+  """
+  measured in seconds
+  """
+  ttl: Int! = 60
+
+  """
+  refresh the cache entry
+  """
+  refresh: Boolean! = false
+) on QUERY
+
+"""
+Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'.
+"""
+input Boolean_comparison_exp {
+  _eq: Boolean
+  _gt: Boolean
+  _gte: Boolean
+  _in: [Boolean!]
+  _is_null: Boolean
+  _lt: Boolean
+  _lte: Boolean
+  _neq: Boolean
+  _nin: [Boolean!]
+}
+
+"""
+Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'.
+"""
+input String_comparison_exp {
+  _eq: String
+  _gt: String
+  _gte: String
+
+  """
+  does the column match the given case-insensitive pattern
+  """
+  _ilike: String
+  _in: [String!]
+
+  """
+  does the column match the given POSIX regular expression, case insensitive
+  """
+  _iregex: String
+  _is_null: Boolean
+
+  """
+  does the column match the given pattern
+  """
+  _like: String
+  _lt: String
+  _lte: String
+  _neq: String
+
+  """
+  does the column NOT match the given case-insensitive pattern
+  """
+  _nilike: String
+  _nin: [String!]
+
+  """
+  does the column NOT match the given POSIX regular expression, case insensitive
+  """
+  _niregex: String
+
+  """
+  does the column NOT match the given pattern
+  """
+  _nlike: String
+
+  """
+  does the column NOT match the given POSIX regular expression, case sensitive
+  """
+  _nregex: String
+
+  """
+  does the column NOT match the given SQL regular expression
+  """
+  _nsimilar: String
+
+  """
+  does the column match the given POSIX regular expression, case sensitive
+  """
+  _regex: String
+
+  """
+  does the column match the given SQL regular expression
+  """
+  _similar: String
+}
+
+scalar _int4
+
+"""
+Boolean expression to compare columns of type "_int4". All fields are combined with logical 'AND'.
+"""
+input _int4_comparison_exp {
+  _eq: _int4
+  _gt: _int4
+  _gte: _int4
+  _in: [_int4!]
+  _is_null: Boolean
+  _lt: _int4
+  _lte: _int4
+  _neq: _int4
+  _nin: [_int4!]
+}
+
+scalar bigint
+
+"""
+Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'.
+"""
+input bigint_comparison_exp {
+  _eq: bigint
+  _gt: bigint
+  _gte: bigint
+  _in: [bigint!]
+  _is_null: Boolean
+  _lt: bigint
+  _lte: bigint
+  _neq: bigint
+  _nin: [bigint!]
+}
+
+scalar bytea
+
+"""
+Boolean expression to compare columns of type "bytea". All fields are combined with logical 'AND'.
+"""
+input bytea_comparison_exp {
+  _eq: bytea
+  _gt: bytea
+  _gte: bytea
+  _in: [bytea!]
+  _is_null: Boolean
+  _lt: bytea
+  _lte: bytea
+  _neq: bytea
+  _nin: [bytea!]
+}
+
+"""
+ordering argument of a cursor
+"""
+enum cursor_ordering {
+  """
+  ascending ordering of the cursor
+  """
+  ASC
+
+  """
+  descending ordering of the cursor
+  """
+  DESC
+}
+
+"""
+columns and relationships of "gum_0_1_0_decoded.all"
+"""
+type gum_0_1_0_decoded_all {
+  account_decoded_data(
+    """
+    JSON select path
+    """
+    path: String
+  ): json
+  account_raw_data: bytea
+  account_type: String
+  executable: Boolean
+  is_bf: Boolean
+  lamports: bigint
+  owner: String
+  pubkey: String!
+  rent_epoch: bigint
+  slot: bigint
+  updated_on: timestamp
+  write_version: bigint
+}
+
+"""
+aggregated selection of "gum_0_1_0_decoded.all"
+"""
+type gum_0_1_0_decoded_all_aggregate {
+  aggregate: gum_0_1_0_decoded_all_aggregate_fields
+  nodes: [gum_0_1_0_decoded_all!]!
+}
+
+"""
+aggregate fields of "gum_0_1_0_decoded.all"
+"""
+type gum_0_1_0_decoded_all_aggregate_fields {
+  avg: gum_0_1_0_decoded_all_avg_fields
+  count(columns: [gum_0_1_0_decoded_all_select_column!], distinct: Boolean): Int!
+  max: gum_0_1_0_decoded_all_max_fields
+  min: gum_0_1_0_decoded_all_min_fields
+  stddev: gum_0_1_0_decoded_all_stddev_fields
+  stddev_pop: gum_0_1_0_decoded_all_stddev_pop_fields
+  stddev_samp: gum_0_1_0_decoded_all_stddev_samp_fields
+  sum: gum_0_1_0_decoded_all_sum_fields
+  var_pop: gum_0_1_0_decoded_all_var_pop_fields
+  var_samp: gum_0_1_0_decoded_all_var_samp_fields
+  variance: gum_0_1_0_decoded_all_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type gum_0_1_0_decoded_all_avg_fields {
+  lamports: Float
+  rent_epoch: Float
+  slot: Float
+  write_version: Float
+}
+
+"""
+Boolean expression to filter rows from the table "gum_0_1_0_decoded.all". All fields are combined with a logical 'AND'.
+"""
+input gum_0_1_0_decoded_all_bool_exp {
+  _and: [gum_0_1_0_decoded_all_bool_exp!]
+  _not: gum_0_1_0_decoded_all_bool_exp
+  _or: [gum_0_1_0_decoded_all_bool_exp!]
+  account_decoded_data: json_comparison_exp
+  account_raw_data: bytea_comparison_exp
+  account_type: String_comparison_exp
+  executable: Boolean_comparison_exp
+  is_bf: Boolean_comparison_exp
+  lamports: bigint_comparison_exp
+  owner: String_comparison_exp
+  pubkey: String_comparison_exp
+  rent_epoch: bigint_comparison_exp
+  slot: bigint_comparison_exp
+  updated_on: timestamp_comparison_exp
+  write_version: bigint_comparison_exp
+}
+
+"""
+aggregate max on columns
+"""
+type gum_0_1_0_decoded_all_max_fields {
+  account_type: String
+  lamports: bigint
+  owner: String
+  pubkey: String
+  rent_epoch: bigint
+  slot: bigint
+  updated_on: timestamp
+  write_version: bigint
+}
+
+"""
+aggregate min on columns
+"""
+type gum_0_1_0_decoded_all_min_fields {
+  account_type: String
+  lamports: bigint
+  owner: String
+  pubkey: String
+  rent_epoch: bigint
+  slot: bigint
+  updated_on: timestamp
+  write_version: bigint
+}
+
+"""
+Ordering options when selecting data from "gum_0_1_0_decoded.all".
+"""
+input gum_0_1_0_decoded_all_order_by {
+  account_decoded_data: order_by
+  account_raw_data: order_by
+  account_type: order_by
+  executable: order_by
+  is_bf: order_by
+  lamports: order_by
+  owner: order_by
+  pubkey: order_by
+  rent_epoch: order_by
+  slot: order_by
+  updated_on: order_by
+  write_version: order_by
+}
+
+"""
+select columns of table "gum_0_1_0_decoded.all"
+"""
+enum gum_0_1_0_decoded_all_select_column {
+  """
+  column name
+  """
+  account_decoded_data
+
+  """
+  column name
+  """
+  account_raw_data
+
+  """
+  column name
+  """
+  account_type
+
+  """
+  column name
+  """
+  executable
+
+  """
+  column name
+  """
+  is_bf
+
+  """
+  column name
+  """
+  lamports
+
+  """
+  column name
+  """
+  owner
+
+  """
+  column name
+  """
+  pubkey
+
+  """
+  column name
+  """
+  rent_epoch
+
+  """
+  column name
+  """
+  slot
+
+  """
+  column name
+  """
+  updated_on
+
+  """
+  column name
+  """
+  write_version
+}
+
+"""
+aggregate stddev on columns
+"""
+type gum_0_1_0_decoded_all_stddev_fields {
+  lamports: Float
+  rent_epoch: Float
+  slot: Float
+  write_version: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type gum_0_1_0_decoded_all_stddev_pop_fields {
+  lamports: Float
+  rent_epoch: Float
+  slot: Float
+  write_version: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type gum_0_1_0_decoded_all_stddev_samp_fields {
+  lamports: Float
+  rent_epoch: Float
+  slot: Float
+  write_version: Float
+}
+
+"""
+Streaming cursor of the table "gum_0_1_0_decoded_all"
+"""
+input gum_0_1_0_decoded_all_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: gum_0_1_0_decoded_all_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input gum_0_1_0_decoded_all_stream_cursor_value_input {
+  account_decoded_data: json
+  account_raw_data: bytea
+  account_type: String
+  executable: Boolean
+  is_bf: Boolean
+  lamports: bigint
+  owner: String
+  pubkey: String
+  rent_epoch: bigint
+  slot: bigint
+  updated_on: timestamp
+  write_version: bigint
+}
+
+"""
+aggregate sum on columns
+"""
+type gum_0_1_0_decoded_all_sum_fields {
+  lamports: bigint
+  rent_epoch: bigint
+  slot: bigint
+  write_version: bigint
+}
+
+"""
+aggregate var_pop on columns
+"""
+type gum_0_1_0_decoded_all_var_pop_fields {
+  lamports: Float
+  rent_epoch: Float
+  slot: Float
+  write_version: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type gum_0_1_0_decoded_all_var_samp_fields {
+  lamports: Float
+  rent_epoch: Float
+  slot: Float
+  write_version: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type gum_0_1_0_decoded_all_variance_fields {
+  lamports: Float
+  rent_epoch: Float
+  slot: Float
+  write_version: Float
+}
+
+"""
+columns and relationships of "gum_0_1_0_decoded.connection"
+"""
+type gum_0_1_0_decoded_connection {
+  cl_bf: Boolean
+  cl_decoded_updated_on: bigint
+  cl_executable: Boolean
+  cl_lamports: bigint
+  cl_owner: String
+  cl_pubkey: String!
+  cl_rent_epoch: bigint
+  cl_slot: bigint
+  cl_txn_signature: bytea
+  cl_updated_on: timestamp
+  cl_write_version: bigint
+  fromprofile: String
+  toprofile: String
+}
+
+"""
+aggregated selection of "gum_0_1_0_decoded.connection"
+"""
+type gum_0_1_0_decoded_connection_aggregate {
+  aggregate: gum_0_1_0_decoded_connection_aggregate_fields
+  nodes: [gum_0_1_0_decoded_connection!]!
+}
+
+"""
+aggregate fields of "gum_0_1_0_decoded.connection"
+"""
+type gum_0_1_0_decoded_connection_aggregate_fields {
+  avg: gum_0_1_0_decoded_connection_avg_fields
+  count(columns: [gum_0_1_0_decoded_connection_select_column!], distinct: Boolean): Int!
+  max: gum_0_1_0_decoded_connection_max_fields
+  min: gum_0_1_0_decoded_connection_min_fields
+  stddev: gum_0_1_0_decoded_connection_stddev_fields
+  stddev_pop: gum_0_1_0_decoded_connection_stddev_pop_fields
+  stddev_samp: gum_0_1_0_decoded_connection_stddev_samp_fields
+  sum: gum_0_1_0_decoded_connection_sum_fields
+  var_pop: gum_0_1_0_decoded_connection_var_pop_fields
+  var_samp: gum_0_1_0_decoded_connection_var_samp_fields
+  variance: gum_0_1_0_decoded_connection_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type gum_0_1_0_decoded_connection_avg_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+Boolean expression to filter rows from the table "gum_0_1_0_decoded.connection". All fields are combined with a logical 'AND'.
+"""
+input gum_0_1_0_decoded_connection_bool_exp {
+  _and: [gum_0_1_0_decoded_connection_bool_exp!]
+  _not: gum_0_1_0_decoded_connection_bool_exp
+  _or: [gum_0_1_0_decoded_connection_bool_exp!]
+  cl_bf: Boolean_comparison_exp
+  cl_decoded_updated_on: bigint_comparison_exp
+  cl_executable: Boolean_comparison_exp
+  cl_lamports: bigint_comparison_exp
+  cl_owner: String_comparison_exp
+  cl_pubkey: String_comparison_exp
+  cl_rent_epoch: bigint_comparison_exp
+  cl_slot: bigint_comparison_exp
+  cl_txn_signature: bytea_comparison_exp
+  cl_updated_on: timestamp_comparison_exp
+  cl_write_version: bigint_comparison_exp
+  fromprofile: String_comparison_exp
+  toprofile: String_comparison_exp
+}
+
+"""
+aggregate max on columns
+"""
+type gum_0_1_0_decoded_connection_max_fields {
+  cl_decoded_updated_on: bigint
+  cl_lamports: bigint
+  cl_owner: String
+  cl_pubkey: String
+  cl_rent_epoch: bigint
+  cl_slot: bigint
+  cl_updated_on: timestamp
+  cl_write_version: bigint
+  fromprofile: String
+  toprofile: String
+}
+
+"""
+aggregate min on columns
+"""
+type gum_0_1_0_decoded_connection_min_fields {
+  cl_decoded_updated_on: bigint
+  cl_lamports: bigint
+  cl_owner: String
+  cl_pubkey: String
+  cl_rent_epoch: bigint
+  cl_slot: bigint
+  cl_updated_on: timestamp
+  cl_write_version: bigint
+  fromprofile: String
+  toprofile: String
+}
+
+"""
+Ordering options when selecting data from "gum_0_1_0_decoded.connection".
+"""
+input gum_0_1_0_decoded_connection_order_by {
+  cl_bf: order_by
+  cl_decoded_updated_on: order_by
+  cl_executable: order_by
+  cl_lamports: order_by
+  cl_owner: order_by
+  cl_pubkey: order_by
+  cl_rent_epoch: order_by
+  cl_slot: order_by
+  cl_txn_signature: order_by
+  cl_updated_on: order_by
+  cl_write_version: order_by
+  fromprofile: order_by
+  toprofile: order_by
+}
+
+"""
+select columns of table "gum_0_1_0_decoded.connection"
+"""
+enum gum_0_1_0_decoded_connection_select_column {
+  """
+  column name
+  """
+  cl_bf
+
+  """
+  column name
+  """
+  cl_decoded_updated_on
+
+  """
+  column name
+  """
+  cl_executable
+
+  """
+  column name
+  """
+  cl_lamports
+
+  """
+  column name
+  """
+  cl_owner
+
+  """
+  column name
+  """
+  cl_pubkey
+
+  """
+  column name
+  """
+  cl_rent_epoch
+
+  """
+  column name
+  """
+  cl_slot
+
+  """
+  column name
+  """
+  cl_txn_signature
+
+  """
+  column name
+  """
+  cl_updated_on
+
+  """
+  column name
+  """
+  cl_write_version
+
+  """
+  column name
+  """
+  fromprofile
+
+  """
+  column name
+  """
+  toprofile
+}
+
+"""
+aggregate stddev on columns
+"""
+type gum_0_1_0_decoded_connection_stddev_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type gum_0_1_0_decoded_connection_stddev_pop_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type gum_0_1_0_decoded_connection_stddev_samp_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+Streaming cursor of the table "gum_0_1_0_decoded_connection"
+"""
+input gum_0_1_0_decoded_connection_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: gum_0_1_0_decoded_connection_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input gum_0_1_0_decoded_connection_stream_cursor_value_input {
+  cl_bf: Boolean
+  cl_decoded_updated_on: bigint
+  cl_executable: Boolean
+  cl_lamports: bigint
+  cl_owner: String
+  cl_pubkey: String
+  cl_rent_epoch: bigint
+  cl_slot: bigint
+  cl_txn_signature: bytea
+  cl_updated_on: timestamp
+  cl_write_version: bigint
+  fromprofile: String
+  toprofile: String
+}
+
+"""
+aggregate sum on columns
+"""
+type gum_0_1_0_decoded_connection_sum_fields {
+  cl_decoded_updated_on: bigint
+  cl_lamports: bigint
+  cl_rent_epoch: bigint
+  cl_slot: bigint
+  cl_write_version: bigint
+}
+
+"""
+aggregate var_pop on columns
+"""
+type gum_0_1_0_decoded_connection_var_pop_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type gum_0_1_0_decoded_connection_var_samp_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type gum_0_1_0_decoded_connection_variance_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+columns and relationships of "gum_0_1_0_decoded.post"
+"""
+type gum_0_1_0_decoded_post {
+  cl_bf: Boolean
+  cl_decoded_updated_on: bigint
+  cl_executable: Boolean
+  cl_lamports: bigint
+  cl_owner: String
+  cl_pubkey: String!
+  cl_rent_epoch: bigint
+  cl_slot: bigint
+  cl_txn_signature: bytea
+  cl_updated_on: timestamp
+  cl_write_version: bigint
+  metadata(
+    """
+    JSON select path
+    """
+    path: String
+  ): json
+  metadatauri: String
+  profile: String
+  randomhash: _int4
+  replyto: String
+}
+
+"""
+aggregated selection of "gum_0_1_0_decoded.post"
+"""
+type gum_0_1_0_decoded_post_aggregate {
+  aggregate: gum_0_1_0_decoded_post_aggregate_fields
+  nodes: [gum_0_1_0_decoded_post!]!
+}
+
+"""
+aggregate fields of "gum_0_1_0_decoded.post"
+"""
+type gum_0_1_0_decoded_post_aggregate_fields {
+  avg: gum_0_1_0_decoded_post_avg_fields
+  count(columns: [gum_0_1_0_decoded_post_select_column!], distinct: Boolean): Int!
+  max: gum_0_1_0_decoded_post_max_fields
+  min: gum_0_1_0_decoded_post_min_fields
+  stddev: gum_0_1_0_decoded_post_stddev_fields
+  stddev_pop: gum_0_1_0_decoded_post_stddev_pop_fields
+  stddev_samp: gum_0_1_0_decoded_post_stddev_samp_fields
+  sum: gum_0_1_0_decoded_post_sum_fields
+  var_pop: gum_0_1_0_decoded_post_var_pop_fields
+  var_samp: gum_0_1_0_decoded_post_var_samp_fields
+  variance: gum_0_1_0_decoded_post_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type gum_0_1_0_decoded_post_avg_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+Boolean expression to filter rows from the table "gum_0_1_0_decoded.post". All fields are combined with a logical 'AND'.
+"""
+input gum_0_1_0_decoded_post_bool_exp {
+  _and: [gum_0_1_0_decoded_post_bool_exp!]
+  _not: gum_0_1_0_decoded_post_bool_exp
+  _or: [gum_0_1_0_decoded_post_bool_exp!]
+  cl_bf: Boolean_comparison_exp
+  cl_decoded_updated_on: bigint_comparison_exp
+  cl_executable: Boolean_comparison_exp
+  cl_lamports: bigint_comparison_exp
+  cl_owner: String_comparison_exp
+  cl_pubkey: String_comparison_exp
+  cl_rent_epoch: bigint_comparison_exp
+  cl_slot: bigint_comparison_exp
+  cl_txn_signature: bytea_comparison_exp
+  cl_updated_on: timestamp_comparison_exp
+  cl_write_version: bigint_comparison_exp
+  metadata: json_comparison_exp
+  metadatauri: String_comparison_exp
+  profile: String_comparison_exp
+  randomhash: _int4_comparison_exp
+  replyto: String_comparison_exp
+}
+
+"""
+aggregate max on columns
+"""
+type gum_0_1_0_decoded_post_max_fields {
+  cl_decoded_updated_on: bigint
+  cl_lamports: bigint
+  cl_owner: String
+  cl_pubkey: String
+  cl_rent_epoch: bigint
+  cl_slot: bigint
+  cl_updated_on: timestamp
+  cl_write_version: bigint
+  metadatauri: String
+  profile: String
+  replyto: String
+}
+
+"""
+aggregate min on columns
+"""
+type gum_0_1_0_decoded_post_min_fields {
+  cl_decoded_updated_on: bigint
+  cl_lamports: bigint
+  cl_owner: String
+  cl_pubkey: String
+  cl_rent_epoch: bigint
+  cl_slot: bigint
+  cl_updated_on: timestamp
+  cl_write_version: bigint
+  metadatauri: String
+  profile: String
+  replyto: String
+}
+
+"""
+Ordering options when selecting data from "gum_0_1_0_decoded.post".
+"""
+input gum_0_1_0_decoded_post_order_by {
+  cl_bf: order_by
+  cl_decoded_updated_on: order_by
+  cl_executable: order_by
+  cl_lamports: order_by
+  cl_owner: order_by
+  cl_pubkey: order_by
+  cl_rent_epoch: order_by
+  cl_slot: order_by
+  cl_txn_signature: order_by
+  cl_updated_on: order_by
+  cl_write_version: order_by
+  metadata: order_by
+  metadatauri: order_by
+  profile: order_by
+  randomhash: order_by
+  replyto: order_by
+}
+
+"""
+select columns of table "gum_0_1_0_decoded.post"
+"""
+enum gum_0_1_0_decoded_post_select_column {
+  """
+  column name
+  """
+  cl_bf
+
+  """
+  column name
+  """
+  cl_decoded_updated_on
+
+  """
+  column name
+  """
+  cl_executable
+
+  """
+  column name
+  """
+  cl_lamports
+
+  """
+  column name
+  """
+  cl_owner
+
+  """
+  column name
+  """
+  cl_pubkey
+
+  """
+  column name
+  """
+  cl_rent_epoch
+
+  """
+  column name
+  """
+  cl_slot
+
+  """
+  column name
+  """
+  cl_txn_signature
+
+  """
+  column name
+  """
+  cl_updated_on
+
+  """
+  column name
+  """
+  cl_write_version
+
+  """
+  column name
+  """
+  metadata
+
+  """
+  column name
+  """
+  metadatauri
+
+  """
+  column name
+  """
+  profile
+
+  """
+  column name
+  """
+  randomhash
+
+  """
+  column name
+  """
+  replyto
+}
+
+"""
+aggregate stddev on columns
+"""
+type gum_0_1_0_decoded_post_stddev_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type gum_0_1_0_decoded_post_stddev_pop_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type gum_0_1_0_decoded_post_stddev_samp_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+Streaming cursor of the table "gum_0_1_0_decoded_post"
+"""
+input gum_0_1_0_decoded_post_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: gum_0_1_0_decoded_post_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input gum_0_1_0_decoded_post_stream_cursor_value_input {
+  cl_bf: Boolean
+  cl_decoded_updated_on: bigint
+  cl_executable: Boolean
+  cl_lamports: bigint
+  cl_owner: String
+  cl_pubkey: String
+  cl_rent_epoch: bigint
+  cl_slot: bigint
+  cl_txn_signature: bytea
+  cl_updated_on: timestamp
+  cl_write_version: bigint
+  metadata: json
+  metadatauri: String
+  profile: String
+  randomhash: _int4
+  replyto: String
+}
+
+"""
+aggregate sum on columns
+"""
+type gum_0_1_0_decoded_post_sum_fields {
+  cl_decoded_updated_on: bigint
+  cl_lamports: bigint
+  cl_rent_epoch: bigint
+  cl_slot: bigint
+  cl_write_version: bigint
+}
+
+"""
+aggregate var_pop on columns
+"""
+type gum_0_1_0_decoded_post_var_pop_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type gum_0_1_0_decoded_post_var_samp_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type gum_0_1_0_decoded_post_variance_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+columns and relationships of "gum_0_1_0_decoded.profile"
+"""
+type gum_0_1_0_decoded_profile {
+  cl_bf: Boolean
+  cl_decoded_updated_on: bigint
+  cl_executable: Boolean
+  cl_lamports: bigint
+  cl_owner: String
+  cl_pubkey: String!
+  cl_rent_epoch: bigint
+  cl_slot: bigint
+  cl_txn_signature: bytea
+  cl_updated_on: timestamp
+  cl_write_version: bigint
+  namespace: String
+  username: String
+}
+
+"""
+aggregated selection of "gum_0_1_0_decoded.profile"
+"""
+type gum_0_1_0_decoded_profile_aggregate {
+  aggregate: gum_0_1_0_decoded_profile_aggregate_fields
+  nodes: [gum_0_1_0_decoded_profile!]!
+}
+
+"""
+aggregate fields of "gum_0_1_0_decoded.profile"
+"""
+type gum_0_1_0_decoded_profile_aggregate_fields {
+  avg: gum_0_1_0_decoded_profile_avg_fields
+  count(columns: [gum_0_1_0_decoded_profile_select_column!], distinct: Boolean): Int!
+  max: gum_0_1_0_decoded_profile_max_fields
+  min: gum_0_1_0_decoded_profile_min_fields
+  stddev: gum_0_1_0_decoded_profile_stddev_fields
+  stddev_pop: gum_0_1_0_decoded_profile_stddev_pop_fields
+  stddev_samp: gum_0_1_0_decoded_profile_stddev_samp_fields
+  sum: gum_0_1_0_decoded_profile_sum_fields
+  var_pop: gum_0_1_0_decoded_profile_var_pop_fields
+  var_samp: gum_0_1_0_decoded_profile_var_samp_fields
+  variance: gum_0_1_0_decoded_profile_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type gum_0_1_0_decoded_profile_avg_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+Boolean expression to filter rows from the table "gum_0_1_0_decoded.profile". All fields are combined with a logical 'AND'.
+"""
+input gum_0_1_0_decoded_profile_bool_exp {
+  _and: [gum_0_1_0_decoded_profile_bool_exp!]
+  _not: gum_0_1_0_decoded_profile_bool_exp
+  _or: [gum_0_1_0_decoded_profile_bool_exp!]
+  cl_bf: Boolean_comparison_exp
+  cl_decoded_updated_on: bigint_comparison_exp
+  cl_executable: Boolean_comparison_exp
+  cl_lamports: bigint_comparison_exp
+  cl_owner: String_comparison_exp
+  cl_pubkey: String_comparison_exp
+  cl_rent_epoch: bigint_comparison_exp
+  cl_slot: bigint_comparison_exp
+  cl_txn_signature: bytea_comparison_exp
+  cl_updated_on: timestamp_comparison_exp
+  cl_write_version: bigint_comparison_exp
+  namespace: String_comparison_exp
+  username: String_comparison_exp
+}
+
+"""
+aggregate max on columns
+"""
+type gum_0_1_0_decoded_profile_max_fields {
+  cl_decoded_updated_on: bigint
+  cl_lamports: bigint
+  cl_owner: String
+  cl_pubkey: String
+  cl_rent_epoch: bigint
+  cl_slot: bigint
+  cl_updated_on: timestamp
+  cl_write_version: bigint
+  namespace: String
+  username: String
+}
+
+"""
+aggregate min on columns
+"""
+type gum_0_1_0_decoded_profile_min_fields {
+  cl_decoded_updated_on: bigint
+  cl_lamports: bigint
+  cl_owner: String
+  cl_pubkey: String
+  cl_rent_epoch: bigint
+  cl_slot: bigint
+  cl_updated_on: timestamp
+  cl_write_version: bigint
+  namespace: String
+  username: String
+}
+
+"""
+Ordering options when selecting data from "gum_0_1_0_decoded.profile".
+"""
+input gum_0_1_0_decoded_profile_order_by {
+  cl_bf: order_by
+  cl_decoded_updated_on: order_by
+  cl_executable: order_by
+  cl_lamports: order_by
+  cl_owner: order_by
+  cl_pubkey: order_by
+  cl_rent_epoch: order_by
+  cl_slot: order_by
+  cl_txn_signature: order_by
+  cl_updated_on: order_by
+  cl_write_version: order_by
+  namespace: order_by
+  username: order_by
+}
+
+"""
+select columns of table "gum_0_1_0_decoded.profile"
+"""
+enum gum_0_1_0_decoded_profile_select_column {
+  """
+  column name
+  """
+  cl_bf
+
+  """
+  column name
+  """
+  cl_decoded_updated_on
+
+  """
+  column name
+  """
+  cl_executable
+
+  """
+  column name
+  """
+  cl_lamports
+
+  """
+  column name
+  """
+  cl_owner
+
+  """
+  column name
+  """
+  cl_pubkey
+
+  """
+  column name
+  """
+  cl_rent_epoch
+
+  """
+  column name
+  """
+  cl_slot
+
+  """
+  column name
+  """
+  cl_txn_signature
+
+  """
+  column name
+  """
+  cl_updated_on
+
+  """
+  column name
+  """
+  cl_write_version
+
+  """
+  column name
+  """
+  namespace
+
+  """
+  column name
+  """
+  username
+}
+
+"""
+aggregate stddev on columns
+"""
+type gum_0_1_0_decoded_profile_stddev_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type gum_0_1_0_decoded_profile_stddev_pop_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type gum_0_1_0_decoded_profile_stddev_samp_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+Streaming cursor of the table "gum_0_1_0_decoded_profile"
+"""
+input gum_0_1_0_decoded_profile_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: gum_0_1_0_decoded_profile_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input gum_0_1_0_decoded_profile_stream_cursor_value_input {
+  cl_bf: Boolean
+  cl_decoded_updated_on: bigint
+  cl_executable: Boolean
+  cl_lamports: bigint
+  cl_owner: String
+  cl_pubkey: String
+  cl_rent_epoch: bigint
+  cl_slot: bigint
+  cl_txn_signature: bytea
+  cl_updated_on: timestamp
+  cl_write_version: bigint
+  namespace: String
+  username: String
+}
+
+"""
+aggregate sum on columns
+"""
+type gum_0_1_0_decoded_profile_sum_fields {
+  cl_decoded_updated_on: bigint
+  cl_lamports: bigint
+  cl_rent_epoch: bigint
+  cl_slot: bigint
+  cl_write_version: bigint
+}
+
+"""
+aggregate var_pop on columns
+"""
+type gum_0_1_0_decoded_profile_var_pop_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type gum_0_1_0_decoded_profile_var_samp_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type gum_0_1_0_decoded_profile_variance_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+columns and relationships of "gum_0_1_0_decoded.profilemetadata"
+"""
+type gum_0_1_0_decoded_profilemetadata {
+  cl_bf: Boolean
+  cl_decoded_updated_on: bigint
+  cl_executable: Boolean
+  cl_lamports: bigint
+  cl_owner: String
+  cl_pubkey: String!
+  cl_rent_epoch: bigint
+  cl_slot: bigint
+  cl_txn_signature: bytea
+  cl_updated_on: timestamp
+  cl_write_version: bigint
+  metadata(
+    """
+    JSON select path
+    """
+    path: String
+  ): json
+  metadatauri: String
+  profile: String
+}
+
+"""
+aggregated selection of "gum_0_1_0_decoded.profilemetadata"
+"""
+type gum_0_1_0_decoded_profilemetadata_aggregate {
+  aggregate: gum_0_1_0_decoded_profilemetadata_aggregate_fields
+  nodes: [gum_0_1_0_decoded_profilemetadata!]!
+}
+
+"""
+aggregate fields of "gum_0_1_0_decoded.profilemetadata"
+"""
+type gum_0_1_0_decoded_profilemetadata_aggregate_fields {
+  avg: gum_0_1_0_decoded_profilemetadata_avg_fields
+  count(columns: [gum_0_1_0_decoded_profilemetadata_select_column!], distinct: Boolean): Int!
+  max: gum_0_1_0_decoded_profilemetadata_max_fields
+  min: gum_0_1_0_decoded_profilemetadata_min_fields
+  stddev: gum_0_1_0_decoded_profilemetadata_stddev_fields
+  stddev_pop: gum_0_1_0_decoded_profilemetadata_stddev_pop_fields
+  stddev_samp: gum_0_1_0_decoded_profilemetadata_stddev_samp_fields
+  sum: gum_0_1_0_decoded_profilemetadata_sum_fields
+  var_pop: gum_0_1_0_decoded_profilemetadata_var_pop_fields
+  var_samp: gum_0_1_0_decoded_profilemetadata_var_samp_fields
+  variance: gum_0_1_0_decoded_profilemetadata_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type gum_0_1_0_decoded_profilemetadata_avg_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+Boolean expression to filter rows from the table "gum_0_1_0_decoded.profilemetadata". All fields are combined with a logical 'AND'.
+"""
+input gum_0_1_0_decoded_profilemetadata_bool_exp {
+  _and: [gum_0_1_0_decoded_profilemetadata_bool_exp!]
+  _not: gum_0_1_0_decoded_profilemetadata_bool_exp
+  _or: [gum_0_1_0_decoded_profilemetadata_bool_exp!]
+  cl_bf: Boolean_comparison_exp
+  cl_decoded_updated_on: bigint_comparison_exp
+  cl_executable: Boolean_comparison_exp
+  cl_lamports: bigint_comparison_exp
+  cl_owner: String_comparison_exp
+  cl_pubkey: String_comparison_exp
+  cl_rent_epoch: bigint_comparison_exp
+  cl_slot: bigint_comparison_exp
+  cl_txn_signature: bytea_comparison_exp
+  cl_updated_on: timestamp_comparison_exp
+  cl_write_version: bigint_comparison_exp
+  metadata: json_comparison_exp
+  metadatauri: String_comparison_exp
+  profile: String_comparison_exp
+}
+
+"""
+aggregate max on columns
+"""
+type gum_0_1_0_decoded_profilemetadata_max_fields {
+  cl_decoded_updated_on: bigint
+  cl_lamports: bigint
+  cl_owner: String
+  cl_pubkey: String
+  cl_rent_epoch: bigint
+  cl_slot: bigint
+  cl_updated_on: timestamp
+  cl_write_version: bigint
+  metadatauri: String
+  profile: String
+}
+
+"""
+aggregate min on columns
+"""
+type gum_0_1_0_decoded_profilemetadata_min_fields {
+  cl_decoded_updated_on: bigint
+  cl_lamports: bigint
+  cl_owner: String
+  cl_pubkey: String
+  cl_rent_epoch: bigint
+  cl_slot: bigint
+  cl_updated_on: timestamp
+  cl_write_version: bigint
+  metadatauri: String
+  profile: String
+}
+
+"""
+Ordering options when selecting data from "gum_0_1_0_decoded.profilemetadata".
+"""
+input gum_0_1_0_decoded_profilemetadata_order_by {
+  cl_bf: order_by
+  cl_decoded_updated_on: order_by
+  cl_executable: order_by
+  cl_lamports: order_by
+  cl_owner: order_by
+  cl_pubkey: order_by
+  cl_rent_epoch: order_by
+  cl_slot: order_by
+  cl_txn_signature: order_by
+  cl_updated_on: order_by
+  cl_write_version: order_by
+  metadata: order_by
+  metadatauri: order_by
+  profile: order_by
+}
+
+"""
+select columns of table "gum_0_1_0_decoded.profilemetadata"
+"""
+enum gum_0_1_0_decoded_profilemetadata_select_column {
+  """
+  column name
+  """
+  cl_bf
+
+  """
+  column name
+  """
+  cl_decoded_updated_on
+
+  """
+  column name
+  """
+  cl_executable
+
+  """
+  column name
+  """
+  cl_lamports
+
+  """
+  column name
+  """
+  cl_owner
+
+  """
+  column name
+  """
+  cl_pubkey
+
+  """
+  column name
+  """
+  cl_rent_epoch
+
+  """
+  column name
+  """
+  cl_slot
+
+  """
+  column name
+  """
+  cl_txn_signature
+
+  """
+  column name
+  """
+  cl_updated_on
+
+  """
+  column name
+  """
+  cl_write_version
+
+  """
+  column name
+  """
+  metadata
+
+  """
+  column name
+  """
+  metadatauri
+
+  """
+  column name
+  """
+  profile
+}
+
+"""
+aggregate stddev on columns
+"""
+type gum_0_1_0_decoded_profilemetadata_stddev_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type gum_0_1_0_decoded_profilemetadata_stddev_pop_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type gum_0_1_0_decoded_profilemetadata_stddev_samp_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+Streaming cursor of the table "gum_0_1_0_decoded_profilemetadata"
+"""
+input gum_0_1_0_decoded_profilemetadata_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: gum_0_1_0_decoded_profilemetadata_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input gum_0_1_0_decoded_profilemetadata_stream_cursor_value_input {
+  cl_bf: Boolean
+  cl_decoded_updated_on: bigint
+  cl_executable: Boolean
+  cl_lamports: bigint
+  cl_owner: String
+  cl_pubkey: String
+  cl_rent_epoch: bigint
+  cl_slot: bigint
+  cl_txn_signature: bytea
+  cl_updated_on: timestamp
+  cl_write_version: bigint
+  metadata: json
+  metadatauri: String
+  profile: String
+}
+
+"""
+aggregate sum on columns
+"""
+type gum_0_1_0_decoded_profilemetadata_sum_fields {
+  cl_decoded_updated_on: bigint
+  cl_lamports: bigint
+  cl_rent_epoch: bigint
+  cl_slot: bigint
+  cl_write_version: bigint
+}
+
+"""
+aggregate var_pop on columns
+"""
+type gum_0_1_0_decoded_profilemetadata_var_pop_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type gum_0_1_0_decoded_profilemetadata_var_samp_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type gum_0_1_0_decoded_profilemetadata_variance_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+columns and relationships of "gum_0_1_0_decoded.reaction"
+"""
+type gum_0_1_0_decoded_reaction {
+  cl_bf: Boolean
+  cl_decoded_updated_on: bigint
+  cl_executable: Boolean
+  cl_lamports: bigint
+  cl_owner: String
+  cl_pubkey: String!
+  cl_rent_epoch: bigint
+  cl_slot: bigint
+  cl_txn_signature: bytea
+  cl_updated_on: timestamp
+  cl_write_version: bigint
+  fromprofile: String
+  reactiontype: String
+  topost: String
+}
+
+"""
+aggregated selection of "gum_0_1_0_decoded.reaction"
+"""
+type gum_0_1_0_decoded_reaction_aggregate {
+  aggregate: gum_0_1_0_decoded_reaction_aggregate_fields
+  nodes: [gum_0_1_0_decoded_reaction!]!
+}
+
+"""
+aggregate fields of "gum_0_1_0_decoded.reaction"
+"""
+type gum_0_1_0_decoded_reaction_aggregate_fields {
+  avg: gum_0_1_0_decoded_reaction_avg_fields
+  count(columns: [gum_0_1_0_decoded_reaction_select_column!], distinct: Boolean): Int!
+  max: gum_0_1_0_decoded_reaction_max_fields
+  min: gum_0_1_0_decoded_reaction_min_fields
+  stddev: gum_0_1_0_decoded_reaction_stddev_fields
+  stddev_pop: gum_0_1_0_decoded_reaction_stddev_pop_fields
+  stddev_samp: gum_0_1_0_decoded_reaction_stddev_samp_fields
+  sum: gum_0_1_0_decoded_reaction_sum_fields
+  var_pop: gum_0_1_0_decoded_reaction_var_pop_fields
+  var_samp: gum_0_1_0_decoded_reaction_var_samp_fields
+  variance: gum_0_1_0_decoded_reaction_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type gum_0_1_0_decoded_reaction_avg_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+Boolean expression to filter rows from the table "gum_0_1_0_decoded.reaction". All fields are combined with a logical 'AND'.
+"""
+input gum_0_1_0_decoded_reaction_bool_exp {
+  _and: [gum_0_1_0_decoded_reaction_bool_exp!]
+  _not: gum_0_1_0_decoded_reaction_bool_exp
+  _or: [gum_0_1_0_decoded_reaction_bool_exp!]
+  cl_bf: Boolean_comparison_exp
+  cl_decoded_updated_on: bigint_comparison_exp
+  cl_executable: Boolean_comparison_exp
+  cl_lamports: bigint_comparison_exp
+  cl_owner: String_comparison_exp
+  cl_pubkey: String_comparison_exp
+  cl_rent_epoch: bigint_comparison_exp
+  cl_slot: bigint_comparison_exp
+  cl_txn_signature: bytea_comparison_exp
+  cl_updated_on: timestamp_comparison_exp
+  cl_write_version: bigint_comparison_exp
+  fromprofile: String_comparison_exp
+  reactiontype: String_comparison_exp
+  topost: String_comparison_exp
+}
+
+"""
+aggregate max on columns
+"""
+type gum_0_1_0_decoded_reaction_max_fields {
+  cl_decoded_updated_on: bigint
+  cl_lamports: bigint
+  cl_owner: String
+  cl_pubkey: String
+  cl_rent_epoch: bigint
+  cl_slot: bigint
+  cl_updated_on: timestamp
+  cl_write_version: bigint
+  fromprofile: String
+  reactiontype: String
+  topost: String
+}
+
+"""
+aggregate min on columns
+"""
+type gum_0_1_0_decoded_reaction_min_fields {
+  cl_decoded_updated_on: bigint
+  cl_lamports: bigint
+  cl_owner: String
+  cl_pubkey: String
+  cl_rent_epoch: bigint
+  cl_slot: bigint
+  cl_updated_on: timestamp
+  cl_write_version: bigint
+  fromprofile: String
+  reactiontype: String
+  topost: String
+}
+
+"""
+Ordering options when selecting data from "gum_0_1_0_decoded.reaction".
+"""
+input gum_0_1_0_decoded_reaction_order_by {
+  cl_bf: order_by
+  cl_decoded_updated_on: order_by
+  cl_executable: order_by
+  cl_lamports: order_by
+  cl_owner: order_by
+  cl_pubkey: order_by
+  cl_rent_epoch: order_by
+  cl_slot: order_by
+  cl_txn_signature: order_by
+  cl_updated_on: order_by
+  cl_write_version: order_by
+  fromprofile: order_by
+  reactiontype: order_by
+  topost: order_by
+}
+
+"""
+select columns of table "gum_0_1_0_decoded.reaction"
+"""
+enum gum_0_1_0_decoded_reaction_select_column {
+  """
+  column name
+  """
+  cl_bf
+
+  """
+  column name
+  """
+  cl_decoded_updated_on
+
+  """
+  column name
+  """
+  cl_executable
+
+  """
+  column name
+  """
+  cl_lamports
+
+  """
+  column name
+  """
+  cl_owner
+
+  """
+  column name
+  """
+  cl_pubkey
+
+  """
+  column name
+  """
+  cl_rent_epoch
+
+  """
+  column name
+  """
+  cl_slot
+
+  """
+  column name
+  """
+  cl_txn_signature
+
+  """
+  column name
+  """
+  cl_updated_on
+
+  """
+  column name
+  """
+  cl_write_version
+
+  """
+  column name
+  """
+  fromprofile
+
+  """
+  column name
+  """
+  reactiontype
+
+  """
+  column name
+  """
+  topost
+}
+
+"""
+aggregate stddev on columns
+"""
+type gum_0_1_0_decoded_reaction_stddev_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type gum_0_1_0_decoded_reaction_stddev_pop_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type gum_0_1_0_decoded_reaction_stddev_samp_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+Streaming cursor of the table "gum_0_1_0_decoded_reaction"
+"""
+input gum_0_1_0_decoded_reaction_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: gum_0_1_0_decoded_reaction_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input gum_0_1_0_decoded_reaction_stream_cursor_value_input {
+  cl_bf: Boolean
+  cl_decoded_updated_on: bigint
+  cl_executable: Boolean
+  cl_lamports: bigint
+  cl_owner: String
+  cl_pubkey: String
+  cl_rent_epoch: bigint
+  cl_slot: bigint
+  cl_txn_signature: bytea
+  cl_updated_on: timestamp
+  cl_write_version: bigint
+  fromprofile: String
+  reactiontype: String
+  topost: String
+}
+
+"""
+aggregate sum on columns
+"""
+type gum_0_1_0_decoded_reaction_sum_fields {
+  cl_decoded_updated_on: bigint
+  cl_lamports: bigint
+  cl_rent_epoch: bigint
+  cl_slot: bigint
+  cl_write_version: bigint
+}
+
+"""
+aggregate var_pop on columns
+"""
+type gum_0_1_0_decoded_reaction_var_pop_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type gum_0_1_0_decoded_reaction_var_samp_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type gum_0_1_0_decoded_reaction_variance_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+columns and relationships of "gum_0_1_0_decoded.user"
+"""
+type gum_0_1_0_decoded_user {
+  authority: String
+  cl_bf: Boolean
+  cl_decoded_updated_on: bigint
+  cl_executable: Boolean
+  cl_lamports: bigint
+  cl_owner: String
+  cl_pubkey: String!
+  cl_rent_epoch: bigint
+  cl_slot: bigint
+  cl_txn_signature: bytea
+  cl_updated_on: timestamp
+  cl_write_version: bigint
+  randomhash: _int4
+}
+
+"""
+aggregated selection of "gum_0_1_0_decoded.user"
+"""
+type gum_0_1_0_decoded_user_aggregate {
+  aggregate: gum_0_1_0_decoded_user_aggregate_fields
+  nodes: [gum_0_1_0_decoded_user!]!
+}
+
+"""
+aggregate fields of "gum_0_1_0_decoded.user"
+"""
+type gum_0_1_0_decoded_user_aggregate_fields {
+  avg: gum_0_1_0_decoded_user_avg_fields
+  count(columns: [gum_0_1_0_decoded_user_select_column!], distinct: Boolean): Int!
+  max: gum_0_1_0_decoded_user_max_fields
+  min: gum_0_1_0_decoded_user_min_fields
+  stddev: gum_0_1_0_decoded_user_stddev_fields
+  stddev_pop: gum_0_1_0_decoded_user_stddev_pop_fields
+  stddev_samp: gum_0_1_0_decoded_user_stddev_samp_fields
+  sum: gum_0_1_0_decoded_user_sum_fields
+  var_pop: gum_0_1_0_decoded_user_var_pop_fields
+  var_samp: gum_0_1_0_decoded_user_var_samp_fields
+  variance: gum_0_1_0_decoded_user_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type gum_0_1_0_decoded_user_avg_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+Boolean expression to filter rows from the table "gum_0_1_0_decoded.user". All fields are combined with a logical 'AND'.
+"""
+input gum_0_1_0_decoded_user_bool_exp {
+  _and: [gum_0_1_0_decoded_user_bool_exp!]
+  _not: gum_0_1_0_decoded_user_bool_exp
+  _or: [gum_0_1_0_decoded_user_bool_exp!]
+  authority: String_comparison_exp
+  cl_bf: Boolean_comparison_exp
+  cl_decoded_updated_on: bigint_comparison_exp
+  cl_executable: Boolean_comparison_exp
+  cl_lamports: bigint_comparison_exp
+  cl_owner: String_comparison_exp
+  cl_pubkey: String_comparison_exp
+  cl_rent_epoch: bigint_comparison_exp
+  cl_slot: bigint_comparison_exp
+  cl_txn_signature: bytea_comparison_exp
+  cl_updated_on: timestamp_comparison_exp
+  cl_write_version: bigint_comparison_exp
+  randomhash: _int4_comparison_exp
+}
+
+"""
+aggregate max on columns
+"""
+type gum_0_1_0_decoded_user_max_fields {
+  authority: String
+  cl_decoded_updated_on: bigint
+  cl_lamports: bigint
+  cl_owner: String
+  cl_pubkey: String
+  cl_rent_epoch: bigint
+  cl_slot: bigint
+  cl_updated_on: timestamp
+  cl_write_version: bigint
+}
+
+"""
+aggregate min on columns
+"""
+type gum_0_1_0_decoded_user_min_fields {
+  authority: String
+  cl_decoded_updated_on: bigint
+  cl_lamports: bigint
+  cl_owner: String
+  cl_pubkey: String
+  cl_rent_epoch: bigint
+  cl_slot: bigint
+  cl_updated_on: timestamp
+  cl_write_version: bigint
+}
+
+"""
+Ordering options when selecting data from "gum_0_1_0_decoded.user".
+"""
+input gum_0_1_0_decoded_user_order_by {
+  authority: order_by
+  cl_bf: order_by
+  cl_decoded_updated_on: order_by
+  cl_executable: order_by
+  cl_lamports: order_by
+  cl_owner: order_by
+  cl_pubkey: order_by
+  cl_rent_epoch: order_by
+  cl_slot: order_by
+  cl_txn_signature: order_by
+  cl_updated_on: order_by
+  cl_write_version: order_by
+  randomhash: order_by
+}
+
+"""
+select columns of table "gum_0_1_0_decoded.user"
+"""
+enum gum_0_1_0_decoded_user_select_column {
+  """
+  column name
+  """
+  authority
+
+  """
+  column name
+  """
+  cl_bf
+
+  """
+  column name
+  """
+  cl_decoded_updated_on
+
+  """
+  column name
+  """
+  cl_executable
+
+  """
+  column name
+  """
+  cl_lamports
+
+  """
+  column name
+  """
+  cl_owner
+
+  """
+  column name
+  """
+  cl_pubkey
+
+  """
+  column name
+  """
+  cl_rent_epoch
+
+  """
+  column name
+  """
+  cl_slot
+
+  """
+  column name
+  """
+  cl_txn_signature
+
+  """
+  column name
+  """
+  cl_updated_on
+
+  """
+  column name
+  """
+  cl_write_version
+
+  """
+  column name
+  """
+  randomhash
+}
+
+"""
+aggregate stddev on columns
+"""
+type gum_0_1_0_decoded_user_stddev_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type gum_0_1_0_decoded_user_stddev_pop_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type gum_0_1_0_decoded_user_stddev_samp_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+Streaming cursor of the table "gum_0_1_0_decoded_user"
+"""
+input gum_0_1_0_decoded_user_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: gum_0_1_0_decoded_user_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input gum_0_1_0_decoded_user_stream_cursor_value_input {
+  authority: String
+  cl_bf: Boolean
+  cl_decoded_updated_on: bigint
+  cl_executable: Boolean
+  cl_lamports: bigint
+  cl_owner: String
+  cl_pubkey: String
+  cl_rent_epoch: bigint
+  cl_slot: bigint
+  cl_txn_signature: bytea
+  cl_updated_on: timestamp
+  cl_write_version: bigint
+  randomhash: _int4
+}
+
+"""
+aggregate sum on columns
+"""
+type gum_0_1_0_decoded_user_sum_fields {
+  cl_decoded_updated_on: bigint
+  cl_lamports: bigint
+  cl_rent_epoch: bigint
+  cl_slot: bigint
+  cl_write_version: bigint
+}
+
+"""
+aggregate var_pop on columns
+"""
+type gum_0_1_0_decoded_user_var_pop_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type gum_0_1_0_decoded_user_var_samp_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type gum_0_1_0_decoded_user_variance_fields {
+  cl_decoded_updated_on: Float
+  cl_lamports: Float
+  cl_rent_epoch: Float
+  cl_slot: Float
+  cl_write_version: Float
+}
+
+scalar json
+
+"""
+Boolean expression to compare columns of type "json". All fields are combined with logical 'AND'.
+"""
+input json_comparison_exp {
+  _eq: json
+  _gt: json
+  _gte: json
+  _in: [json!]
+  _is_null: Boolean
+  _lt: json
+  _lte: json
+  _neq: json
+  _nin: [json!]
+}
+
+"""
+column ordering options
+"""
+enum order_by {
+  """
+  in ascending order, nulls last
+  """
+  asc
+
+  """
+  in ascending order, nulls first
+  """
+  asc_nulls_first
+
+  """
+  in ascending order, nulls last
+  """
+  asc_nulls_last
+
+  """
+  in descending order, nulls first
+  """
+  desc
+
+  """
+  in descending order, nulls first
+  """
+  desc_nulls_first
+
+  """
+  in descending order, nulls last
+  """
+  desc_nulls_last
+}
+
+type query_root {
+  """
+  fetch data from the table: "gum_0_1_0_decoded.all"
+  """
+  gum_0_1_0_decoded_all(
+    """
+    distinct select on columns
+    """
+    distinct_on: [gum_0_1_0_decoded_all_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [gum_0_1_0_decoded_all_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: gum_0_1_0_decoded_all_bool_exp
+  ): [gum_0_1_0_decoded_all!]!
+
+  """
+  fetch aggregated fields from the table: "gum_0_1_0_decoded.all"
+  """
+  gum_0_1_0_decoded_all_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [gum_0_1_0_decoded_all_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [gum_0_1_0_decoded_all_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: gum_0_1_0_decoded_all_bool_exp
+  ): gum_0_1_0_decoded_all_aggregate!
+
+  """
+  fetch data from the table: "gum_0_1_0_decoded.all" using primary key columns
+  """
+  gum_0_1_0_decoded_all_by_pk(pubkey: String!): gum_0_1_0_decoded_all
+
+  """
+  fetch data from the table: "gum_0_1_0_decoded.connection"
+  """
+  gum_0_1_0_decoded_connection(
+    """
+    distinct select on columns
+    """
+    distinct_on: [gum_0_1_0_decoded_connection_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [gum_0_1_0_decoded_connection_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: gum_0_1_0_decoded_connection_bool_exp
+  ): [gum_0_1_0_decoded_connection!]!
+
+  """
+  fetch aggregated fields from the table: "gum_0_1_0_decoded.connection"
+  """
+  gum_0_1_0_decoded_connection_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [gum_0_1_0_decoded_connection_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [gum_0_1_0_decoded_connection_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: gum_0_1_0_decoded_connection_bool_exp
+  ): gum_0_1_0_decoded_connection_aggregate!
+
+  """
+  fetch data from the table: "gum_0_1_0_decoded.connection" using primary key columns
+  """
+  gum_0_1_0_decoded_connection_by_pk(cl_pubkey: String!): gum_0_1_0_decoded_connection
+
+  """
+  fetch data from the table: "gum_0_1_0_decoded.post"
+  """
+  gum_0_1_0_decoded_post(
+    """
+    distinct select on columns
+    """
+    distinct_on: [gum_0_1_0_decoded_post_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [gum_0_1_0_decoded_post_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: gum_0_1_0_decoded_post_bool_exp
+  ): [gum_0_1_0_decoded_post!]!
+
+  """
+  fetch aggregated fields from the table: "gum_0_1_0_decoded.post"
+  """
+  gum_0_1_0_decoded_post_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [gum_0_1_0_decoded_post_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [gum_0_1_0_decoded_post_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: gum_0_1_0_decoded_post_bool_exp
+  ): gum_0_1_0_decoded_post_aggregate!
+
+  """
+  fetch data from the table: "gum_0_1_0_decoded.post" using primary key columns
+  """
+  gum_0_1_0_decoded_post_by_pk(cl_pubkey: String!): gum_0_1_0_decoded_post
+
+  """
+  fetch data from the table: "gum_0_1_0_decoded.profile"
+  """
+  gum_0_1_0_decoded_profile(
+    """
+    distinct select on columns
+    """
+    distinct_on: [gum_0_1_0_decoded_profile_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [gum_0_1_0_decoded_profile_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: gum_0_1_0_decoded_profile_bool_exp
+  ): [gum_0_1_0_decoded_profile!]!
+
+  """
+  fetch aggregated fields from the table: "gum_0_1_0_decoded.profile"
+  """
+  gum_0_1_0_decoded_profile_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [gum_0_1_0_decoded_profile_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [gum_0_1_0_decoded_profile_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: gum_0_1_0_decoded_profile_bool_exp
+  ): gum_0_1_0_decoded_profile_aggregate!
+
+  """
+  fetch data from the table: "gum_0_1_0_decoded.profile" using primary key columns
+  """
+  gum_0_1_0_decoded_profile_by_pk(cl_pubkey: String!): gum_0_1_0_decoded_profile
+
+  """
+  fetch data from the table: "gum_0_1_0_decoded.profilemetadata"
+  """
+  gum_0_1_0_decoded_profilemetadata(
+    """
+    distinct select on columns
+    """
+    distinct_on: [gum_0_1_0_decoded_profilemetadata_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [gum_0_1_0_decoded_profilemetadata_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: gum_0_1_0_decoded_profilemetadata_bool_exp
+  ): [gum_0_1_0_decoded_profilemetadata!]!
+
+  """
+  fetch aggregated fields from the table: "gum_0_1_0_decoded.profilemetadata"
+  """
+  gum_0_1_0_decoded_profilemetadata_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [gum_0_1_0_decoded_profilemetadata_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [gum_0_1_0_decoded_profilemetadata_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: gum_0_1_0_decoded_profilemetadata_bool_exp
+  ): gum_0_1_0_decoded_profilemetadata_aggregate!
+
+  """
+  fetch data from the table: "gum_0_1_0_decoded.profilemetadata" using primary key columns
+  """
+  gum_0_1_0_decoded_profilemetadata_by_pk(cl_pubkey: String!): gum_0_1_0_decoded_profilemetadata
+
+  """
+  fetch data from the table: "gum_0_1_0_decoded.reaction"
+  """
+  gum_0_1_0_decoded_reaction(
+    """
+    distinct select on columns
+    """
+    distinct_on: [gum_0_1_0_decoded_reaction_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [gum_0_1_0_decoded_reaction_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: gum_0_1_0_decoded_reaction_bool_exp
+  ): [gum_0_1_0_decoded_reaction!]!
+
+  """
+  fetch aggregated fields from the table: "gum_0_1_0_decoded.reaction"
+  """
+  gum_0_1_0_decoded_reaction_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [gum_0_1_0_decoded_reaction_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [gum_0_1_0_decoded_reaction_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: gum_0_1_0_decoded_reaction_bool_exp
+  ): gum_0_1_0_decoded_reaction_aggregate!
+
+  """
+  fetch data from the table: "gum_0_1_0_decoded.reaction" using primary key columns
+  """
+  gum_0_1_0_decoded_reaction_by_pk(cl_pubkey: String!): gum_0_1_0_decoded_reaction
+
+  """
+  fetch data from the table: "gum_0_1_0_decoded.user"
+  """
+  gum_0_1_0_decoded_user(
+    """
+    distinct select on columns
+    """
+    distinct_on: [gum_0_1_0_decoded_user_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [gum_0_1_0_decoded_user_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: gum_0_1_0_decoded_user_bool_exp
+  ): [gum_0_1_0_decoded_user!]!
+
+  """
+  fetch aggregated fields from the table: "gum_0_1_0_decoded.user"
+  """
+  gum_0_1_0_decoded_user_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [gum_0_1_0_decoded_user_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [gum_0_1_0_decoded_user_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: gum_0_1_0_decoded_user_bool_exp
+  ): gum_0_1_0_decoded_user_aggregate!
+
+  """
+  fetch data from the table: "gum_0_1_0_decoded.user" using primary key columns
+  """
+  gum_0_1_0_decoded_user_by_pk(cl_pubkey: String!): gum_0_1_0_decoded_user
+}
+
+type subscription_root {
+  """
+  fetch data from the table: "gum_0_1_0_decoded.all"
+  """
+  gum_0_1_0_decoded_all(
+    """
+    distinct select on columns
+    """
+    distinct_on: [gum_0_1_0_decoded_all_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [gum_0_1_0_decoded_all_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: gum_0_1_0_decoded_all_bool_exp
+  ): [gum_0_1_0_decoded_all!]!
+
+  """
+  fetch aggregated fields from the table: "gum_0_1_0_decoded.all"
+  """
+  gum_0_1_0_decoded_all_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [gum_0_1_0_decoded_all_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [gum_0_1_0_decoded_all_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: gum_0_1_0_decoded_all_bool_exp
+  ): gum_0_1_0_decoded_all_aggregate!
+
+  """
+  fetch data from the table: "gum_0_1_0_decoded.all" using primary key columns
+  """
+  gum_0_1_0_decoded_all_by_pk(pubkey: String!): gum_0_1_0_decoded_all
+
+  """
+  fetch data from the table in a streaming manner: "gum_0_1_0_decoded.all"
+  """
+  gum_0_1_0_decoded_all_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [gum_0_1_0_decoded_all_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: gum_0_1_0_decoded_all_bool_exp
+  ): [gum_0_1_0_decoded_all!]!
+
+  """
+  fetch data from the table: "gum_0_1_0_decoded.connection"
+  """
+  gum_0_1_0_decoded_connection(
+    """
+    distinct select on columns
+    """
+    distinct_on: [gum_0_1_0_decoded_connection_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [gum_0_1_0_decoded_connection_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: gum_0_1_0_decoded_connection_bool_exp
+  ): [gum_0_1_0_decoded_connection!]!
+
+  """
+  fetch aggregated fields from the table: "gum_0_1_0_decoded.connection"
+  """
+  gum_0_1_0_decoded_connection_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [gum_0_1_0_decoded_connection_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [gum_0_1_0_decoded_connection_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: gum_0_1_0_decoded_connection_bool_exp
+  ): gum_0_1_0_decoded_connection_aggregate!
+
+  """
+  fetch data from the table: "gum_0_1_0_decoded.connection" using primary key columns
+  """
+  gum_0_1_0_decoded_connection_by_pk(cl_pubkey: String!): gum_0_1_0_decoded_connection
+
+  """
+  fetch data from the table in a streaming manner: "gum_0_1_0_decoded.connection"
+  """
+  gum_0_1_0_decoded_connection_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [gum_0_1_0_decoded_connection_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: gum_0_1_0_decoded_connection_bool_exp
+  ): [gum_0_1_0_decoded_connection!]!
+
+  """
+  fetch data from the table: "gum_0_1_0_decoded.post"
+  """
+  gum_0_1_0_decoded_post(
+    """
+    distinct select on columns
+    """
+    distinct_on: [gum_0_1_0_decoded_post_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [gum_0_1_0_decoded_post_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: gum_0_1_0_decoded_post_bool_exp
+  ): [gum_0_1_0_decoded_post!]!
+
+  """
+  fetch aggregated fields from the table: "gum_0_1_0_decoded.post"
+  """
+  gum_0_1_0_decoded_post_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [gum_0_1_0_decoded_post_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [gum_0_1_0_decoded_post_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: gum_0_1_0_decoded_post_bool_exp
+  ): gum_0_1_0_decoded_post_aggregate!
+
+  """
+  fetch data from the table: "gum_0_1_0_decoded.post" using primary key columns
+  """
+  gum_0_1_0_decoded_post_by_pk(cl_pubkey: String!): gum_0_1_0_decoded_post
+
+  """
+  fetch data from the table in a streaming manner: "gum_0_1_0_decoded.post"
+  """
+  gum_0_1_0_decoded_post_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [gum_0_1_0_decoded_post_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: gum_0_1_0_decoded_post_bool_exp
+  ): [gum_0_1_0_decoded_post!]!
+
+  """
+  fetch data from the table: "gum_0_1_0_decoded.profile"
+  """
+  gum_0_1_0_decoded_profile(
+    """
+    distinct select on columns
+    """
+    distinct_on: [gum_0_1_0_decoded_profile_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [gum_0_1_0_decoded_profile_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: gum_0_1_0_decoded_profile_bool_exp
+  ): [gum_0_1_0_decoded_profile!]!
+
+  """
+  fetch aggregated fields from the table: "gum_0_1_0_decoded.profile"
+  """
+  gum_0_1_0_decoded_profile_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [gum_0_1_0_decoded_profile_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [gum_0_1_0_decoded_profile_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: gum_0_1_0_decoded_profile_bool_exp
+  ): gum_0_1_0_decoded_profile_aggregate!
+
+  """
+  fetch data from the table: "gum_0_1_0_decoded.profile" using primary key columns
+  """
+  gum_0_1_0_decoded_profile_by_pk(cl_pubkey: String!): gum_0_1_0_decoded_profile
+
+  """
+  fetch data from the table in a streaming manner: "gum_0_1_0_decoded.profile"
+  """
+  gum_0_1_0_decoded_profile_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [gum_0_1_0_decoded_profile_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: gum_0_1_0_decoded_profile_bool_exp
+  ): [gum_0_1_0_decoded_profile!]!
+
+  """
+  fetch data from the table: "gum_0_1_0_decoded.profilemetadata"
+  """
+  gum_0_1_0_decoded_profilemetadata(
+    """
+    distinct select on columns
+    """
+    distinct_on: [gum_0_1_0_decoded_profilemetadata_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [gum_0_1_0_decoded_profilemetadata_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: gum_0_1_0_decoded_profilemetadata_bool_exp
+  ): [gum_0_1_0_decoded_profilemetadata!]!
+
+  """
+  fetch aggregated fields from the table: "gum_0_1_0_decoded.profilemetadata"
+  """
+  gum_0_1_0_decoded_profilemetadata_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [gum_0_1_0_decoded_profilemetadata_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [gum_0_1_0_decoded_profilemetadata_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: gum_0_1_0_decoded_profilemetadata_bool_exp
+  ): gum_0_1_0_decoded_profilemetadata_aggregate!
+
+  """
+  fetch data from the table: "gum_0_1_0_decoded.profilemetadata" using primary key columns
+  """
+  gum_0_1_0_decoded_profilemetadata_by_pk(cl_pubkey: String!): gum_0_1_0_decoded_profilemetadata
+
+  """
+  fetch data from the table in a streaming manner: "gum_0_1_0_decoded.profilemetadata"
+  """
+  gum_0_1_0_decoded_profilemetadata_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [gum_0_1_0_decoded_profilemetadata_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: gum_0_1_0_decoded_profilemetadata_bool_exp
+  ): [gum_0_1_0_decoded_profilemetadata!]!
+
+  """
+  fetch data from the table: "gum_0_1_0_decoded.reaction"
+  """
+  gum_0_1_0_decoded_reaction(
+    """
+    distinct select on columns
+    """
+    distinct_on: [gum_0_1_0_decoded_reaction_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [gum_0_1_0_decoded_reaction_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: gum_0_1_0_decoded_reaction_bool_exp
+  ): [gum_0_1_0_decoded_reaction!]!
+
+  """
+  fetch aggregated fields from the table: "gum_0_1_0_decoded.reaction"
+  """
+  gum_0_1_0_decoded_reaction_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [gum_0_1_0_decoded_reaction_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [gum_0_1_0_decoded_reaction_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: gum_0_1_0_decoded_reaction_bool_exp
+  ): gum_0_1_0_decoded_reaction_aggregate!
+
+  """
+  fetch data from the table: "gum_0_1_0_decoded.reaction" using primary key columns
+  """
+  gum_0_1_0_decoded_reaction_by_pk(cl_pubkey: String!): gum_0_1_0_decoded_reaction
+
+  """
+  fetch data from the table in a streaming manner: "gum_0_1_0_decoded.reaction"
+  """
+  gum_0_1_0_decoded_reaction_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [gum_0_1_0_decoded_reaction_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: gum_0_1_0_decoded_reaction_bool_exp
+  ): [gum_0_1_0_decoded_reaction!]!
+
+  """
+  fetch data from the table: "gum_0_1_0_decoded.user"
+  """
+  gum_0_1_0_decoded_user(
+    """
+    distinct select on columns
+    """
+    distinct_on: [gum_0_1_0_decoded_user_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [gum_0_1_0_decoded_user_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: gum_0_1_0_decoded_user_bool_exp
+  ): [gum_0_1_0_decoded_user!]!
+
+  """
+  fetch aggregated fields from the table: "gum_0_1_0_decoded.user"
+  """
+  gum_0_1_0_decoded_user_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [gum_0_1_0_decoded_user_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [gum_0_1_0_decoded_user_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: gum_0_1_0_decoded_user_bool_exp
+  ): gum_0_1_0_decoded_user_aggregate!
+
+  """
+  fetch data from the table: "gum_0_1_0_decoded.user" using primary key columns
+  """
+  gum_0_1_0_decoded_user_by_pk(cl_pubkey: String!): gum_0_1_0_decoded_user
+
+  """
+  fetch data from the table in a streaming manner: "gum_0_1_0_decoded.user"
+  """
+  gum_0_1_0_decoded_user_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [gum_0_1_0_decoded_user_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: gum_0_1_0_decoded_user_bool_exp
+  ): [gum_0_1_0_decoded_user!]!
+}
+
+scalar timestamp
+
+"""
+Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'.
+"""
+input timestamp_comparison_exp {
+  _eq: timestamp
+  _gt: timestamp
+  _gte: timestamp
+  _in: [timestamp!]
+  _is_null: Boolean
+  _lt: timestamp
+  _lte: timestamp
+  _neq: timestamp
+  _nin: [timestamp!]
+}

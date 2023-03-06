@@ -41,6 +41,7 @@
       "@pubkeyapp/api/solana/util": ["libs/api/solana/util/src/index.ts"],
       "@pubkeyapp/api/user/data-access": ["libs/api/user/data-access/src/index.ts"],
       "@pubkeyapp/api/user/feature": ["libs/api/user/feature/src/index.ts"],
+      "@pubkeyapp/gum-sdk": ["packages/gum-sdk/src/index.ts"],
       "@pubkeyapp/logo": ["packages/logo/src/index.ts"],
       "@pubkeyapp/sdk": ["packages/sdk/src/index.ts"],
       "@pubkeyapp/solana": ["packages/solana/src/index.ts"],
