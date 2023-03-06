@@ -25,6 +25,9 @@ fragment UserDetails on User {
 query AdminUser($userId: String!) {
   item: adminUser(userId: $userId) {
     ...UserDetails
+    identities {
+      ...IdentityDetails
+    }
   }
 }
 

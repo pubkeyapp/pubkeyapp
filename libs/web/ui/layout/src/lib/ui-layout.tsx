@@ -1,6 +1,8 @@
 import { Box, Flex, Stack } from '@mantine/core'
 import { PubKeyLogo } from '@pubkeyapp/logo'
+import { UiLoader } from '@pubkeyapp/web/ui/core'
 import { IconBrandDiscord, IconBrandGithub, IconBrandTwitter } from '@tabler/icons-react'
+import { Suspense } from 'react'
 import { Outlet } from 'react-router-dom'
 import { UiFooter } from './ui-footer'
 import { UiHeader, UiLinkGroup, UiLinks } from './ui-header'
@@ -36,7 +38,9 @@ export function UiLayout({ hideHeader = false }: { hideHeader?: boolean }) {
       <Stack h="100%">
         {hideHeader ? null : <UiHeader links={headerLinks} logo={logo} />}
         <Box h="100%">
-          <Outlet />
+          <Suspense fallback={<UiLoader type="full" />}>
+            <Outlet />
+          </Suspense>
         </Box>
       </Stack>
       <UiFooter copyright={copyright} description={description} links={footerLinks} logo={logo} />

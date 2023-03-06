@@ -24,6 +24,7 @@
     "@emotion/react": "^11.10.6",
     "@golevelup/nestjs-modules": "^0.6.1",
     "@mantine/core": "^6.0.0",
+    "@mantine/dates": "^6.0.0",
     "@mantine/form": "^6.0.0",
     "@mantine/hooks": "^6.0.0",
     "@mantine/modals": "^6.0.0",

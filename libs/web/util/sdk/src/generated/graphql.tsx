@@ -1843,6 +1843,15 @@ export type AdminUserQuery = {
     profileUrl?: string | null
     followersCount?: number | null
     followingCount?: number | null
+    identities?: Array<{
+      __typename?: 'Identity'
+      id?: string | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      provider?: IdentityProvider | null
+      providerId: string
+      verified: boolean
+    }> | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
   } | null
 }
@@ -2862,9 +2871,13 @@ export const AdminUserDocument = gql`
   query AdminUser($userId: String!) {
     item: adminUser(userId: $userId) {
       ...UserDetails
+      identities {
+        ...IdentityDetails
+      }
     }
   }
   ${UserDetailsFragmentDoc}
+  ${IdentityDetailsFragmentDoc}
 `
 
 export function useAdminUserQuery(options: Omit<Urql.UseQueryArgs<AdminUserQueryVariables>, 'query'>) {
