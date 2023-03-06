@@ -1,12 +1,17 @@
-import { ActionIcon, Group, useMantineColorScheme } from '@mantine/core'
+import { ActionIcon, Group, useMantineTheme } from '@mantine/core'
 import { IconMoonStars, IconSun } from '@tabler/icons-react'
+import { useUi } from '../ui-provider'
 
 export function UiThemeToggle() {
-  const { colorScheme, toggleColorScheme } = useMantineColorScheme()
+  const theme = useMantineTheme()
+  const { colorScheme, toggleColorScheme } = useUi()
+  const defaultProps = theme?.components?.Button?.defaultProps
+  const { radius } = defaultProps || {}
 
   return (
     <Group position="center" my="xl">
       <ActionIcon
+        radius={radius || 'xs'}
         onClick={() => toggleColorScheme()}
         size="lg"
         sx={(theme) => ({

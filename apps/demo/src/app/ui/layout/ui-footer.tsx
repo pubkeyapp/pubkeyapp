@@ -39,7 +39,7 @@ export function UiFooter({ links, logo }: UiFooterProps) {
   ))
 
   return (
-    <Footer height={60} className={classes.footer}>
+    <Footer height={60} className={classes.footer} zIndex={1}>
       <Flex className={classes.inner}>
         <Anchor component={Link} to="/" className={classes.logoLink}>
           {logo}

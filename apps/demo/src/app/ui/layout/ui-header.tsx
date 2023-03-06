@@ -1,6 +1,7 @@
 import { Anchor, createStyles, Flex, Group, Header } from '@mantine/core'
 import { ComponentType, ReactNode } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { UiThemeColors } from './ui-theme-colors'
 import { UiThemeToggle } from './ui-theme-toggle'
 
 const useStyles = createStyles((theme) => ({
@@ -86,7 +87,10 @@ export function UiHeader({ links, logo }: UiHeaderProps) {
           </Anchor>
         </Group>
         <Group spacing={5}>{items}</Group>
-        <UiThemeToggle />
+        <Group>
+          <UiThemeColors />
+          <UiThemeToggle />
+        </Group>
       </Flex>
     </Header>
   )

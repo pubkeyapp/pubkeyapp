@@ -33,6 +33,8 @@
     "@nrwl/webpack": "15.8.3",
     "@nrwl/workspace": "15.8.3",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.7",
+    "@rollup/plugin-url": "^7.0.0",
+    "@svgr/rollup": "^6.1.2",
     "@svgr/webpack": "^6.1.2",
     "@testing-library/react": "14.0.0",
     "@types/jest": "^29.4.0",

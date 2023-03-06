@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
-import { DashboardFeature } from './dashboard/feature/dashboard-feature'
+import { ComponentsFeature } from './components/components-feature'
+import { DashboardFeature } from './dashboard/dashboard-feature'
 import { NotFoundFeature } from './not-found.feature'
 import { UiLayout } from './ui/layout'
 
@@ -8,6 +9,7 @@ export function AppRoutes() {
     <Routes>
       <Route element={<UiLayout />}>
         <Route index element={<Navigate replace to={'/dashboard'} />} />
+        <Route path="/components" element={<ComponentsFeature />} />
         <Route path="/dashboard" element={<DashboardFeature />} />
         <Route path="*" element={<NotFoundFeature />} />
       </Route>
