@@ -1,5 +1,6 @@
 import { Button, Container, createStyles, Group, rem, Text } from '@mantine/core'
 import { IconBrandGithub } from '@tabler/icons-react'
+import { Link } from 'react-router-dom'
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -85,7 +86,14 @@ export function HomepageSectionHero() {
         </Text>
 
         <Group className={classes.controls}>
-          <Button size="xl" className={classes.control} variant="gradient" gradient={{ from: 'blue', to: 'cyan' }}>
+          <Button
+            component={Link}
+            to="/login"
+            size="xl"
+            className={classes.control}
+            variant="gradient"
+            gradient={{ from: 'blue', to: 'cyan' }}
+          >
             Get started
           </Button>
 

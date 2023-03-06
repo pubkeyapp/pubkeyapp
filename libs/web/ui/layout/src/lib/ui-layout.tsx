@@ -5,11 +5,13 @@ import { Outlet } from 'react-router-dom'
 import { UiFooter } from './ui-footer'
 import { UiHeader, UiLinkGroup, UiLinks } from './ui-header'
 
-export function UiLayout() {
+export function UiLayout({ hideHeader = false }: { hideHeader?: boolean }) {
   const copyright = '© 2023 pubkey.app. All rights reserved.'
   const description = 'PubKey is a free, open-source, and censorship-resistant way to share your links and identities.'
   const logo = <PubKeyLogo size={36} />
-  const headerLinks: UiLinks = [{ link: '/dashboard', label: 'Dashboard' }]
+  const headerLinks: UiLinks = [
+    //  { link: '/dashboard', label: 'Dashboard' }
+  ]
   const footerLinks: UiLinkGroup = [
     {
       title: 'Company',
@@ -31,9 +33,9 @@ export function UiLayout() {
   ]
   return (
     <Flex h="100vh" direction="column" justify="space-between">
-      <Stack>
-        {/*<UiHeader links={headerLinks} logo={logo} />*/}
-        <Box>
+      <Stack h="100%">
+        {hideHeader ? null : <UiHeader links={headerLinks} logo={logo} />}
+        <Box h="100%">
           <Outlet />
         </Box>
       </Stack>

@@ -1,4 +1,5 @@
 import { Anchor, createStyles, Flex, Group, Header } from '@mantine/core'
+import { WalletMultiButton } from '@pubkeyapp/wallet-adapter-mantine-ui'
 import { UiThemeToggle } from '@pubkeyapp/web/ui/core'
 import { ComponentType, ReactNode } from 'react'
 import { Link, useLocation } from 'react-router-dom'
@@ -89,6 +90,7 @@ export function UiHeader({ links, logo }: UiHeaderProps) {
         </Group>
         <Group spacing={5}>{items}</Group>
         <Group>
+          <WalletMultiButton size="sm" />
           <UiThemeToggle />
         </Group>
       </Flex>

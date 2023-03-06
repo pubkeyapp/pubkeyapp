@@ -101,7 +101,6 @@ export function HeaderMenu({ links }: HeaderSearchProps) {
           <PubKeyLogo size={36} inverted />
           <Group spacing={5} className={classes.links}>
             {items}
-            <Button>Connect Wallet</Button>
           </Group>
           <Burger opened={opened} onClick={toggle} className={classes.burger} size="sm" color="#fff" />
         </div>
