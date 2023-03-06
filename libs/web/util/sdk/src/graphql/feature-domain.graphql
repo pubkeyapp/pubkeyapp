@@ -1,0 +1,49 @@
+fragment DomainDetails on Domain {
+  id
+  createdAt
+  updatedAt
+  name
+  order
+  premium
+  private
+  secure
+  owner {
+    id
+    username
+    name
+    avatarUrl
+  }
+}
+
+query AdminDomain($domainId: String!) {
+  item: adminDomain(domainId: $domainId) {
+    ...DomainDetails
+    pages {
+      ...PageDetails
+    }
+  }
+}
+
+query AdminDomains($input: AdminListDomainInput) {
+  items: adminDomains(input: $input) {
+    ...DomainDetails
+  }
+}
+
+mutation AdminCreateDomain($input: AdminCreateDomainInput!) {
+  item: adminCreateDomain(input: $input) {
+    ...DomainDetails
+  }
+}
+
+mutation AdminUpdateDomain($domainId: String!, $input: AdminUpdateDomainInput!) {
+  item: adminUpdateDomain(domainId: $domainId, input: $input) {
+    ...DomainDetails
+  }
+}
+
+mutation AdminDeleteDomain($domainId: String!) {
+  item: adminDeleteDomain(domainId: $domainId) {
+    ...DomainDetails
+  }
+}

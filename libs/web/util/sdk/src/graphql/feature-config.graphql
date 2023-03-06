@@ -1,0 +1,38 @@
+fragment ConfigDetails on Config {
+  api {
+    ...ConfigApiDetails
+  }
+  app {
+    ...ConfigAppDetails
+  }
+  cluster {
+    ...ClusterDetails
+  }
+  clusters {
+    ...ClusterDetails
+  }
+}
+
+fragment ConfigApiDetails on ConfigApi {
+  name
+  url
+  version
+}
+
+fragment ConfigAppDetails on ConfigApp {
+  url
+}
+
+fragment ClusterDetails on Cluster {
+  id
+  name
+  type
+  endpoint
+  explorerUrl
+}
+
+query Config {
+  config {
+    ...ConfigDetails
+  }
+}

@@ -1,0 +1,19 @@
+overwrite: true
+schema: 'api-schema.graphql'
+documents:
+  - 'libs/web/util/sdk/src/graphql/**/*.graphql'
+generates:
+  libs/web/util/sdk/src/generated/graphql.tsx:
+    plugins:
+      - add:
+          content: '/* eslint-disable */'
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-urql'
+  ./graphql.schema.json:
+    plugins:
+      - 'introspection'
+
+hooks:
+  afterAllFileWrite:
+    - prettier --write

@@ -1,0 +1,101 @@
+fragment UserRelationDetails on UserRelation {
+  isYou
+  isFollowedByYou
+  isFollowingYou
+}
+
+fragment UserDetails on User {
+  id
+  createdAt
+  updatedAt
+  role
+  username
+  name
+  bio
+  avatarUrl
+  metaUrl
+  profileUrl
+  followersCount
+  followingCount
+  relation {
+    ...UserRelationDetails
+  }
+}
+
+query AdminUser($userId: String!) {
+  item: adminUser(userId: $userId) {
+    ...UserDetails
+  }
+}
+
+query AdminUsers {
+  items: adminUsers {
+    ...UserDetails
+  }
+}
+
+mutation AdminCreateUser($input: AdminCreateUserInput!) {
+  item: adminCreateUser(input: $input) {
+    ...UserDetails
+  }
+}
+
+mutation AdminUpdateUser($userId: String!, $input: AdminUpdateUserInput!) {
+  item: adminUpdateUser(userId: $userId, input: $input) {
+    ...UserDetails
+  }
+}
+
+mutation AdminDeleteUser($userId: String!) {
+  item: adminDeleteUser(userId: $userId) {
+    ...UserDetails
+  }
+}
+
+query User($username: String!) {
+  item: user(username: $username) {
+    ...UserDetails
+    identities {
+      ...IdentityDetails
+    }
+  }
+}
+
+query UserFollowers($username: String!) {
+  item: userFollowers(username: $username) {
+    ...UserDetails
+    identities {
+      ...IdentityDetails
+    }
+  }
+}
+
+query UserFollowing($username: String!) {
+  item: userFollowing(username: $username) {
+    ...UserDetails
+    identities {
+      ...IdentityDetails
+    }
+  }
+}
+
+query UserInvites($username: String!) {
+  item: userInvites(username: $username) {
+    ...InviteDetails
+    users {
+      ...UserDetails
+    }
+  }
+}
+
+mutation UserFollow($username: String!) {
+  item: userFollow(username: $username) {
+    ...UserDetails
+  }
+}
+
+mutation UserUnfollow($username: String!) {
+  item: userUnfollow(username: $username) {
+    ...UserDetails
+  }
+}

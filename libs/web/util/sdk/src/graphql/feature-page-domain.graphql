@@ -1,0 +1,51 @@
+fragment PageDomainDetails on PageDomain {
+  id
+  createdAt
+  updatedAt
+  domain {
+    id
+    name
+  }
+  page {
+    id
+    title
+  }
+  path
+  viewUrl
+}
+
+query AdminPageDomain($domainId: String!, $path: String!) {
+  item: adminPageDomain(domainId: $domainId, path: $path) {
+    ...PageDomainDetails
+    page {
+      id
+      domains {
+        id
+      }
+    }
+  }
+}
+
+mutation AdminAddPageDomain($pageId: String!, $input: AdminAddPageDomainInput!) {
+  item: adminAddPageDomain(pageId: $pageId, input: $input) {
+    ...PageDomainDetails
+    page {
+      id
+      domains {
+        id
+      }
+    }
+  }
+}
+
+mutation AdminRemovePageDomain($pageId: String!, $pageDomainId: String!) {
+  item: adminRemovePageDomain(pageId: $pageId, pageDomainId: $pageDomainId) {
+    ...PageDomainDetails
+    page {
+      id
+      domains {
+        id
+      }
+    }
+  }
+}

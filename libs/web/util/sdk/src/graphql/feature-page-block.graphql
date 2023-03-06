@@ -1,0 +1,50 @@
+fragment PageBlockDetails on PageBlock {
+  id
+  createdAt
+  updatedAt
+  type
+  data
+  order
+}
+
+query AdminPageBlock($pageBlockId: String!) {
+  item: adminPageBlock(pageBlockId: $pageBlockId) {
+    ...PageBlockDetails
+  }
+}
+
+mutation AdminAddPageBlock($pageId: String!, $input: AdminAddPageBlockInput!) {
+  item: adminAddPageBlock(pageId: $pageId, input: $input) {
+    ...PageBlockDetails
+    page {
+      id
+      blocks {
+        id
+      }
+    }
+  }
+}
+
+mutation AdminRemovePageBlock($pageId: String!, $pageBlockId: String!) {
+  item: adminRemovePageBlock(pageId: $pageId, pageBlockId: $pageBlockId) {
+    ...PageBlockDetails
+    page {
+      id
+      blocks {
+        id
+      }
+    }
+  }
+}
+
+mutation AdminUpdatePageBlock($pageId: String!, $pageBlockId: String!, $input: AdminUpdatePageBlockInput!) {
+  item: adminUpdatePageBlock(pageId: $pageId, pageBlockId: $pageBlockId, input: $input) {
+    ...PageBlockDetails
+    page {
+      id
+      blocks {
+        id
+      }
+    }
+  }
+}

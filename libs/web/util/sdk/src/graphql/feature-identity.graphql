@@ -1,0 +1,20 @@
+fragment IdentityDetails on Identity {
+  id
+  createdAt
+  updatedAt
+  provider
+  providerId
+  verified
+}
+
+#query AdminIdentity($userId: String!) {
+#  item: adminIdentity(userId: $userId) {
+#    ...IdentityDetails
+#  }
+#}
+#
+#query AdminIdentities {
+#  items: adminIdentities {
+#    ...IdentityDetails
+#  }
+#}

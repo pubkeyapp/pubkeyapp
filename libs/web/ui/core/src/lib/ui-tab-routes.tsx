@@ -1,4 +1,4 @@
-import { Stack, Tabs } from '@mantine/core'
+import { Box, Stack, Tabs } from '@mantine/core'
 import { ReactNode } from 'react'
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 
@@ -17,8 +17,8 @@ export function UiTabRoutes({ tabs }: { tabs: UiTabRoute[] }) {
   const redirect = tabs.length && tabs[0].value !== '' ? tabs[0].value : undefined
 
   return (
-    <Stack>
-      <Tabs value={activeTab} onTabChange={(value) => navigate(`${value}`)}>
+    <Box>
+      <Tabs value={activeTab} onTabChange={(value) => navigate(`${value}`)} mb="xl">
         <Tabs.List>
           {tabs.map((tab) => (
             <Tabs.Tab key={tab.value} value={tab.value}>
@@ -30,9 +30,10 @@ export function UiTabRoutes({ tabs }: { tabs: UiTabRoute[] }) {
       <Routes>
         {redirect ? <Route index element={<Navigate replace to={`./${redirect}`} />} /> : null}
         {tabs.map((tab) => (
-          <Route key={tab.value} path={tab.value} element={tab.component} />
+          <Route key={tab.value} path={`${tab.value}/*`} element={tab.component} />
         ))}
+        <Route path="*" element={<Navigate replace to={`./${redirect}`} />} />
       </Routes>
-    </Stack>
+    </Box>
   )
 }

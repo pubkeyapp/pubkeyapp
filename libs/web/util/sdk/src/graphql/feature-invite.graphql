@@ -1,0 +1,60 @@
+fragment InviteDetails on Invite {
+  id
+  createdAt
+  updatedAt
+  expiresAt
+  code
+  maxUses
+  useCount
+  inviteUrl
+  isExpired
+  isUsedUp
+  owner {
+    id
+    username
+    name
+    avatarUrl
+  }
+}
+
+query AdminInvite($inviteId: String!) {
+  item: adminInvite(inviteId: $inviteId) {
+    ...InviteDetails
+    users {
+      ...UserDetails
+    }
+  }
+}
+
+query AdminInvites($input: AdminListInviteInput) {
+  items: adminInvites(input: $input) {
+    ...InviteDetails
+  }
+}
+
+mutation AdminCreateInvite($input: AdminCreateInviteInput!) {
+  item: adminCreateInvite(input: $input) {
+    ...InviteDetails
+  }
+}
+
+mutation AdminUpdateInvite($inviteId: String!, $input: AdminUpdateInviteInput!) {
+  item: adminUpdateInvite(inviteId: $inviteId, input: $input) {
+    ...InviteDetails
+  }
+}
+
+mutation AdminDeleteInvite($inviteId: String!) {
+  item: adminDeleteInvite(inviteId: $inviteId) {
+    ...InviteDetails
+  }
+}
+
+query PublicInvite($code: String!) {
+  item: publicInvite(code: $code) {
+    ...InviteDetails
+    users {
+      ...UserDetails
+    }
+  }
+}

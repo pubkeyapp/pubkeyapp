@@ -1,0 +1,65 @@
+fragment PageDetails on Page {
+  id
+  createdAt
+  updatedAt
+  title
+  description
+  color
+  owner {
+    ...UserDetails
+  }
+  previewUrl
+  siteUrl
+  viewUrl
+}
+
+query AdminPage($pageId: String!) {
+  item: adminPage(pageId: $pageId) {
+    ...PageDetails
+    blocks {
+      ...PageBlockDetails
+    }
+    domains {
+      ...PageDomainDetails
+    }
+  }
+}
+
+query AdminPages($input: AdminListPageInput) {
+  items: adminPages(input: $input) {
+    ...PageDetails
+    domains {
+      ...PageDomainDetails
+    }
+  }
+}
+
+mutation AdminCreatePage($input: AdminCreatePageInput!) {
+  item: adminCreatePage(input: $input) {
+    ...PageDetails
+  }
+}
+
+mutation AdminUpdatePage($pageId: String!, $input: AdminUpdatePageInput!) {
+  item: adminUpdatePage(pageId: $pageId, input: $input) {
+    ...PageDetails
+  }
+}
+
+mutation AdminDeletePage($pageId: String!) {
+  item: adminDeletePage(pageId: $pageId) {
+    ...PageDetails
+  }
+}
+
+query PublicPage($pageId: String!) {
+  item: publicPage(pageId: $pageId) {
+    ...PageDetails
+    blocks {
+      ...PageBlockDetails
+    }
+    domains {
+      ...PageDomainDetails
+    }
+  }
+}

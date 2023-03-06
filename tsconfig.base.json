@@ -46,7 +46,8 @@
       "@pubkeyapp/wallet-adapter-mantine-ui": ["packages/wallet-adapter-mantine-ui/src/index.ts"],
       "@pubkeyapp/web/shell/feature": ["libs/web/shell/feature/src/index.ts"],
       "@pubkeyapp/web/ui/core": ["libs/web/ui/core/src/index.ts"],
-      "@pubkeyapp/web/ui/layout": ["libs/web/ui/layout/src/index.ts"]
+      "@pubkeyapp/web/ui/layout": ["libs/web/ui/layout/src/index.ts"],
+      "@pubkeyapp/web/util/sdk": ["libs/web/util/sdk/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

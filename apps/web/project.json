@@ -44,6 +44,7 @@
       "defaultConfiguration": "development",
       "options": {
         "buildTarget": "web:build",
+        "proxyConfig": "apps/web/proxy.conf.js",
         "hmr": true
       },
       "configurations": {

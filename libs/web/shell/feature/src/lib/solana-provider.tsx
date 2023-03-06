@@ -1,50 +1,39 @@
-import { useLocalStorage } from '@mantine/hooks'
 import { WalletModalProvider } from '@pubkeyapp/wallet-adapter-mantine-ui'
+import { Cluster } from '@pubkeyapp/web/util/sdk'
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base'
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react'
 import { PhantomWalletAdapter, SolflareWalletAdapter } from '@solana/wallet-adapter-wallets'
 import { createContext, ReactNode, useContext, useMemo } from 'react'
-
-export interface Network {
-  id: WalletAdapterNetwork
-  name: string
-  endpoint: string
-}
+import { useConfig } from './web-config.provider'
 
 export interface SolanaProviderContext {
-  network: Network
-  networks: Network[]
+  cluster?: Cluster
+  clusters: Cluster[]
   endpoint: string
-  setNetwork: (network: Network) => void
 }
 
 const SolanaContext = createContext<SolanaProviderContext>({} as SolanaProviderContext)
 
-export function SolanaProvider({ children, networks }: { children: ReactNode; networks: Network[] }) {
-  const [network, setNetwork] = useLocalStorage<Network>({
-    key: 'gum-playground-network',
-    defaultValue: networks[0],
-  })
+export function SolanaProvider({ children }: { children: ReactNode }) {
+  const { cluster, clusters } = useConfig()
 
   const endpoint = useMemo(() => {
-    const found = networks.find((item) => item.id === network.id)
-    return found ? found.endpoint : ''
-  }, [network, networks])
+    return cluster?.endpoint ?? ''
+  }, [cluster])
 
   const wallets = useMemo(
     () => [
       // Add more wallets here
-      new SolflareWalletAdapter({ network: network.id }),
-      new PhantomWalletAdapter({ network: network.id }),
+      new SolflareWalletAdapter({ network: cluster?.id as WalletAdapterNetwork }),
+      new PhantomWalletAdapter({ network: cluster?.id as WalletAdapterNetwork }),
     ],
-    [network.id],
+    [cluster?.id],
   )
 
   const value: SolanaProviderContext = {
     endpoint,
-    network,
-    networks,
-    setNetwork,
+    cluster,
+    clusters,
   }
 
   return (

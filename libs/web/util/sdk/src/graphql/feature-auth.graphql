@@ -1,0 +1,26 @@
+fragment AuthChallengeRequestDetails on AuthChallengeRequest {
+  challenge
+  expiresAt
+}
+
+query me {
+  me {
+    ...UserDetails
+  }
+}
+
+query RequestChallenge($publicKey: String!) {
+  result: requestChallenge(publicKey: $publicKey) {
+    ...AuthChallengeRequestDetails
+  }
+}
+
+mutation Logout {
+  logout
+}
+
+mutation RespondChallenge($challenge: String!, $publicKey: String!, $signature: String!) {
+  result: respondChallenge(challenge: $challenge, publicKey: $publicKey, signature: $signature) {
+    ...UserDetails
+  }
+}

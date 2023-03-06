@@ -1,0 +1,16 @@
+{
+  "name": "web-util-sdk",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/web/util/sdk/src",
+  "projectType": "library",
+  "tags": ["type:util", "scope:web"],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/web/util/sdk/**/*.{ts,tsx,js,jsx}"]
+      }
+    }
+  }
+}

@@ -1,0 +1,72 @@
+fragment QueueDetails on Queue {
+  type
+  name
+  count {
+    ...QueueCountDetails
+  }
+  info
+  isPaused
+}
+
+fragment QueueCountDetails on QueueCount {
+  active
+  completed
+  delayed
+  failed
+  paused
+  waiting
+}
+
+fragment JobDetails on Job {
+  id
+  data
+  opts
+  attemptsMade
+  processedOn
+  finishedOn
+  timestamp
+  name
+  stacktrace
+  returnvalue
+  failedReason
+}
+
+query Queues {
+  items: queues {
+    ...QueueDetails
+  }
+}
+
+query Queue($type: QueueType!) {
+  item: queue(type: $type) {
+    ...QueueDetails
+  }
+}
+
+query QueueJobs($type: QueueType!, $statuses: [JobStatus!]!) {
+  items: queueJobs(type: $type, statuses: $statuses) {
+    ...JobDetails
+  }
+}
+
+mutation QueueLoad($input: QueueLoadInput!) {
+  loaded: queueLoad(input: $input) {
+    ...QueueDetails
+  }
+}
+
+mutation QueueClean($type: QueueType!) {
+  paused: queueClean(type: $type)
+}
+
+mutation QueueDeleteJob($type: QueueType!, $jobId: String!) {
+  paused: queueDeleteJob(type: $type, jobId: $jobId)
+}
+
+mutation QueuePause($type: QueueType!) {
+  paused: queuePause(type: $type)
+}
+
+mutation queueResume($type: QueueType!) {
+  resumed: queueResume(type: $type)
+}
