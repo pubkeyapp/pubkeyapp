@@ -15,7 +15,10 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@pubkeyapp/logo": ["packages/logo/src/index.ts"]
+      "@pubkeyapp/logo": ["packages/logo/src/index.ts"],
+      "@pubkeyapp/web/shell/feature": ["libs/web/shell/feature/src/index.ts"],
+      "@pubkeyapp/web/ui/core": ["libs/web/ui/core/src/index.ts"],
+      "@pubkeyapp/web/ui/layout": ["libs/web/ui/layout/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

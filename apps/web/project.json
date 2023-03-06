@@ -1,7 +1,7 @@
 {
-  "name": "demo",
+  "name": "web",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/demo/src",
+  "sourceRoot": "apps/web/src",
   "projectType": "application",
   "targets": {
     "build": {
@@ -10,16 +10,16 @@
       "defaultConfiguration": "production",
       "options": {
         "compiler": "babel",
-        "outputPath": "dist/apps/demo",
-        "index": "apps/demo/src/index.html",
+        "outputPath": "dist/apps/web",
+        "index": "apps/web/src/index.html",
         "baseHref": "/",
-        "main": "apps/demo/src/main.tsx",
-        "tsConfig": "apps/demo/tsconfig.app.json",
-        "assets": ["apps/demo/src/favicon.ico", "apps/demo/src/assets"],
-        "styles": ["apps/demo/src/styles.css"],
+        "main": "apps/web/src/main.tsx",
+        "tsConfig": "apps/web/tsconfig.app.json",
+        "assets": ["apps/web/src/favicon.ico", "apps/web/src/assets"],
+        "styles": ["apps/web/src/styles.css"],
         "scripts": [],
         "isolatedConfig": true,
-        "webpackConfig": "apps/demo/webpack.config.js"
+        "webpackConfig": "apps/web/webpack.config.js"
       },
       "configurations": {
         "development": {
@@ -29,12 +29,7 @@
           "vendorChunk": true
         },
         "production": {
-          "fileReplacements": [
-            {
-              "replace": "apps/demo/src/environments/environment.ts",
-              "with": "apps/demo/src/environments/environment.prod.ts"
-            }
-          ],
+          "fileReplacements": [],
           "optimization": true,
           "outputHashing": "all",
           "sourceMap": false,
@@ -48,16 +43,15 @@
       "executor": "@nrwl/webpack:dev-server",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "demo:build",
-        "port": 4400,
+        "buildTarget": "web:build",
         "hmr": true
       },
       "configurations": {
         "development": {
-          "buildTarget": "demo:build:development"
+          "buildTarget": "web:build:development"
         },
         "production": {
-          "buildTarget": "demo:build:production",
+          "buildTarget": "web:build:production",
           "hmr": false
         }
       }
@@ -66,14 +60,14 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/demo/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": ["apps/web/**/*.{ts,tsx,js,jsx}"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/demo/jest.config.ts",
+        "jestConfig": "apps/web/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {
