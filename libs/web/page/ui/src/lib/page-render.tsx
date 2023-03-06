@@ -10,11 +10,11 @@ export function PageUiRender({ page }: { page: Page }) {
   const mobileScreen = useMediaQuery('(max-width: 600px)')
   return (
     <Container size="sm" miw={mobileScreen ? 400 : 600}>
-      <Paper mt={24}>
+      <Box my={24}>
         <Flex justify="end">
           <PageShareModal page={page} />
         </Flex>
-      </Paper>
+      </Box>
       <PageUserProfile user={page?.owner} />
       <Paper mt={24}>
         <Stack spacing={mobileScreen ? 32 : 64}>

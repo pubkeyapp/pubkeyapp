@@ -176,6 +176,28 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type PlanFeature {
+  id: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  name: String
+  order: Int
+}
+
+type Plan {
+  id: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  name: String
+  description: String
+  priceMonth: Int
+  priceYear: Int
+  currency: String
+  recommended: Boolean
+  available: Boolean
+  features: [PlanFeature!]
+}
+
 type Job {
   id: String
   data: JSON
@@ -227,6 +249,9 @@ type Query {
   adminPage(pageId: String!): Page
   adminPageBlock(pageBlockId: String!): PageBlock
   adminPageDomain(domainId: String!, path: String!): PageDomain
+  publicPlans: [Plan!]
+  adminPlans(input: AdminListPlanInput): [Plan!]
+  adminPlan(planId: String!): Plan
   queue(type: QueueType!): Queue
   queueJobs(type: QueueType!, statuses: [JobStatus!]!): [Job!]
   queues: [Queue!]
@@ -250,6 +275,10 @@ input AdminListInviteInput {
 
 input AdminListPageInput {
   ownerId: String
+}
+
+input AdminListPlanInput {
+  id: String
 }
 
 enum JobStatus {
@@ -278,6 +307,9 @@ type Mutation {
   adminUpdatePageBlock(pageId: String!, pageBlockId: String!, input: AdminUpdatePageBlockInput!): PageBlock
   adminAddPageDomain(pageId: String!, input: AdminAddPageDomainInput!): PageDomain
   adminRemovePageDomain(pageId: String!, pageDomainId: String!): PageDomain
+  adminCreatePlan(input: AdminCreatePlanInput!): Plan
+  adminDeletePlan(planId: String!): Plan
+  adminUpdatePlan(planId: String!, input: AdminUpdatePlanInput!): Plan
   queueLoad(input: QueueLoadInput!): Queue
   queueClean(type: QueueType!): Boolean
   queueDeleteJob(type: QueueType!, jobId: String!): Boolean
@@ -344,6 +376,26 @@ input AdminUpdatePageBlockInput {
 input AdminAddPageDomainInput {
   domainId: String!
   path: String!
+}
+
+input AdminCreatePlanInput {
+  name: String!
+  description: String
+  priceMonth: Int
+  priceYear: Int
+  currency: String
+  recommended: Boolean
+  active: Boolean
+}
+
+input AdminUpdatePlanInput {
+  name: String
+  description: String
+  priceMonth: Int
+  priceYear: Int
+  currency: String
+  recommended: Boolean
+  available: Boolean
 }
 
 input QueueLoadInput {

@@ -12,6 +12,7 @@ import { ApiDomainFeatureModule } from '@pubkeyapp/api/domain/feature'
 import { ApiIdentityFeatureModule } from '@pubkeyapp/api/identity/feature'
 import { ApiInviteFeatureModule } from '@pubkeyapp/api/invite/feature'
 import { ApiPageFeatureModule } from '@pubkeyapp/api/page/feature'
+import { ApiPlanFeatureModule } from '@pubkeyapp/api/plan/feature'
 import { ApiQueueFeatureModule } from '@pubkeyapp/api/queue/feature'
 import { ApiSolanaFeatureModule } from '@pubkeyapp/api/solana/feature'
 import { ApiUserFeatureModule } from '@pubkeyapp/api/user/feature'
@@ -35,6 +36,7 @@ import { serveStaticFactory } from './serve-static.factory'
     ApiIdentityFeatureModule,
     ApiInviteFeatureModule,
     ApiPageFeatureModule,
+    ApiPlanFeatureModule,
     ApiQueueFeatureModule,
     ApiSolanaFeatureModule,
     ApiUserFeatureModule,

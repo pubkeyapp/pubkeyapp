@@ -12,15 +12,17 @@ import { NotFoundFeature } from './not-found.feature'
 
 const AdminFeature = lazy(() => import('@pubkeyapp/web/admin/feature'))
 const PageFeature = lazy(() => import('@pubkeyapp/web/page/feature'))
+const PlanFeature = lazy(() => import('@pubkeyapp/web/plan/feature'))
 
 export function WebShellFeature() {
-  const pages = ['/learn', '/docs', '/resources', '/sdk', '/support', '/pricing', '/about']
+  const pages = ['/learn', '/docs', '/resources', '/sdk', '/support', '/about']
   return (
     <UiProvider>
       <Routes>
         <Route index element={<Navigate replace to={'/home'} />} />
         <Route element={<UiLayout homepage />}>
           <Route path="/home" element={<HomepageFeature />} />
+          <Route path="/pricing" element={<PlanFeature />} />
           {pages.map((page) => (
             <Route key={page} path={`/${page}`} element={<HomepageContentFeature page={page} />} />
           ))}

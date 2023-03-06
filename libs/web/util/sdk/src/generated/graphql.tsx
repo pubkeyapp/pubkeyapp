@@ -52,6 +52,16 @@ export type AdminCreatePageInput = {
   title: Scalars['String']
 }
 
+export type AdminCreatePlanInput = {
+  active?: InputMaybe<Scalars['Boolean']>
+  currency?: InputMaybe<Scalars['String']>
+  description?: InputMaybe<Scalars['String']>
+  name: Scalars['String']
+  priceMonth?: InputMaybe<Scalars['Int']>
+  priceYear?: InputMaybe<Scalars['Int']>
+  recommended?: InputMaybe<Scalars['Boolean']>
+}
+
 export type AdminCreateUserInput = {
   publicKey?: InputMaybe<Scalars['String']>
   role?: InputMaybe<UserRole>
@@ -67,6 +77,10 @@ export type AdminListInviteInput = {
 
 export type AdminListPageInput = {
   ownerId?: InputMaybe<Scalars['String']>
+}
+
+export type AdminListPlanInput = {
+  id?: InputMaybe<Scalars['String']>
 }
 
 export type AdminUpdateDomainInput = {
@@ -91,6 +105,16 @@ export type AdminUpdatePageInput = {
   color?: InputMaybe<Scalars['String']>
   description?: InputMaybe<Scalars['String']>
   title?: InputMaybe<Scalars['String']>
+}
+
+export type AdminUpdatePlanInput = {
+  available?: InputMaybe<Scalars['Boolean']>
+  currency?: InputMaybe<Scalars['String']>
+  description?: InputMaybe<Scalars['String']>
+  name?: InputMaybe<Scalars['String']>
+  priceMonth?: InputMaybe<Scalars['Int']>
+  priceYear?: InputMaybe<Scalars['Int']>
+  recommended?: InputMaybe<Scalars['Boolean']>
 }
 
 export type AdminUpdateUserInput = {
@@ -232,10 +256,12 @@ export type Mutation = {
   adminCreateDomain?: Maybe<Domain>
   adminCreateInvite?: Maybe<Invite>
   adminCreatePage?: Maybe<Page>
+  adminCreatePlan?: Maybe<Plan>
   adminCreateUser?: Maybe<User>
   adminDeleteDomain?: Maybe<Domain>
   adminDeleteInvite?: Maybe<Invite>
   adminDeletePage?: Maybe<Page>
+  adminDeletePlan?: Maybe<Plan>
   adminDeleteUser?: Maybe<User>
   adminRemovePageBlock?: Maybe<PageBlock>
   adminRemovePageDomain?: Maybe<PageDomain>
@@ -243,6 +269,7 @@ export type Mutation = {
   adminUpdateInvite?: Maybe<Invite>
   adminUpdatePage?: Maybe<Page>
   adminUpdatePageBlock?: Maybe<PageBlock>
+  adminUpdatePlan?: Maybe<Plan>
   adminUpdateUser?: Maybe<User>
   logout?: Maybe<Scalars['Boolean']>
   queueClean?: Maybe<Scalars['Boolean']>
@@ -277,6 +304,10 @@ export type MutationAdminCreatePageArgs = {
   input: AdminCreatePageInput
 }
 
+export type MutationAdminCreatePlanArgs = {
+  input: AdminCreatePlanInput
+}
+
 export type MutationAdminCreateUserArgs = {
   input: AdminCreateUserInput
 }
@@ -291,6 +322,10 @@ export type MutationAdminDeleteInviteArgs = {
 
 export type MutationAdminDeletePageArgs = {
   pageId: Scalars['String']
+}
+
+export type MutationAdminDeletePlanArgs = {
+  planId: Scalars['String']
 }
 
 export type MutationAdminDeleteUserArgs = {
@@ -326,6 +361,11 @@ export type MutationAdminUpdatePageBlockArgs = {
   input: AdminUpdatePageBlockInput
   pageBlockId: Scalars['String']
   pageId: Scalars['String']
+}
+
+export type MutationAdminUpdatePlanArgs = {
+  input: AdminUpdatePlanInput
+  planId: Scalars['String']
 }
 
 export type MutationAdminUpdateUserArgs = {
@@ -413,6 +453,30 @@ export type PageDomain = {
   viewUrl?: Maybe<Scalars['String']>
 }
 
+export type Plan = {
+  __typename?: 'Plan'
+  available?: Maybe<Scalars['Boolean']>
+  createdAt?: Maybe<Scalars['DateTime']>
+  currency?: Maybe<Scalars['String']>
+  description?: Maybe<Scalars['String']>
+  features?: Maybe<Array<PlanFeature>>
+  id?: Maybe<Scalars['String']>
+  name?: Maybe<Scalars['String']>
+  priceMonth?: Maybe<Scalars['Int']>
+  priceYear?: Maybe<Scalars['Int']>
+  recommended?: Maybe<Scalars['Boolean']>
+  updatedAt?: Maybe<Scalars['DateTime']>
+}
+
+export type PlanFeature = {
+  __typename?: 'PlanFeature'
+  createdAt?: Maybe<Scalars['DateTime']>
+  id?: Maybe<Scalars['String']>
+  name?: Maybe<Scalars['String']>
+  order?: Maybe<Scalars['Int']>
+  updatedAt?: Maybe<Scalars['DateTime']>
+}
+
 export type Query = {
   __typename?: 'Query'
   adminDomain?: Maybe<Domain>
@@ -423,12 +487,15 @@ export type Query = {
   adminPageBlock?: Maybe<PageBlock>
   adminPageDomain?: Maybe<PageDomain>
   adminPages?: Maybe<Array<Page>>
+  adminPlan?: Maybe<Plan>
+  adminPlans?: Maybe<Array<Plan>>
   adminUser?: Maybe<User>
   adminUsers?: Maybe<Array<User>>
   config?: Maybe<Config>
   me?: Maybe<User>
   publicInvite?: Maybe<Invite>
   publicPage?: Maybe<Page>
+  publicPlans?: Maybe<Array<Plan>>
   queue?: Maybe<Queue>
   queueJobs?: Maybe<Array<Job>>
   queues?: Maybe<Array<Queue>>
@@ -473,6 +540,14 @@ export type QueryAdminPageDomainArgs = {
 
 export type QueryAdminPagesArgs = {
   input?: InputMaybe<AdminListPageInput>
+}
+
+export type QueryAdminPlanArgs = {
+  planId: Scalars['String']
+}
+
+export type QueryAdminPlansArgs = {
+  input?: InputMaybe<AdminListPlanInput>
 }
 
 export type QueryAdminUserArgs = {
@@ -1661,6 +1736,152 @@ export type PublicPageQuery = {
   } | null
 }
 
+export type PlanDetailsFragment = {
+  __typename?: 'Plan'
+  id?: string | null
+  createdAt?: any | null
+  updatedAt?: any | null
+  name?: string | null
+  description?: string | null
+  currency?: string | null
+  priceMonth?: number | null
+  priceYear?: number | null
+  available?: boolean | null
+  recommended?: boolean | null
+  features?: Array<{ __typename?: 'PlanFeature'; id?: string | null; name?: string | null }> | null
+}
+
+export type AdminPlanQueryVariables = Exact<{
+  planId: Scalars['String']
+}>
+
+export type AdminPlanQuery = {
+  __typename?: 'Query'
+  item?: {
+    __typename?: 'Plan'
+    id?: string | null
+    createdAt?: any | null
+    updatedAt?: any | null
+    name?: string | null
+    description?: string | null
+    currency?: string | null
+    priceMonth?: number | null
+    priceYear?: number | null
+    available?: boolean | null
+    recommended?: boolean | null
+    features?: Array<{ __typename?: 'PlanFeature'; id?: string | null; name?: string | null }> | null
+  } | null
+}
+
+export type AdminPlansQueryVariables = Exact<{
+  input?: InputMaybe<AdminListPlanInput>
+}>
+
+export type AdminPlansQuery = {
+  __typename?: 'Query'
+  items?: Array<{
+    __typename?: 'Plan'
+    id?: string | null
+    createdAt?: any | null
+    updatedAt?: any | null
+    name?: string | null
+    description?: string | null
+    currency?: string | null
+    priceMonth?: number | null
+    priceYear?: number | null
+    available?: boolean | null
+    recommended?: boolean | null
+    features?: Array<{ __typename?: 'PlanFeature'; id?: string | null; name?: string | null }> | null
+  }> | null
+}
+
+export type AdminCreatePlanMutationVariables = Exact<{
+  input: AdminCreatePlanInput
+}>
+
+export type AdminCreatePlanMutation = {
+  __typename?: 'Mutation'
+  item?: {
+    __typename?: 'Plan'
+    id?: string | null
+    createdAt?: any | null
+    updatedAt?: any | null
+    name?: string | null
+    description?: string | null
+    currency?: string | null
+    priceMonth?: number | null
+    priceYear?: number | null
+    available?: boolean | null
+    recommended?: boolean | null
+    features?: Array<{ __typename?: 'PlanFeature'; id?: string | null; name?: string | null }> | null
+  } | null
+}
+
+export type AdminUpdatePlanMutationVariables = Exact<{
+  planId: Scalars['String']
+  input: AdminUpdatePlanInput
+}>
+
+export type AdminUpdatePlanMutation = {
+  __typename?: 'Mutation'
+  item?: {
+    __typename?: 'Plan'
+    id?: string | null
+    createdAt?: any | null
+    updatedAt?: any | null
+    name?: string | null
+    description?: string | null
+    currency?: string | null
+    priceMonth?: number | null
+    priceYear?: number | null
+    available?: boolean | null
+    recommended?: boolean | null
+    features?: Array<{ __typename?: 'PlanFeature'; id?: string | null; name?: string | null }> | null
+  } | null
+}
+
+export type AdminDeletePlanMutationVariables = Exact<{
+  planId: Scalars['String']
+}>
+
+export type AdminDeletePlanMutation = {
+  __typename?: 'Mutation'
+  item?: {
+    __typename?: 'Plan'
+    id?: string | null
+    createdAt?: any | null
+    updatedAt?: any | null
+    name?: string | null
+    description?: string | null
+    currency?: string | null
+    priceMonth?: number | null
+    priceYear?: number | null
+    available?: boolean | null
+    recommended?: boolean | null
+    features?: Array<{ __typename?: 'PlanFeature'; id?: string | null; name?: string | null }> | null
+  } | null
+}
+
+export type PublicPlansQueryVariables = Exact<{ [key: string]: never }>
+
+export type PublicPlansQuery = {
+  __typename?: 'Query'
+  items?: Array<{
+    __typename?: 'Plan'
+    id?: string | null
+    createdAt?: any | null
+    updatedAt?: any | null
+    name?: string | null
+    description?: string | null
+    currency?: string | null
+    priceMonth?: number | null
+    priceYear?: number | null
+    available?: boolean | null
+    recommended?: boolean | null
+    features?: Array<{ __typename?: 'PlanFeature'; id?: string | null; name?: string | null }> | null
+  }> | null
+}
+
 export type QueueDetailsFragment = {
   __typename?: 'Queue'
   type: QueueType
@@ -2395,6 +2616,24 @@ export const PageDetailsFragmentDoc = gql`
   }
   ${UserDetailsFragmentDoc}
 `
+export const PlanDetailsFragmentDoc = gql`
+  fragment PlanDetails on Plan {
+    id
+    createdAt
+    updatedAt
+    name
+    description
+    currency
+    priceMonth
+    priceYear
+    available
+    recommended
+    features {
+      id
+      name
+    }
+  }
+`
 export const QueueCountDetailsFragmentDoc = gql`
   fragment QueueCountDetails on QueueCount {
     active
@@ -2865,6 +3104,78 @@ export const PublicPageDocument = gql`
 
 export function usePublicPageQuery(options: Omit<Urql.UseQueryArgs<PublicPageQueryVariables>, 'query'>) {
   return Urql.useQuery<PublicPageQuery, PublicPageQueryVariables>({ query: PublicPageDocument, ...options })
+}
+export const AdminPlanDocument = gql`
+  query AdminPlan($planId: String!) {
+    item: adminPlan(planId: $planId) {
+      ...PlanDetails
+    }
+  }
+  ${PlanDetailsFragmentDoc}
+`
+
+export function useAdminPlanQuery(options: Omit<Urql.UseQueryArgs<AdminPlanQueryVariables>, 'query'>) {
+  return Urql.useQuery<AdminPlanQuery, AdminPlanQueryVariables>({ query: AdminPlanDocument, ...options })
+}
+export const AdminPlansDocument = gql`
+  query AdminPlans($input: AdminListPlanInput) {
+    items: adminPlans(input: $input) {
+      ...PlanDetails
+    }
+  }
+  ${PlanDetailsFragmentDoc}
+`
+
+export function useAdminPlansQuery(options?: Omit<Urql.UseQueryArgs<AdminPlansQueryVariables>, 'query'>) {
+  return Urql.useQuery<AdminPlansQuery, AdminPlansQueryVariables>({ query: AdminPlansDocument, ...options })
+}
+export const AdminCreatePlanDocument = gql`
+  mutation AdminCreatePlan($input: AdminCreatePlanInput!) {
+    item: adminCreatePlan(input: $input) {
+      ...PlanDetails
+    }
+  }
+  ${PlanDetailsFragmentDoc}
+`
+
+export function useAdminCreatePlanMutation() {
+  return Urql.useMutation<AdminCreatePlanMutation, AdminCreatePlanMutationVariables>(AdminCreatePlanDocument)
+}
+export const AdminUpdatePlanDocument = gql`
+  mutation AdminUpdatePlan($planId: String!, $input: AdminUpdatePlanInput!) {
+    item: adminUpdatePlan(planId: $planId, input: $input) {
+      ...PlanDetails
+    }
+  }
+  ${PlanDetailsFragmentDoc}
+`
+
+export function useAdminUpdatePlanMutation() {
+  return Urql.useMutation<AdminUpdatePlanMutation, AdminUpdatePlanMutationVariables>(AdminUpdatePlanDocument)
+}
+export const AdminDeletePlanDocument = gql`
+  mutation AdminDeletePlan($planId: String!) {
+    item: adminDeletePlan(planId: $planId) {
+      ...PlanDetails
+    }
+  }
+  ${PlanDetailsFragmentDoc}
+`
+
+export function useAdminDeletePlanMutation() {
+  return Urql.useMutation<AdminDeletePlanMutation, AdminDeletePlanMutationVariables>(AdminDeletePlanDocument)
+}
+export const PublicPlansDocument = gql`
+  query PublicPlans {
+    items: publicPlans {
+      ...PlanDetails
+    }
+  }
+  ${PlanDetailsFragmentDoc}
+`
+
+export function usePublicPlansQuery(options?: Omit<Urql.UseQueryArgs<PublicPlansQueryVariables>, 'query'>) {
+  return Urql.useQuery<PublicPlansQuery, PublicPlansQueryVariables>({ query: PublicPlansDocument, ...options })
 }
 export const QueuesDocument = gql`
   query Queues {

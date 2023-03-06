@@ -1,0 +1,52 @@
+fragment PlanDetails on Plan {
+  id
+  createdAt
+  updatedAt
+  name
+  description
+  currency
+  priceMonth
+  priceYear
+  available
+  recommended
+  features {
+    id
+    name
+  }
+}
+
+query AdminPlan($planId: String!) {
+  item: adminPlan(planId: $planId) {
+    ...PlanDetails
+  }
+}
+
+query AdminPlans($input: AdminListPlanInput) {
+  items: adminPlans(input: $input) {
+    ...PlanDetails
+  }
+}
+
+mutation AdminCreatePlan($input: AdminCreatePlanInput!) {
+  item: adminCreatePlan(input: $input) {
+    ...PlanDetails
+  }
+}
+
+mutation AdminUpdatePlan($planId: String!, $input: AdminUpdatePlanInput!) {
+  item: adminUpdatePlan(planId: $planId, input: $input) {
+    ...PlanDetails
+  }
+}
+
+mutation AdminDeletePlan($planId: String!) {
+  item: adminDeletePlan(planId: $planId) {
+    ...PlanDetails
+  }
+}
+
+query PublicPlans {
+  items: publicPlans {
+    ...PlanDetails
+  }
+}

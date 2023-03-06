@@ -80,9 +80,11 @@ export function UiHomepageHeader({ links }: HeaderSearchProps) {
 
   return (
     <Header height={90} className={classes.header}>
-      <Container>
+      <Container size="xl">
         <div className={classes.inner}>
-          <PubKeyLogo size={36} inverted />
+          <Anchor component={Link} to="/home" sx={{ display: 'flex' }}>
+            <PubKeyLogo size={36} inverted />
+          </Anchor>
           <Group spacing={5}>
             {items}
             <Button component={Link} to="/login" variant="default" ml="sm">

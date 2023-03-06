@@ -71,7 +71,7 @@ export function UiLayout({ homepage = false }: { homepage?: boolean }) {
       <Stack h="100%">
         {homepage ? (
           <Box my="xl" py="xl">
-            <Container>
+            <Container size="xl">
               <UiHomepageHeader links={homepageLinks} />
             </Container>
           </Box>

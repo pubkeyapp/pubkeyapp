@@ -12,7 +12,7 @@ export function DashboardFeature() {
   const [{ data: pages }] = useUserPagesQuery({ variables: { username: `${user?.username}` } })
 
   return (
-    <Container my="md">
+    <Container my="md" size="xl">
       <Stack>
         <SimpleGrid cols={2} spacing="md" breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
           <UiDebug data={{ userData, pages }} />

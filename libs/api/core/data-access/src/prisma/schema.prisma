@@ -139,3 +139,27 @@ model PageDomain {
 
   @@unique([domainId, path])
 }
+
+model Plan {
+  id          String        @id @default(cuid())
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @default(now()) @updatedAt
+  name        String
+  description String
+  priceMonth  Int
+  priceYear   Int
+  currency    String
+  available   Boolean       @default(true)
+  recommended Boolean       @default(false)
+  features    PlanFeature[]
+}
+
+model PlanFeature {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  name      String
+  order     Int      @default(0)
+  plan      Plan     @relation(fields: [planId], references: [id])
+  planId    String
+}

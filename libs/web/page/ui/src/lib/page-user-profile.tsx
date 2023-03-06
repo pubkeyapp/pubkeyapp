@@ -6,7 +6,7 @@ export function PageUserProfile({ user }: { user: User }) {
   return (
     <Paper>
       <Flex direction="column" align="center">
-        <Stack>
+        <Stack align="center">
           <Avatar src={user.avatarUrl} size={120} radius={120} />
           <Stack>
             <Center>
@@ -14,7 +14,7 @@ export function PageUserProfile({ user }: { user: User }) {
                 {user.name ?? user.username}
               </Text>
             </Center>
-            {user?.bio ? <Text>{user?.bio}</Text> : null}
+            {user?.bio ? <Text align="center">{user?.bio}</Text> : null}
           </Stack>
         </Stack>
       </Flex>

@@ -9,7 +9,6 @@ const useStyles = createStyles((theme) => ({
   footer: {
     marginTop: rem(120),
     paddingTop: `calc(${theme.spacing.xl} * 2)`,
-    paddingBottom: `calc(${theme.spacing.xl} * 2)`,
     backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
     borderTop: `${rem(1)} solid ${theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[2]}`,
   },
@@ -133,7 +132,7 @@ export function UiFooter({ copyright, description, links, logo }: UiFooterProps)
 
   return (
     <footer className={classes.footer}>
-      <Container className={classes.inner}>
+      <Container className={classes.inner} size="xl">
         <div className={classes.logo}>
           {logo}
           <Text size="xs" color="dimmed" className={classes.description}>
@@ -142,7 +141,7 @@ export function UiFooter({ copyright, description, links, logo }: UiFooterProps)
         </div>
         <div className={classes.groups}>{groups}</div>
       </Container>
-      <Container className={classes.afterFooter}>
+      <Container className={classes.afterFooter} size="xl">
         <Text color="dimmed" size="sm">
           {copyright}
         </Text>
