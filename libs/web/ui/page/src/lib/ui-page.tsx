@@ -26,7 +26,7 @@ export function UiPage({ children, ...props }: UiPageProps) {
 export function UiPageHeader({ leftAction, rightAction, title }: UiPageHeaderProps) {
   const theme = useMantineTheme()
   return (
-    <Paper radius={theme.radius.md} p={theme.spacing.md} withBorder>
+    <Paper withBorder>
       <Flex align="center" justify="space-between">
         <Group spacing={theme.spacing.sm} noWrap sx={{ overflow: 'hidden' }}>
           {leftAction ? leftAction : null}

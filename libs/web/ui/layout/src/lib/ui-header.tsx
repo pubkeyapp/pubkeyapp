@@ -87,7 +87,7 @@ export function UiHeader({ links, logo }: UiHeaderProps) {
     <Header height={60}>
       <Flex className={classes.header}>
         <Group spacing={2}>
-          <Anchor component={Link} to="/" className={classes.logoLink}>
+          <Anchor component={Link} to={user ? '/dashboard' : '/'} className={classes.logoLink}>
             {logo}
           </Anchor>
         </Group>

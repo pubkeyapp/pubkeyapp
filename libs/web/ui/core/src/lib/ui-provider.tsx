@@ -54,7 +54,7 @@ export const DefaultUiTheme: MantineThemeOverride = {
       defaultProps: {
         radius: 'xl',
         withBorder: true,
-        sx: {
+        style: {
           borderWidth: 4,
         },
       },
@@ -88,10 +88,8 @@ export const DefaultUiTheme: MantineThemeOverride = {
         p: 'xl',
         radius: 'xl',
         withBorder: true,
-        sx: {
-          '&[data-with-border]': {
-            borderWidth: '0.25rem',
-          },
+        style: {
+          borderWidth: 4,
         },
       },
     },

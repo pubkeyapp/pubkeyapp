@@ -1,4 +1,4 @@
-import { Box, Flex, Stack } from '@mantine/core'
+import { Box, Container, Flex, Stack } from '@mantine/core'
 import { PubKeyLogo } from '@pubkeyapp/logo'
 import { UiLoader } from '@pubkeyapp/web/ui/core'
 import { IconBrandDiscord, IconBrandGithub, IconBrandTwitter } from '@tabler/icons-react'
@@ -6,8 +6,9 @@ import { Suspense } from 'react'
 import { Outlet } from 'react-router-dom'
 import { UiFooter } from './ui-footer'
 import { UiHeader, UiLinkGroup, UiLinks } from './ui-header'
+import { UiHomepageHeader } from './ui-homepage-header'
 
-export function UiLayout({ hideHeader = false }: { hideHeader?: boolean }) {
+export function UiLayout({ homepage = false }: { homepage?: boolean }) {
   const copyright = '© 2023 pubkey.app. All rights reserved.'
   const description = 'PubKey is a free, open-source, and censorship-resistant way to share your links and identities.'
   const logo = <PubKeyLogo size={36} />
@@ -33,10 +34,50 @@ export function UiLayout({ hideHeader = false }: { hideHeader?: boolean }) {
       ],
     },
   ]
+  const homepageLinks = [
+    {
+      link: '/learn',
+      label: 'Learn',
+      links: [
+        {
+          link: '/docs',
+          label: 'Documentation',
+        },
+        {
+          link: '/resources',
+          label: 'Resources',
+        },
+        {
+          link: '/sdk',
+          label: 'SDK',
+        },
+        {
+          link: '/support',
+          label: 'Support',
+        },
+      ],
+    },
+    {
+      link: '/pricing',
+      label: 'Pricing',
+    },
+    {
+      link: '/about',
+      label: 'About',
+    },
+  ]
   return (
     <Flex h="100vh" direction="column" justify="space-between">
       <Stack h="100%">
-        {hideHeader ? null : <UiHeader links={headerLinks} logo={logo} />}
+        {homepage ? (
+          <Box my="xl" py="xl">
+            <Container>
+              <UiHomepageHeader links={homepageLinks} />
+            </Container>
+          </Box>
+        ) : (
+          <UiHeader links={headerLinks} logo={logo} />
+        )}
         <Box h="100%">
           <Suspense fallback={<UiLoader type="full" />}>
             <Outlet />

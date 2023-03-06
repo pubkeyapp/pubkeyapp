@@ -45,22 +45,19 @@ interface HeaderSearchProps {
   links: { link: string; label: string; links?: { link: string; label: string }[] }[]
 }
 
-export function HeaderMenu({ links }: HeaderSearchProps) {
+export function UiHomepageHeader({ links }: HeaderSearchProps) {
   const { classes } = useStyles()
 
   const items = links.map((link) => {
-    const menuItems = link.links?.map((item) => <Menu.Item key={item.link}>{item.label}</Menu.Item>)
+    const menuItems = link.links?.map((item) => (
+      <Menu.Item key={item.link} component={Link} to={item.link}>
+        {item.label}
+      </Menu.Item>
+    ))
 
     if (menuItems) {
       return (
-        <Menu
-          key={link.label}
-          trigger="hover"
-          transitionProps={{ exitDuration: 0 }}
-          withinPortal
-          offset={30}
-          zIndex={2000}
-        >
+        <Menu key={link.label} trigger="hover" transitionProps={{ exitDuration: 0 }} withinPortal zIndex={2000}>
           <Menu.Target>
             <Anchor component={Link} to={link.link} className={classes.link}>
               <Center>
@@ -75,14 +72,14 @@ export function HeaderMenu({ links }: HeaderSearchProps) {
     }
 
     return (
-      <a key={link.label} href={link.link} className={classes.link} onClick={(event) => event.preventDefault()}>
+      <Anchor component={Link} key={link.label} to={link.link} className={classes.link}>
         {link.label}
-      </a>
+      </Anchor>
     )
   })
 
   return (
-    <Header height={90} className={classes.header} mb={60}>
+    <Header height={90} className={classes.header}>
       <Container>
         <div className={classes.inner}>
           <PubKeyLogo size={36} inverted />

@@ -12,7 +12,7 @@ const useStyles = createStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
     textAlign: 'center',
-    borderRadius: theme.radius.md,
+    borderRadius: theme.radius.xl,
     height: 180,
     backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
     transition: 'box-shadow 150ms ease, transform 100ms ease',
@@ -48,14 +48,18 @@ export function UiDashboardGrid({ links }: { links: UiDashboardItem[] }) {
     </UnstyledButton>
   ))
 
-  return <SimpleGrid cols={3}>{items}</SimpleGrid>
+  return (
+    <SimpleGrid cols={3} spacing="xl">
+      {items}
+    </SimpleGrid>
+  )
 }
 
 export function UiDashboard({ links }: { links: UiDashboardItem[] }) {
   const { classes } = useStyles()
 
   return (
-    <Card withBorder radius="md" className={classes.card}>
+    <Card withBorder className={classes.card}>
       <UiDashboardGrid links={links} />
     </Card>
   )

@@ -6,7 +6,7 @@ import { GraphQLProvider } from '@pubkeyapp/web/util/sdk'
 import { lazy } from 'react'
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
 import { DashboardFeature } from './dashboard/dashboard-feature'
-import { HomepageFeature } from './homepage/homepage-feature'
+import { HomepageContentFeature, HomepageFeature } from './homepage/homepage-feature'
 import { LoginFeature } from './login/login-feature'
 import { NotFoundFeature } from './not-found.feature'
 
@@ -14,12 +14,16 @@ const AdminFeature = lazy(() => import('@pubkeyapp/web/admin/feature'))
 const PageFeature = lazy(() => import('@pubkeyapp/web/page/feature'))
 
 export function WebShellFeature() {
+  const pages = ['/learn', '/docs', '/resources', '/sdk', '/support', '/pricing', '/about']
   return (
     <UiProvider>
       <Routes>
         <Route index element={<Navigate replace to={'/home'} />} />
-        <Route element={<UiLayout hideHeader />}>
+        <Route element={<UiLayout homepage />}>
           <Route path="/home" element={<HomepageFeature />} />
+          {pages.map((page) => (
+            <Route key={page} path={`/${page}`} element={<HomepageContentFeature page={page} />} />
+          ))}
         </Route>
         <Route element={<AppProviders />}>
           <Route element={<UiLayout />}>
@@ -28,6 +32,7 @@ export function WebShellFeature() {
               <Route path="/admin/*" element={<AdminFeature />} />
               <Route path="/dashboard" element={<DashboardFeature />} />
             </Route>
+            <Route path="*" element={<NotFoundFeature />} />
           </Route>
           <Route path="p/:pageId/*" element={<PageFeature />} />
         </Route>
