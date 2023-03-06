@@ -11,6 +11,7 @@ import { LoginFeature } from './login/login-feature'
 import { NotFoundFeature } from './not-found.feature'
 
 const AdminFeature = lazy(() => import('@pubkeyapp/web/admin/feature'))
+const PageFeature = lazy(() => import('@pubkeyapp/web/page/feature'))
 
 export function WebShellFeature() {
   return (
@@ -28,6 +29,7 @@ export function WebShellFeature() {
               <Route path="/dashboard" element={<DashboardFeature />} />
             </Route>
           </Route>
+          <Route path="p/:pageId/*" element={<PageFeature />} />
         </Route>
         <Route element={<UiLayout />}>
           <Route path="*" element={<NotFoundFeature />} />

@@ -51,6 +51,7 @@
       "@pubkeyapp/web/auth/data-access": ["libs/web/auth/data-access/src/index.ts"],
       "@pubkeyapp/web/invite/data-access": ["libs/web/invite/data-access/src/index.ts"],
       "@pubkeyapp/web/invite/ui": ["libs/web/invite/ui/src/index.ts"],
+      "@pubkeyapp/web/page/feature": ["libs/web/page/feature/src/index.ts"],
       "@pubkeyapp/web/page/ui": ["libs/web/page/ui/src/index.ts"],
       "@pubkeyapp/web/shell/data-access": ["libs/web/shell/data-access/src/index.ts"],
       "@pubkeyapp/web/shell/feature": ["libs/web/shell/feature/src/index.ts"],
