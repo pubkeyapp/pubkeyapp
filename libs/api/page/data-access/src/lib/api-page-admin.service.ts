@@ -1,0 +1,58 @@
+import { Injectable } from '@nestjs/common'
+import { PageBlockType } from '@prisma/client'
+import { ApiCoreService } from '@pubkeyapp/api/core/data-access'
+import { AdminCreatePageInput } from './dto/admin-create-page.input'
+import { AdminListPageInput } from './dto/admin-list-page.input'
+import { AdminUpdatePageInput } from './dto/admin-update-page.input'
+
+@Injectable()
+export class ApiPageAdminService {
+  constructor(private readonly core: ApiCoreService) {}
+
+  async adminCreatePage(adminId: string, input: AdminCreatePageInput) {
+    await this.core.ensureAdminUser(adminId)
+    return this.core.data.page.create({
+      data: {
+        ownerId: input.ownerId ?? adminId,
+        ...input,
+        blocks: {
+          create: [{ type: PageBlockType.Header, data: { text: '## Hello, World!' } }],
+        },
+      },
+    })
+  }
+
+  async adminDeletePage(adminId: string, pageId: string) {
+    await this.core.ensureAdminUser(adminId)
+    return this.core.data.page.delete({ where: { id: pageId } })
+  }
+
+  async adminPages(adminId: string, input: AdminListPageInput) {
+    await this.core.ensureAdminUser(adminId)
+    return this.core.data.page.findMany({
+      where: { ownerId: input.ownerId ? input.ownerId : undefined },
+      include: { owner: true, domains: { include: { domain: true } } },
+    })
+  }
+
+  async adminPage(adminId: string, pageId: string) {
+    await this.core.ensureAdminUser(adminId)
+    return this.core.data.page.findUnique({
+      where: { id: pageId },
+      include: {
+        owner: true,
+        blocks: {
+          orderBy: {
+            order: 'asc',
+          },
+        },
+        domains: { include: { domain: true } },
+      },
+    })
+  }
+
+  async adminUpdatePage(adminId: string, pageId: string, input: AdminUpdatePageInput) {
+    await this.core.ensureAdminUser(adminId)
+    return this.core.data.page.update({ where: { id: pageId }, data: input })
+  }
+}

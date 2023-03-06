@@ -1,0 +1,701 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/auth/me": {
+      "get": {
+        "operationId": "me",
+        "summary": "",
+        "parameters": [],
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/auth/logout": {
+      "get": {
+        "operationId": "logout",
+        "summary": "",
+        "parameters": [],
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/auth/request-challenge/{publicKey}": {
+      "get": {
+        "operationId": "requestChallenge",
+        "summary": "",
+        "parameters": [
+          {
+            "name": "publicKey",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestChallenge"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/auth/respond-challenge": {
+      "post": {
+        "operationId": "respondChallenge",
+        "summary": "",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResponseChallengeOptions"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/config": {
+      "get": {
+        "operationId": "getConfig",
+        "summary": "",
+        "parameters": [],
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Config"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "config"
+        ]
+      }
+    },
+    "/api/page/get-page-by-id/{pageId}": {
+      "get": {
+        "operationId": "getPageById",
+        "summary": "",
+        "parameters": [
+          {
+            "name": "pageId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Page"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "page"
+        ]
+      }
+    },
+    "/api/page/get-page-by-url": {
+      "get": {
+        "operationId": "getPageByUrl",
+        "summary": "",
+        "parameters": [
+          {
+            "name": "url",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Page"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "page"
+        ]
+      }
+    },
+    "/api/user/get-user-by-id/{userId}": {
+      "get": {
+        "operationId": "getUserById",
+        "summary": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "/api/user/get-user-by-identity/{provider}/{providerId}": {
+      "get": {
+        "operationId": "getUserByIdentity",
+        "summary": "",
+        "parameters": [
+          {
+            "name": "providerId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "provider",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "$ref": "#/components/schemas/IdentityProvider"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "/api/user/get-user-by-username/{username}": {
+      "get": {
+        "operationId": "getUserByUsername",
+        "summary": "",
+        "parameters": [
+          {
+            "name": "username",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "/api/user/meta/{username}": {
+      "get": {
+        "operationId": "meta",
+        "summary": "",
+        "parameters": [
+          {
+            "name": "username",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "user"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "PubKey API",
+    "description": "The Social Solana Explorer",
+    "version": "dev",
+    "contact": {}
+  },
+  "tags": [
+    {
+      "name": "PubKey",
+      "description": ""
+    }
+  ],
+  "servers": [
+    {
+      "url": "http://localhost:3040"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "cookie": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "__session"
+      }
+    },
+    "schemas": {
+      "UserRole": {
+        "type": "string",
+        "enum": [
+          "Admin",
+          "User"
+        ]
+      },
+      "Identity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "provider": {
+            "type": "object"
+          },
+          "providerId": {
+            "type": "string"
+          },
+          "verified": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "provider",
+          "providerId",
+          "verified"
+        ]
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "bio": {
+            "type": "string"
+          },
+          "avatarUrl": {
+            "type": "string"
+          },
+          "metaUrl": {
+            "type": "string"
+          },
+          "profileUrl": {
+            "type": "string"
+          },
+          "publicKey": {
+            "type": "string"
+          },
+          "role": {
+            "$ref": "#/components/schemas/UserRole"
+          },
+          "identities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Identity"
+            }
+          },
+          "followersCount": {
+            "type": "integer"
+          },
+          "followingCount": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "username",
+          "bio",
+          "avatarUrl",
+          "metaUrl",
+          "profileUrl",
+          "publicKey",
+          "role",
+          "identities",
+          "followersCount",
+          "followingCount"
+        ]
+      },
+      "RequestChallenge": {
+        "type": "object",
+        "properties": {
+          "challenge": {
+            "type": "string"
+          },
+          "expiresAt": {
+            "type": "string"
+          },
+          "publicKey": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "challenge",
+          "expiresAt",
+          "publicKey",
+          "message"
+        ]
+      },
+      "ResponseChallengeOptions": {
+        "type": "object",
+        "properties": {
+          "challenge": {
+            "type": "string"
+          },
+          "publicKey": {
+            "type": "string"
+          },
+          "signature": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "challenge",
+          "publicKey",
+          "signature"
+        ]
+      },
+      "ConfigApi": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "version",
+          "url"
+        ]
+      },
+      "ConfigApp": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "description",
+          "name",
+          "url"
+        ]
+      },
+      "ClusterType": {
+        "type": "string",
+        "enum": [
+          "Custom",
+          "Devnet",
+          "Mainnet",
+          "Testnet"
+        ]
+      },
+      "Cluster": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "$ref": "#/components/schemas/ClusterType"
+          },
+          "endpoint": {
+            "type": "string"
+          },
+          "explorerUrl": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "type",
+          "endpoint",
+          "explorerUrl"
+        ]
+      },
+      "Config": {
+        "type": "object",
+        "properties": {
+          "api": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ConfigApi"
+              }
+            ]
+          },
+          "app": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ConfigApp"
+              }
+            ]
+          },
+          "cluster": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Cluster"
+              }
+            ]
+          },
+          "clusters": {
+            "nullable": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Cluster"
+            }
+          },
+          "user": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          }
+        },
+        "required": [
+          "api",
+          "app",
+          "cluster",
+          "clusters",
+          "user"
+        ]
+      },
+      "PageBlockType": {
+        "type": "string",
+        "enum": [
+          "Header",
+          "Link"
+        ]
+      },
+      "PageBlock": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "order": {
+            "type": "number"
+          },
+          "data": {
+            "type": "object",
+            "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/PageBlockType"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "order",
+          "type"
+        ]
+      },
+      "Page": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "color": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "viewUrl": {
+            "type": "string"
+          },
+          "siteUrl": {
+            "type": "string"
+          },
+          "urls": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "owner": {
+            "$ref": "#/components/schemas/User"
+          },
+          "blocks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PageBlock"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "color",
+          "description",
+          "viewUrl",
+          "siteUrl",
+          "urls",
+          "owner",
+          "blocks"
+        ]
+      },
+      "IdentityProvider": {
+        "type": "string",
+        "enum": [
+          "Discord",
+          "Solana"
+        ]
+      }
+    }
+  }
+}

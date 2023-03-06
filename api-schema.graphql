@@ -1,0 +1,364 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Identity {
+  id: String
+  createdAt: String
+  updatedAt: String
+  provider: IdentityProvider
+  providerId: String!
+  verified: Boolean!
+}
+
+enum IdentityProvider {
+  Discord
+  Solana
+}
+
+type User {
+  id: String
+  createdAt: String
+  updatedAt: String
+  name: String
+  username: String
+  bio: String
+  avatarUrl: String
+  metaUrl: String
+  profileUrl: String
+  publicKey: String
+  role: UserRole
+  followers: [Follow!]
+  followersCount: Int
+  following: [Follow!]
+  followingCount: Int
+  identities: [Identity!]
+  relation: UserRelation
+}
+
+enum UserRole {
+  Admin
+  User
+}
+
+type Follow {
+  id: String
+  createdAt: String
+  updatedAt: String
+  followerId: String
+  follower: User
+  ownerId: String
+  owner: User
+}
+
+type UserRelation {
+  isYou: Boolean!
+  isFollowingYou: Boolean!
+  isFollowedByYou: Boolean!
+}
+
+type Cluster {
+  id: String!
+  name: String!
+  type: ClusterType!
+  endpoint: String!
+  explorerUrl: String!
+}
+
+enum ClusterType {
+  Custom
+  Devnet
+  Mainnet
+  Testnet
+}
+
+type ConfigApi {
+  name: String!
+  version: String!
+  url: String!
+}
+
+type ConfigApp {
+  description: String!
+  name: String!
+  url: String!
+}
+
+type Config {
+  api: ConfigApi!
+  app: ConfigApp!
+  cluster: Cluster!
+  clusters: [Cluster!]!
+}
+
+type AuthChallengeRequest {
+  challenge: String!
+  expiresAt: String!
+}
+
+type Domain {
+  id: String
+  createdAt: String
+  updatedAt: String
+  name: String
+  order: Int
+  private: Boolean
+  premium: Boolean
+  secure: Boolean
+  owner: User
+  pages: [Page!]
+}
+
+type PageDomain {
+  id: String
+  createdAt: String
+  updatedAt: String
+  path: String
+  domain: Domain
+  page: Page
+  viewUrl: String
+}
+
+type Page {
+  id: String
+  createdAt: String
+  updatedAt: String
+  title: String
+  color: String
+  description: String
+  viewUrl: String
+  siteUrl: String
+  urls: [String!]
+  owner: User
+  blocks: [PageBlock!]
+  domains: [PageDomain!]
+  previewUrl: String
+}
+
+type PageBlock {
+  id: String
+  createdAt: String
+  updatedAt: String
+  name: String
+  order: Int
+  data: JSON
+  type: PageBlockType
+  page: Page
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
+
+enum PageBlockType {
+  Header
+  Link
+}
+
+type Invite {
+  id: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  expiresAt: DateTime
+  code: String
+  maxUses: Int
+  useCount: Int
+  owner: User
+  users: [User!]
+  inviteUrl: String
+  isExpired: Boolean
+  isUsedUp: Boolean
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Job {
+  id: String
+  data: JSON
+  opts: JSON
+  attemptsMade: Int
+  processedOn: Int
+  finishedOn: Int
+  timestamp: Int
+  name: String
+  stacktrace: [String!]
+  returnvalue: JSON
+  failedReason: String
+}
+
+type QueueCount {
+  active: Int
+  completed: Int
+  delayed: Int
+  failed: Int
+  paused: Int
+  waiting: Int
+}
+
+type Queue {
+  type: QueueType!
+  name: String!
+  count: QueueCount
+  info: JSON
+  isPaused: Boolean
+}
+
+enum QueueType {
+  CloseAccount
+  ParseBlock
+}
+
+type Query {
+  uptime: Float!
+  me: User
+  requestChallenge(publicKey: String!): AuthChallengeRequest
+  config: Config
+  adminDomains(input: AdminListDomainInput): [Domain!]
+  adminDomain(domainId: String!): Domain
+  publicInvite(code: String!): Invite
+  adminInvites(input: AdminListInviteInput): [Invite!]
+  adminInvite(inviteId: String!): Invite
+  publicPage(pageId: String!): Page
+  adminPages(input: AdminListPageInput): [Page!]
+  adminPage(pageId: String!): Page
+  adminPageBlock(pageBlockId: String!): PageBlock
+  adminPageDomain(domainId: String!, path: String!): PageDomain
+  queue(type: QueueType!): Queue
+  queueJobs(type: QueueType!, statuses: [JobStatus!]!): [Job!]
+  queues: [Queue!]
+  user(username: String!): User
+  userFollowers(username: String!): [User!]
+  userFollowing(username: String!): [User!]
+  userInvites(username: String!): [Invite!]
+  adminUser(userId: String!): User
+  adminUsers: [User!]
+}
+
+input AdminListDomainInput {
+  ownerId: String
+}
+
+input AdminListInviteInput {
+  ownerId: String
+}
+
+input AdminListPageInput {
+  ownerId: String
+}
+
+enum JobStatus {
+  completed
+  waiting
+  active
+  delayed
+  failed
+  paused
+}
+
+type Mutation {
+  logout: Boolean
+  respondChallenge(challenge: String!, publicKey: String!, signature: String!): User
+  adminCreateDomain(input: AdminCreateDomainInput!): Domain
+  adminDeleteDomain(domainId: String!): Domain
+  adminUpdateDomain(domainId: String!, input: AdminUpdateDomainInput!): Domain
+  adminCreateInvite(input: AdminCreateInviteInput!): Invite
+  adminDeleteInvite(inviteId: String!): Invite
+  adminUpdateInvite(inviteId: String!, input: AdminUpdateInviteInput!): Invite
+  adminCreatePage(input: AdminCreatePageInput!): Page
+  adminDeletePage(pageId: String!): Page
+  adminUpdatePage(pageId: String!, input: AdminUpdatePageInput!): Page
+  adminAddPageBlock(pageId: String!, input: AdminAddPageBlockInput!): PageBlock
+  adminRemovePageBlock(pageId: String!, pageBlockId: String!): PageBlock
+  adminUpdatePageBlock(pageId: String!, pageBlockId: String!, input: AdminUpdatePageBlockInput!): PageBlock
+  adminAddPageDomain(pageId: String!, input: AdminAddPageDomainInput!): PageDomain
+  adminRemovePageDomain(pageId: String!, pageDomainId: String!): PageDomain
+  queueLoad(input: QueueLoadInput!): Queue
+  queueClean(type: QueueType!): Boolean
+  queueDeleteJob(type: QueueType!, jobId: String!): Boolean
+  queuePause(type: QueueType!): Boolean
+  queueResume(type: QueueType!): Boolean
+  userFollow(username: String!): User
+  userUnfollow(username: String!): User
+  adminCreateUser(input: AdminCreateUserInput!): User
+  adminUpdateUser(userId: String!, input: AdminUpdateUserInput!): User
+  adminDeleteUser(userId: String!): User
+}
+
+input AdminCreateDomainInput {
+  name: String!
+  ownerId: String
+  private: Boolean
+  premium: Boolean
+  secure: Boolean
+}
+
+input AdminUpdateDomainInput {
+  private: Boolean
+  premium: Boolean
+  secure: Boolean
+  order: Int
+}
+
+input AdminCreateInviteInput {
+  expiresAt: String
+  ownerId: String
+  maxUses: Int
+}
+
+input AdminUpdateInviteInput {
+  expiresAt: DateTime
+  maxUses: Int
+}
+
+input AdminCreatePageInput {
+  title: String!
+  description: String!
+  ownerId: String
+  color: String
+}
+
+input AdminUpdatePageInput {
+  title: String
+  description: String
+  color: String
+}
+
+input AdminAddPageBlockInput {
+  order: Int
+  data: JSON
+  type: PageBlockType
+}
+
+input AdminUpdatePageBlockInput {
+  order: Int
+  data: JSON
+  type: PageBlockType
+}
+
+input AdminAddPageDomainInput {
+  domainId: String!
+  path: String!
+}
+
+input QueueLoadInput {
+  serverAppId: String!
+  payload: JSON!
+  type: QueueType!
+}
+
+input AdminCreateUserInput {
+  publicKey: String
+  role: UserRole
+}
+
+input AdminUpdateUserInput {
+  name: String
+  avatarUrl: String
+  username: String
+  bio: String
+  role: UserRole
+}

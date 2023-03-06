@@ -1,0 +1,141 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["clientExtensions"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String     @id @default(cuid())
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @default(now()) @updatedAt
+  role      UserRole
+  status    UserStatus @default(Active)
+  username  String     @unique
+  name      String?
+  avatarUrl String?
+  bio       String?
+
+  domains        Domain[]
+  identities     Identity[]
+  invites        Invite[]
+  invite         Invite?    @relation("UserInvite", fields: [inviteId], references: [id])
+  inviteId       String?
+  followers      Follow[]   @relation("followers")
+  followersCount Int        @default(0)
+  following      Follow[]   @relation("follower")
+  followingCount Int        @default(0)
+  pages          Page[]
+}
+
+model Follow {
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
+  follower   User     @relation("followers", fields: [followerId], references: [id])
+  followerId String
+  owner      User     @relation("follower", fields: [ownerId], references: [id])
+  ownerId    String
+
+  @@id([ownerId, followerId])
+}
+
+enum UserRole {
+  Admin
+  User
+}
+
+enum UserStatus {
+  Active
+  Created
+  Inactive
+}
+
+model Identity {
+  id         String           @id @default(cuid())
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @default(now()) @updatedAt
+  provider   IdentityProvider
+  providerId String
+  verified   Boolean          @default(false)
+  owner      User             @relation(fields: [ownerId], references: [id])
+  ownerId    String
+
+  @@unique([provider, providerId])
+}
+
+enum IdentityProvider {
+  Discord
+  Solana
+}
+
+model Invite {
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  expiresAt DateTime?
+  maxUses   Int       @default(0)
+  useCount  Int       @default(0)
+  code      String    @unique
+  users     User[]    @relation("UserInvite")
+  owner     User      @relation(fields: [ownerId], references: [id])
+  ownerId   String
+}
+
+model Domain {
+  id        String       @id @default(cuid())
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @default(now()) @updatedAt
+  name      String       @unique
+  order     Int          @default(0)
+  premium   Boolean      @default(false)
+  private   Boolean      @default(false)
+  secure    Boolean      @default(true)
+  owner     User         @relation(fields: [ownerId], references: [id])
+  ownerId   String
+  pages     PageDomain[]
+}
+
+model Page {
+  id          String       @id @default(cuid())
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @default(now()) @updatedAt
+  title       String
+  color       String       @default("brand")
+  description String?
+  owner       User         @relation(fields: [ownerId], references: [id])
+  ownerId     String
+  domains     PageDomain[]
+  blocks      PageBlock[]
+}
+
+model PageBlock {
+  id        String        @id @default(cuid())
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @default(now()) @updatedAt
+  type      PageBlockType
+  data      Json
+  order     Int           @default(0)
+  page      Page          @relation(fields: [pageId], references: [id])
+  pageId    String
+}
+
+enum PageBlockType {
+  Header
+  Link
+}
+
+model PageDomain {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  path      String
+  domain    Domain   @relation(fields: [domainId], references: [id])
+  domainId  String
+  page      Page     @relation(fields: [pageId], references: [id])
+  pageId    String
+
+  @@unique([domainId, path])
+}
