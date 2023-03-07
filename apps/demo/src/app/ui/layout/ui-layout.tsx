@@ -19,12 +19,12 @@ export function UiLayout() {
 
   return (
     <Flex h="100vh" direction="column" justify="space-between">
-      <Stack>
+      <Box sx={{ flexGrow: 1, border: '1px solid red' }}>
         <UiHeader links={headerLinks} logo={logo} />
         <Box>
           <Outlet />
         </Box>
-      </Stack>
+      </Box>
       <UiFooter links={footerLinks} logo={logo} />
     </Flex>
   )

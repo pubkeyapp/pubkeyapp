@@ -349,6 +349,7 @@ export type PageBlockType = (typeof PageBlockType)[keyof typeof PageBlockType]
  */
 
 export const PageStatus = {
+  Demo: 'Demo',
   Draft: 'Draft',
   Published: 'Published',
 } as const
@@ -440,6 +441,12 @@ export interface User {
   id: string
   /**
    *
+   * @type {number}
+   * @memberof User
+   */
+  pid?: number | null
+  /**
+   *
    * @type {string}
    * @memberof User
    */
@@ -449,7 +456,7 @@ export interface User {
    * @type {string}
    * @memberof User
    */
-  username: string
+  username?: string | null
   /**
    *
    * @type {string}
@@ -467,43 +474,49 @@ export interface User {
    * @type {string}
    * @memberof User
    */
-  metaUrl: string
+  metaUrl?: string | null
   /**
    *
    * @type {string}
    * @memberof User
    */
-  profileUrl: string
+  profileUrl?: string | null
   /**
    *
    * @type {string}
    * @memberof User
    */
-  publicKey: string
+  publicKey?: string | null
   /**
    *
    * @type {UserRole}
    * @memberof User
    */
-  role: UserRole
+  role?: UserRole
+  /**
+   *
+   * @type {UserStatus}
+   * @memberof User
+   */
+  status?: UserStatus
   /**
    *
    * @type {Array<Identity>}
    * @memberof User
    */
-  identities: Array<Identity>
+  identities?: Array<Identity> | null
   /**
    *
    * @type {number}
    * @memberof User
    */
-  followersCount: number
+  followersCount?: number | null
   /**
    *
    * @type {number}
    * @memberof User
    */
-  followingCount: number
+  followingCount?: number | null
 }
 
 /**
@@ -518,6 +531,20 @@ export const UserRole = {
 } as const
 
 export type UserRole = (typeof UserRole)[keyof typeof UserRole]
+
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const UserStatus = {
+  Active: 'Active',
+  Created: 'Created',
+  Inactive: 'Inactive',
+} as const
+
+export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus]
 
 /**
  * AuthApi - axios parameter creator

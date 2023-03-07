@@ -3,7 +3,7 @@ import { getChallenge, verifySignature } from '@pubkeyapp/api/auth/util'
 import { ApiCoreService } from '@pubkeyapp/api/core/data-access'
 import { BadRequestException, Injectable, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common'
 import { JwtService, JwtSignOptions } from '@nestjs/jwt'
-import { IdentityProvider, UserRole } from '@prisma/client'
+import { IdentityProvider, UserRole, UserStatus } from '@prisma/client'
 import { Request, Response } from 'express'
 import { CoreUser } from '../../../../core/data-access/src/lib/api-core.helpers'
 import { ResponseChallengeOptions } from './dto/auth-challenge-response.dto'
@@ -77,15 +77,34 @@ export class ApiAuthDataAccessService {
 
     // Verify it
     const verified = verifySignature(publicKey, challenge, signature)
+    console.log(`verified`, verified)
 
     if (!verified.success) {
       this.logger.error(`Challenge response failed: ${verified.message}`)
       throw false
     }
+
+    try {
+      return this.findOrCreateSolanaIdentity(publicKey)
+    } catch (e) {
+      this.logger.error(`Failed to find or create user with Solana identity ${publicKey}`, e)
+      throw new NotFoundException()
+    }
+  }
+
+  private async findOrCreateSolanaIdentity(publicKey: string) {
     const found = await this.findUserByIdentity({
       provider: IdentityProvider.Solana,
       providerId: publicKey,
+      reject: false,
     })
+
+    if (!found) {
+      this.logger.error(`User with Solana identity ${publicKey} not found, creating new user...`)
+      await this.core.data.createUser(UserRole.User, UserStatus.Created, publicKey)
+      return this.findOrCreateSolanaIdentity(publicKey)
+    }
+
     // Find the identity we used
     const identity = found.identities.find(
       (i) => i.provider === IdentityProvider.Solana && i.providerId === publicKey && !i.verified,
@@ -104,21 +123,15 @@ export class ApiAuthDataAccessService {
   async findUserByIdentity({
     provider,
     providerId,
+    reject = true,
   }: {
     provider: IdentityProvider
     providerId: string
+    reject?: boolean
   }): Promise<CoreUser> {
     const user = await this.core.data.findUserByIdentity({ provider, providerId })
-    if (!user) {
-      throw new NotFoundException(`User with identity ${provider}:${providerId} not found`)
-    }
-    return user
-  }
-
-  async findUserByUsername(username) {
-    const user = await this.core.data.findUserByUsername(username)
-    if (!user) {
-      throw new NotFoundException()
+    if (!user && reject) {
+      throw new Error(`User with identity ${provider}:${providerId} not found`)
     }
     return user
   }

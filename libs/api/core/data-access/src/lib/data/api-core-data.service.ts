@@ -1,5 +1,5 @@
 import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common'
-import { IdentityProvider, PrismaClient, UserRole } from '@prisma/client'
+import { IdentityProvider, PrismaClient, UserRole, UserStatus } from '@prisma/client'
 import { ApiConfigDataAccessService } from '@pubkeyapp/api/config/data-access'
 import { getSolanaName } from 'sol-namor/src'
 import { convertCoreDbUser, CoreUser } from '../api-core.helpers'
@@ -68,8 +68,8 @@ export class ApiCoreDataService extends PrismaClient implements OnModuleDestroy,
 
   createUsers(role: UserRole, publicKeys: string[]) {
     return Promise.all(
-      publicKeys.map(async (publicKey) => {
-        const created = await this.createUser(role, publicKey)
+      publicKeys.map(async (publicKey, index) => {
+        const created = await this.createUser(role, UserStatus.Active, publicKey, index)
         if (created) {
           this.logger.verbose(`Created ${created.role} ${created.username}`)
         }
@@ -78,7 +78,7 @@ export class ApiCoreDataService extends PrismaClient implements OnModuleDestroy,
     )
   }
 
-  async createUser(role: UserRole, publicKey: string) {
+  async createUser(role: UserRole, status: UserStatus, publicKey: string, pid?: number) {
     const found = await this.findUserByIdentity({ provider: 'Solana', providerId: publicKey })
     if (found) {
       this.logger.verbose(`Found ${found.role} ${found.username}`)
@@ -87,6 +87,8 @@ export class ApiCoreDataService extends PrismaClient implements OnModuleDestroy,
 
     return this.user.create({
       data: {
+        status,
+        pid: pid ?? undefined,
         username: getUsername(publicKey),
         role,
         identities: {

@@ -10,6 +10,7 @@ datasource db {
 
 model User {
   id        String     @id @default(cuid())
+  pid       Int        @unique @default(autoincrement())
   createdAt DateTime   @default(now())
   updatedAt DateTime   @default(now()) @updatedAt
   role      UserRole
@@ -114,6 +115,7 @@ model Page {
 }
 
 enum PageStatus {
+  Demo
   Draft
   Published
 }

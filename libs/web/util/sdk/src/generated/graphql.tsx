@@ -492,6 +492,7 @@ export type PageDomain = {
 }
 
 export enum PageStatus {
+  Demo = 'Demo',
   Draft = 'Draft',
   Published = 'Published',
 }
@@ -698,10 +699,12 @@ export type User = {
   identities?: Maybe<Array<Identity>>
   metaUrl?: Maybe<Scalars['String']>
   name?: Maybe<Scalars['String']>
+  pid?: Maybe<Scalars['Int']>
   profileUrl?: Maybe<Scalars['String']>
   publicKey?: Maybe<Scalars['String']>
   relation?: Maybe<UserRelation>
   role?: Maybe<UserRole>
+  status?: Maybe<UserStatus>
   updatedAt?: Maybe<Scalars['String']>
   username?: Maybe<Scalars['String']>
 }
@@ -732,6 +735,12 @@ export enum UserRole {
   User = 'User',
 }
 
+export enum UserStatus {
+  Active = 'Active',
+  Created = 'Created',
+  Inactive = 'Inactive',
+}
+
 export type UserUpdatePageBlockInput = {
   data?: InputMaybe<Scalars['JSON']>
   order?: InputMaybe<Scalars['Int']>
@@ -757,9 +766,11 @@ export type MeQuery = {
   me?: {
     __typename?: 'User'
     id?: string | null
+    pid?: number | null
     createdAt?: string | null
     updatedAt?: string | null
     role?: UserRole | null
+    status?: UserStatus | null
     username?: string | null
     name?: string | null
     bio?: string | null
@@ -797,9 +808,11 @@ export type RespondChallengeMutation = {
   result?: {
     __typename?: 'User'
     id?: string | null
+    pid?: number | null
     createdAt?: string | null
     updatedAt?: string | null
     role?: UserRole | null
+    status?: UserStatus | null
     username?: string | null
     name?: string | null
     bio?: string | null
@@ -930,9 +943,11 @@ export type AdminDomainQuery = {
       owner?: {
         __typename?: 'User'
         id?: string | null
+        pid?: number | null
         createdAt?: string | null
         updatedAt?: string | null
         role?: UserRole | null
+        status?: UserStatus | null
         username?: string | null
         name?: string | null
         bio?: string | null
@@ -1117,9 +1132,11 @@ export type AdminInviteQuery = {
     users?: Array<{
       __typename?: 'User'
       id?: string | null
+      pid?: number | null
       createdAt?: string | null
       updatedAt?: string | null
       role?: UserRole | null
+      status?: UserStatus | null
       username?: string | null
       name?: string | null
       bio?: string | null
@@ -1280,9 +1297,11 @@ export type PublicInviteQuery = {
     users?: Array<{
       __typename?: 'User'
       id?: string | null
+      pid?: number | null
       createdAt?: string | null
       updatedAt?: string | null
       role?: UserRole | null
+      status?: UserStatus | null
       username?: string | null
       name?: string | null
       bio?: string | null
@@ -1575,9 +1594,11 @@ export type PageDetailsFragment = {
   owner?: {
     __typename?: 'User'
     id?: string | null
+    pid?: number | null
     createdAt?: string | null
     updatedAt?: string | null
     role?: UserRole | null
+    status?: UserStatus | null
     username?: string | null
     name?: string | null
     bio?: string | null
@@ -1632,9 +1653,11 @@ export type AdminPageQuery = {
     owner?: {
       __typename?: 'User'
       id?: string | null
+      pid?: number | null
       createdAt?: string | null
       updatedAt?: string | null
       role?: UserRole | null
+      status?: UserStatus | null
       username?: string | null
       name?: string | null
       bio?: string | null
@@ -1686,9 +1709,11 @@ export type AdminPagesQuery = {
     owner?: {
       __typename?: 'User'
       id?: string | null
+      pid?: number | null
       createdAt?: string | null
       updatedAt?: string | null
       role?: UserRole | null
+      status?: UserStatus | null
       username?: string | null
       name?: string | null
       bio?: string | null
@@ -1730,9 +1755,11 @@ export type AdminCreatePageMutation = {
     owner?: {
       __typename?: 'User'
       id?: string | null
+      pid?: number | null
       createdAt?: string | null
       updatedAt?: string | null
       role?: UserRole | null
+      status?: UserStatus | null
       username?: string | null
       name?: string | null
       bio?: string | null
@@ -1775,9 +1802,11 @@ export type AdminUpdatePageMutation = {
     owner?: {
       __typename?: 'User'
       id?: string | null
+      pid?: number | null
       createdAt?: string | null
       updatedAt?: string | null
       role?: UserRole | null
+      status?: UserStatus | null
       username?: string | null
       name?: string | null
       bio?: string | null
@@ -1819,9 +1848,11 @@ export type AdminDeletePageMutation = {
     owner?: {
       __typename?: 'User'
       id?: string | null
+      pid?: number | null
       createdAt?: string | null
       updatedAt?: string | null
       role?: UserRole | null
+      status?: UserStatus | null
       username?: string | null
       name?: string | null
       bio?: string | null
@@ -1882,9 +1913,11 @@ export type PublicPageQuery = {
     owner?: {
       __typename?: 'User'
       id?: string | null
+      pid?: number | null
       createdAt?: string | null
       updatedAt?: string | null
       role?: UserRole | null
+      status?: UserStatus | null
       username?: string | null
       name?: string | null
       bio?: string | null
@@ -1945,9 +1978,11 @@ export type UserPageQuery = {
     owner?: {
       __typename?: 'User'
       id?: string | null
+      pid?: number | null
       createdAt?: string | null
       updatedAt?: string | null
       role?: UserRole | null
+      status?: UserStatus | null
       username?: string | null
       name?: string | null
       bio?: string | null
@@ -1997,9 +2032,11 @@ export type UserPagesQuery = {
     owner?: {
       __typename?: 'User'
       id?: string | null
+      pid?: number | null
       createdAt?: string | null
       updatedAt?: string | null
       role?: UserRole | null
+      status?: UserStatus | null
       username?: string | null
       name?: string | null
       bio?: string | null
@@ -2042,9 +2079,11 @@ export type UserUpdatePageMutation = {
     owner?: {
       __typename?: 'User'
       id?: string | null
+      pid?: number | null
       createdAt?: string | null
       updatedAt?: string | null
       role?: UserRole | null
+      status?: UserStatus | null
       username?: string | null
       name?: string | null
       bio?: string | null
@@ -2086,9 +2125,11 @@ export type UserDeletePageMutation = {
     owner?: {
       __typename?: 'User'
       id?: string | null
+      pid?: number | null
       createdAt?: string | null
       updatedAt?: string | null
       role?: UserRole | null
+      status?: UserStatus | null
       username?: string | null
       name?: string | null
       bio?: string | null
@@ -2130,9 +2171,11 @@ export type UserCreatePageMutation = {
     owner?: {
       __typename?: 'User'
       id?: string | null
+      pid?: number | null
       createdAt?: string | null
       updatedAt?: string | null
       role?: UserRole | null
+      status?: UserStatus | null
       username?: string | null
       name?: string | null
       bio?: string | null
@@ -2468,9 +2511,11 @@ export type UserRelationDetailsFragment = {
 export type UserDetailsFragment = {
   __typename?: 'User'
   id?: string | null
+  pid?: number | null
   createdAt?: string | null
   updatedAt?: string | null
   role?: UserRole | null
+  status?: UserStatus | null
   username?: string | null
   name?: string | null
   bio?: string | null
@@ -2492,9 +2537,11 @@ export type AdminUserQuery = {
   item?: {
     __typename?: 'User'
     id?: string | null
+    pid?: number | null
     createdAt?: string | null
     updatedAt?: string | null
     role?: UserRole | null
+    status?: UserStatus | null
     username?: string | null
     name?: string | null
     bio?: string | null
@@ -2524,9 +2571,11 @@ export type AdminUsersQuery = {
   items?: Array<{
     __typename?: 'User'
     id?: string | null
+    pid?: number | null
     createdAt?: string | null
     updatedAt?: string | null
     role?: UserRole | null
+    status?: UserStatus | null
     username?: string | null
     name?: string | null
     bio?: string | null
@@ -2549,9 +2598,11 @@ export type AdminCreateUserMutation = {
   item?: {
     __typename?: 'User'
     id?: string | null
+    pid?: number | null
     createdAt?: string | null
     updatedAt?: string | null
     role?: UserRole | null
+    status?: UserStatus | null
     username?: string | null
     name?: string | null
     bio?: string | null
@@ -2575,9 +2626,11 @@ export type AdminUpdateUserMutation = {
   item?: {
     __typename?: 'User'
     id?: string | null
+    pid?: number | null
     createdAt?: string | null
     updatedAt?: string | null
     role?: UserRole | null
+    status?: UserStatus | null
     username?: string | null
     name?: string | null
     bio?: string | null
@@ -2600,9 +2653,11 @@ export type AdminDeleteUserMutation = {
   item?: {
     __typename?: 'User'
     id?: string | null
+    pid?: number | null
     createdAt?: string | null
     updatedAt?: string | null
     role?: UserRole | null
+    status?: UserStatus | null
     username?: string | null
     name?: string | null
     bio?: string | null
@@ -2625,9 +2680,11 @@ export type UserQuery = {
   item?: {
     __typename?: 'User'
     id?: string | null
+    pid?: number | null
     createdAt?: string | null
     updatedAt?: string | null
     role?: UserRole | null
+    status?: UserStatus | null
     username?: string | null
     name?: string | null
     bio?: string | null
@@ -2659,9 +2716,11 @@ export type UserFollowersQuery = {
   item?: Array<{
     __typename?: 'User'
     id?: string | null
+    pid?: number | null
     createdAt?: string | null
     updatedAt?: string | null
     role?: UserRole | null
+    status?: UserStatus | null
     username?: string | null
     name?: string | null
     bio?: string | null
@@ -2693,9 +2752,11 @@ export type UserFollowingQuery = {
   item?: Array<{
     __typename?: 'User'
     id?: string | null
+    pid?: number | null
     createdAt?: string | null
     updatedAt?: string | null
     role?: UserRole | null
+    status?: UserStatus | null
     username?: string | null
     name?: string | null
     bio?: string | null
@@ -2739,9 +2800,11 @@ export type UserInvitesQuery = {
     users?: Array<{
       __typename?: 'User'
       id?: string | null
+      pid?: number | null
       createdAt?: string | null
       updatedAt?: string | null
       role?: UserRole | null
+      status?: UserStatus | null
       username?: string | null
       name?: string | null
       bio?: string | null
@@ -2777,9 +2840,11 @@ export type UserFollowMutation = {
   item?: {
     __typename?: 'User'
     id?: string | null
+    pid?: number | null
     createdAt?: string | null
     updatedAt?: string | null
     role?: UserRole | null
+    status?: UserStatus | null
     username?: string | null
     name?: string | null
     bio?: string | null
@@ -2802,9 +2867,11 @@ export type UserUnfollowMutation = {
   item?: {
     __typename?: 'User'
     id?: string | null
+    pid?: number | null
     createdAt?: string | null
     updatedAt?: string | null
     role?: UserRole | null
+    status?: UserStatus | null
     username?: string | null
     name?: string | null
     bio?: string | null
@@ -2955,9 +3022,11 @@ export const UserRelationDetailsFragmentDoc = gql`
 export const UserDetailsFragmentDoc = gql`
   fragment UserDetails on User {
     id
+    pid
     createdAt
     updatedAt
     role
+    status
     username
     name
     bio

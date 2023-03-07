@@ -3770,6 +3770,12 @@
         "interfaces": null,
         "enumValues": [
           {
+            "name": "Demo",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "Draft",
             "description": null,
             "isDeprecated": false,
@@ -5343,6 +5349,18 @@
             "deprecationReason": null
           },
           {
+            "name": "pid",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "profileUrl",
             "description": null,
             "args": [],
@@ -5385,6 +5403,18 @@
             "type": {
               "kind": "ENUM",
               "name": "UserRole",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "status",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "ENUM",
+              "name": "UserStatus",
               "ofType": null
             },
             "isDeprecated": false,
@@ -5621,6 +5651,35 @@
           },
           {
             "name": "User",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "possibleTypes": null
+      },
+      {
+        "kind": "ENUM",
+        "name": "UserStatus",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": [
+          {
+            "name": "Active",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "Created",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "Inactive",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null

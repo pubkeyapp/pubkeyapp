@@ -6,9 +6,11 @@ fragment UserRelationDetails on UserRelation {
 
 fragment UserDetails on User {
   id
+  pid
   createdAt
   updatedAt
   role
+  status
   username
   name
   bio

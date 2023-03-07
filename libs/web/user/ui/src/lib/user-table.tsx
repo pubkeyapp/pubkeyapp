@@ -1,9 +1,10 @@
 import { ActionIcon, Avatar, Group, ScrollArea, Stack, Text } from '@mantine/core'
+import { User, UserRole, UserStatus } from '@pubkeyapp/web/util/sdk'
 import { IconPencil, IconTrash, IconUser } from '@tabler//icons-react'
 import { DataTable } from 'mantine-datatable'
 import { Link } from 'react-router-dom'
-import { User, UserRole } from '@pubkeyapp/web/util/sdk'
 import { UserRoleBadge } from './user-role-badge'
+import { UserStatusBadge } from './user-status-badge'
 
 interface AdminUserTableProps {
   users: User[]
@@ -37,10 +38,16 @@ export function UserTable({ deleteUser, users }: AdminUserTableProps) {
               )
             },
           },
+          { accessor: 'pid', textAlignment: 'center' },
           {
             accessor: 'role',
             textAlignment: 'center',
             render: (item) => <UserRoleBadge role={item.role as UserRole} />,
+          },
+          {
+            accessor: 'status',
+            textAlignment: 'center',
+            render: (item) => <UserStatusBadge status={item.status as UserStatus} />,
           },
           {
             accessor: 'actions',

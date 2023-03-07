@@ -1,4 +1,17 @@
-import { ActionIcon, Box, Card, Group, Paper, SimpleGrid, Skeleton, Stack, Text, Tooltip } from '@mantine/core'
+import {
+  ActionIcon,
+  Box,
+  Button,
+  Card,
+  Container,
+  Group,
+  Paper,
+  SimpleGrid,
+  Skeleton,
+  Stack,
+  Text,
+  Tooltip,
+} from '@mantine/core'
 import { PageBlock as PageBlockSDK } from '@pubkeyapp/sdk'
 
 import {
@@ -9,12 +22,19 @@ import {
   PageColorSelect,
   PageEditorPreview,
 } from '@pubkeyapp/web/page/ui'
-import { showNotificationError, showNotificationSuccess, UiBackButton, UiDebugModal } from '@pubkeyapp/web/ui/core'
+import {
+  showNotificationError,
+  showNotificationSuccess,
+  UiBackButton,
+  UiDebugModal,
+  UiTabRoutes,
+} from '@pubkeyapp/web/ui/core'
 import { UiPageHeader } from '@pubkeyapp/web/ui/page'
 import {
   AdminUpdatePageInput,
   Page,
   PageBlock,
+  PageStatus,
   usePublicPageQuery,
   UserAddPageBlockInput,
   useUserAddPageBlockMutation,
@@ -102,19 +122,61 @@ export function WebPageEditorDetailFeature() {
             </Text>
           }
           leftAction={<UiBackButton to="/pages" />}
+          rightAction={
+            page?.item?.status === PageStatus.Published ? (
+              <Button>View Page</Button>
+            ) : (
+              <Button component={Link} to={`/pages/${pageId}/publish`}>
+                Publish Page
+              </Button>
+            )
+          }
         />
       </Skeleton>
-      <SimpleGrid cols={2} spacing="md" breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
-        <PageEditor
-          page={page?.item as Page}
-          updatePage={updatePage}
-          duplicatePageBlock={duplicatePageBlock}
-          removePageBlock={removePageBlock}
-          updatePageBlock={updatePageBlock}
-        />
-        <Box>{page?.item ? <PageEditorPreview page={page.item} /> : null}</Box>
-      </SimpleGrid>
-      <UiDebugModal data={{ page }} />
+
+      <UiTabRoutes
+        tabs={[
+          {
+            label: 'Editor',
+            value: 'editor',
+            component: (
+              <SimpleGrid cols={2} spacing="md" breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
+                <PageEditor
+                  page={page?.item as Page}
+                  updatePage={updatePage}
+                  duplicatePageBlock={duplicatePageBlock}
+                  removePageBlock={removePageBlock}
+                  updatePageBlock={updatePageBlock}
+                />
+                <Box>{page?.item ? <PageEditorPreview page={page.item} /> : null}</Box>
+              </SimpleGrid>
+            ),
+          },
+          {
+            label: 'Publish',
+            value: 'publish',
+            component: (
+              <Container size="md">
+                <Paper>Publish Page</Paper>
+                <Text>Select Domain</Text>
+                <Text>Gum User</Text>
+                <Text>Publish to Arweave</Text>
+                <Text>Create Gum Profile</Text>
+              </Container>
+            ),
+          },
+          {
+            label: 'Settings',
+            value: 'settings',
+            component: (
+              <Container size="md">
+                <Paper>Page Settings</Paper>
+              </Container>
+            ),
+          },
+        ]}
+      />
+      {/*<UiDebugModal data={{ page }} />*/}
     </Stack>
   )
 }

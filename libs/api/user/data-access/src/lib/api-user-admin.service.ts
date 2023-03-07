@@ -1,6 +1,6 @@
 import { ApiCoreService } from '@pubkeyapp/api/core/data-access'
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { IdentityProvider, UserRole } from '@prisma/client'
+import { IdentityProvider, UserRole, UserStatus } from '@prisma/client'
 import { AdminCreateUserInput } from './dto/admin-create-user.input'
 import { AdminUpdateUserInput } from './dto/admin-update-user.input'
 
@@ -22,18 +22,6 @@ export class ApiUserAdminService {
 
   constructor(private readonly core: ApiCoreService) {}
 
-  findMany() {
-    return this.core.data.findUsers()
-  }
-
-  async findOne(userId: string) {
-    const found = await this.core.data.findUserById(userId)
-    if (!found) {
-      throw new NotFoundException()
-    }
-    return found
-  }
-
   async adminCreateUser(adminId: string, input: AdminCreateUserInput) {
     await this.core.ensureAdminUser(adminId)
     const found = await this.core.data.findUserByIdentity({
@@ -43,7 +31,7 @@ export class ApiUserAdminService {
     if (found) {
       throw new Error(`User with public key ${input.publicKey} already exists`)
     }
-    return this.core.data.createUser(input.role ?? UserRole.User, input.publicKey)
+    return this.core.data.createUser(input.role ?? UserRole.User, UserStatus.Created, input.publicKey)
   }
 
   async adminUpdateUser(adminId: string, userId: string, input: AdminUpdateUserInput) {

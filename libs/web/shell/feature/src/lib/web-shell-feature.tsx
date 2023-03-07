@@ -1,12 +1,13 @@
-import { AuthGuard, AuthProvider } from '@pubkeyapp/web/auth/data-access'
+import { AuthGuard, AuthProvider, UserRoleGuard, UserStatusGuard } from '@pubkeyapp/web/auth/data-access'
 import { ConfigProvider, SolanaProvider } from '@pubkeyapp/web/shell/data-access'
 import { UiNotFound } from '@pubkeyapp/web/ui/core'
 import { UiLayout } from '@pubkeyapp/web/ui/layout'
 import { UiThemeProvider } from '@pubkeyapp/web/ui/theme'
-import { GraphQLProvider } from '@pubkeyapp/web/util/sdk'
+import { GraphQLProvider, UserRole, UserStatus } from '@pubkeyapp/web/util/sdk'
 import { lazy } from 'react'
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
 import { DashboardFeature } from './dashboard/dashboard-feature'
+import { EarlyFeature } from './early/early-feature'
 import { HomepageContentFeature, HomepageFeature } from './homepage/homepage-feature'
 import { LoginFeature } from './login/login-feature'
 
@@ -16,25 +17,40 @@ const PageEditorFeature = lazy(() => import('@pubkeyapp/web/page-editor/feature'
 const PlanFeature = lazy(() => import('@pubkeyapp/web/plan/feature'))
 
 export function WebShellFeature() {
-  const pages = ['/learn', '/docs', '/resources', '/sdk', '/support', '/about']
+  const pages = [
+    '/learn',
+    '/docs',
+    '/resources',
+    '/sdk',
+    '/support',
+    '/about',
+    '/privacy',
+    '/terms',
+    '/contact',
+    '/pricing',
+  ]
   return (
     <UiThemeProvider>
       <Routes>
         <Route index element={<Navigate replace to={'/home'} />} />
         <Route element={<UiLayout homepage />}>
           <Route path="/home" element={<HomepageFeature />} />
-          <Route path="/pricing" element={<PlanFeature />} />
+          {/*<Route path="/pricing" element={<PlanFeature />} />*/}
           {pages.map((page) => (
-            <Route key={page} path={`/${page}`} element={<HomepageContentFeature page={page} />} />
+            <Route key={page} path={`${page}`} element={<HomepageContentFeature page={page} />} />
           ))}
         </Route>
         <Route element={<AppProviders />}>
           <Route element={<UiLayout />}>
             <Route path="/login" element={<LoginFeature />} />
             <Route element={<AuthGuard redirectTo="/login" />}>
-              <Route path="/admin/*" element={<AdminFeature />} />
-              <Route path="/dashboard" element={<DashboardFeature />} />
-              <Route path="/pages/*" element={<PageEditorFeature />} />
+              <Route element={<UserStatusGuard status={UserStatus.Active} element={<EarlyFeature />} />}>
+                <Route path="/dashboard" element={<DashboardFeature />} />
+                <Route path="/pages/*" element={<PageEditorFeature />} />
+                <Route element={<UserRoleGuard role={UserRole.Admin} />}>
+                  <Route path="/admin/*" element={<AdminFeature />} />
+                </Route>
+              </Route>
               <Route path="/profile/identities/*" element={<div>TBD: Profile Identities Page</div>} />
               <Route path="/intent/connect/*" element={<div>TBD: Connect Identity Page</div>} />
             </Route>

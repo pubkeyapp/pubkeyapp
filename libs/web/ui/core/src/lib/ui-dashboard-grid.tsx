@@ -26,14 +26,15 @@ const useStyles = createStyles((theme) => ({
 
 const linkColors = ['violet', 'indigo', 'blue', 'green', 'teal', 'cyan', 'pink', 'red', 'orange']
 
-function getColorByIndex(index: number) {
+export function getColorByIndex(index: number) {
   return linkColors[index % linkColors.length]
 }
 
 export interface UiDashboardItem {
-  icon: ComponentType<{ color: string; size: number }>
+  icon: ComponentType<{ color?: string; size: number }>
   label: string
   link: string
+  color?: string
 }
 
 export function UiDashboardGrid({ links }: { links: UiDashboardItem[] }) {

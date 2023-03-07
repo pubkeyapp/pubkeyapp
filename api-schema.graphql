@@ -18,6 +18,7 @@ enum IdentityProvider {
 
 type User {
   id: String
+  pid: Int
   createdAt: String
   updatedAt: String
   name: String
@@ -28,6 +29,7 @@ type User {
   profileUrl: String
   publicKey: String
   role: UserRole
+  status: UserStatus
   followers: [Follow!]
   followersCount: Int
   following: [Follow!]
@@ -39,6 +41,12 @@ type User {
 enum UserRole {
   Admin
   User
+}
+
+enum UserStatus {
+  Active
+  Created
+  Inactive
 }
 
 type Follow {
@@ -138,6 +146,7 @@ type Page {
 }
 
 enum PageStatus {
+  Demo
   Draft
   Published
 }

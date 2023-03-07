@@ -25,6 +25,7 @@
     "docker:push:gateway": "docker push ghcr.io/pubkeyapp/pubkeyapp-gateway",
     "docker:run:api": "docker run -it -p 8000:3000 ghcr.io/pubkeyapp/pubkeyapp-api",
     "docker:run:gateway": "docker run -it -p 3080:3080 -e PUBKEY_ENDPOINT=https://pubkey.ngrok.io ghcr.io/pubkeyapp/pubkeyapp-gateway",
+    "ngrok": "ngrok http --log-level debug --region=us --hostname=pubkey.ngrok.io 3040",
     "start": "yarn prisma db push && node dist/apps/api/main.js",
     "start:gateway": "node dist/apps/gateway/main.js"
   },

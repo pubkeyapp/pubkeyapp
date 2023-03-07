@@ -9,7 +9,7 @@ export function WebPageEditorFeature() {
       <Stack>
         <Routes>
           <Route path="/" element={<WebPageEditorListFeature />} />
-          <Route path=":pageId" element={<WebPageEditorDetailFeature />} />
+          <Route path=":pageId/*" element={<WebPageEditorDetailFeature />} />
         </Routes>
       </Stack>
     </Container>

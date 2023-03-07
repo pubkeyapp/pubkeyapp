@@ -1,5 +1,11 @@
 import { Badge, useMantineTheme } from '@mantine/core'
-import { UserRole } from '@pubkeyapp/web/util/sdk'
+import { UserRole, UserStatus } from '@pubkeyapp/web/util/sdk'
+
+export const USER_STATUS_COLORS: Record<UserStatus, string> = {
+  [UserStatus.Active]: 'green',
+  [UserStatus.Created]: 'blue',
+  [UserStatus.Inactive]: 'gray',
+}
 
 export const USER_ROLE_COLORS: Record<UserRole, string> = {
   [UserRole.Admin]: 'pink',

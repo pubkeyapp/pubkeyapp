@@ -333,6 +333,10 @@
         "type": "string",
         "enum": ["Admin", "User"]
       },
+      "UserStatus": {
+        "type": "string",
+        "enum": ["Active", "Created", "Inactive"]
+      },
       "Identity": {
         "type": "object",
         "properties": {
@@ -357,11 +361,16 @@
           "id": {
             "type": "string"
           },
+          "pid": {
+            "type": "integer",
+            "nullable": true
+          },
           "name": {
             "type": "string"
           },
           "username": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "bio": {
             "type": "string"
@@ -370,44 +379,42 @@
             "type": "string"
           },
           "metaUrl": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "profileUrl": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "publicKey": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "role": {
+            "nullable": true,
             "$ref": "#/components/schemas/UserRole"
           },
+          "status": {
+            "nullable": true,
+            "$ref": "#/components/schemas/UserStatus"
+          },
           "identities": {
+            "nullable": true,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Identity"
             }
           },
           "followersCount": {
-            "type": "integer"
+            "type": "integer",
+            "nullable": true
           },
           "followingCount": {
-            "type": "integer"
+            "type": "integer",
+            "nullable": true
           }
         },
-        "required": [
-          "id",
-          "name",
-          "username",
-          "bio",
-          "avatarUrl",
-          "metaUrl",
-          "profileUrl",
-          "publicKey",
-          "role",
-          "identities",
-          "followersCount",
-          "followingCount"
-        ]
+        "required": ["id", "name", "bio", "avatarUrl"]
       },
       "RequestChallenge": {
         "type": "object",
@@ -544,7 +551,7 @@
       },
       "PageStatus": {
         "type": "string",
-        "enum": ["Draft", "Published"]
+        "enum": ["Demo", "Draft", "Published"]
       },
       "PageType": {
         "type": "string",

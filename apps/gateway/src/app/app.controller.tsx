@@ -1,9 +1,9 @@
 import { createStylesServer, ServerStyles } from '@mantine/ssr'
 import { Controller, Get, Logger, Req, Res } from '@nestjs/common'
+import { Page } from '@pubkeyapp/sdk'
 import { UiThemeProvider } from '@pubkeyapp/web/ui/theme'
 import { Request, Response } from 'express'
-import { existsSync, readFileSync } from 'fs-extra'
-import { join } from 'path'
+import { readFileSync } from 'fs-extra'
 import React from 'react'
 import { renderToStaticMarkup, renderToString } from 'react-dom/server'
 import { GatewayHtml } from '../views/gateway-html'
@@ -16,22 +16,25 @@ const stylesServer = createStylesServer()
 @Controller()
 export class AppController {
   private readonly logger = new Logger(AppController.name)
-  private readonly rootPath: string
-  constructor(private readonly service: AppService) {
-    this.rootPath = join(__dirname, '..', 'render')
-    if (!existsSync(this.rootPath)) {
-      this.logger.error(`Path to static content does not exist: ${this.rootPath}.`)
-      process.exit()
-    }
-    this.logger.verbose(`Rendering static content from: ${this.rootPath}.`)
-  }
+  constructor(private readonly service: AppService) {}
 
   @Get('*')
   async index(@Req() req: Request, @Res() res: Response) {
-    const url = `${req.protocol}://${req.get('host')}${req.originalUrl}`
+    const url = this.getUrlFromRequest(req)
 
-    const staticFile = this.isStaticAsset(req.path, url)
+    // Render a GitHub demo page if the URL starts with /github/
+    if (req.originalUrl.startsWith('/github/')) {
+      const username = req.originalUrl.replace('/github/', '')
+      const page = await this.service.getGithubDemoPage(username)
+      if (page) {
+        return this.renderPage(res, page)
+      }
+      this.logger.warn(`Error fetching github user: ${username}`)
+      return this.renderNotFound(req, res)
+    }
 
+    // Render a static file if the URL ends with a known extension
+    const staticFile = this.service.isStaticAsset(req.path, url)
     if (staticFile) {
       return this.serveStatic(res, staticFile)
     }
@@ -39,42 +42,14 @@ export class AppController {
     const found = await this.service.getPage(url)
 
     if (!found) {
-      return this.renderComponent(res, <GatewayNotFound app={this.service.getAppUrl()} />)
+      return this.renderNotFound(req, res)
     }
 
-    const index = readFileSync(this.getRootPath('index.html'), { encoding: 'utf8' })
-
-    const updated = index
-      .replace(
-        // Add hydrated page data to the window object
-        '</head>',
-        `<script>window.pubkey = { page: ${JSON.stringify(found)} }</script></head>`,
-      )
-      .replace(
-        // Update the page title
-        '<title>PubKey</title>',
-        `<title>${found.title} | PubKey</title>`,
-      )
-
-    return res.send(updated)
+    return this.renderPage(res, found)
   }
 
-  private getRootPath(path: string) {
-    return join(this.rootPath, path)
-  }
   private serveStatic(res: Response, path: string) {
     res.sendFile(path)
-  }
-
-  private isStaticAsset(path: string, url: string): string | undefined {
-    const extensions = ['.js', '.css', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico', '.woff', '.woff2', '.ttf']
-    const isStaticFile = extensions.some((ext) => url.endsWith(ext))
-    if (isStaticFile) {
-      const staticFile = this.getRootPath(path)
-
-      return existsSync(staticFile) ? staticFile : undefined
-    }
-    return undefined
   }
 
   private renderComponent(res: Response, component: React.ReactElement) {
@@ -84,5 +59,28 @@ export class AppController {
     )
 
     res.send(`<!doctype html>\n${html}`)
+  }
+
+  private renderNotFound(req: Request, res: Response) {
+    this.logger.warn(`Rendering 404 page: ${this.getUrlFromRequest(req)}`)
+    return this.renderComponent(res, <GatewayNotFound app={this.service.getAppUrl()} />)
+  }
+
+  private renderPage(res: Response, page: Page) {
+    const index = readFileSync(this.service.getRootPath('index.html'), { encoding: 'utf8' })
+    const replace = [
+      // Add hydrated page data to the window object
+      { from: '</head>', to: `<script>window.pubkey = { page: ${JSON.stringify(page)} }</script></head>` },
+      // Update the page title
+      { from: '<title>PubKey</title>', to: `<title>${page.title} | PubKey</title>` },
+    ]
+
+    const updated = replace.reduce((acc, { from, to }) => acc.replace(from, to), index)
+
+    return res.send(updated)
+  }
+
+  private getUrlFromRequest(req: Request) {
+    return `${req.protocol}://${req.get('host')}${req.originalUrl}`
   }
 }

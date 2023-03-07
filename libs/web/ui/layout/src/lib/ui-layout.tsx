@@ -67,8 +67,8 @@ export function UiLayout({ homepage = false }: { homepage?: boolean }) {
     },
   ]
   return (
-    <Flex mih="100vh" direction="column" justify="space-between">
-      <Stack h="100%">
+    <Flex mih="100vh" h="100vh" direction="column" justify="space-between">
+      <Stack sx={{ flexGrow: 1 }}>
         {homepage ? (
           <Box my="xl" py="xl">
             <Container size="xl">
@@ -78,11 +78,9 @@ export function UiLayout({ homepage = false }: { homepage?: boolean }) {
         ) : (
           <UiHeader links={headerLinks} logo={logo} />
         )}
-        <Box h="100%">
-          <Suspense fallback={<UiLoader type="full" />}>
-            <Outlet />
-          </Suspense>
-        </Box>
+        <Suspense fallback={<UiLoader type="full" />}>
+          <Outlet />
+        </Suspense>
       </Stack>
       <UiFooter copyright={copyright} description={description} links={footerLinks} logo={logo} />
     </Flex>

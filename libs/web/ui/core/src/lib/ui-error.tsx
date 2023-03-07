@@ -1,4 +1,4 @@
-import { Alert } from '@mantine/core'
+import { Alert, Flex } from '@mantine/core'
 import { IconAlertCircle } from '@tabler/icons-react'
 import React, { ReactNode } from 'react'
 
@@ -8,5 +8,15 @@ export function UiError({ children, error, title }: { children?: ReactNode; erro
       {error ? (typeof error === 'string' ? error : error?.toString() ?? 'Unknown error') : null}
       {children ? <>{children}</> : null}
     </Alert>
+  )
+}
+
+export function UiErrorFull({ children, error, title }: { children?: ReactNode; error?: unknown; title?: string }) {
+  return (
+    <Flex h={'100%'} justify="center" align="center">
+      <UiError error={error} title={title}>
+        {children}
+      </UiError>
+    </Flex>
   )
 }

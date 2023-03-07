@@ -1,17 +1,18 @@
-import { Button, Container, createStyles, Group, rem, Text } from '@mantine/core'
+import { Box, Button, Container, createStyles, Group, rem, Stack, Text } from '@mantine/core'
+import { PubKeyLogo } from '@pubkeyapp/logo'
 import { IconBrandGithub } from '@tabler/icons-react'
 import { Link } from 'react-router-dom'
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
-    position: 'relative',
-    boxSizing: 'border-box',
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white,
+    // position: 'relative',
+    // boxSizing: 'border-box',
+    // backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white,
   },
 
   inner: {
     position: 'relative',
-    paddingTop: rem(200),
+    paddingTop: rem(32),
     paddingBottom: rem(120),
 
     [theme.fn.smallerThan('sm')]: {
@@ -70,20 +71,26 @@ export function HomepageSectionHero() {
   const { classes } = useStyles()
 
   return (
-    <div className={classes.wrapper}>
-      <Container size={700} className={classes.inner}>
-        <h1 className={classes.title}>
-          A{' '}
-          <Text component="span" variant="gradient" gradient={{ from: 'blue', to: 'cyan' }} inherit>
-            fully featured
-          </Text>{' '}
-          React components and hooks library
-        </h1>
+    <div className={classes.wrapper + ''}>
+      <Container className={classes.inner}>
+        <Stack spacing={36}>
+          <Box>
+            <PubKeyLogo size={48} />
+          </Box>
+          <h1 className={classes.title}>
+            A{' '}
+            <Text component="span" variant="gradient" gradient={{ from: 'blue', to: 'cyan' }} inherit>
+              Social Network
+            </Text>
+            .
+          </h1>
+          <h1 className={classes.title}>Built on Solana.</h1>
+        </Stack>
 
-        <Text className={classes.description} color="dimmed">
-          Build fully functional accessible web applications with ease – Mantine includes more than 100 customizable
-          components and hooks to cover you in any situation
-        </Text>
+        {/*<Text className={classes.description} color="dimmed">*/}
+        {/*  Build fully functional accessible web applications with ease – Mantine includes more than 100 customizable*/}
+        {/*  components and hooks to cover you in any situation*/}
+        {/*</Text>*/}
 
         <Group className={classes.controls}>
           <Button
@@ -94,19 +101,19 @@ export function HomepageSectionHero() {
             variant="gradient"
             gradient={{ from: 'blue', to: 'cyan' }}
           >
-            Get started
+            Get early access
           </Button>
 
-          <Button
-            component="a"
-            href="https://github.com/mantinedev/mantine"
-            size="xl"
-            variant="default"
-            className={classes.control}
-            leftIcon={<IconBrandGithub size={20} />}
-          >
-            GitHub
-          </Button>
+          {/*<Button*/}
+          {/*  component="a"*/}
+          {/*  href="https://github.com/mantinedev/mantine"*/}
+          {/*  size="xl"*/}
+          {/*  variant="default"*/}
+          {/*  className={classes.control}*/}
+          {/*  leftIcon={<IconBrandGithub size={20} />}*/}
+          {/*>*/}
+          {/*  GitHub*/}
+          {/*</Button>*/}
         </Group>
       </Container>
     </div>
