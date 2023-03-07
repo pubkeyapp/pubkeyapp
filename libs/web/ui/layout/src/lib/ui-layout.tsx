@@ -78,9 +78,11 @@ export function UiLayout({ homepage = false }: { homepage?: boolean }) {
         ) : (
           <UiHeader links={headerLinks} logo={logo} />
         )}
-        <Suspense fallback={<UiLoader type="full" />}>
-          <Outlet />
-        </Suspense>
+        <Box h="100%">
+          <Suspense fallback={<UiLoader type="full" />}>
+            <Outlet />
+          </Suspense>
+        </Box>
       </Stack>
       <UiFooter copyright={copyright} description={description} links={footerLinks} logo={logo} />
     </Flex>

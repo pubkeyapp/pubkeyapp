@@ -24,7 +24,7 @@ export function HomepageFeature() {
           </>
         }
         description={
-          'Join PubKey, the decentralised social network for uncensored socialising on the blockchain. Powered by Solana.'
+          'PubKey is a decentralized and censorship-resistant way to connect with others and share your links and identities. Open-source and built on Solana'
         }
         cta="Get early access"
       />
