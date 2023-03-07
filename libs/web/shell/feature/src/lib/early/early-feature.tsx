@@ -49,11 +49,6 @@ export const useStyles = createStyles((theme) => ({
 export function EarlyFeature() {
   const { user } = useAuth()
   const { classes, theme } = useStyles()
-  const text = [
-    'gm @PubKeyApp... wen invite code?',
-    `My %23PID is ${user?.pid} 🚀`,
-    `Get yours at https://devnet.pubkey.app! 🅿️`,
-  ].join('%0a%0a')
 
   return (
     <Container className={classes.root}>
@@ -72,41 +67,54 @@ export function EarlyFeature() {
       <Text color="dimmed" size="lg" align="center" className={classes.description}>
         To get early access, take the following steps:
       </Text>
-      <Group position="center">
-        <Tooltip label="Follow @PubKeyApp on Twitter">
-          <Button
-            component="a"
-            href="https://twitter.com/intent/user?screen_name=PubKeyApp"
-            target="_blank"
-            leftIcon={<IconSquareRoundedNumber1 />}
-            rightIcon={<IconBrandTwitter size={24} />}
-          >
-            Follow us Twitter
-          </Button>
-        </Tooltip>
-        <Tooltip label="Share your #PID on Twitter and tag @PubKeyApp">
-          <Button
-            component="a"
-            href={`https://twitter.com/intent/tweet?text=${text}`}
-            target="_blank"
-            leftIcon={<IconSquareRoundedNumber2 />}
-            rightIcon={<IconBrandTwitter size={24} />}
-          >
-            Share on Twitter
-          </Button>
-        </Tooltip>
-        <Tooltip label="Join our Discord and share your PID Tweet">
-          <Button
-            component="a"
-            href="https://pubkey.app/join-discord"
-            target="_blank"
-            leftIcon={<IconSquareRoundedNumber3 />}
-            rightIcon={<IconBrandDiscord size={24} />}
-          >
-            Join our Discord
-          </Button>
-        </Tooltip>
-      </Group>
+      <EarlyFeatureActions />
     </Container>
+  )
+}
+
+export function EarlyFeatureActions() {
+  const { user } = useAuth()
+  const text = [
+    'gm @PubKeyApp... wen invite code?',
+    `My %23PID is ${user?.pid} 🚀`,
+    `Get yours at https://devnet.pubkey.app! 🅿️`,
+  ].join('%0a%0a')
+
+  return (
+    <Group position="center">
+      <Tooltip label="Follow @PubKeyApp on Twitter">
+        <Button
+          component="a"
+          href="https://twitter.com/intent/user?screen_name=PubKeyApp"
+          target="_blank"
+          leftIcon={<IconSquareRoundedNumber1 />}
+          rightIcon={<IconBrandTwitter size={24} />}
+        >
+          Follow us Twitter
+        </Button>
+      </Tooltip>
+      <Tooltip label="Share your #PID on Twitter and tag @PubKeyApp">
+        <Button
+          component="a"
+          href={`https://twitter.com/intent/tweet?text=${text}`}
+          target="_blank"
+          leftIcon={<IconSquareRoundedNumber2 />}
+          rightIcon={<IconBrandTwitter size={24} />}
+        >
+          Share on Twitter
+        </Button>
+      </Tooltip>
+      <Tooltip label="Join our Discord and share your PID Tweet">
+        <Button
+          component="a"
+          href="https://pubkey.app/join-discord"
+          target="_blank"
+          leftIcon={<IconSquareRoundedNumber3 />}
+          rightIcon={<IconBrandDiscord size={24} />}
+        >
+          Join our Discord
+        </Button>
+      </Tooltip>
+    </Group>
   )
 }

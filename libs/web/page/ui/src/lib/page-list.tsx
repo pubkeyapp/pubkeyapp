@@ -4,10 +4,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { PageTypeIcon } from './page-type-icon'
 
-export function PageList({ createPage, pages }: { createPage?: (type: PageType) => Promise<void>; pages: Page[] }) {
-  const types = [PageType.Personal, PageType.Professional, PageType.Gaming, PageType.Degen]
-  const missingTypes = types.filter((type) => !pages.find((page) => page.type === type))
-
+export function PageList({ pages }: { pages: Page[] }) {
   return (
     <Stack spacing="xl">
       {pages?.map((page) => (
@@ -33,22 +30,6 @@ export function PageList({ createPage, pages }: { createPage?: (type: PageType) 
           </Group>
         </Box>
       ))}
-
-      {createPage ? (
-        <Group>
-          {missingTypes?.map((type) => (
-            <Button
-              key={type}
-              size="lg"
-              variant="default"
-              leftIcon={<PageTypeIcon type={type as PageType} size={24} />}
-              onClick={() => createPage(type)}
-            >
-              Create {type} Page
-            </Button>
-          ))}
-        </Group>
-      ) : null}
     </Stack>
   )
 }
