@@ -123,6 +123,7 @@ export type AdminUpdateUserInput = {
   bio?: InputMaybe<Scalars['String']>
   name?: InputMaybe<Scalars['String']>
   role?: InputMaybe<UserRole>
+  status?: InputMaybe<UserStatus>
   username?: InputMaybe<Scalars['String']>
 }
 

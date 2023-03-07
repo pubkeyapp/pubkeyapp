@@ -473,4 +473,5 @@ input AdminUpdateUserInput {
   username: String
   bio: String
   role: UserRole
+  status: UserStatus
 }
