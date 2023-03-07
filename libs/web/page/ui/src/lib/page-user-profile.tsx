@@ -1,6 +1,7 @@
-import { Avatar, Box, Center, Flex, Paper, Stack, Text } from '@mantine/core'
+import { Avatar, Box, Center, Flex, Group, Paper, Stack, Text } from '@mantine/core'
 import { User } from '@pubkeyapp/sdk'
 import React from 'react'
+import ReactMarkdown from 'react-markdown'
 
 export function PageUserProfile({ user }: { user: User }) {
   return (
@@ -14,7 +15,11 @@ export function PageUserProfile({ user }: { user: User }) {
                 {user.name ?? user.username}
               </Text>
             </Center>
-            {user?.bio ? <Text align="center">{user?.bio}</Text> : null}
+            {user?.bio ? (
+              <Text align="center">
+                <ReactMarkdown>{user.bio}</ReactMarkdown>
+              </Text>
+            ) : null}
           </Stack>
         </Stack>
       </Flex>
