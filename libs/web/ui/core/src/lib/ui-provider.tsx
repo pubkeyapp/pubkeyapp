@@ -9,7 +9,8 @@ import {
 import { useHotkeys, useLocalStorage } from '@mantine/hooks'
 import { ModalsProvider } from '@mantine/modals'
 import { Notifications } from '@mantine/notifications'
-import { createContext, ReactNode, useContext } from 'react'
+import { createContext, ReactNode, Suspense, useContext } from 'react'
+import { UiLoader } from './ui-loader'
 
 export interface UiProviderContext {
   colorScheme: ColorScheme
@@ -125,7 +126,7 @@ export function UiProvider({ children }: { children: ReactNode }) {
         >
           <ModalsProvider>
             <Notifications zIndex={10} />
-            <Box>{children}</Box>
+            <Suspense fallback={<UiLoader type="full" />}>{children}</Suspense>
           </ModalsProvider>
         </MantineProvider>
       </ColorSchemeProvider>

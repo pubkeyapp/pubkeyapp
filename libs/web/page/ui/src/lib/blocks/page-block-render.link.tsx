@@ -13,8 +13,8 @@ export function PageBlockRenderLink({ block, color }: { block: PageBlock; color?
       href={data.link}
       target="_blank"
       size="xl"
-      fullWidth
       radius="xl"
+      fullWidth
       leftIcon={data.icon ? <PageBlockIcon type={data.icon} /> : <IconExternalLink />}
     >
       {data.label}

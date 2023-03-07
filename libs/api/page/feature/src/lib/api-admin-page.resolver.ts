@@ -5,15 +5,15 @@ import {
   AdminCreatePageInput,
   AdminListPageInput,
   AdminUpdatePageInput,
-  ApiPageAdminService,
+  ApiAdminPageService,
   Page,
 } from '@pubkeyapp/api/page/data-access'
 import { User } from '@pubkeyapp/api/user/data-access'
 
 @Resolver()
 @UseGuards(ApiAuthGraphqlGuard)
-export class ApiPageAdminResolver {
-  constructor(private readonly service: ApiPageAdminService) {}
+export class ApiAdminPageResolver {
+  constructor(private readonly service: ApiAdminPageService) {}
 
   @Mutation(() => Page, { nullable: true })
   adminCreatePage(@CtxUser() user: User, @Args('input') input: AdminCreatePageInput) {

@@ -1,13 +1,24 @@
 import { Module } from '@nestjs/common'
 import { ApiCoreDataAccessModule } from '@pubkeyapp/api/core/data-access'
-import { ApiPageAdminService } from './api-page-admin.service'
-import { ApiPageBlockAdminService } from './api-page-block-admin.service'
-import { ApiPageDomainAdminService } from './api-page-domain-admin.service'
-import { ApiPagePublicService } from './api-page-public.service'
+import { ApiAdminPageBlockService } from './api-admin-page-block.service'
+import { ApiAdminPageDomainService } from './api-admin-page-domain.service'
+import { ApiAdminPageService } from './api-admin-page.service'
+import { ApiPublicPageService } from './api-public-page.service'
+import { ApiUserPageBlockService } from './api-user-page-block.service'
+import { ApiUserPageService } from './api-user-page.service'
+
+const services = [
+  ApiAdminPageBlockService,
+  ApiAdminPageDomainService,
+  ApiAdminPageService,
+  ApiPublicPageService,
+  ApiUserPageBlockService,
+  ApiUserPageService,
+]
 
 @Module({
-  providers: [ApiPagePublicService, ApiPageAdminService, ApiPageBlockAdminService, ApiPageDomainAdminService],
-  exports: [ApiPagePublicService, ApiPageAdminService, ApiPageBlockAdminService, ApiPageDomainAdminService],
+  providers: [...services],
+  exports: [...services],
   imports: [ApiCoreDataAccessModule],
 })
 export class ApiPageDataAccessModule {}

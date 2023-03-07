@@ -55,30 +55,34 @@ export function PageShareModal({ page }: { page: Page }) {
   return (
     <>
       <Modal opened={opened} onClose={() => setOpened(false)} title={<Text size="xl">Share this PubKey</Text>} centered>
-        <Stack mt={48}>
-          {links.map((link) => (
-            <Anchor
-              key={link.label}
-              href={link.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={classes.shareItem}
-              py="xl"
-              px="md"
-            >
-              <Group position="apart">
-                <Group spacing="xl">
-                  {link.icon}
-                  <Text size="xl">{link.label}</Text>
+        {page.viewUrl ? (
+          <Stack mt={48}>
+            {links.map((link) => (
+              <Anchor
+                key={link.label}
+                href={link.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={classes.shareItem}
+                py="xl"
+                px="md"
+              >
+                <Group position="apart">
+                  <Group spacing="xl">
+                    {link.icon}
+                    <Text size="xl">{link.label}</Text>
+                  </Group>
+                  <IconChevronRight size={36} />
                 </Group>
-                <IconChevronRight size={36} />
-              </Group>
-            </Anchor>
-          ))}
-          <Box py="xl" px="md">
-            <PageShareCopyButton page={page} />
-          </Box>
-        </Stack>
+              </Anchor>
+            ))}
+            <Box py="xl" px="md">
+              <PageShareCopyButton page={page} />
+            </Box>
+          </Stack>
+        ) : (
+          <Text>Sorry, this page is not published yet.</Text>
+        )}
       </Modal>
       <ActionIcon variant="light" color="brand" onClick={() => setOpened(true)}>
         <IconShare size={16} />

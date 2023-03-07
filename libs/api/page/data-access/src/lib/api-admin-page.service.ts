@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common'
-import { PageBlockType } from '@prisma/client'
+import { PageBlockType, PageStatus, PageType } from '@prisma/client'
 import { ApiCoreService } from '@pubkeyapp/api/core/data-access'
 import { AdminCreatePageInput } from './dto/admin-create-page.input'
 import { AdminListPageInput } from './dto/admin-list-page.input'
 import { AdminUpdatePageInput } from './dto/admin-update-page.input'
 
 @Injectable()
-export class ApiPageAdminService {
+export class ApiAdminPageService {
   constructor(private readonly core: ApiCoreService) {}
 
   async adminCreatePage(adminId: string, input: AdminCreatePageInput) {
@@ -14,6 +14,7 @@ export class ApiPageAdminService {
     return this.core.data.page.create({
       data: {
         ownerId: input.ownerId ?? adminId,
+        status: PageStatus.Draft,
         ...input,
         blocks: {
           create: [{ type: PageBlockType.Header, data: { text: '## Hello, World!' } }],

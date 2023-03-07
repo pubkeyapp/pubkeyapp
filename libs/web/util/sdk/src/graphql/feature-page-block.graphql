@@ -48,3 +48,39 @@ mutation AdminUpdatePageBlock($pageId: String!, $pageBlockId: String!, $input: A
     }
   }
 }
+
+mutation UserAddPageBlock($pageId: String!, $input: UserAddPageBlockInput!) {
+  item: userAddPageBlock(pageId: $pageId, input: $input) {
+    ...PageBlockDetails
+    page {
+      id
+      blocks {
+        id
+      }
+    }
+  }
+}
+
+mutation UserRemovePageBlock($pageId: String!, $pageBlockId: String!) {
+  item: userRemovePageBlock(pageId: $pageId, pageBlockId: $pageBlockId) {
+    ...PageBlockDetails
+    page {
+      id
+      blocks {
+        id
+      }
+    }
+  }
+}
+
+mutation UserUpdatePageBlock($pageId: String!, $pageBlockId: String!, $input: UserUpdatePageBlockInput!) {
+  item: userUpdatePageBlock(pageId: $pageId, pageBlockId: $pageBlockId, input: $input) {
+    ...PageBlockDetails
+    page {
+      id
+      blocks {
+        id
+      }
+    }
+  }
+}

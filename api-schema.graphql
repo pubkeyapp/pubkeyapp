@@ -123,6 +123,8 @@ type Page {
   id: String
   createdAt: String
   updatedAt: String
+  status: PageStatus
+  type: PageType
   title: String
   color: String
   description: String
@@ -133,6 +135,18 @@ type Page {
   blocks: [PageBlock!]
   domains: [PageDomain!]
   previewUrl: String
+}
+
+enum PageStatus {
+  Draft
+  Published
+}
+
+enum PageType {
+  Degen
+  Gaming
+  Personal
+  Professional
 }
 
 type PageBlock {
@@ -247,7 +261,10 @@ type Query {
   publicPage(pageId: String!): Page
   adminPages(input: AdminListPageInput): [Page!]
   adminPage(pageId: String!): Page
+  userPages: [Page!]
+  userPage(pageId: String!): Page
   adminPageBlock(pageBlockId: String!): PageBlock
+  userPageBlock(pageBlockId: String!): PageBlock
   adminPageDomain(domainId: String!, path: String!): PageDomain
   publicPlans: [Plan!]
   adminPlans(input: AdminListPlanInput): [Plan!]
@@ -256,7 +273,6 @@ type Query {
   queueJobs(type: QueueType!, statuses: [JobStatus!]!): [Job!]
   queues: [Queue!]
   user(username: String!): User
-  userPages(username: String!): [Page!]
   userFollowers(username: String!): [User!]
   userFollowing(username: String!): [User!]
   userInvites(username: String!): [Invite!]
@@ -302,9 +318,15 @@ type Mutation {
   adminCreatePage(input: AdminCreatePageInput!): Page
   adminDeletePage(pageId: String!): Page
   adminUpdatePage(pageId: String!, input: AdminUpdatePageInput!): Page
+  userCreatePage(input: UserCreatePageInput!): Page
+  userDeletePage(pageId: String!): Page
+  userUpdatePage(pageId: String!, input: UserUpdatePageInput!): Page
   adminAddPageBlock(pageId: String!, input: AdminAddPageBlockInput!): PageBlock
   adminRemovePageBlock(pageId: String!, pageBlockId: String!): PageBlock
   adminUpdatePageBlock(pageId: String!, pageBlockId: String!, input: AdminUpdatePageBlockInput!): PageBlock
+  userAddPageBlock(pageId: String!, input: UserAddPageBlockInput!): PageBlock
+  userRemovePageBlock(pageId: String!, pageBlockId: String!): PageBlock
+  userUpdatePageBlock(pageId: String!, pageBlockId: String!, input: UserUpdatePageBlockInput!): PageBlock
   adminAddPageDomain(pageId: String!, input: AdminAddPageDomainInput!): PageDomain
   adminRemovePageDomain(pageId: String!, pageDomainId: String!): PageDomain
   adminCreatePlan(input: AdminCreatePlanInput!): Plan
@@ -353,9 +375,24 @@ input AdminCreatePageInput {
   description: String!
   ownerId: String
   color: String
+  type: PageType
 }
 
 input AdminUpdatePageInput {
+  title: String
+  description: String
+  color: String
+}
+
+input UserCreatePageInput {
+  title: String!
+  description: String!
+  ownerId: String
+  color: String
+  type: PageType
+}
+
+input UserUpdatePageInput {
   title: String
   description: String
   color: String
@@ -368,6 +405,18 @@ input AdminAddPageBlockInput {
 }
 
 input AdminUpdatePageBlockInput {
+  order: Int
+  data: JSON
+  type: PageBlockType
+}
+
+input UserAddPageBlockInput {
+  order: Int
+  data: JSON
+  type: PageBlockType
+}
+
+input UserUpdatePageBlockInput {
   order: Int
   data: JSON
   type: PageBlockType

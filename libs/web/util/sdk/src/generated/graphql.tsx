@@ -50,6 +50,7 @@ export type AdminCreatePageInput = {
   description: Scalars['String']
   ownerId?: InputMaybe<Scalars['String']>
   title: Scalars['String']
+  type?: InputMaybe<PageType>
 }
 
 export type AdminCreatePlanInput = {
@@ -278,8 +279,14 @@ export type Mutation = {
   queuePause?: Maybe<Scalars['Boolean']>
   queueResume?: Maybe<Scalars['Boolean']>
   respondChallenge?: Maybe<User>
+  userAddPageBlock?: Maybe<PageBlock>
+  userCreatePage?: Maybe<Page>
+  userDeletePage?: Maybe<Page>
   userFollow?: Maybe<User>
+  userRemovePageBlock?: Maybe<PageBlock>
   userUnfollow?: Maybe<User>
+  userUpdatePage?: Maybe<Page>
+  userUpdatePageBlock?: Maybe<PageBlock>
 }
 
 export type MutationAdminAddPageBlockArgs = {
@@ -400,12 +407,41 @@ export type MutationRespondChallengeArgs = {
   signature: Scalars['String']
 }
 
+export type MutationUserAddPageBlockArgs = {
+  input: UserAddPageBlockInput
+  pageId: Scalars['String']
+}
+
+export type MutationUserCreatePageArgs = {
+  input: UserCreatePageInput
+}
+
+export type MutationUserDeletePageArgs = {
+  pageId: Scalars['String']
+}
+
 export type MutationUserFollowArgs = {
   username: Scalars['String']
 }
 
+export type MutationUserRemovePageBlockArgs = {
+  pageBlockId: Scalars['String']
+  pageId: Scalars['String']
+}
+
 export type MutationUserUnfollowArgs = {
   username: Scalars['String']
+}
+
+export type MutationUserUpdatePageArgs = {
+  input: UserUpdatePageInput
+  pageId: Scalars['String']
+}
+
+export type MutationUserUpdatePageBlockArgs = {
+  input: UserUpdatePageBlockInput
+  pageBlockId: Scalars['String']
+  pageId: Scalars['String']
 }
 
 export type Page = {
@@ -419,7 +455,9 @@ export type Page = {
   owner?: Maybe<User>
   previewUrl?: Maybe<Scalars['String']>
   siteUrl?: Maybe<Scalars['String']>
+  status?: Maybe<PageStatus>
   title?: Maybe<Scalars['String']>
+  type?: Maybe<PageType>
   updatedAt?: Maybe<Scalars['String']>
   urls?: Maybe<Array<Scalars['String']>>
   viewUrl?: Maybe<Scalars['String']>
@@ -451,6 +489,18 @@ export type PageDomain = {
   path?: Maybe<Scalars['String']>
   updatedAt?: Maybe<Scalars['String']>
   viewUrl?: Maybe<Scalars['String']>
+}
+
+export enum PageStatus {
+  Draft = 'Draft',
+  Published = 'Published',
+}
+
+export enum PageType {
+  Degen = 'Degen',
+  Gaming = 'Gaming',
+  Personal = 'Personal',
+  Professional = 'Professional',
 }
 
 export type Plan = {
@@ -505,6 +555,8 @@ export type Query = {
   userFollowers?: Maybe<Array<User>>
   userFollowing?: Maybe<Array<User>>
   userInvites?: Maybe<Array<Invite>>
+  userPage?: Maybe<Page>
+  userPageBlock?: Maybe<PageBlock>
   userPages?: Maybe<Array<Page>>
   userProfiles?: Maybe<Scalars['JSON']>
 }
@@ -591,8 +643,12 @@ export type QueryUserInvitesArgs = {
   username: Scalars['String']
 }
 
-export type QueryUserPagesArgs = {
-  username: Scalars['String']
+export type QueryUserPageArgs = {
+  pageId: Scalars['String']
+}
+
+export type QueryUserPageBlockArgs = {
+  pageBlockId: Scalars['String']
 }
 
 export type QueryUserProfilesArgs = {
@@ -650,6 +706,20 @@ export type User = {
   username?: Maybe<Scalars['String']>
 }
 
+export type UserAddPageBlockInput = {
+  data?: InputMaybe<Scalars['JSON']>
+  order?: InputMaybe<Scalars['Int']>
+  type?: InputMaybe<PageBlockType>
+}
+
+export type UserCreatePageInput = {
+  color?: InputMaybe<Scalars['String']>
+  description: Scalars['String']
+  ownerId?: InputMaybe<Scalars['String']>
+  title: Scalars['String']
+  type?: InputMaybe<PageType>
+}
+
 export type UserRelation = {
   __typename?: 'UserRelation'
   isFollowedByYou: Scalars['Boolean']
@@ -660,6 +730,18 @@ export type UserRelation = {
 export enum UserRole {
   Admin = 'Admin',
   User = 'User',
+}
+
+export type UserUpdatePageBlockInput = {
+  data?: InputMaybe<Scalars['JSON']>
+  order?: InputMaybe<Scalars['Int']>
+  type?: InputMaybe<PageBlockType>
+}
+
+export type UserUpdatePageInput = {
+  color?: InputMaybe<Scalars['String']>
+  description?: InputMaybe<Scalars['String']>
+  title?: InputMaybe<Scalars['String']>
 }
 
 export type AuthChallengeRequestDetailsFragment = {
@@ -837,6 +919,8 @@ export type AdminDomainQuery = {
       id?: string | null
       createdAt?: string | null
       updatedAt?: string | null
+      status?: PageStatus | null
+      type?: PageType | null
       title?: string | null
       description?: string | null
       color?: string | null
@@ -1322,6 +1406,76 @@ export type AdminUpdatePageBlockMutation = {
   } | null
 }
 
+export type UserAddPageBlockMutationVariables = Exact<{
+  pageId: Scalars['String']
+  input: UserAddPageBlockInput
+}>
+
+export type UserAddPageBlockMutation = {
+  __typename?: 'Mutation'
+  item?: {
+    __typename?: 'PageBlock'
+    id?: string | null
+    createdAt?: string | null
+    updatedAt?: string | null
+    type?: PageBlockType | null
+    data?: any | null
+    order?: number | null
+    page?: {
+      __typename?: 'Page'
+      id?: string | null
+      blocks?: Array<{ __typename?: 'PageBlock'; id?: string | null }> | null
+    } | null
+  } | null
+}
+
+export type UserRemovePageBlockMutationVariables = Exact<{
+  pageId: Scalars['String']
+  pageBlockId: Scalars['String']
+}>
+
+export type UserRemovePageBlockMutation = {
+  __typename?: 'Mutation'
+  item?: {
+    __typename?: 'PageBlock'
+    id?: string | null
+    createdAt?: string | null
+    updatedAt?: string | null
+    type?: PageBlockType | null
+    data?: any | null
+    order?: number | null
+    page?: {
+      __typename?: 'Page'
+      id?: string | null
+      blocks?: Array<{ __typename?: 'PageBlock'; id?: string | null }> | null
+    } | null
+  } | null
+}
+
+export type UserUpdatePageBlockMutationVariables = Exact<{
+  pageId: Scalars['String']
+  pageBlockId: Scalars['String']
+  input: UserUpdatePageBlockInput
+}>
+
+export type UserUpdatePageBlockMutation = {
+  __typename?: 'Mutation'
+  item?: {
+    __typename?: 'PageBlock'
+    id?: string | null
+    createdAt?: string | null
+    updatedAt?: string | null
+    type?: PageBlockType | null
+    data?: any | null
+    order?: number | null
+    page?: {
+      __typename?: 'Page'
+      id?: string | null
+      blocks?: Array<{ __typename?: 'PageBlock'; id?: string | null }> | null
+    } | null
+  } | null
+}
+
 export type PageDomainDetailsFragment = {
   __typename?: 'PageDomain'
   id?: string | null
@@ -1410,6 +1564,8 @@ export type PageDetailsFragment = {
   id?: string | null
   createdAt?: string | null
   updatedAt?: string | null
+  status?: PageStatus | null
+  type?: PageType | null
   title?: string | null
   description?: string | null
   color?: string | null
@@ -1446,6 +1602,8 @@ export type AdminPageQuery = {
     id?: string | null
     createdAt?: string | null
     updatedAt?: string | null
+    status?: PageStatus | null
+    type?: PageType | null
     title?: string | null
     description?: string | null
     color?: string | null
@@ -1507,6 +1665,8 @@ export type AdminPagesQuery = {
     id?: string | null
     createdAt?: string | null
     updatedAt?: string | null
+    status?: PageStatus | null
+    type?: PageType | null
     title?: string | null
     description?: string | null
     color?: string | null
@@ -1559,6 +1719,8 @@ export type AdminCreatePageMutation = {
     id?: string | null
     createdAt?: string | null
     updatedAt?: string | null
+    status?: PageStatus | null
+    type?: PageType | null
     title?: string | null
     description?: string | null
     color?: string | null
@@ -1602,6 +1764,8 @@ export type AdminUpdatePageMutation = {
     id?: string | null
     createdAt?: string | null
     updatedAt?: string | null
+    status?: PageStatus | null
+    type?: PageType | null
     title?: string | null
     description?: string | null
     color?: string | null
@@ -1644,6 +1808,8 @@ export type AdminDeletePageMutation = {
     id?: string | null
     createdAt?: string | null
     updatedAt?: string | null
+    status?: PageStatus | null
+    type?: PageType | null
     title?: string | null
     description?: string | null
     color?: string | null
@@ -1686,6 +1852,8 @@ export type PublicPageQuery = {
     id?: string | null
     createdAt?: string | null
     updatedAt?: string | null
+    status?: PageStatus | null
+    type?: PageType | null
     title?: string | null
     description?: string | null
     color?: string | null
@@ -1711,6 +1879,254 @@ export type PublicPageQuery = {
       domain?: { __typename?: 'Domain'; id?: string | null; name?: string | null } | null
       page?: { __typename?: 'Page'; id?: string | null; title?: string | null } | null
     }> | null
+    owner?: {
+      __typename?: 'User'
+      id?: string | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      role?: UserRole | null
+      username?: string | null
+      name?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      followersCount?: number | null
+      followingCount?: number | null
+      relation?: {
+        __typename?: 'UserRelation'
+        isYou: boolean
+        isFollowedByYou: boolean
+        isFollowingYou: boolean
+      } | null
+    } | null
+  } | null
+}
+
+export type UserPageQueryVariables = Exact<{
+  pageId: Scalars['String']
+}>
+
+export type UserPageQuery = {
+  __typename?: 'Query'
+  item?: {
+    __typename?: 'Page'
+    id?: string | null
+    createdAt?: string | null
+    updatedAt?: string | null
+    status?: PageStatus | null
+    type?: PageType | null
+    title?: string | null
+    description?: string | null
+    color?: string | null
+    previewUrl?: string | null
+    siteUrl?: string | null
+    viewUrl?: string | null
+    blocks?: Array<{
+      __typename?: 'PageBlock'
+      id?: string | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      type?: PageBlockType | null
+      data?: any | null
+      order?: number | null
+    }> | null
+    domains?: Array<{
+      __typename?: 'PageDomain'
+      id?: string | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      path?: string | null
+      viewUrl?: string | null
+      domain?: { __typename?: 'Domain'; id?: string | null; name?: string | null } | null
+      page?: { __typename?: 'Page'; id?: string | null; title?: string | null } | null
+    }> | null
+    owner?: {
+      __typename?: 'User'
+      id?: string | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      role?: UserRole | null
+      username?: string | null
+      name?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      followersCount?: number | null
+      followingCount?: number | null
+      relation?: {
+        __typename?: 'UserRelation'
+        isYou: boolean
+        isFollowedByYou: boolean
+        isFollowingYou: boolean
+      } | null
+    } | null
+  } | null
+}
+
+export type UserPagesQueryVariables = Exact<{ [key: string]: never }>
+
+export type UserPagesQuery = {
+  __typename?: 'Query'
+  items?: Array<{
+    __typename?: 'Page'
+    id?: string | null
+    createdAt?: string | null
+    updatedAt?: string | null
+    status?: PageStatus | null
+    type?: PageType | null
+    title?: string | null
+    description?: string | null
+    color?: string | null
+    previewUrl?: string | null
+    siteUrl?: string | null
+    viewUrl?: string | null
+    domains?: Array<{
+      __typename?: 'PageDomain'
+      id?: string | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      path?: string | null
+      viewUrl?: string | null
+      domain?: { __typename?: 'Domain'; id?: string | null; name?: string | null } | null
+      page?: { __typename?: 'Page'; id?: string | null; title?: string | null } | null
+    }> | null
+    owner?: {
+      __typename?: 'User'
+      id?: string | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      role?: UserRole | null
+      username?: string | null
+      name?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      followersCount?: number | null
+      followingCount?: number | null
+      relation?: {
+        __typename?: 'UserRelation'
+        isYou: boolean
+        isFollowedByYou: boolean
+        isFollowingYou: boolean
+      } | null
+    } | null
+  }> | null
+}
+
+export type UserUpdatePageMutationVariables = Exact<{
+  pageId: Scalars['String']
+  input: UserUpdatePageInput
+}>
+
+export type UserUpdatePageMutation = {
+  __typename?: 'Mutation'
+  item?: {
+    __typename?: 'Page'
+    id?: string | null
+    createdAt?: string | null
+    updatedAt?: string | null
+    status?: PageStatus | null
+    type?: PageType | null
+    title?: string | null
+    description?: string | null
+    color?: string | null
+    previewUrl?: string | null
+    siteUrl?: string | null
+    viewUrl?: string | null
+    owner?: {
+      __typename?: 'User'
+      id?: string | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      role?: UserRole | null
+      username?: string | null
+      name?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      followersCount?: number | null
+      followingCount?: number | null
+      relation?: {
+        __typename?: 'UserRelation'
+        isYou: boolean
+        isFollowedByYou: boolean
+        isFollowingYou: boolean
+      } | null
+    } | null
+  } | null
+}
+
+export type UserDeletePageMutationVariables = Exact<{
+  pageId: Scalars['String']
+}>
+
+export type UserDeletePageMutation = {
+  __typename?: 'Mutation'
+  item?: {
+    __typename?: 'Page'
+    id?: string | null
+    createdAt?: string | null
+    updatedAt?: string | null
+    status?: PageStatus | null
+    type?: PageType | null
+    title?: string | null
+    description?: string | null
+    color?: string | null
+    previewUrl?: string | null
+    siteUrl?: string | null
+    viewUrl?: string | null
+    owner?: {
+      __typename?: 'User'
+      id?: string | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      role?: UserRole | null
+      username?: string | null
+      name?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      followersCount?: number | null
+      followingCount?: number | null
+      relation?: {
+        __typename?: 'UserRelation'
+        isYou: boolean
+        isFollowedByYou: boolean
+        isFollowingYou: boolean
+      } | null
+    } | null
+  } | null
+}
+
+export type UserCreatePageMutationVariables = Exact<{
+  input: UserCreatePageInput
+}>
+
+export type UserCreatePageMutation = {
+  __typename?: 'Mutation'
+  item?: {
+    __typename?: 'Page'
+    id?: string | null
+    createdAt?: string | null
+    updatedAt?: string | null
+    status?: PageStatus | null
+    type?: PageType | null
+    title?: string | null
+    description?: string | null
+    color?: string | null
+    previewUrl?: string | null
+    siteUrl?: string | null
+    viewUrl?: string | null
     owner?: {
       __typename?: 'User'
       id?: string | null
@@ -2408,48 +2824,6 @@ export type UserProfilesQueryVariables = Exact<{
 
 export type UserProfilesQuery = { __typename?: 'Query'; item?: any | null }
 
-export type UserPagesQueryVariables = Exact<{
-  username: Scalars['String']
-}>
-
-export type UserPagesQuery = {
-  __typename?: 'Query'
-  items?: Array<{
-    __typename?: 'Page'
-    id?: string | null
-    createdAt?: string | null
-    updatedAt?: string | null
-    title?: string | null
-    description?: string | null
-    color?: string | null
-    previewUrl?: string | null
-    siteUrl?: string | null
-    viewUrl?: string | null
-    owner?: {
-      __typename?: 'User'
-      id?: string | null
-      createdAt?: string | null
-      updatedAt?: string | null
-      role?: UserRole | null
-      username?: string | null
-      name?: string | null
-      bio?: string | null
-      avatarUrl?: string | null
-      metaUrl?: string | null
-      profileUrl?: string | null
-      publicKey?: string | null
-      followersCount?: number | null
-      followingCount?: number | null
-      relation?: {
-        __typename?: 'UserRelation'
-        isYou: boolean
-        isFollowedByYou: boolean
-        isFollowingYou: boolean
-      } | null
-    } | null
-  }> | null
-}
-
 export const AuthChallengeRequestDetailsFragmentDoc = gql`
   fragment AuthChallengeRequestDetails on AuthChallengeRequest {
     challenge
@@ -2604,6 +2978,8 @@ export const PageDetailsFragmentDoc = gql`
     id
     createdAt
     updatedAt
+    status
+    type
     title
     description
     color
@@ -2954,6 +3330,64 @@ export function useAdminUpdatePageBlockMutation() {
     AdminUpdatePageBlockDocument,
   )
 }
+export const UserAddPageBlockDocument = gql`
+  mutation UserAddPageBlock($pageId: String!, $input: UserAddPageBlockInput!) {
+    item: userAddPageBlock(pageId: $pageId, input: $input) {
+      ...PageBlockDetails
+      page {
+        id
+        blocks {
+          id
+        }
+      }
+    }
+  }
+  ${PageBlockDetailsFragmentDoc}
+`
+
+export function useUserAddPageBlockMutation() {
+  return Urql.useMutation<UserAddPageBlockMutation, UserAddPageBlockMutationVariables>(UserAddPageBlockDocument)
+}
+export const UserRemovePageBlockDocument = gql`
+  mutation UserRemovePageBlock($pageId: String!, $pageBlockId: String!) {
+    item: userRemovePageBlock(pageId: $pageId, pageBlockId: $pageBlockId) {
+      ...PageBlockDetails
+      page {
+        id
+        blocks {
+          id
+        }
+      }
+    }
+  }
+  ${PageBlockDetailsFragmentDoc}
+`
+
+export function useUserRemovePageBlockMutation() {
+  return Urql.useMutation<UserRemovePageBlockMutation, UserRemovePageBlockMutationVariables>(
+    UserRemovePageBlockDocument,
+  )
+}
+export const UserUpdatePageBlockDocument = gql`
+  mutation UserUpdatePageBlock($pageId: String!, $pageBlockId: String!, $input: UserUpdatePageBlockInput!) {
+    item: userUpdatePageBlock(pageId: $pageId, pageBlockId: $pageBlockId, input: $input) {
+      ...PageBlockDetails
+      page {
+        id
+        blocks {
+          id
+        }
+      }
+    }
+  }
+  ${PageBlockDetailsFragmentDoc}
+`
+
+export function useUserUpdatePageBlockMutation() {
+  return Urql.useMutation<UserUpdatePageBlockMutation, UserUpdatePageBlockMutationVariables>(
+    UserUpdatePageBlockDocument,
+  )
+}
 export const AdminPageDomainDocument = gql`
   query AdminPageDomain($domainId: String!, $path: String!) {
     item: adminPageDomain(domainId: $domainId, path: $path) {
@@ -3104,6 +3538,78 @@ export const PublicPageDocument = gql`
 
 export function usePublicPageQuery(options: Omit<Urql.UseQueryArgs<PublicPageQueryVariables>, 'query'>) {
   return Urql.useQuery<PublicPageQuery, PublicPageQueryVariables>({ query: PublicPageDocument, ...options })
+}
+export const UserPageDocument = gql`
+  query UserPage($pageId: String!) {
+    item: userPage(pageId: $pageId) {
+      ...PageDetails
+      blocks {
+        ...PageBlockDetails
+      }
+      domains {
+        ...PageDomainDetails
+      }
+    }
+  }
+  ${PageDetailsFragmentDoc}
+  ${PageBlockDetailsFragmentDoc}
+  ${PageDomainDetailsFragmentDoc}
+`
+
+export function useUserPageQuery(options: Omit<Urql.UseQueryArgs<UserPageQueryVariables>, 'query'>) {
+  return Urql.useQuery<UserPageQuery, UserPageQueryVariables>({ query: UserPageDocument, ...options })
+}
+export const UserPagesDocument = gql`
+  query UserPages {
+    items: userPages {
+      ...PageDetails
+      domains {
+        ...PageDomainDetails
+      }
+    }
+  }
+  ${PageDetailsFragmentDoc}
+  ${PageDomainDetailsFragmentDoc}
+`
+
+export function useUserPagesQuery(options?: Omit<Urql.UseQueryArgs<UserPagesQueryVariables>, 'query'>) {
+  return Urql.useQuery<UserPagesQuery, UserPagesQueryVariables>({ query: UserPagesDocument, ...options })
+}
+export const UserUpdatePageDocument = gql`
+  mutation UserUpdatePage($pageId: String!, $input: UserUpdatePageInput!) {
+    item: userUpdatePage(pageId: $pageId, input: $input) {
+      ...PageDetails
+    }
+  }
+  ${PageDetailsFragmentDoc}
+`
+
+export function useUserUpdatePageMutation() {
+  return Urql.useMutation<UserUpdatePageMutation, UserUpdatePageMutationVariables>(UserUpdatePageDocument)
+}
+export const UserDeletePageDocument = gql`
+  mutation UserDeletePage($pageId: String!) {
+    item: userDeletePage(pageId: $pageId) {
+      ...PageDetails
+    }
+  }
+  ${PageDetailsFragmentDoc}
+`
+
+export function useUserDeletePageMutation() {
+  return Urql.useMutation<UserDeletePageMutation, UserDeletePageMutationVariables>(UserDeletePageDocument)
+}
+export const UserCreatePageDocument = gql`
+  mutation UserCreatePage($input: UserCreatePageInput!) {
+    item: userCreatePage(input: $input) {
+      ...PageDetails
+    }
+  }
+  ${PageDetailsFragmentDoc}
+`
+
+export function useUserCreatePageMutation() {
+  return Urql.useMutation<UserCreatePageMutation, UserCreatePageMutationVariables>(UserCreatePageDocument)
 }
 export const AdminPlanDocument = gql`
   query AdminPlan($planId: String!) {
@@ -3421,16 +3927,4 @@ export const UserProfilesDocument = gql`
 
 export function useUserProfilesQuery(options: Omit<Urql.UseQueryArgs<UserProfilesQueryVariables>, 'query'>) {
   return Urql.useQuery<UserProfilesQuery, UserProfilesQueryVariables>({ query: UserProfilesDocument, ...options })
-}
-export const UserPagesDocument = gql`
-  query UserPages($username: String!) {
-    items: userPages(username: $username) {
-      ...PageDetails
-    }
-  }
-  ${PageDetailsFragmentDoc}
-`
-
-export function useUserPagesQuery(options: Omit<Urql.UseQueryArgs<UserPagesQueryVariables>, 'query'>) {
-  return Urql.useQuery<UserPagesQuery, UserPagesQueryVariables>({ query: UserPagesDocument, ...options })
 }

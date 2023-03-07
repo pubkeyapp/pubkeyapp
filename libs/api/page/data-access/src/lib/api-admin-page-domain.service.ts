@@ -3,7 +3,7 @@ import { ApiCoreService } from '@pubkeyapp/api/core/data-access'
 import { AdminAddPageDomainInput } from './dto/admin-add-page-domain.input'
 
 @Injectable()
-export class ApiPageDomainAdminService {
+export class ApiAdminPageDomainService {
   constructor(private readonly core: ApiCoreService) {}
 
   async adminPageDomain(adminId: string, domainId: string, path: string) {

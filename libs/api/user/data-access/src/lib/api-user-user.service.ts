@@ -186,11 +186,4 @@ export class ApiUserUserService {
       profiles: result,
     }
   }
-
-  userPages(username: string) {
-    return this.core.data.page.findMany({
-      where: { owner: { username } },
-      include: { owner: true, domains: { include: { domain: true } }, blocks: true },
-    })
-  }
 }

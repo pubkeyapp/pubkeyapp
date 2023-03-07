@@ -16,11 +16,6 @@ export class ApiUserUserResolver {
     return this.service.user(username)
   }
 
-  @Query(() => [Page], { nullable: true })
-  userPages(@Args('username') username: string) {
-    return this.service.userPages(username)
-  }
-
   @Query(() => [User], { nullable: true })
   userFollowers(@Args('username') username: string) {
     return this.service.userFollowers(username)

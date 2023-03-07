@@ -67,7 +67,7 @@ export function UiLayout({ homepage = false }: { homepage?: boolean }) {
     },
   ]
   return (
-    <Flex h="100vh" direction="column" justify="space-between">
+    <Flex mih="100vh" direction="column" justify="space-between">
       <Stack h="100%">
         {homepage ? (
           <Box my="xl" py="xl">

@@ -3,8 +3,8 @@ import { ApiCoreService } from '@pubkeyapp/api/core/data-access'
 import { convertCoreDbPage, parseUrl } from './api-page.helpers'
 
 @Injectable()
-export class ApiPagePublicService {
-  private readonly logger = new Logger(ApiPagePublicService.name)
+export class ApiPublicPageService {
+  private readonly logger = new Logger(ApiPublicPageService.name)
   constructor(private readonly core: ApiCoreService) {}
 
   getPageById(pageId: string) {

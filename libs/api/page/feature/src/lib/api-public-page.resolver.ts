@@ -1,10 +1,10 @@
 import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
 import { Domain } from '@pubkeyapp/api/domain/data-access'
-import { ApiPagePublicService, Page } from '@pubkeyapp/api/page/data-access'
+import { ApiPublicPageService, Page } from '@pubkeyapp/api/page/data-access'
 
 @Resolver(() => Page)
-export class ApiPagePublicResolver {
-  constructor(private readonly service: ApiPagePublicService) {}
+export class ApiPublicPageResolver {
+  constructor(private readonly service: ApiPublicPageService) {}
 
   @Query(() => Page, { nullable: true })
   publicPage(@Args('pageId') pageId: string) {

@@ -1,10 +1,10 @@
-import { Avatar, Center, Flex, Paper, Stack, Text } from '@mantine/core'
+import { Avatar, Box, Center, Flex, Paper, Stack, Text } from '@mantine/core'
 import { User } from '@pubkeyapp/sdk'
 import React from 'react'
 
 export function PageUserProfile({ user }: { user: User }) {
   return (
-    <Paper>
+    <Box>
       <Flex direction="column" align="center">
         <Stack align="center">
           <Avatar src={user.avatarUrl} size={120} radius={120} />
@@ -18,6 +18,6 @@ export function PageUserProfile({ user }: { user: User }) {
           </Stack>
         </Stack>
       </Flex>
-    </Paper>
+    </Box>
   )
 }

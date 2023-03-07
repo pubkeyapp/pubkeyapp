@@ -102,6 +102,8 @@ model Page {
   id          String       @id @default(cuid())
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @default(now()) @updatedAt
+  status      PageStatus   @default(Draft)
+  type        PageType
   title       String
   color       String       @default("brand")
   description String?
@@ -109,6 +111,18 @@ model Page {
   ownerId     String
   domains     PageDomain[]
   blocks      PageBlock[]
+}
+
+enum PageStatus {
+  Draft
+  Published
+}
+
+enum PageType {
+  Degen
+  Gaming
+  Personal
+  Professional
 }
 
 model PageBlock {

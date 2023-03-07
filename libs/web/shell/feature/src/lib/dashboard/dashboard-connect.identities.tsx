@@ -42,29 +42,27 @@ export function DashboardConnectIdentities({ identities }: { identities: Identit
   ]
 
   return (
-    <Paper>
-      <Stack>
-        {links.map((link) => (
-          <Anchor
-            component={Link}
-            key={link.label}
-            to={link.identity ? `/profile/identities/${link.identity.id}` : link.link}
-            className={classes.shareItem}
-            py="md"
-            px="md"
-          >
-            <Group position="apart">
-              <Group spacing="xl">
-                {link.icon}
-                <Stack spacing="xs">
-                  <Text size="xl">{link.label}</Text>
-                </Stack>
-              </Group>
-              {!link.identity ? <Button>Connect</Button> : <Button variant="default">Manage</Button>}
+    <Stack>
+      {links.map((link) => (
+        <Anchor
+          component={Link}
+          key={link.label}
+          to={link.identity ? `/profile/identities/${link.identity.id}` : link.link}
+          className={classes.shareItem}
+          py="md"
+          px="md"
+        >
+          <Group position="apart">
+            <Group spacing="xl">
+              {link.icon}
+              <Stack spacing="xs">
+                <Text size="xl">{link.label}</Text>
+              </Stack>
             </Group>
-          </Anchor>
-        ))}
-      </Stack>
-    </Paper>
+            {!link.identity ? <Button>Connect</Button> : <Button variant="default">Manage</Button>}
+          </Group>
+        </Anchor>
+      ))}
+    </Stack>
   )
 }

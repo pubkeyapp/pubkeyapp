@@ -4,15 +4,15 @@ import { ApiAuthGraphqlGuard, CtxUser } from '@pubkeyapp/api/auth/data-access'
 import {
   AdminAddPageBlockInput,
   AdminUpdatePageBlockInput,
-  ApiPageBlockAdminService,
+  ApiAdminPageBlockService,
   PageBlock,
 } from '@pubkeyapp/api/page/data-access'
 import { User } from '@pubkeyapp/api/user/data-access'
 
 @Resolver()
 @UseGuards(ApiAuthGraphqlGuard)
-export class ApiPageBlockAdminResolver {
-  constructor(private readonly service: ApiPageBlockAdminService) {}
+export class ApiAdminPageBlockResolver {
+  constructor(private readonly service: ApiAdminPageBlockService) {}
 
   @Mutation(() => PageBlock, { nullable: true })
   adminAddPageBlock(

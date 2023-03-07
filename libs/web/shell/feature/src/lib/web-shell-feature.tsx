@@ -12,6 +12,7 @@ import { NotFoundFeature } from './not-found.feature'
 
 const AdminFeature = lazy(() => import('@pubkeyapp/web/admin/feature'))
 const PageFeature = lazy(() => import('@pubkeyapp/web/page/feature'))
+const PageEditorFeature = lazy(() => import('@pubkeyapp/web/page-editor/feature'))
 const PlanFeature = lazy(() => import('@pubkeyapp/web/plan/feature'))
 
 export function WebShellFeature() {
@@ -33,6 +34,7 @@ export function WebShellFeature() {
             <Route element={<AuthGuard redirectTo="/login" />}>
               <Route path="/admin/*" element={<AdminFeature />} />
               <Route path="/dashboard" element={<DashboardFeature />} />
+              <Route path="/pages/*" element={<PageEditorFeature />} />
               <Route path="/profile/identities/*" element={<div>TBD: Profile Identities Page</div>} />
               <Route path="/intent/connect/*" element={<div>TBD: Connect Identity Page</div>} />
             </Route>

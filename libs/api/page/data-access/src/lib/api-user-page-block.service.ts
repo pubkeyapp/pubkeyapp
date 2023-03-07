@@ -1,14 +1,16 @@
 import { Injectable } from '@nestjs/common'
 import { ApiCoreService } from '@pubkeyapp/api/core/data-access'
-import { AdminUpdatePageBlockInput } from '@pubkeyapp/api/page/data-access'
-import { AdminAddPageBlockInput } from './dto/admin-add-page-block.input'
+import { ApiUserPageService } from './api-user-page.service'
+
+import { UserAddPageBlockInput } from './dto/user-add-page-block.input'
+import { UserUpdatePageBlockInput } from './dto/user-update-page-block.input'
 
 @Injectable()
-export class ApiPageBlockAdminService {
-  constructor(private readonly core: ApiCoreService) {}
+export class ApiUserPageBlockService {
+  constructor(private readonly core: ApiCoreService, private readonly page: ApiUserPageService) {}
 
-  async adminPageBlock(adminId: string, pageBlockId: string) {
-    await this.core.ensureAdminUser(adminId)
+  async userPageBlock(userId: string, pageBlockId: string) {
+    // await this.page.ensurePageOwner(userId)
 
     return this.core.data.pageBlock.findUnique({
       where: { id: pageBlockId },
@@ -16,7 +18,7 @@ export class ApiPageBlockAdminService {
     })
   }
 
-  async adminAddPageBlock(adminId: string, pageId: string, input: AdminAddPageBlockInput) {
+  async userAddPageBlock(userId: string, pageId: string, input: UserAddPageBlockInput) {
     return this.core.data.pageBlock.create({
       data: {
         pageId,
@@ -26,8 +28,8 @@ export class ApiPageBlockAdminService {
     })
   }
 
-  async adminUpdatePageBlock(adminId: string, pageId: string, pageBlockId: string, input: AdminUpdatePageBlockInput) {
-    const found = await this.adminPageBlock(adminId, pageBlockId)
+  async userUpdatePageBlock(userId: string, pageId: string, pageBlockId: string, input: UserUpdatePageBlockInput) {
+    const found = await this.userPageBlock(userId, pageBlockId)
     if (!found) {
       throw new Error('PageBlock could not be found')
     }
@@ -38,8 +40,8 @@ export class ApiPageBlockAdminService {
     })
   }
 
-  async adminRemovePageBlock(adminId: string, pageId: string, pageBlockId: string) {
-    await this.core.ensureAdminUser(adminId)
+  async userRemovePageBlock(userId: string, pageId: string, pageBlockId: string) {
+    await this.page.ensurePageOwner(userId, pageId)
 
     const pageBlock = await this.core.data.pageBlock.findFirst({
       where: { pageId, id: pageBlockId },

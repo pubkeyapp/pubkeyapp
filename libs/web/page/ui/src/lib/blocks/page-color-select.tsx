@@ -17,7 +17,7 @@ export function PageColorSelect({
   colors = colors ?? Object.keys(theme.colors)
 
   return (
-    <Menu>
+    <Menu styles={{ dropdown: { zIndex: 10000 } }}>
       <Menu.Target>
         <Button>{title}</Button>
       </Menu.Target>

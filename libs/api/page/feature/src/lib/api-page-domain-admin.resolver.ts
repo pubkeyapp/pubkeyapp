@@ -1,13 +1,13 @@
 import { UseGuards } from '@nestjs/common'
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { ApiAuthGraphqlGuard, CtxUser } from '@pubkeyapp/api/auth/data-access'
-import { AdminAddPageDomainInput, ApiPageDomainAdminService, PageDomain } from '@pubkeyapp/api/page/data-access'
+import { AdminAddPageDomainInput, ApiAdminPageDomainService, PageDomain } from '@pubkeyapp/api/page/data-access'
 import { User } from '@pubkeyapp/api/user/data-access'
 
 @Resolver()
 @UseGuards(ApiAuthGraphqlGuard)
 export class ApiPageDomainAdminResolver {
-  constructor(private readonly service: ApiPageDomainAdminService) {}
+  constructor(private readonly service: ApiAdminPageDomainService) {}
 
   @Mutation(() => PageDomain, { nullable: true })
   adminAddPageDomain(

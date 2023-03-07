@@ -2,6 +2,8 @@ fragment PageDetails on Page {
   id
   createdAt
   updatedAt
+  status
+  type
   title
   description
   color
@@ -61,5 +63,44 @@ query PublicPage($pageId: String!) {
     domains {
       ...PageDomainDetails
     }
+  }
+}
+
+query UserPage($pageId: String!) {
+  item: userPage(pageId: $pageId) {
+    ...PageDetails
+    blocks {
+      ...PageBlockDetails
+    }
+    domains {
+      ...PageDomainDetails
+    }
+  }
+}
+
+query UserPages {
+  items: userPages {
+    ...PageDetails
+    domains {
+      ...PageDomainDetails
+    }
+  }
+}
+
+mutation UserUpdatePage($pageId: String!, $input: UserUpdatePageInput!) {
+  item: userUpdatePage(pageId: $pageId, input: $input) {
+    ...PageDetails
+  }
+}
+
+mutation UserDeletePage($pageId: String!) {
+  item: userDeletePage(pageId: $pageId) {
+    ...PageDetails
+  }
+}
+
+mutation UserCreatePage($input: UserCreatePageInput!) {
+  item: userCreatePage(input: $input) {
+    ...PageDetails
   }
 }

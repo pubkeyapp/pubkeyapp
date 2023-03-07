@@ -6,14 +6,14 @@ import React from 'react'
 export function PageShareCopyButton({ page }: { page: Page }) {
   return (
     <form>
-      <CopyButton value={page.viewUrl}>
+      <CopyButton value={`${page.viewUrl}`}>
         {({ copied, copy }) => (
           <Input
             size="lg"
             onClick={copy}
             sx={{ cursor: 'pointer' }}
             icon={<PubKeyLogo type="mark" size={36} />}
-            placeholder={page.viewUrl}
+            placeholder={`${page.viewUrl}`}
             readOnly
             rightSection={
               <Button size="lg" color={copied ? 'teal' : 'blue'} onClick={copy} mr={64}>

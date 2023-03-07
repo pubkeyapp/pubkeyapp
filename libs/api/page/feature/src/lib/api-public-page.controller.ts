@@ -1,11 +1,11 @@
 import { BadRequestException, Controller, Get, Param, Query } from '@nestjs/common'
 import { ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger'
-import { ApiPagePublicService, Page } from '@pubkeyapp/api/page/data-access'
+import { ApiPublicPageService, Page } from '@pubkeyapp/api/page/data-access'
 
 @ApiTags('page')
 @Controller('page')
-export class ApiPagePublicController {
-  constructor(private readonly service: ApiPagePublicService) {}
+export class ApiPublicPageController {
+  constructor(private readonly service: ApiPublicPageService) {}
 
   @Get('get-page-by-id/:pageId')
   @ApiParam({ name: 'pageId', type: 'string' })

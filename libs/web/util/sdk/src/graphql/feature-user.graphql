@@ -107,9 +107,3 @@ mutation UserUnfollow($username: String!) {
 query UserProfiles($username: String!) {
   item: userProfiles(username: $username)
 }
-
-query UserPages($username: String!) {
-  items: userPages(username: $username) {
-    ...PageDetails
-  }
-}

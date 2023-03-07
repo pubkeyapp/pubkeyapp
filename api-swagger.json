@@ -542,6 +542,14 @@
         },
         "required": ["api", "app", "cluster", "clusters", "user"]
       },
+      "PageStatus": {
+        "type": "string",
+        "enum": ["Draft", "Published"]
+      },
+      "PageType": {
+        "type": "string",
+        "enum": ["Degen", "Gaming", "Personal", "Professional"]
+      },
       "PageBlockType": {
         "type": "string",
         "enum": ["Header", "Link"]
@@ -572,40 +580,59 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/PageStatus"
+          },
+          "type": {
+            "$ref": "#/components/schemas/PageType"
           },
           "title": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "color": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "description": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "viewUrl": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "siteUrl": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "urls": {
+            "nullable": true,
             "type": "array",
             "items": {
               "type": "string"
             }
           },
           "owner": {
-            "$ref": "#/components/schemas/User"
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
           },
           "blocks": {
+            "nullable": true,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/PageBlock"
             }
           }
         },
-        "required": ["id", "title", "color", "description", "viewUrl", "siteUrl", "urls", "owner", "blocks"]
+        "required": ["status", "type"]
       },
       "IdentityProvider": {
         "type": "string",

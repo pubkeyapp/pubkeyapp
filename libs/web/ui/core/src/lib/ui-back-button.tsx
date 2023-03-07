@@ -1,12 +1,12 @@
 import { ActionIcon, Button } from '@mantine/core'
-import { IconArrowLeft, IconPlus } from '@tabler/icons-react'
+import { IconArrowLeft } from '@tabler/icons-react'
 import { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 
-export function UiBackButton() {
+export function UiBackButton({ to = '..' }: { to?: string }) {
   return (
-    <ActionIcon component={Link} to=".." size="xs">
-      <IconArrowLeft size={16} />
+    <ActionIcon component={Link} to={to} size="lg">
+      <IconArrowLeft size={24} />
     </ActionIcon>
   )
 }

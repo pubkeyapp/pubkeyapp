@@ -3,10 +3,12 @@ import { ApiProperty } from '@nestjs/swagger'
 import { User } from '@pubkeyapp/api/user/data-access'
 import { PageBlock } from './page-block.entity'
 import { PageDomain } from './page-domain.entity'
+import { PageStatus } from './page-status.enum'
+import { PageType } from './page-type.enum'
 
 @ObjectType()
 export class Page {
-  @ApiProperty()
+  @ApiProperty({ required: false, nullable: true })
   @Field({ nullable: true })
   id: string
 
@@ -15,34 +17,40 @@ export class Page {
 
   @Field({ nullable: true })
   updatedAt: string
+  @ApiProperty({ enum: PageStatus, enumName: 'PageStatus' })
+  @Field(() => PageStatus, { nullable: true })
+  status: PageStatus
+  @ApiProperty({ enum: PageType, enumName: 'PageType' })
+  @Field(() => PageType, { nullable: true })
+  type: PageType
 
-  @ApiProperty()
+  @ApiProperty({ required: false, nullable: true })
   @Field({ nullable: true })
-  title: string
+  title?: string
 
-  @ApiProperty()
+  @ApiProperty({ required: false, nullable: true })
   @Field({ nullable: true })
   color: string
 
-  @ApiProperty()
+  @ApiProperty({ required: false, nullable: true })
   @Field({ nullable: true })
   description?: string
-  @ApiProperty()
+  @ApiProperty({ required: false, nullable: true })
   @Field({ nullable: true })
   viewUrl?: string
-  @ApiProperty()
+  @ApiProperty({ required: false, nullable: true })
   @Field({ nullable: true })
   siteUrl?: string
 
-  @ApiProperty({ type: [String] })
+  @ApiProperty({ type: [String], required: false, nullable: true })
   @Field(() => [String], { nullable: true })
   urls?: string[]
 
-  @ApiProperty({ type: User })
+  @ApiProperty({ type: User, required: false, nullable: true })
   @Field(() => User, { nullable: true })
-  owner: User
+  owner?: User
 
-  @ApiProperty({ type: () => [PageBlock] })
+  @ApiProperty({ type: () => [PageBlock], required: false, nullable: true })
   @Field(() => [PageBlock], { nullable: true })
   blocks: PageBlock[]
 

@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger'
 import { PageType } from '../entity/page-type.enum'
 
 @InputType()
-export class AdminCreatePageInput {
+export class UserCreatePageInput {
   @Field()
   title: string
   @Field()

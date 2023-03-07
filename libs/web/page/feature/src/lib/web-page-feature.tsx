@@ -58,7 +58,7 @@ export function WebPageWrapper({ page }: { page: Page }) {
       </Stack>
       <Stack spacing={'xl'} mt="xl" mb={54}>
         <Center>
-          <Anchor component="a" href={page.siteUrl}>
+          <Anchor component="a" href={`${page.siteUrl}`}>
             <PubKeyLogo size={32} />
           </Anchor>
         </Center>
