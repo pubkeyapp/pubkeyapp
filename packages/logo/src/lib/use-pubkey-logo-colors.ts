@@ -1,3 +1,4 @@
+import React from 'react'
 import { MantineColor, useMantineTheme } from '@mantine/core'
 import { ComponentPropsWithoutRef } from 'react'
 

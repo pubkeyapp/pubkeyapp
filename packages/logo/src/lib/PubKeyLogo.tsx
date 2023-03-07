@@ -1,3 +1,4 @@
+import React from 'react'
 import { PubKeyLogoRounded } from './PubKeyLogoRounded'
 import { PubKeyLogoText } from './PubKeyLogoText'
 import { LogoProps } from './use-pubkey-logo-colors'

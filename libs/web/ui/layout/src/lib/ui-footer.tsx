@@ -1,5 +1,5 @@
 import { ActionIcon, Container, createStyles, Group, rem, Text } from '@mantine/core'
-import { useUi } from '@pubkeyapp/web/ui/core'
+import { useUiTheme } from '@pubkeyapp/web/ui/theme'
 import { IconBrandDiscord, IconBrandGithub, IconBrandTwitter, IconMoonStars, IconSun } from '@tabler/icons-react'
 import { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
@@ -105,7 +105,7 @@ interface UiFooterProps {
 
 export function UiFooter({ copyright, description, links, logo }: UiFooterProps) {
   const { classes } = useStyles()
-  const { colorScheme, toggleColorScheme } = useUi()
+  const { colorScheme, toggleColorScheme } = useUiTheme()
   const groups = links.map((group) => {
     const links = group.links.map((link, index) => {
       if (link.link.startsWith('http')) {

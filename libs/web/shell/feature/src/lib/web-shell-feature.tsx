@@ -1,14 +1,14 @@
 import { AuthGuard, AuthProvider } from '@pubkeyapp/web/auth/data-access'
 import { ConfigProvider, SolanaProvider } from '@pubkeyapp/web/shell/data-access'
-import { UiProvider } from '@pubkeyapp/web/ui/core'
+import { UiNotFound } from '@pubkeyapp/web/ui/core'
 import { UiLayout } from '@pubkeyapp/web/ui/layout'
+import { UiThemeProvider } from '@pubkeyapp/web/ui/theme'
 import { GraphQLProvider } from '@pubkeyapp/web/util/sdk'
 import { lazy } from 'react'
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
 import { DashboardFeature } from './dashboard/dashboard-feature'
 import { HomepageContentFeature, HomepageFeature } from './homepage/homepage-feature'
 import { LoginFeature } from './login/login-feature'
-import { NotFoundFeature } from './not-found.feature'
 
 const AdminFeature = lazy(() => import('@pubkeyapp/web/admin/feature'))
 const PageFeature = lazy(() => import('@pubkeyapp/web/page/feature'))
@@ -18,7 +18,7 @@ const PlanFeature = lazy(() => import('@pubkeyapp/web/plan/feature'))
 export function WebShellFeature() {
   const pages = ['/learn', '/docs', '/resources', '/sdk', '/support', '/about']
   return (
-    <UiProvider>
+    <UiThemeProvider>
       <Routes>
         <Route index element={<Navigate replace to={'/home'} />} />
         <Route element={<UiLayout homepage />}>
@@ -38,15 +38,15 @@ export function WebShellFeature() {
               <Route path="/profile/identities/*" element={<div>TBD: Profile Identities Page</div>} />
               <Route path="/intent/connect/*" element={<div>TBD: Connect Identity Page</div>} />
             </Route>
-            <Route path="*" element={<NotFoundFeature />} />
+            <Route path="*" element={<UiNotFound />} />
           </Route>
           <Route path="p/:pageId/*" element={<PageFeature />} />
         </Route>
         <Route element={<UiLayout />}>
-          <Route path="*" element={<NotFoundFeature />} />
+          <Route path="*" element={<UiNotFound />} />
         </Route>
       </Routes>
-    </UiProvider>
+    </UiThemeProvider>
   )
 }
 

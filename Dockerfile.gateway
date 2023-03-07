@@ -1,0 +1,38 @@
+################################################################################
+# BASE
+# This is the stage that the other stages in this file are based on.
+# - defines the Node version
+# - set global configuration
+# - set default work dir
+################################################################################
+FROM node:16.14-alpine as base
+
+RUN apk add --update --no-cache git python3 make g++
+
+ENV HUSKY=0
+
+# Apply Yarn settings
+RUN yarn config set cache-folder ~/.yarn \
+    && yarn config set network-timeout 300000 -g \
+    && yarn config set prefer-offline true
+
+# Create app directory
+WORKDIR /workspace
+
+# Copy package.json and the lock file
+COPY package.json yarn.lock /workspace/
+
+# Install app dependencies
+RUN yarn
+
+# Copy source files
+COPY . .
+
+# Build apps
+RUN yarn build:gateway
+
+# Expose default port
+EXPOSE 3000
+
+# Start server
+CMD ["yarn", "start:gateway"]

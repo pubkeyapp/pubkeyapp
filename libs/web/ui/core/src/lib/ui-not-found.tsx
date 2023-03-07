@@ -1,3 +1,4 @@
+import React from 'react'
 import { Button, Container, createStyles, Group, rem, Text, Title } from '@mantine/core'
 import { Link } from 'react-router-dom'
 
@@ -38,7 +39,7 @@ export const useStyles = createStyles((theme) => ({
   },
 }))
 
-export function NotFoundFeature() {
+export function UiNotFound() {
   const { classes } = useStyles()
 
   return (

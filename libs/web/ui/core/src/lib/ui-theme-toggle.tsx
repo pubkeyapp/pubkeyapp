@@ -1,10 +1,10 @@
 import { ActionIcon, Group, useMantineTheme } from '@mantine/core'
+import { useUiTheme } from '@pubkeyapp/web/ui/theme'
 import { IconMoonStars, IconSun } from '@tabler/icons-react'
-import { useUi } from './ui-provider'
 
 export function UiThemeToggle() {
   const theme = useMantineTheme()
-  const { colorScheme, toggleColorScheme } = useUi()
+  const { colorScheme, toggleColorScheme } = useUiTheme()
   const defaultProps = theme?.components?.Button?.defaultProps
   const { radius } = defaultProps || {}
 

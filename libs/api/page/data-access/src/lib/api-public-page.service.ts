@@ -42,14 +42,21 @@ export class ApiPublicPageService {
       throw new BadRequestException(`Empty or invalid url.`)
     }
     const { hostname, path } = parsed
-    const found = await this.core.data.domain.findUnique({
-      where: { name: hostname },
-      include: {
-        pages: {
-          where: { path },
-        },
-      },
-    })
+    const found = await this.core.cache.wrap(
+      'page',
+      `by-url:${hostname}/${path}`,
+      () =>
+        this.core.data.domain.findUnique({
+          where: { name: hostname },
+          include: {
+            pages: {
+              where: { path },
+            },
+          },
+        }),
+      60,
+    )
+
     if (!found || !found.pages?.length) {
       const message = `Page not found on ${hostname}/${path}`
       this.logger.warn(`getPageByUrl: ${message}`)
