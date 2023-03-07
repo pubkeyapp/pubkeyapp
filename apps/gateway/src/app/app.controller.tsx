@@ -22,6 +22,11 @@ export class AppController {
   async index(@Req() req: Request, @Res() res: Response) {
     const url = this.getUrlFromRequest(req)
 
+    // Redirect to Discord OAuth if the URL starts with /join-discord
+    if (req.originalUrl.startsWith('/join-discord')) {
+      return res.redirect('https://discord.gg/XxuZQeDPNf')
+    }
+
     // Render a GitHub demo page if the URL starts with /github/
     if (req.originalUrl.startsWith('/github/')) {
       const username = req.originalUrl.replace('/github/', '')
