@@ -42,9 +42,10 @@ import {
   useUserUpdatePageBlockMutation,
   useUserUpdatePageMutation,
 } from '@pubkeyapp/web/util/sdk'
-import { IconCopy, IconListNumbers, IconTrash } from '@tabler/icons-react'
+import { IconCopy, IconExternalLink, IconListNumbers, IconTrash } from '@tabler/icons-react'
 import React from 'react'
 import { Link, useParams } from 'react-router-dom'
+import { WebPageEditorPublishTab } from './web-page-editor-publish-tab'
 
 export function WebPageEditorDetailFeature() {
   const { pageId } = useParams<{ pageId: string }>()
@@ -126,9 +127,19 @@ export function WebPageEditorDetailFeature() {
             page?.item?.status === PageStatus.Published ? (
               <Button>View Page</Button>
             ) : (
-              <Button component={Link} to={`/pages/${pageId}/publish`}>
-                Publish Page
-              </Button>
+              <Group>
+                <Button
+                  component={Link}
+                  to={`${page?.item?.previewUrl}`}
+                  target="_blank"
+                  rightIcon={<IconExternalLink size={16} />}
+                >
+                  Preview Page
+                </Button>
+                <Button component={Link} to={`/pages/${pageId}/publish`}>
+                  Publish Page
+                </Button>
+              </Group>
             )
           }
         />
@@ -157,11 +168,7 @@ export function WebPageEditorDetailFeature() {
             value: 'publish',
             component: (
               <Container size="md">
-                <Paper>Publish Page</Paper>
-                <Text>Select Domain</Text>
-                <Text>Gum User</Text>
-                <Text>Publish to Arweave</Text>
-                <Text>Create Gum Profile</Text>
+                <WebPageEditorPublishTab page={page?.item as Page} />
               </Container>
             ),
           },
@@ -170,7 +177,11 @@ export function WebPageEditorDetailFeature() {
             value: 'settings',
             component: (
               <Container size="md">
-                <Paper>Page Settings</Paper>
+                <Paper>
+                  <Group position="center">
+                    <Button disabled>Coming Soon!</Button>
+                  </Group>
+                </Paper>
               </Container>
             ),
           },

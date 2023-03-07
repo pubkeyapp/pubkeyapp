@@ -1,6 +1,7 @@
-import { Anchor, Box, Container, Flex, Paper, SimpleGrid, Stack } from '@mantine/core'
+import { Anchor, Box, Container, Flex, Paper, SimpleGrid, Skeleton, Stack } from '@mantine/core'
 import { useAuth } from '@pubkeyapp/web/auth/data-access'
 import { PageCreateButtons, PageList } from '@pubkeyapp/web/page/ui'
+import { UiLoader } from '@pubkeyapp/web/ui/core'
 import { useUserPagesQuery, useUserProfilesQuery, useUserQuery } from '@pubkeyapp/web/util/sdk'
 import React from 'react'
 import { Link } from 'react-router-dom'
@@ -11,7 +12,7 @@ export function DashboardFeature() {
   const { user } = useAuth()
   const [{ data: userData }] = useUserQuery({ variables: { username: `${user?.username}` } })
   const [{ data: profiles }] = useUserProfilesQuery({ variables: { username: `${user?.username}` } })
-  const [{ data: pages }] = useUserPagesQuery()
+  const [{ data: pages, fetching }] = useUserPagesQuery()
 
   return (
     <Container size="xl">
@@ -22,7 +23,7 @@ export function DashboardFeature() {
               <Anchor size="xl" component={Link} to="/pages" fw={500}>
                 Your Pages
               </Anchor>
-              <PageList pages={pages?.items ?? []} />
+              {fetching ? <UiLoader /> : <PageList pages={pages?.items ?? []} />}
             </Stack>
             <PageCreateButtons pages={pages?.items ?? []} />
           </Flex>

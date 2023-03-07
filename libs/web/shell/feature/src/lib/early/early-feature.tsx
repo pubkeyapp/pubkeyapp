@@ -77,7 +77,7 @@ export function EarlyFeatureActions() {
   const text = [
     'gm @PubKeyApp... wen invite code?',
     `My %23PID is ${user?.pid} 🚀`,
-    `Get yours at https://devnet.pubkey.app! 🅿️`,
+    `Get yours at https://devnet.pubkey.app! 🅿️ #Grizzlython @Solana`,
   ].join('%0a%0a')
 
   return (
