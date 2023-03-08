@@ -10,10 +10,16 @@ export class ApiDomainAdminService {
 
   async adminCreateDomain(adminId: string, input: AdminCreateDomainInput) {
     await this.core.ensureAdminUser(adminId)
+    const { ownerId, ...data } = input
+
     return this.core.data.domain.create({
       data: {
-        ownerId: input.ownerId ?? adminId,
-        ...input,
+        ...data,
+        owner: {
+          connect: {
+            id: ownerId?.length ? ownerId : adminId,
+          },
+        },
       },
     })
   }

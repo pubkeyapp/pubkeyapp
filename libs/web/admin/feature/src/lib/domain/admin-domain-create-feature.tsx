@@ -49,8 +49,8 @@ export function AdminDomainCreateFeature() {
       description: 'Select if this domain is using https.',
     }),
     formFieldSelect('ownerId', {
-      label: 'Invite owner',
-      description: 'Set the owner of this invite. Leave blank to make you the owner.',
+      label: 'Domain owner',
+      description: 'Set the owner of this domain. Leave blank to make you the owner.',
       options: [...userOptions],
     }),
   ]

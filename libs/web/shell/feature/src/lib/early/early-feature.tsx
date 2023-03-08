@@ -1,4 +1,4 @@
-import { Button, Code, Container, createStyles, Group, rem, Text, Title, Tooltip } from '@mantine/core'
+import { Button, Code, Container, createStyles, Group, rem, Stack, Text, Title, Tooltip } from '@mantine/core'
 import { useAuth } from '@pubkeyapp/web/auth/data-access'
 import {
   IconBrandDiscord,
@@ -57,13 +57,13 @@ export function EarlyFeature() {
       <Text color="dimmed" size="lg" align="center" className={classes.description}>
         You are one of the first users to join PubKey.
       </Text>
-      <Group position="center" sx={{ marginBottom: `calc(${theme.spacing.xl} * 1.5)` }}>
+      <Stack align="center" sx={{ marginBottom: `calc(${theme.spacing.xl} * 1.5)` }}>
         <Tooltip label="This is your PubKey ID" withArrow>
           <Code color="brand" sx={{ fontSize: 24, borderRadius: 50 }} px="xl" py="lg">
             pid#{user?.pid}
           </Code>
         </Tooltip>
-      </Group>
+      </Stack>
       <Text color="dimmed" size="lg" align="center" className={classes.description}>
         To get early access, take the following steps:
       </Text>

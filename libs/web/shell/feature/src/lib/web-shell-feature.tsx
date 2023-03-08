@@ -52,6 +52,7 @@ export function WebShellFeature() {
                   <Route path="/admin/*" element={<AdminFeature />} />
                 </Route>
               </Route>
+              <Route path="/early" element={<EarlyFeature />} />
               <Route path="/settings/*" element={<SettingsFeature />} />
               <Route path="/profile/identities/*" element={<div>TBD: Profile Identities Page</div>} />
               <Route path="/intent/connect/*" element={<div>TBD: Connect Identity Page</div>} />

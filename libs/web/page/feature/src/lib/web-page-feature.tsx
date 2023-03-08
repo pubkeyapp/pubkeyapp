@@ -1,4 +1,4 @@
-import { Anchor, Center, Flex, Stack } from '@mantine/core'
+import { Anchor, Center, Code, Flex, Stack } from '@mantine/core'
 import { PubKeyLogo } from '@pubkeyapp/logo'
 import { Page, PubKeySdk } from '@pubkeyapp/sdk'
 import { PageUiRender } from '@pubkeyapp/web/page/ui'
@@ -58,6 +58,7 @@ export function WebPageWrapper({ page }: { page: Page }) {
       </Stack>
       <Stack spacing={'xl'} mt="xl" mb={54}>
         <Center>
+          {page?.owner?.pid ? <Code>{page.owner.pid}</Code> : null}
           <Anchor component="a" href={`${page.siteUrl}`}>
             <PubKeyLogo size={32} />
           </Anchor>

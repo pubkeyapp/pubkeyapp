@@ -47,10 +47,11 @@ export function DashboardConnectIdentities({ identities }: { identities: Identit
         <Anchor
           component={Link}
           key={link.label}
-          to={link.identity ? `/profile/identities/${link.identity.id}` : link.link}
+          to={link.identity ? `/settings/identities` : '/dashboard'}
           className={classes.shareItem}
           py="md"
           px="md"
+          sx={{ borderRadius: 50 }}
         >
           <Group position="apart">
             <Group spacing="xl">
@@ -59,7 +60,7 @@ export function DashboardConnectIdentities({ identities }: { identities: Identit
                 <Text size="xl">{link.label}</Text>
               </Stack>
             </Group>
-            {!link.identity ? <Button>Connect</Button> : <Button variant="default">Manage</Button>}
+            {!link.identity ? <Button disabled>Coming Soon</Button> : <Button variant="default">Manage</Button>}
           </Group>
         </Anchor>
       ))}

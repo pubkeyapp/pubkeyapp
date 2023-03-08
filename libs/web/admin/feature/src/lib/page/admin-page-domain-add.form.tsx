@@ -1,4 +1,4 @@
-import { Button, Stack, Text } from '@mantine/core'
+import { Alert, Button, Group, Stack, Text } from '@mantine/core'
 import { useAdminDomain, useAdminPage } from '@pubkeyapp/web/admin/data-access'
 import { UiDebug } from '@pubkeyapp/web/ui/core'
 import { formFieldSelect, formFieldText, UiForm, UiFormField } from '@pubkeyapp/web/ui/form'
@@ -10,6 +10,7 @@ import {
   PageDomain,
 } from '@pubkeyapp/web/util/sdk'
 import React, { useEffect, useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useClient } from 'urql'
 
 export function AdminPageDomainAddForm({ page }: { page: Page }) {
@@ -80,7 +81,18 @@ export function AdminPageDomainAddForm({ page }: { page: Page }) {
   const canCreate = useMemo(() => !loading && !found?.id && checked, [loading, found, checked])
   const domain = domains?.find((domain) => domain.id === model.domainId)
 
-  if (!domainOptions?.length) return null
+  if (!domainOptions?.length) {
+    return (
+      <Alert>
+        <Group position="apart">
+          <Text>No domains found.</Text>
+          <Button component={Link} to="/admin/domains" size="xs">
+            Add Domain
+          </Button>
+        </Group>
+      </Alert>
+    )
+  }
 
   return (
     <Stack>

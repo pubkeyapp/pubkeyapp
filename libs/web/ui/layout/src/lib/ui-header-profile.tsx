@@ -56,7 +56,7 @@ export function UiHeaderProfile() {
                       gm
                     </Text>
                     <Text truncate weight={'bold'} size="sm" sx={{ lineHeight: 1 }} lineClamp={1}>
-                      {user.name}Dd1JSwojUsptwFa97A3WRZU1SijCWYo9Qa3xLxT8yzb7
+                      {user.name}
                     </Text>
                   </Group>
                 </Text>
