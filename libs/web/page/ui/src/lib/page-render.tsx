@@ -56,7 +56,6 @@ export function PageWrapper({ page }: { page: Page }) {
           </Tooltip>
         </Group>
         <Center>
-          {page?.owner?.pid ? <Code>{page.owner.pid}</Code> : null}
           <Anchor component="a" href={`${page.siteUrl}`}>
             <PubKeyLogo size={32} />
           </Anchor>
