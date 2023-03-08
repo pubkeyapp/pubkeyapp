@@ -1,7 +1,6 @@
-import { Anchor, Center, Flex, Stack, Text } from '@mantine/core'
-import { PubKeyLogo } from '@pubkeyapp/logo'
+import { Center, Text } from '@mantine/core'
 import { Page } from '@pubkeyapp/sdk'
-import { PageUiRender } from '@pubkeyapp/web/page/ui'
+import { PageWrapper } from '@pubkeyapp/web/page/ui'
 import { UiThemeProvider } from '@pubkeyapp/web/ui/theme'
 import React from 'react'
 
@@ -19,24 +18,7 @@ export function App() {
 
   return (
     <UiThemeProvider>
-      <Center h="100vh">{page ? <WebPageWrapper page={page} /> : <Text>Error loading page...</Text>}</Center>
+      <Center h="100vh">{page ? <PageWrapper page={page} /> : <Text>Error loading page...</Text>}</Center>
     </UiThemeProvider>
-  )
-}
-
-export function WebPageWrapper({ page }: { page: Page }) {
-  return (
-    <Flex direction="column" justify="space-between" h={'100%'}>
-      <Stack spacing={64} sx={{ overflow: 'auto' }}>
-        <PageUiRender page={page} />
-      </Stack>
-      <Stack spacing={'xl'} mt="xl" mb={54}>
-        <Center>
-          <Anchor component="a" href={`${page.siteUrl}`}>
-            <PubKeyLogo size={32} />
-          </Anchor>
-        </Center>
-      </Stack>
-    </Flex>
   )
 }

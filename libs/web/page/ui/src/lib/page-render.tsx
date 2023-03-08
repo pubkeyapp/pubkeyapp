@@ -1,5 +1,6 @@
-import { Box, Container, Flex, Stack } from '@mantine/core'
+import { Anchor, Badge, Box, Center, Code, Container, Flex, Group, Stack, Tooltip } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
+import { PubKeyLogo } from '@pubkeyapp/logo'
 import { Page } from '@pubkeyapp/sdk'
 import React from 'react'
 import { PageBlockRender } from './blocks/page-block-render'
@@ -36,5 +37,31 @@ export function PageUiRender({
         </Stack>
       </Box>
     </Container>
+  )
+}
+
+export function PageWrapper({ page }: { page: Page }) {
+  return (
+    <Flex direction="column" justify="space-between" h={'100%'}>
+      <Stack spacing={64} sx={{ overflow: 'auto' }}>
+        <PageUiRender page={page} />
+      </Stack>
+      <Stack spacing={'xl'} mt="xl" mb={54}>
+        <Group position="center">
+          <Tooltip label="Page status">
+            <Badge>{page.status}</Badge>
+          </Tooltip>
+          <Tooltip label="PubKey ID">
+            <Badge>PID#{page?.owner?.pid}</Badge>
+          </Tooltip>
+        </Group>
+        <Center>
+          {page?.owner?.pid ? <Code>{page.owner.pid}</Code> : null}
+          <Anchor component="a" href={`${page.siteUrl}`}>
+            <PubKeyLogo size={32} />
+          </Anchor>
+        </Center>
+      </Stack>
+    </Flex>
   )
 }
