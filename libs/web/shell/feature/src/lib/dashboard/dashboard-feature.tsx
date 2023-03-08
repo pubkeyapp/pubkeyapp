@@ -1,8 +1,8 @@
-import { Anchor, Box, Container, Flex, Paper, SimpleGrid, Skeleton, Stack } from '@mantine/core'
+import { Anchor, Box, Container, Flex, Paper, SimpleGrid, Stack } from '@mantine/core'
 import { useAuth } from '@pubkeyapp/web/auth/data-access'
 import { PageCreateButtons, PageList } from '@pubkeyapp/web/page/ui'
 import { UiLoader } from '@pubkeyapp/web/ui/core'
-import { useUserPagesQuery, useUserProfilesQuery, useUserQuery } from '@pubkeyapp/web/util/sdk'
+import { useUserPagesQuery, useUserQuery } from '@pubkeyapp/web/util/sdk'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { EarlyFeatureActions } from '../early/early-feature'
@@ -11,7 +11,6 @@ import { DashboardConnectIdentities } from './dashboard-connect.identities'
 export function DashboardFeature() {
   const { user } = useAuth()
   const [{ data: userData }] = useUserQuery({ variables: { username: `${user?.username}` } })
-  const [{ data: profiles }] = useUserProfilesQuery({ variables: { username: `${user?.username}` } })
   const [{ data: pages, fetching }] = useUserPagesQuery()
 
   return (
@@ -30,7 +29,7 @@ export function DashboardFeature() {
         </Paper>
         <Paper>
           <Stack>
-            <Anchor size="xl" component={Link} to="/dashboard" fw={500}>
+            <Anchor size="xl" component={Link} to="/settings/identities" fw={500}>
               Your identities
             </Anchor>
             <DashboardConnectIdentities identities={userData?.item?.identities ?? []} />

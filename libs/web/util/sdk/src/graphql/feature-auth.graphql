@@ -6,6 +6,9 @@ fragment AuthChallengeRequestDetails on AuthChallengeRequest {
 query me {
   me {
     ...UserDetails
+    identities {
+      ...IdentityDetails
+    }
   }
 }
 

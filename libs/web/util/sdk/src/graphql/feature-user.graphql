@@ -109,3 +109,9 @@ mutation UserUnfollow($username: String!) {
 query UserProfiles($username: String!) {
   item: userProfiles(username: $username)
 }
+
+mutation UserUpdateUser($input: UserUpdateUserInput!) {
+  item: userUpdateUser(input: $input) {
+    ...UserDetails
+  }
+}

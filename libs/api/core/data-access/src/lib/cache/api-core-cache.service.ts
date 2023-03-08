@@ -17,6 +17,8 @@ export class ApiCoreCacheService {
   constructor(@Inject(CACHE_MANAGER) private readonly cache: Cache) {}
 
   del(namespace: CacheNamespace, key: string) {
+    const cacheKey = getCacheKey(namespace, key)
+    this.logger.debug(`[CACHE MISS] ${cacheKey} `)
     return this.cache.del(getCacheKey(namespace, key))
   }
 

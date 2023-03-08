@@ -1,3 +1,4 @@
+export * from './lib/solana.logo'
 export * from './lib/ui-back-button'
 export * from './lib/ui-copy'
 export * from './lib/ui-copy.button'

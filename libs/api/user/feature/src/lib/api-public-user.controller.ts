@@ -5,7 +5,7 @@ import { ApiUserPublicService, User } from '@pubkeyapp/api/user/data-access'
 
 @ApiTags('user')
 @Controller('user')
-export class ApiUserPublicController {
+export class ApiPublicUserController {
   constructor(private readonly service: ApiUserPublicService) {}
 
   @Get('get-user-by-id/:userId')

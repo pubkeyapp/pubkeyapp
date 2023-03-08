@@ -38,22 +38,26 @@ import {
   usePublicPageQuery,
   UserAddPageBlockInput,
   useUserAddPageBlockMutation,
+  useUserDeletePageMutation,
   useUserRemovePageBlockMutation,
   useUserUpdatePageBlockMutation,
   useUserUpdatePageMutation,
 } from '@pubkeyapp/web/util/sdk'
 import { IconCopy, IconExternalLink, IconListNumbers, IconTrash } from '@tabler/icons-react'
 import React from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { WebPageEditorPublishTab } from './web-page-editor-publish-tab'
 
 export function WebPageEditorDetailFeature() {
   const { pageId } = useParams<{ pageId: string }>()
   const [{ data: page }] = usePublicPageQuery({ variables: { pageId: `${pageId}` } })
   const [, addPageBlockMutation] = useUserAddPageBlockMutation()
+  const [, deletePageMutation] = useUserDeletePageMutation()
   const [, updatePageMutation] = useUserUpdatePageMutation()
   const [, updatePageBlockMutation] = useUserUpdatePageBlockMutation()
   const [, removePageBlockMutation] = useUserRemovePageBlockMutation()
+  const navigate = useNavigate()
+
   const removePageBlock = async (block: PageBlock) => {
     if (!confirm(`Do you really want to delete the page block ${block.type}?`)) {
       return false
@@ -112,6 +116,24 @@ export function WebPageEditorDetailFeature() {
         return false
       })
       .catch((err) => showNotificationError(err.message))
+
+  const deletePage = () => {
+    if (!confirm(`Do you really want to delete the page ${page?.item?.type}?`)) {
+      return false
+    }
+    return deletePageMutation({ pageId: pageId! })
+      .then((result) => {
+        if (result.error) {
+          return showNotificationError(result.error.message)
+        }
+        if (result.data?.item) {
+          navigate('/pages')
+          return showNotificationSuccess(`Page ${page?.item?.type} deleted`)
+        }
+        return false
+      })
+      .catch((err) => showNotificationError(err.message))
+  }
 
   return (
     <Stack spacing="xl">
@@ -179,7 +201,9 @@ export function WebPageEditorDetailFeature() {
               <Container size="md">
                 <Paper>
                   <Group position="center">
-                    <Button disabled>Coming Soon!</Button>
+                    <Button variant="outline" color="red" onClick={deletePage}>
+                      Delete Page
+                    </Button>
                   </Group>
                 </Paper>
               </Container>

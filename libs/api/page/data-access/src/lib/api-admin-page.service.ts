@@ -25,6 +25,7 @@ export class ApiAdminPageService {
 
   async adminDeletePage(adminId: string, pageId: string) {
     await this.core.ensureAdminUser(adminId)
+    await this.core.data.pageBlock.deleteMany({ where: { pageId } })
     return this.core.data.page.delete({ where: { id: pageId } })
   }
 

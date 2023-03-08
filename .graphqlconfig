@@ -1,0 +1,15 @@
+{
+  "name": "PubKey GraphQL Schema",
+  "schemaPath": "./api-schema.graphql",
+  "extensions": {
+    "endpoints": {
+      "Default GraphQL Endpoint": {
+        "url": "http://localhost:3040/graphql",
+        "headers": {
+          "user-agent": "JS GraphQL"
+        },
+        "introspect": false
+      }
+    }
+  }
+}

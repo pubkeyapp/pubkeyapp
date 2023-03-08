@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common'
 import { ApiUserDataAccessModule } from '@pubkeyapp/api/user/data-access'
 
-import { ApiUserAdminResolver } from './api-user-admin.resolver'
-import { ApiUserPublicController } from './api-user-public.controller'
-import { ApiUserPublicResolver } from './api-user-public.resolver'
+import { ApiAdminUserResolver } from './api-admin-user.resolver'
+import { ApiPublicUserController } from './api-public-user.controller'
+import { ApiPublicUserResolver } from './api-public-user.resolver'
 import { ApiUserUserResolver } from './api-user-user.resolver'
 
 @Module({
-  controllers: [ApiUserPublicController],
+  controllers: [ApiPublicUserController],
   imports: [ApiUserDataAccessModule],
-  providers: [ApiUserPublicResolver, ApiUserUserResolver, ApiUserAdminResolver],
+  providers: [ApiPublicUserResolver, ApiUserUserResolver, ApiAdminUserResolver],
 })
 export class ApiUserFeatureModule {}

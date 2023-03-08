@@ -4,7 +4,7 @@ import { Identity } from '@pubkeyapp/api/identity/data-access'
 import { User } from '@pubkeyapp/api/user/data-access'
 
 @Resolver(() => User)
-export class ApiUserPublicResolver {
+export class ApiPublicUserResolver {
   @ResolveField(() => String, { nullable: true })
   avatarUrl(@Parent() user: User) {
     return user.avatarUrl ? user.avatarUrl : getAvatarUrl(user.username)

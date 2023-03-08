@@ -5,7 +5,7 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 
 @Resolver()
 @UseGuards(ApiAuthGraphqlGuard)
-export class ApiUserAdminResolver {
+export class ApiAdminUserResolver {
   constructor(private readonly service: ApiUserAdminService) {}
 
   @Query(() => User, { nullable: true })

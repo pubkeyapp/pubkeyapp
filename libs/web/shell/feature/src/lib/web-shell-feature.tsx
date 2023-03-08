@@ -10,6 +10,7 @@ import { DashboardFeature } from './dashboard/dashboard-feature'
 import { EarlyFeature } from './early/early-feature'
 import { HomepageContentFeature, HomepageFeature } from './homepage/homepage-feature'
 import { LoginFeature } from './login/login-feature'
+import { SettingsFeature } from './settings/settings-feature'
 
 const AdminFeature = lazy(() => import('@pubkeyapp/web/admin/feature'))
 const PageFeature = lazy(() => import('@pubkeyapp/web/page/feature'))
@@ -51,6 +52,7 @@ export function WebShellFeature() {
                   <Route path="/admin/*" element={<AdminFeature />} />
                 </Route>
               </Route>
+              <Route path="/settings/*" element={<SettingsFeature />} />
               <Route path="/profile/identities/*" element={<div>TBD: Profile Identities Page</div>} />
               <Route path="/intent/connect/*" element={<div>TBD: Connect Identity Page</div>} />
             </Route>

@@ -288,6 +288,7 @@ export type Mutation = {
   userUnfollow?: Maybe<User>
   userUpdatePage?: Maybe<Page>
   userUpdatePageBlock?: Maybe<PageBlock>
+  userUpdateUser?: Maybe<User>
 }
 
 export type MutationAdminAddPageBlockArgs = {
@@ -443,6 +444,10 @@ export type MutationUserUpdatePageBlockArgs = {
   input: UserUpdatePageBlockInput
   pageBlockId: Scalars['String']
   pageId: Scalars['String']
+}
+
+export type MutationUserUpdateUserArgs = {
+  input: UserUpdateUserInput
 }
 
 export type Page = {
@@ -754,6 +759,13 @@ export type UserUpdatePageInput = {
   title?: InputMaybe<Scalars['String']>
 }
 
+export type UserUpdateUserInput = {
+  avatarUrl?: InputMaybe<Scalars['String']>
+  bio?: InputMaybe<Scalars['String']>
+  name?: InputMaybe<Scalars['String']>
+  username?: InputMaybe<Scalars['String']>
+}
+
 export type AuthChallengeRequestDetailsFragment = {
   __typename?: 'AuthChallengeRequest'
   challenge: string
@@ -781,6 +793,15 @@ export type MeQuery = {
     publicKey?: string | null
     followersCount?: number | null
     followingCount?: number | null
+    identities?: Array<{
+      __typename?: 'Identity'
+      id?: string | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      provider?: IdentityProvider | null
+      providerId: string
+      verified: boolean
+    }> | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
   } | null
 }
@@ -2892,6 +2913,33 @@ export type UserProfilesQueryVariables = Exact<{
 
 export type UserProfilesQuery = { __typename?: 'Query'; item?: any | null }
 
+export type UserUpdateUserMutationVariables = Exact<{
+  input: UserUpdateUserInput
+}>
+
+export type UserUpdateUserMutation = {
+  __typename?: 'Mutation'
+  item?: {
+    __typename?: 'User'
+    id?: string | null
+    pid?: number | null
+    createdAt?: string | null
+    updatedAt?: string | null
+    role?: UserRole | null
+    status?: UserStatus | null
+    username?: string | null
+    name?: string | null
+    bio?: string | null
+    avatarUrl?: string | null
+    metaUrl?: string | null
+    profileUrl?: string | null
+    publicKey?: string | null
+    followersCount?: number | null
+    followingCount?: number | null
+    relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
+  } | null
+}
+
 export const AuthChallengeRequestDetailsFragmentDoc = gql`
   fragment AuthChallengeRequestDetails on AuthChallengeRequest {
     challenge
@@ -3121,9 +3169,13 @@ export const MeDocument = gql`
   query me {
     me {
       ...UserDetails
+      identities {
+        ...IdentityDetails
+      }
     }
   }
   ${UserDetailsFragmentDoc}
+  ${IdentityDetailsFragmentDoc}
 `
 
 export function useMeQuery(options?: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'>) {
@@ -3997,4 +4049,16 @@ export const UserProfilesDocument = gql`
 
 export function useUserProfilesQuery(options: Omit<Urql.UseQueryArgs<UserProfilesQueryVariables>, 'query'>) {
   return Urql.useQuery<UserProfilesQuery, UserProfilesQueryVariables>({ query: UserProfilesDocument, ...options })
+}
+export const UserUpdateUserDocument = gql`
+  mutation UserUpdateUser($input: UserUpdateUserInput!) {
+    item: userUpdateUser(input: $input) {
+      ...UserDetails
+    }
+  }
+  ${UserDetailsFragmentDoc}
+`
+
+export function useUserUpdateUserMutation() {
+  return Urql.useMutation<UserUpdateUserMutation, UserUpdateUserMutationVariables>(UserUpdateUserDocument)
 }

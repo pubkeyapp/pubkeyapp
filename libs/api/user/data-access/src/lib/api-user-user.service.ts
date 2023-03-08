@@ -2,6 +2,7 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { User } from '@prisma/client'
 import { ApiCoreService } from '@pubkeyapp/api/core/data-access'
 import { GumSdkProfileMetadata } from '@pubkeyapp/gum-sdk'
+import { UserUpdateUserInput } from './dto/user-update-user.input'
 import { UserRelation } from './entity/user.relation'
 
 @Injectable()
@@ -98,6 +99,16 @@ export class ApiUserUserService {
       isFollowedByYou: !!member.followers.length,
       isFollowingYou: !!member.following.length,
     }
+  }
+
+  async userUpdateUser(userId: string, input: UserUpdateUserInput) {
+    const updated = await this.core.data.user.update({
+      where: { id: userId },
+      data: input,
+      include: { identities: true },
+    })
+    await this.core.cache.del('user', `get-by-id:${userId}`)
+    return this.core.getUserById(userId)
   }
 
   private decrementFollowersCount(ownerId: string) {

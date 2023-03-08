@@ -348,6 +348,7 @@ type Mutation {
   queueResume(type: QueueType!): Boolean
   userFollow(username: String!): User
   userUnfollow(username: String!): User
+  userUpdateUser(input: UserUpdateUserInput!): User
   adminCreateUser(input: AdminCreateUserInput!): User
   adminUpdateUser(userId: String!, input: AdminUpdateUserInput!): User
   adminDeleteUser(userId: String!): User
@@ -460,6 +461,13 @@ input QueueLoadInput {
   serverAppId: String!
   payload: JSON!
   type: QueueType!
+}
+
+input UserUpdateUserInput {
+  name: String
+  username: String
+  avatarUrl: String
+  bio: String
 }
 
 input AdminCreateUserInput {

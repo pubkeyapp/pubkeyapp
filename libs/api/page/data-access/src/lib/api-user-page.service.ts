@@ -23,6 +23,7 @@ export class ApiUserPageService {
 
   async userDeletePage(userId: string, pageId: string) {
     await this.ensurePageOwner(userId, pageId)
+    await this.core.data.pageBlock.deleteMany({ where: { pageId } })
     return this.core.data.page.delete({ where: { id: pageId } })
   }
 

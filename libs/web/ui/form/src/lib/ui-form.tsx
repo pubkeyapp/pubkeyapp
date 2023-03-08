@@ -39,7 +39,7 @@ export function UiForm<T>({
   children?: ReactNode
   model: T
   fields: UiFormField<T>[]
-  submit: (input: Partial<T>) => Promise<boolean>
+  submit: (input: Partial<T>) => Promise<boolean | undefined>
   validate?: (input: Partial<T>) => Record<string, string>
 }) {
   const theme = useMantineTheme()
@@ -56,6 +56,7 @@ export function UiForm<T>({
     if (!result) {
       form.setFieldError('submit', 'An error occurred')
     } else {
+      form.resetTouched()
       form.reset()
     }
   }

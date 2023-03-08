@@ -1,7 +1,6 @@
 import { Button, Stack, Text } from '@mantine/core'
 import { modals } from '@mantine/modals'
-import { useWalletModal, WalletMultiButton } from '@pubkeyapp/wallet-adapter-mantine-ui'
-import { showNotificationSuccess } from '@pubkeyapp/web/ui/core'
+import { useWalletModal } from '@pubkeyapp/wallet-adapter-mantine-ui'
 import {
   LogoutDocument,
   MeDocument,
@@ -25,6 +24,7 @@ export interface AuthProviderContext {
   login: (input: AuthLoginInput) => Promise<void>
   logout: () => Promise<void>
   user: User | undefined
+  refresh: () => void
 }
 
 const AuthProviderContext = createContext<AuthProviderContext>({} as AuthProviderContext)
@@ -38,6 +38,11 @@ function AuthProvider({ children }: { children: ReactNode }) {
   const [{ data, error: meError, fetching }, refresh] = useMeQuery()
   const client = useClient()
   const [user, setUser] = useState<User | undefined>(undefined)
+
+  useEffect(() => {
+    if (!data?.me) return
+    setUser(data.me)
+  }, [data?.me])
 
   useEffect(() => {
     if (fetching || !data || connecting) return
@@ -140,6 +145,12 @@ function AuthProvider({ children }: { children: ReactNode }) {
     loggedIn: !!data?.me,
     logout,
     user,
+    refresh: () => {
+      return client
+        .query(MeDocument, {})
+        .toPromise()
+        .then((res) => setUser(res.data.me))
+    },
   }
   return <AuthProviderContext.Provider value={value}>{children}</AuthProviderContext.Provider>
 }

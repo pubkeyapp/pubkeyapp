@@ -15,18 +15,10 @@ export function PageList({ pages }: { pages: Page[] }) {
               <Anchor component={Link} to={`/pages/${page.id}`} size="xl">
                 {page.type}: {page.title}
               </Anchor>
-              <Badge color={page.status === PageStatus.Published ? 'green' : 'brand'} variant="outline">
-                {page.status}
-              </Badge>
             </Group>
-            <Group spacing="xs">
-              <Button size="sm" component={Link} to={`/pages/${page.id}`}>
-                Edit
-              </Button>
-              <Button size="sm" component={Link} to={`${page.previewUrl}`}>
-                Preview
-              </Button>
-            </Group>
+            <Badge color={page.status === PageStatus.Published ? 'green' : 'brand'} variant="outline">
+              {page.status}
+            </Badge>
           </Group>
         </Box>
       ))}
