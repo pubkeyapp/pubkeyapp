@@ -13,7 +13,6 @@
     "build:web-sdk": "graphql-codegen --config libs/web/util/sdk/src/codegen.yml",
     "dev:gateway": "nx serve gateway",
     "dev:api": "nx serve api",
-    "dev:demo": "nx serve demo",
     "dev:render": "nx serve render",
     "dev:sdk": "nodemon --watch ./api-swagger.json -x 'yarn build:sdk'",
     "dev:services": "docker compose up",
