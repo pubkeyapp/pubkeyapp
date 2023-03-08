@@ -50,7 +50,7 @@ export function AdminPageCreateFeature() {
 
   return (
     <UiPage title={`Create Page`} leftAction={<UiBackButton />}>
-      <Paper withBorder radius="md" p={theme.spacing.md}>
+      <Paper>
         <UiForm<AdminCreatePageInput>
           fields={fields}
           model={{ title: '', description: '', ownerId: '' }}

@@ -2,7 +2,7 @@ import { ActionIcon, Box, Group } from '@mantine/core'
 import { AdminUiExternalLink } from '@pubkeyapp/web/admin/ui'
 import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/core'
 import { Page, PageDomain, useAdminRemovePageDomainMutation } from '@pubkeyapp/web/util/sdk'
-import { IconTrash } from '@tabler//icons-react'
+import { IconGlobe, IconTrash } from '@tabler//icons-react'
 import React from 'react'
 
 export function AdminPageDomainList({ page }: { page: Page }) {
@@ -26,7 +26,10 @@ export function AdminPageDomainList({ page }: { page: Page }) {
       {page?.domains?.map((domain) => (
         <Box key={domain.id}>
           <Group position="apart">
-            <AdminUiExternalLink key={domain.id} link={domain.viewUrl!} />
+            <Group spacing={4}>
+              <IconGlobe size={16} />
+              <AdminUiExternalLink key={domain.id} link={domain.viewUrl!} />
+            </Group>
             <Group spacing={0} position="right" noWrap>
               <ActionIcon color="red" onClick={() => removePageDomain(domain)}>
                 <IconTrash size={16} />

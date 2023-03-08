@@ -8,12 +8,12 @@ export function AdminPageDomainsTab({ page }: { page: Page }) {
   return (
     <Paper>
       <Stack spacing="xl">
-        <AdminPageDomainAddForm page={{ ...page }} />
         {!page?.domains?.length ? (
           <Alert>No domains connected to this page.</Alert>
         ) : (
           <AdminPageDomainList page={page} />
         )}
+        <AdminPageDomainAddForm page={{ ...page }} />
       </Stack>
     </Paper>
   )

@@ -26,7 +26,7 @@ export function AdminPageSettingsTab({
   ]
 
   return (
-    <Paper withBorder radius="md" p={theme.spacing.md}>
+    <Paper>
       <UiForm<AdminUpdatePageInput>
         fields={fields}
         model={{

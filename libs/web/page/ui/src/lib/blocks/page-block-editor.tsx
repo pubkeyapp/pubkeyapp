@@ -1,4 +1,4 @@
-import { Button, Center, Group, Stack, Text } from '@mantine/core'
+import { Badge, Button, Center, Group, Stack, Text } from '@mantine/core'
 import { AdminAddPageBlockInput, PageBlockType } from '@pubkeyapp/web/util/sdk'
 import { IconHeading } from '@tabler//icons-react'
 import React, { useState } from 'react'
@@ -7,6 +7,15 @@ import { pageBlockIcons } from './page-block-icon'
 
 export function PageBlockEditor({ submit }: { submit: (input: AdminAddPageBlockInput) => Promise<boolean> }) {
   const [type, setType] = useState<PageBlockType | undefined>(undefined)
+
+  const comingSoonIcons: { label: string }[] = [
+    { label: 'Metaplex NFTs' },
+    { label: 'Dialect' },
+    { label: 'Backpack' },
+    { label: 'Bonfida Name Service' },
+    { label: 'Social Media Embeds' },
+    { label: 'And more...' },
+  ]
 
   return (
     <Stack>
@@ -33,7 +42,7 @@ export function PageBlockEditor({ submit }: { submit: (input: AdminAddPageBlockI
             {pageBlockIcons.map((item) => (
               <Button
                 size="lg"
-                color="gray"
+                variant="default"
                 key={item.type}
                 onClick={() =>
                   submit({ type: PageBlockType.Link, data: { icon: item.type, label: item.label, link: item.link } })
@@ -44,6 +53,20 @@ export function PageBlockEditor({ submit }: { submit: (input: AdminAddPageBlockI
                   {item.icon}
                 </Group>
               </Button>
+            ))}
+          </Group>
+        </Center>
+        <Center>
+          <Text weight={500} size="lg">
+            Coming Soon
+          </Text>
+        </Center>
+        <Center>
+          <Group position="center">
+            {comingSoonIcons.map((item) => (
+              <Badge size="lg" key={item.label}>
+                {item.label}
+              </Badge>
             ))}
           </Group>
         </Center>

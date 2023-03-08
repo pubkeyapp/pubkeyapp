@@ -56,7 +56,7 @@ export function PageShareModal({ page }: { page: Page }) {
     <>
       <Modal opened={opened} onClose={() => setOpened(false)} title={<Text size="xl">Share this PubKey</Text>} centered>
         {page.viewUrl ? (
-          <Stack mt={48}>
+          <Stack mt={32}>
             {links.map((link) => (
               <Anchor
                 key={link.label}
@@ -81,7 +81,7 @@ export function PageShareModal({ page }: { page: Page }) {
             </Box>
           </Stack>
         ) : (
-          <Text>Sorry, this page is not published yet.</Text>
+          <Text>You can't share a page without a domain.</Text>
         )}
       </Modal>
       <ActionIcon variant="light" color="brand" onClick={() => setOpened(true)}>

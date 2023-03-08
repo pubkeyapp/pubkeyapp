@@ -1,6 +1,5 @@
 import { Alert, Button, Group, Stack, Text } from '@mantine/core'
 import { useAdminDomain, useAdminPage } from '@pubkeyapp/web/admin/data-access'
-import { UiDebug } from '@pubkeyapp/web/ui/core'
 import { formFieldSelect, formFieldText, UiForm, UiFormField } from '@pubkeyapp/web/ui/form'
 import {
   AdminAddPageDomainDocument,
@@ -101,7 +100,13 @@ export function AdminPageDomainAddForm({ page }: { page: Page }) {
           Check
         </Button>
       </UiForm>
-      {found ? <UiDebug data={{ found }} open /> : null}
+      {found ? (
+        <Stack>
+          <Alert>
+            Domain found: {domain?.name}/{model.path}
+          </Alert>
+        </Stack>
+      ) : null}
       {canCreate ? (
         <Stack align="center" spacing="xl" mt="xl">
           <Text size={24} sx={{ lineHeight: 1 }}>

@@ -9,7 +9,7 @@ export function AdminPageBlocksTab({ page }: { page: Page }) {
   const theme = useMantineTheme()
   const { updatePage } = useAdminPage()
   return (
-    <Paper withBorder radius="md" p={theme.spacing.md}>
+    <Paper>
       <Stack>
         <Group>
           <PageBlockAddModal page={page} />
