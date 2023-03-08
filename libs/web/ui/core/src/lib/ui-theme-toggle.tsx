@@ -1,4 +1,4 @@
-import { ActionIcon, Group, useMantineTheme } from '@mantine/core'
+import { ActionIcon, useMantineTheme } from '@mantine/core'
 import { useUiTheme } from '@pubkeyapp/web/ui/theme'
 import { IconMoonStars, IconSun } from '@tabler/icons-react'
 
@@ -9,18 +9,19 @@ export function UiThemeToggle() {
   const { radius } = defaultProps || {}
 
   return (
-    <Group position="center" my="xl">
-      <ActionIcon
-        radius={radius || 'xs'}
-        onClick={() => toggleColorScheme()}
-        size="lg"
-        sx={(theme) => ({
-          backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
-          color: theme.colorScheme === 'dark' ? theme.colors.brand[3] : theme.colors.brand[6],
-        })}
-      >
-        {colorScheme === 'dark' ? <IconSun size={18} /> : <IconMoonStars size={18} />}
-      </ActionIcon>
-    </Group>
+    <ActionIcon
+      radius={radius || 'xs'}
+      onClick={() => toggleColorScheme()}
+      size="lg"
+      sx={(theme) => ({
+        [theme.fn.smallerThan('xs')]: {
+          display: 'none',
+        },
+        backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+        color: theme.colorScheme === 'dark' ? theme.colors.brand[3] : theme.colors.brand[6],
+      })}
+    >
+      {colorScheme === 'dark' ? <IconSun size={18} /> : <IconMoonStars size={18} />}
+    </ActionIcon>
   )
 }

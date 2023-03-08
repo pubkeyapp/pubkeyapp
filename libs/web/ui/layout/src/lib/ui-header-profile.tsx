@@ -1,29 +1,21 @@
-import { Avatar, Badge, createStyles, Group, Menu, rem, Text, UnstyledButton } from '@mantine/core'
+import { Avatar, Badge, Box, createStyles, Group, Menu, rem, Text, UnstyledButton } from '@mantine/core'
 import { useAuth } from '@pubkeyapp/web/auth/data-access'
 import { UserRole } from '@pubkeyapp/web/util/sdk'
-import { IconChevronDown, IconQuestionMark, IconUser } from '@tabler/icons-react'
+import { IconChevronDown, IconUser } from '@tabler/icons-react'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 export const useStyles = createStyles((theme) => ({
   button: {
-    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
-    padding: `${theme.spacing.xs} ${theme.spacing.sm}`,
-    borderRadius: theme.radius.sm,
+    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+    color: theme.colorScheme === 'dark' ? theme.colors.brand[3] : theme.colors.brand[6],
+    paddingTop: 2,
+    paddingBottom: 2,
+    paddingRight: 4,
+    borderRadius: theme.radius.xl,
     transition: 'background-color 100ms ease',
-
-    '&:hover': {
-      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white,
-    },
-
-    [theme.fn.smallerThan('xs')]: {
-      display: 'none',
-    },
   },
-
-  buttonActive: {
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white,
-  },
+  buttonActive: {},
 }))
 
 export function UiHeaderProfile() {
@@ -38,13 +30,14 @@ export function UiHeaderProfile() {
       onClose={() => setUserMenuOpened(false)}
       onOpen={() => setUserMenuOpened(true)}
       withArrow
-      offset={2}
+      offset={3}
+      arrowOffset={12}
     >
       <Menu.Target>
         <UnstyledButton className={cx(classes.button, { [classes.buttonActive]: userMenuOpened })} disabled={!user}>
-          <Group spacing={7}>
+          <Group spacing={3} pr={4}>
             {user?.avatarUrl ? (
-              <Avatar src={user?.avatarUrl} alt={`Avatar of ${user?.name}`} radius="xl" size={28} />
+              <Avatar src={user?.avatarUrl} alt={`Avatar of ${user?.name}`} radius="xl" size={30} />
             ) : (
               <IconUser size={28} stroke={1.5} />
             )}
@@ -55,18 +48,30 @@ export function UiHeaderProfile() {
       {user ? (
         <Menu.Dropdown sx={{ zIndex: 999999 }}>
           <Menu.Label>
-            <Group spacing={4}>
-              <Text size="sm" sx={{ lineHeight: 1 }}>
-                Signed in as
-              </Text>
-
-              <Text weight={'bold'} size="sm" sx={{ lineHeight: 1 }}>
-                {user.name}
-              </Text>
-              {user?.role === UserRole.Admin ? <Badge>{user.role}</Badge> : null}
-            </Group>
+            <Box w={230}>
+              <Group position="apart" noWrap>
+                <Text truncate>
+                  <Group spacing={4} noWrap pb={2}>
+                    <Text size="sm" sx={{ lineHeight: 1 }}>
+                      gm
+                    </Text>
+                    <Text truncate weight={'bold'} size="sm" sx={{ lineHeight: 1 }} lineClamp={1}>
+                      {user.name}Dd1JSwojUsptwFa97A3WRZU1SijCWYo9Qa3xLxT8yzb7
+                    </Text>
+                  </Group>
+                </Text>
+                {user?.role === UserRole.Admin ? <Badge miw={80}>{user.role}</Badge> : null}
+              </Group>
+            </Box>
           </Menu.Label>
           <Menu.Divider />
+
+          <Menu.Item component={Link} to="/dashboard">
+            Dashboard
+          </Menu.Item>
+          <Menu.Item component={Link} to="/pages">
+            Your Pages
+          </Menu.Item>
           <Menu.Item component={Link} to={`${user.profileUrl}`}>
             Your Profile
           </Menu.Item>
@@ -76,13 +81,13 @@ export function UiHeaderProfile() {
               <Menu.Item component={Link} to="/admin">
                 Admin Dashboard
               </Menu.Item>
-              <Menu.Item component={Link} to="/dev">
-                Developer
-              </Menu.Item>
+              {/*<Menu.Item component={Link} to="/dev">*/}
+              {/*  Developer*/}
+              {/*</Menu.Item>*/}
             </>
           ) : null}
           <Menu.Divider />
-          <Menu.Item component={Link} to={`/settings`}>
+          <Menu.Item component={Link} to="/settings">
             Settings
           </Menu.Item>
           <Menu.Divider />
