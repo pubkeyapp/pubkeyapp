@@ -58,8 +58,8 @@ mutation AdminDeleteUser($userId: String!) {
   }
 }
 
-query User($username: String!) {
-  item: user(username: $username) {
+query PublicUser($username: String!) {
+  item: publicUser(username: $username) {
     ...UserDetails
     identities {
       ...IdentityDetails
@@ -67,8 +67,8 @@ query User($username: String!) {
   }
 }
 
-query UserFollowers($username: String!) {
-  item: userFollowers(username: $username) {
+query PublicUserFollowers($username: String!) {
+  item: publicUserFollowers(username: $username) {
     ...UserDetails
     identities {
       ...IdentityDetails
@@ -76,8 +76,8 @@ query UserFollowers($username: String!) {
   }
 }
 
-query UserFollowing($username: String!) {
-  item: userFollowing(username: $username) {
+query PublicFollowing($username: String!) {
+  item: publicUserFollowing(username: $username) {
     ...UserDetails
     identities {
       ...IdentityDetails
@@ -85,39 +85,30 @@ query UserFollowing($username: String!) {
   }
 }
 
-query UserInvites($username: String!) {
-  item: userInvites(username: $username) {
-    ...InviteDetails
-    users {
-      ...UserDetails
-    }
-  }
-}
-
-mutation UserFollow($username: String!) {
-  item: userFollow(username: $username) {
-    ...UserDetails
-  }
-}
-
-mutation UserUnfollow($username: String!) {
-  item: userUnfollow(username: $username) {
-    ...UserDetails
-  }
-}
-
-query UserPages($username: String!) {
-  items: userPages(username: $username) {
+query PublicUserPages($username: String!) {
+  items: publicUserPages(username: $username) {
     ...PageDetails
   }
 }
 
-query UserProfiles($username: String!) {
-  item: userProfiles(username: $username)
+query PublicUserProfiles($username: String!) {
+  item: publicUserProfiles(username: $username)
 }
 
 mutation UserUpdateUser($input: UserUpdateUserInput!) {
   item: userUpdateUser(input: $input) {
+    ...UserDetails
+  }
+}
+
+mutation UserFollowUser($username: String!) {
+  item: userFollowUser(username: $username) {
+    ...UserDetails
+  }
+}
+
+mutation UserUnfollowUser($username: String!) {
+  item: userUnfollowUser(username: $username) {
     ...UserDetails
   }
 }

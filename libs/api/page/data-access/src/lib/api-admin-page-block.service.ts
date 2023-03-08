@@ -8,7 +8,7 @@ export class ApiAdminPageBlockService {
   constructor(private readonly core: ApiCoreService) {}
 
   async adminPageBlock(adminId: string, pageBlockId: string) {
-    await this.core.ensureAdminUser(adminId)
+    await this.core.ensureUserAdmin(adminId)
 
     return this.core.data.pageBlock.findUnique({
       where: { id: pageBlockId },
@@ -17,6 +17,7 @@ export class ApiAdminPageBlockService {
   }
 
   async adminAddPageBlock(adminId: string, pageId: string, input: AdminAddPageBlockInput) {
+    await this.core.ensureUserAdmin(adminId)
     return this.core.data.pageBlock.create({
       data: {
         pageId,
@@ -39,7 +40,7 @@ export class ApiAdminPageBlockService {
   }
 
   async adminRemovePageBlock(adminId: string, pageId: string, pageBlockId: string) {
-    await this.core.ensureAdminUser(adminId)
+    await this.core.ensureUserAdmin(adminId)
 
     const pageBlock = await this.core.data.pageBlock.findFirst({
       where: { pageId, id: pageBlockId },

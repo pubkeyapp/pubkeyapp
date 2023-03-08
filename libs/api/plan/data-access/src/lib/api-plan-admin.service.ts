@@ -9,7 +9,7 @@ export class ApiPlanAdminService {
   constructor(private readonly core: ApiCoreService) {}
 
   async adminCreatePlan(adminId: string, input: AdminCreatePlanInput) {
-    await this.core.ensureAdminUser(adminId)
+    await this.core.ensureUserAdmin(adminId)
     return this.core.data.plan.create({
       data: {
         ...input,
@@ -19,12 +19,12 @@ export class ApiPlanAdminService {
   }
 
   async adminDeletePlan(adminId: string, id: string) {
-    await this.core.ensureAdminUser(adminId)
+    await this.core.ensureUserAdmin(adminId)
     return this.core.data.plan.delete({ where: { id } })
   }
 
   async adminPlans(adminId: string, input: AdminListPlanInput) {
-    await this.core.ensureAdminUser(adminId)
+    await this.core.ensureUserAdmin(adminId)
     return this.core.data.plan.findMany({
       where: {},
       include: { features: true },
@@ -32,12 +32,12 @@ export class ApiPlanAdminService {
   }
 
   async adminPlan(adminId: string, id: string) {
-    await this.core.ensureAdminUser(adminId)
+    await this.core.ensureUserAdmin(adminId)
     return this.core.data.plan.findUnique({ where: { id }, include: { features: true } })
   }
 
   async adminUpdatePlan(adminId: string, id: string, input: AdminUpdatePlanInput) {
-    await this.core.ensureAdminUser(adminId)
+    await this.core.ensureUserAdmin(adminId)
     return this.core.data.plan.update({
       where: { id },
       data: { ...input },

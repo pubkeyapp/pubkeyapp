@@ -8,7 +8,7 @@ export function AdminUiExternalLink({ label, link }: { label?: string; link: str
       <Group spacing={2}>
         <Text pr={0}>{label ?? link}</Text>
         <Text color="dimmed">
-          <IconExternalLink size={14} />
+          <IconExternalLink size={16} />
         </Text>
       </Group>
     </Anchor>

@@ -7,7 +7,7 @@ export class ApiAdminPageDomainService {
   constructor(private readonly core: ApiCoreService) {}
 
   async adminPageDomain(adminId: string, domainId: string, path: string) {
-    await this.core.ensureAdminUser(adminId)
+    await this.core.ensureUserAdmin(adminId)
 
     return this.core.data.pageDomain.findUnique({
       where: { domainId_path: { domainId, path } },
@@ -27,7 +27,7 @@ export class ApiAdminPageDomainService {
   }
 
   async adminRemovePageDomain(adminId: string, pageId: string, pageDomainId: string) {
-    await this.core.ensureAdminUser(adminId)
+    await this.core.ensureUserAdmin(adminId)
 
     const pageDomain = await this.core.data.pageDomain.findFirst({
       where: { pageId, id: pageDomainId },

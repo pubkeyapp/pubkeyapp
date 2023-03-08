@@ -57,7 +57,7 @@ export function AdminDomainCreateFeature() {
 
   return (
     <UiPage title={`Create Domain`} leftAction={<UiBackButton />}>
-      <Paper withBorder radius="md" p={theme.spacing.md}>
+      <Paper>
         <UiForm<AdminCreateDomainInput>
           fields={fields}
           model={{ name: '', premium: false, private: false, secure: true, ownerId: '' }}

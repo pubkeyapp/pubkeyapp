@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common'
-import { Identity, IdentityProvider, UserRole } from '@prisma/client'
+import { Injectable, NotFoundException } from '@nestjs/common'
+import { Identity, IdentityProvider, UserRole, UserStatus } from '@prisma/client'
 import { ApiConfigDataAccessService } from '@pubkeyapp/api/config/data-access'
 import { GumSdk } from '@pubkeyapp/gum-sdk'
 
@@ -33,13 +33,40 @@ export class ApiCoreService {
     )
   }
 
-  async ensureAdminUser(userId: string): Promise<boolean> {
-    const role = await this.getUserRole(userId)
+  async ensureUser(userId: string): Promise<CoreUser> {
+    const user = await this.getUserById(userId)
 
-    if (role !== UserRole.Admin) {
+    if (!user) {
+      throw new Error('Unauthorized: No such user')
+    }
+    return user
+  }
+
+  async ensureUserActive(userId: string): Promise<CoreUser> {
+    const user = await this.ensureUser(userId)
+
+    if (user.status !== UserStatus.Active) {
+      throw new Error('Unauthorized: Not an active user')
+    }
+    return user
+  }
+
+  async ensureUserAdmin(userId: string): Promise<CoreUser> {
+    const user = await this.ensureUserActive(userId)
+
+    if (user.role !== UserRole.Admin) {
       throw new Error('Unauthorized: Not an admin')
     }
-    return true
+    return user
+  }
+
+  async ensureUsername(username: string) {
+    const user = await this.data.findUserByUsername(username)
+
+    if (!user) {
+      throw new NotFoundException(`User ${username} not found`)
+    }
+    return user
   }
 
   getUserById(userId: string): Promise<CoreUser> {

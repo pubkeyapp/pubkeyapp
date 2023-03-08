@@ -1,5 +1,13 @@
-import { Button, Code, Container, createStyles, Group, rem, Stack, Text, Title, Tooltip } from '@mantine/core'
+import { Button, Code, Container, createStyles, Group, Paper, rem, Stack, Text, Title, Tooltip } from '@mantine/core'
 import { useAuth } from '@pubkeyapp/web/auth/data-access'
+import { showNotificationError, showNotificationSuccess, UiDebug, UiUserLink } from '@pubkeyapp/web/ui/core'
+import {
+  useMeQuery,
+  UserStatus,
+  useUserAcceptInviteMutation,
+  useUserInviteQuery,
+  useUserInvitesQuery,
+} from '@pubkeyapp/web/util/sdk'
 import {
   IconBrandDiscord,
   IconBrandTwitter,
@@ -8,6 +16,8 @@ import {
   IconSquareRoundedNumber3,
 } from '@tabler/icons-react'
 import React from 'react'
+import { EarlyAcceptInviteForm, EarlyAcceptInviteFormInput } from './early-accept-invite-form'
+import { EarlyInviteItem } from './early-invite.item'
 
 export const useStyles = createStyles((theme) => ({
   root: {
@@ -59,7 +69,12 @@ export function EarlyFeature() {
       </Text>
       <Stack align="center" sx={{ marginBottom: `calc(${theme.spacing.xl} * 1.5)` }}>
         <Tooltip label="This is your PubKey ID" withArrow>
-          <Code color="brand" sx={{ fontSize: 24, borderRadius: 50 }} px="xl" py="lg">
+          <Code
+            color={user?.status === UserStatus.Active ? 'green' : 'brand'}
+            sx={{ fontSize: 24, borderRadius: 50 }}
+            px="xl"
+            py="lg"
+          >
             pid#{user?.pid}
           </Code>
         </Tooltip>
@@ -73,48 +88,109 @@ export function EarlyFeature() {
 }
 
 export function EarlyFeatureActions() {
-  const { user } = useAuth()
+  const { user, refresh } = useAuth()
+  const [, acceptInviteMutation] = useUserAcceptInviteMutation()
+  const [{ data }, refreshInvite] = useUserInviteQuery()
   const text = [
     'gm @PubKeyApp... wen invite code?',
     `My %23PID is ${user?.pid} 🚀`,
     `Get yours at https://devnet.pubkey.app! 🅿️ #Grizzlython @Solana`,
   ].join('%0a%0a')
 
+  const acceptInvite = async (input: EarlyAcceptInviteFormInput) => {
+    if (!input.code) {
+      return showNotificationError('Please enter an invite code')
+    }
+    acceptInviteMutation({ code: input.code })
+      .then((res) => {
+        refreshInvite()
+        refresh()
+        console.log('res', res.data)
+        if (res.error) {
+          return showNotificationError(res.error.message)
+        }
+        if (!res.error && res.data?.item) {
+          return showNotificationSuccess('Invite Accepted!')
+        }
+      })
+      .catch((err) => showNotificationError(err.message))
+    return true
+  }
+
   return (
-    <Group position="center">
-      <Tooltip label="Follow @PubKeyApp on Twitter">
-        <Button
-          component="a"
-          href="https://twitter.com/intent/user?screen_name=PubKeyApp"
-          target="_blank"
-          leftIcon={<IconSquareRoundedNumber1 />}
-          rightIcon={<IconBrandTwitter size={24} />}
-        >
-          Follow us Twitter
-        </Button>
-      </Tooltip>
-      <Tooltip label="Share your #PID on Twitter and tag @PubKeyApp">
-        <Button
-          component="a"
-          href={`https://twitter.com/intent/tweet?text=${text}`}
-          target="_blank"
-          leftIcon={<IconSquareRoundedNumber2 />}
-          rightIcon={<IconBrandTwitter size={24} />}
-        >
-          Share on Twitter
-        </Button>
-      </Tooltip>
-      <Tooltip label="Join our Discord and share your PID Tweet">
-        <Button
-          component="a"
-          href="https://pubkey.app/join-discord"
-          target="_blank"
-          leftIcon={<IconSquareRoundedNumber3 />}
-          rightIcon={<IconBrandDiscord size={24} />}
-        >
-          Join our Discord
-        </Button>
-      </Tooltip>
-    </Group>
+    <Stack spacing="xl">
+      <Group position="center">
+        <Tooltip label="Follow @PubKeyApp on Twitter">
+          <Button
+            component="a"
+            href="https://twitter.com/intent/user?screen_name=PubKeyApp"
+            target="_blank"
+            leftIcon={<IconSquareRoundedNumber1 size={36} />}
+            rightIcon={<IconBrandTwitter size={36} />}
+          >
+            Follow us Twitter
+          </Button>
+        </Tooltip>
+        <Tooltip label="Share your #PID on Twitter and tag @PubKeyApp">
+          <Button
+            component="a"
+            href={`https://twitter.com/intent/tweet?text=${text}`}
+            target="_blank"
+            leftIcon={<IconSquareRoundedNumber2 size={36} />}
+            rightIcon={<IconBrandTwitter size={36} />}
+          >
+            Share on Twitter
+          </Button>
+        </Tooltip>
+        <Tooltip label="Join our Discord and share your PID Tweet">
+          <Button
+            component="a"
+            href="https://pubkey.app/join-discord"
+            target="_blank"
+            leftIcon={<IconSquareRoundedNumber3 size={36} />}
+            rightIcon={<IconBrandDiscord size={36} />}
+          >
+            Join our Discord
+          </Button>
+        </Tooltip>
+      </Group>
+      <Stack align="center" sx={{}} mt={64} spacing={32}>
+        {data?.item ? (
+          <Group spacing={4}>
+            {data?.item?.owner ? <UiUserLink user={data?.item?.owner} /> : 'Anon'} invited you to PubKey!
+          </Group>
+        ) : (
+          <Paper>
+            <EarlyAcceptInviteForm submit={acceptInvite} />
+          </Paper>
+        )}
+        {user?.status === UserStatus.Active ? <EarlyInviteList /> : null}
+      </Stack>
+    </Stack>
+  )
+}
+
+export function EarlyInviteList() {
+  const [{ data }] = useUserInvitesQuery()
+
+  return (
+    <Stack>
+      {data?.items?.length ? (
+        <Stack>
+          <Text color="dimmed" size="lg" align="center">
+            Share an invite with your friends!
+          </Text>
+          <Group position="center">
+            {data?.items?.map((item) => (
+              <EarlyInviteItem key={item.id} invite={item} />
+            ))}
+          </Group>
+        </Stack>
+      ) : (
+        <Text color="dimmed" size="sm" align="center">
+          You have no invites to share.
+        </Text>
+      )}
+    </Stack>
   )
 }

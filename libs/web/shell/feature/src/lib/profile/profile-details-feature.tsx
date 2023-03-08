@@ -2,14 +2,14 @@ import { Box, Button, Container, Stack, Tooltip } from '@mantine/core'
 import { User } from '@pubkeyapp/sdk'
 import { PageTypeColor, PageTypeIcon, PageUserProfile } from '@pubkeyapp/web/page/ui'
 import { UiError, UiErrorLoader } from '@pubkeyapp/web/ui/core'
-import { PageType, useUserPagesQuery, useUserQuery } from '@pubkeyapp/web/util/sdk'
+import { PageType, usePublicUserPagesQuery, usePublicUserQuery } from '@pubkeyapp/web/util/sdk'
 import React from 'react'
 import { Link, useParams } from 'react-router-dom'
 
 export function ProfileDetailsFeature() {
   const { username } = useParams<{ username: string }>()
-  const [{ data, fetching, error }] = useUserQuery({ variables: { username: `${username}` } })
-  const [{ data: pagesData, fetching: pagesFetching, error: pagesError }] = useUserPagesQuery({
+  const [{ data, fetching, error }] = usePublicUserQuery({ variables: { username: `${username}` } })
+  const [{ data: pagesData, fetching: pagesFetching, error: pagesError }] = usePublicUserPagesQuery({
     variables: { username: '' + username },
   })
 
@@ -32,7 +32,7 @@ export function ProfileDetailsFeature() {
                           target="_blank"
                           size="xl"
                           variant="default"
-                          leftIcon={<PageTypeIcon type={page.type as PageType} size={24} />}
+                          leftIcon={<PageTypeIcon type={page.type as PageType} size={36} />}
                           color={PageTypeColor({ type: page.type as PageType })}
                         >
                           {page.type}
@@ -47,7 +47,7 @@ export function ProfileDetailsFeature() {
                           target="_blank"
                           size="xl"
                           variant="default"
-                          leftIcon={<PageTypeIcon type={page.type as PageType} size={24} />}
+                          leftIcon={<PageTypeIcon type={page.type as PageType} size={36} />}
                           color={PageTypeColor({ type: page.type as PageType })}
                         >
                           {page.type}

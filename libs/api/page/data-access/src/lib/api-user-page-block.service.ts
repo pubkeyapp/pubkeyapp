@@ -9,16 +9,8 @@ import { UserUpdatePageBlockInput } from './dto/user-update-page-block.input'
 export class ApiUserPageBlockService {
   constructor(private readonly core: ApiCoreService, private readonly page: ApiUserPageService) {}
 
-  async userPageBlock(userId: string, pageBlockId: string) {
-    // await this.page.ensurePageOwner(userId)
-
-    return this.core.data.pageBlock.findUnique({
-      where: { id: pageBlockId },
-      include: { page: true },
-    })
-  }
-
   async userAddPageBlock(userId: string, pageId: string, input: UserAddPageBlockInput) {
+    await this.page.ensurePageOwner(userId, pageId)
     return this.core.data.pageBlock.create({
       data: {
         pageId,
@@ -29,7 +21,8 @@ export class ApiUserPageBlockService {
   }
 
   async userUpdatePageBlock(userId: string, pageId: string, pageBlockId: string, input: UserUpdatePageBlockInput) {
-    const found = await this.userPageBlock(userId, pageBlockId)
+    await this.page.ensurePageOwner(userId, pageId)
+    const found = await this.getPageBlock(pageBlockId)
     if (!found) {
       throw new Error('PageBlock could not be found')
     }
@@ -52,6 +45,13 @@ export class ApiUserPageBlockService {
     return this.core.data.pageBlock.delete({
       where: { id: pageBlockId },
       include: { page: { include: { blocks: true } } },
+    })
+  }
+
+  private async getPageBlock(pageBlockId: string) {
+    return this.core.data.pageBlock.findUnique({
+      where: { id: pageBlockId },
+      include: { page: true },
     })
   }
 }

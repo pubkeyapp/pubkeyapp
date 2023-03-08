@@ -3,13 +3,13 @@ import { useAuth } from '@pubkeyapp/web/auth/data-access'
 import { PageCreateButtons, PageList } from '@pubkeyapp/web/page/ui'
 import { UiBackButton } from '@pubkeyapp/web/ui/core'
 import { UiPageHeader } from '@pubkeyapp/web/ui/page'
-import { useUserPagesQuery } from '@pubkeyapp/web/util/sdk'
+import { usePublicUserPagesQuery } from '@pubkeyapp/web/util/sdk'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
 export function WebPageEditorListFeature() {
   const { user } = useAuth()
-  const [{ data: pages }] = useUserPagesQuery({ variables: { username: `${user?.username}` } })
+  const [{ data: pages }] = usePublicUserPagesQuery({ variables: { username: `${user?.username}` } })
 
   return (
     <Stack>

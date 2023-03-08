@@ -1,12 +1,13 @@
-import { ApiInviteDataAccessModule } from '@pubkeyapp/api/invite/data-access'
 import { Module } from '@nestjs/common'
-import { ApiInviteFeatureAdminResolver } from './api-invite-feature-admin.resolver'
+import { ApiInviteDataAccessModule } from '@pubkeyapp/api/invite/data-access'
+import { ApiAdminInviteFeatureResolver } from './api-admin-invite-feature.resolver'
 import { ApiInviteFeatureController } from './api-invite-feature.controller'
-import { ApiInviteFeatureResolver } from './api-invite-feature.resolver'
+import { ApiPublicInviteFeatureResolver } from './api-public-invite-feature.resolver'
+import { ApiUserInviteFeatureResolver } from './api-user-invite-feature.resolver'
 
 @Module({
   controllers: [ApiInviteFeatureController],
   imports: [ApiInviteDataAccessModule],
-  providers: [ApiInviteFeatureResolver, ApiInviteFeatureAdminResolver],
+  providers: [ApiAdminInviteFeatureResolver, ApiPublicInviteFeatureResolver, ApiUserInviteFeatureResolver],
 })
 export class ApiInviteFeatureModule {}

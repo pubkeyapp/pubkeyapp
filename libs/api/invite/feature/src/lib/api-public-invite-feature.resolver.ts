@@ -1,9 +1,9 @@
-import { ApiInviteService, Invite } from '@pubkeyapp/api/invite/data-access'
+import { ApiPublicInviteService, Invite } from '@pubkeyapp/api/invite/data-access'
 import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
 
 @Resolver(() => Invite)
-export class ApiInviteFeatureResolver {
-  constructor(private readonly service: ApiInviteService) {}
+export class ApiPublicInviteFeatureResolver {
+  constructor(private readonly service: ApiPublicInviteService) {}
 
   @Query(() => Invite, { nullable: true })
   publicInvite(@Args('code') code: string) {

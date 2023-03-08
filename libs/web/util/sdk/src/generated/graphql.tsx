@@ -317,12 +317,13 @@ export type Mutation = {
   queuePause?: Maybe<Scalars['Boolean']>
   queueResume?: Maybe<Scalars['Boolean']>
   respondChallenge?: Maybe<User>
+  userAcceptInvite?: Maybe<Invite>
   userAddPageBlock?: Maybe<PageBlock>
   userCreatePage?: Maybe<Page>
   userDeletePage?: Maybe<Page>
-  userFollow?: Maybe<User>
+  userFollowUser?: Maybe<User>
   userRemovePageBlock?: Maybe<PageBlock>
-  userUnfollow?: Maybe<User>
+  userUnfollowUser?: Maybe<User>
   userUpdatePage?: Maybe<Page>
   userUpdatePageBlock?: Maybe<PageBlock>
   userUpdateUser?: Maybe<User>
@@ -446,6 +447,10 @@ export type MutationRespondChallengeArgs = {
   signature: Scalars['String']
 }
 
+export type MutationUserAcceptInviteArgs = {
+  code: Scalars['String']
+}
+
 export type MutationUserAddPageBlockArgs = {
   input: UserAddPageBlockInput
   pageId: Scalars['String']
@@ -459,7 +464,7 @@ export type MutationUserDeletePageArgs = {
   pageId: Scalars['String']
 }
 
-export type MutationUserFollowArgs = {
+export type MutationUserFollowUserArgs = {
   username: Scalars['String']
 }
 
@@ -468,7 +473,7 @@ export type MutationUserRemovePageBlockArgs = {
   pageId: Scalars['String']
 }
 
-export type MutationUserUnfollowArgs = {
+export type MutationUserUnfollowUserArgs = {
   username: Scalars['String']
 }
 
@@ -598,21 +603,22 @@ export type Query = {
   publicInvite?: Maybe<Invite>
   publicPage?: Maybe<Page>
   publicPlans?: Maybe<Array<Plan>>
+  publicUser?: Maybe<User>
+  publicUserFollowers?: Maybe<Array<User>>
+  publicUserFollowing?: Maybe<Array<User>>
+  publicUserInvites?: Maybe<Array<Invite>>
+  publicUserPages?: Maybe<Array<Page>>
+  publicUserProfiles?: Maybe<Scalars['JSON']>
   queue?: Maybe<Queue>
   queueJobs?: Maybe<Array<Job>>
   queues?: Maybe<Array<Queue>>
   requestChallenge?: Maybe<AuthChallengeRequest>
   uptime: Scalars['Float']
-  user?: Maybe<User>
   userAccount?: Maybe<Account>
   userAccountHistory?: Maybe<Scalars['JSON']>
-  userFollowers?: Maybe<Array<User>>
-  userFollowing?: Maybe<Array<User>>
+  userInvite?: Maybe<Invite>
   userInvites?: Maybe<Array<Invite>>
   userPage?: Maybe<Page>
-  userPageBlock?: Maybe<PageBlock>
-  userPages?: Maybe<Array<Page>>
-  userProfiles?: Maybe<Scalars['JSON']>
 }
 
 export type QueryAdminAccountArgs = {
@@ -676,6 +682,30 @@ export type QueryPublicPageArgs = {
   pageId: Scalars['String']
 }
 
+export type QueryPublicUserArgs = {
+  username: Scalars['String']
+}
+
+export type QueryPublicUserFollowersArgs = {
+  username: Scalars['String']
+}
+
+export type QueryPublicUserFollowingArgs = {
+  username: Scalars['String']
+}
+
+export type QueryPublicUserInvitesArgs = {
+  username: Scalars['String']
+}
+
+export type QueryPublicUserPagesArgs = {
+  username: Scalars['String']
+}
+
+export type QueryPublicUserProfilesArgs = {
+  username: Scalars['String']
+}
+
 export type QueryQueueArgs = {
   type: QueueType
 }
@@ -689,10 +719,6 @@ export type QueryRequestChallengeArgs = {
   publicKey: Scalars['String']
 }
 
-export type QueryUserArgs = {
-  username: Scalars['String']
-}
-
 export type QueryUserAccountArgs = {
   address: Scalars['String']
   network: NetworkType
@@ -703,32 +729,8 @@ export type QueryUserAccountHistoryArgs = {
   network: NetworkType
 }
 
-export type QueryUserFollowersArgs = {
-  username: Scalars['String']
-}
-
-export type QueryUserFollowingArgs = {
-  username: Scalars['String']
-}
-
-export type QueryUserInvitesArgs = {
-  username: Scalars['String']
-}
-
 export type QueryUserPageArgs = {
   pageId: Scalars['String']
-}
-
-export type QueryUserPageBlockArgs = {
-  pageBlockId: Scalars['String']
-}
-
-export type QueryUserPagesArgs = {
-  username: Scalars['String']
-}
-
-export type QueryUserProfilesArgs = {
-  username: Scalars['String']
 }
 
 export type Queue = {
@@ -1836,9 +1838,21 @@ export type InviteDetailsFragment = {
   owner?: {
     __typename?: 'User'
     id?: string | null
+    pid?: number | null
+    createdAt?: string | null
+    updatedAt?: string | null
+    role?: UserRole | null
+    status?: UserStatus | null
     username?: string | null
     name?: string | null
+    bio?: string | null
     avatarUrl?: string | null
+    metaUrl?: string | null
+    profileUrl?: string | null
+    publicKey?: string | null
+    followersCount?: number | null
+    followingCount?: number | null
+    relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
   } | null
 }
 
@@ -1887,9 +1901,26 @@ export type AdminInviteQuery = {
     owner?: {
       __typename?: 'User'
       id?: string | null
+      pid?: number | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      role?: UserRole | null
+      status?: UserStatus | null
       username?: string | null
       name?: string | null
+      bio?: string | null
       avatarUrl?: string | null
+      metaUrl?: string | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      followersCount?: number | null
+      followingCount?: number | null
+      relation?: {
+        __typename?: 'UserRelation'
+        isYou: boolean
+        isFollowedByYou: boolean
+        isFollowingYou: boolean
+      } | null
     } | null
   } | null
 }
@@ -1915,9 +1946,26 @@ export type AdminInvitesQuery = {
     owner?: {
       __typename?: 'User'
       id?: string | null
+      pid?: number | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      role?: UserRole | null
+      status?: UserStatus | null
       username?: string | null
       name?: string | null
+      bio?: string | null
       avatarUrl?: string | null
+      metaUrl?: string | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      followersCount?: number | null
+      followingCount?: number | null
+      relation?: {
+        __typename?: 'UserRelation'
+        isYou: boolean
+        isFollowedByYou: boolean
+        isFollowingYou: boolean
+      } | null
     } | null
   }> | null
 }
@@ -1943,9 +1991,26 @@ export type AdminCreateInviteMutation = {
     owner?: {
       __typename?: 'User'
       id?: string | null
+      pid?: number | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      role?: UserRole | null
+      status?: UserStatus | null
       username?: string | null
       name?: string | null
+      bio?: string | null
       avatarUrl?: string | null
+      metaUrl?: string | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      followersCount?: number | null
+      followingCount?: number | null
+      relation?: {
+        __typename?: 'UserRelation'
+        isYou: boolean
+        isFollowedByYou: boolean
+        isFollowingYou: boolean
+      } | null
     } | null
   } | null
 }
@@ -1972,9 +2037,26 @@ export type AdminUpdateInviteMutation = {
     owner?: {
       __typename?: 'User'
       id?: string | null
+      pid?: number | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      role?: UserRole | null
+      status?: UserStatus | null
       username?: string | null
       name?: string | null
+      bio?: string | null
       avatarUrl?: string | null
+      metaUrl?: string | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      followersCount?: number | null
+      followingCount?: number | null
+      relation?: {
+        __typename?: 'UserRelation'
+        isYou: boolean
+        isFollowedByYou: boolean
+        isFollowingYou: boolean
+      } | null
     } | null
   } | null
 }
@@ -2000,9 +2082,26 @@ export type AdminDeleteInviteMutation = {
     owner?: {
       __typename?: 'User'
       id?: string | null
+      pid?: number | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      role?: UserRole | null
+      status?: UserStatus | null
       username?: string | null
       name?: string | null
+      bio?: string | null
       avatarUrl?: string | null
+      metaUrl?: string | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      followersCount?: number | null
+      followingCount?: number | null
+      relation?: {
+        __typename?: 'UserRelation'
+        isYou: boolean
+        isFollowedByYou: boolean
+        isFollowingYou: boolean
+      } | null
     } | null
   } | null
 }
@@ -2052,9 +2151,181 @@ export type PublicInviteQuery = {
     owner?: {
       __typename?: 'User'
       id?: string | null
+      pid?: number | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      role?: UserRole | null
+      status?: UserStatus | null
       username?: string | null
       name?: string | null
+      bio?: string | null
       avatarUrl?: string | null
+      metaUrl?: string | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      followersCount?: number | null
+      followingCount?: number | null
+      relation?: {
+        __typename?: 'UserRelation'
+        isYou: boolean
+        isFollowedByYou: boolean
+        isFollowingYou: boolean
+      } | null
+    } | null
+  } | null
+}
+
+export type UserInvitesQueryVariables = Exact<{ [key: string]: never }>
+
+export type UserInvitesQuery = {
+  __typename?: 'Query'
+  items?: Array<{
+    __typename?: 'Invite'
+    id?: string | null
+    createdAt?: any | null
+    updatedAt?: any | null
+    expiresAt?: any | null
+    code?: string | null
+    maxUses?: number | null
+    useCount?: number | null
+    inviteUrl?: string | null
+    isExpired?: boolean | null
+    isUsedUp?: boolean | null
+    owner?: {
+      __typename?: 'User'
+      id?: string | null
+      pid?: number | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      role?: UserRole | null
+      status?: UserStatus | null
+      username?: string | null
+      name?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      followersCount?: number | null
+      followingCount?: number | null
+      relation?: {
+        __typename?: 'UserRelation'
+        isYou: boolean
+        isFollowedByYou: boolean
+        isFollowingYou: boolean
+      } | null
+    } | null
+  }> | null
+}
+
+export type UserInviteQueryVariables = Exact<{ [key: string]: never }>
+
+export type UserInviteQuery = {
+  __typename?: 'Query'
+  item?: {
+    __typename?: 'Invite'
+    id?: string | null
+    createdAt?: any | null
+    updatedAt?: any | null
+    expiresAt?: any | null
+    code?: string | null
+    maxUses?: number | null
+    useCount?: number | null
+    inviteUrl?: string | null
+    isExpired?: boolean | null
+    isUsedUp?: boolean | null
+    users?: Array<{
+      __typename?: 'User'
+      id?: string | null
+      pid?: number | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      role?: UserRole | null
+      status?: UserStatus | null
+      username?: string | null
+      name?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      followersCount?: number | null
+      followingCount?: number | null
+      relation?: {
+        __typename?: 'UserRelation'
+        isYou: boolean
+        isFollowedByYou: boolean
+        isFollowingYou: boolean
+      } | null
+    }> | null
+    owner?: {
+      __typename?: 'User'
+      id?: string | null
+      pid?: number | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      role?: UserRole | null
+      status?: UserStatus | null
+      username?: string | null
+      name?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      followersCount?: number | null
+      followingCount?: number | null
+      relation?: {
+        __typename?: 'UserRelation'
+        isYou: boolean
+        isFollowedByYou: boolean
+        isFollowingYou: boolean
+      } | null
+    } | null
+  } | null
+}
+
+export type UserAcceptInviteMutationVariables = Exact<{
+  code: Scalars['String']
+}>
+
+export type UserAcceptInviteMutation = {
+  __typename?: 'Mutation'
+  item?: {
+    __typename?: 'Invite'
+    id?: string | null
+    createdAt?: any | null
+    updatedAt?: any | null
+    expiresAt?: any | null
+    code?: string | null
+    maxUses?: number | null
+    useCount?: number | null
+    inviteUrl?: string | null
+    isExpired?: boolean | null
+    isUsedUp?: boolean | null
+    owner?: {
+      __typename?: 'User'
+      id?: string | null
+      pid?: number | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      role?: UserRole | null
+      status?: UserStatus | null
+      username?: string | null
+      name?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      followersCount?: number | null
+      followingCount?: number | null
+      relation?: {
+        __typename?: 'UserRelation'
+        isYou: boolean
+        isFollowedByYou: boolean
+        isFollowingYou: boolean
+      } | null
     } | null
   } | null
 }
@@ -3348,11 +3619,11 @@ export type AdminDeleteUserMutation = {
   } | null
 }
 
-export type UserQueryVariables = Exact<{
+export type PublicUserQueryVariables = Exact<{
   username: Scalars['String']
 }>
 
-export type UserQuery = {
+export type PublicUserQuery = {
   __typename?: 'Query'
   item?: {
     __typename?: 'User'
@@ -3384,11 +3655,11 @@ export type UserQuery = {
   } | null
 }
 
-export type UserFollowersQueryVariables = Exact<{
+export type PublicUserFollowersQueryVariables = Exact<{
   username: Scalars['String']
 }>
 
-export type UserFollowersQuery = {
+export type PublicUserFollowersQuery = {
   __typename?: 'Query'
   item?: Array<{
     __typename?: 'User'
@@ -3420,11 +3691,11 @@ export type UserFollowersQuery = {
   }> | null
 }
 
-export type UserFollowingQueryVariables = Exact<{
+export type PublicFollowingQueryVariables = Exact<{
   username: Scalars['String']
 }>
 
-export type UserFollowingQuery = {
+export type PublicFollowingQuery = {
   __typename?: 'Query'
   item?: Array<{
     __typename?: 'User'
@@ -3456,117 +3727,11 @@ export type UserFollowingQuery = {
   }> | null
 }
 
-export type UserInvitesQueryVariables = Exact<{
+export type PublicUserPagesQueryVariables = Exact<{
   username: Scalars['String']
 }>
 
-export type UserInvitesQuery = {
-  __typename?: 'Query'
-  item?: Array<{
-    __typename?: 'Invite'
-    id?: string | null
-    createdAt?: any | null
-    updatedAt?: any | null
-    expiresAt?: any | null
-    code?: string | null
-    maxUses?: number | null
-    useCount?: number | null
-    inviteUrl?: string | null
-    isExpired?: boolean | null
-    isUsedUp?: boolean | null
-    users?: Array<{
-      __typename?: 'User'
-      id?: string | null
-      pid?: number | null
-      createdAt?: string | null
-      updatedAt?: string | null
-      role?: UserRole | null
-      status?: UserStatus | null
-      username?: string | null
-      name?: string | null
-      bio?: string | null
-      avatarUrl?: string | null
-      metaUrl?: string | null
-      profileUrl?: string | null
-      publicKey?: string | null
-      followersCount?: number | null
-      followingCount?: number | null
-      relation?: {
-        __typename?: 'UserRelation'
-        isYou: boolean
-        isFollowedByYou: boolean
-        isFollowingYou: boolean
-      } | null
-    }> | null
-    owner?: {
-      __typename?: 'User'
-      id?: string | null
-      username?: string | null
-      name?: string | null
-      avatarUrl?: string | null
-    } | null
-  }> | null
-}
-
-export type UserFollowMutationVariables = Exact<{
-  username: Scalars['String']
-}>
-
-export type UserFollowMutation = {
-  __typename?: 'Mutation'
-  item?: {
-    __typename?: 'User'
-    id?: string | null
-    pid?: number | null
-    createdAt?: string | null
-    updatedAt?: string | null
-    role?: UserRole | null
-    status?: UserStatus | null
-    username?: string | null
-    name?: string | null
-    bio?: string | null
-    avatarUrl?: string | null
-    metaUrl?: string | null
-    profileUrl?: string | null
-    publicKey?: string | null
-    followersCount?: number | null
-    followingCount?: number | null
-    relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
-  } | null
-}
-
-export type UserUnfollowMutationVariables = Exact<{
-  username: Scalars['String']
-}>
-
-export type UserUnfollowMutation = {
-  __typename?: 'Mutation'
-  item?: {
-    __typename?: 'User'
-    id?: string | null
-    pid?: number | null
-    createdAt?: string | null
-    updatedAt?: string | null
-    role?: UserRole | null
-    status?: UserStatus | null
-    username?: string | null
-    name?: string | null
-    bio?: string | null
-    avatarUrl?: string | null
-    metaUrl?: string | null
-    profileUrl?: string | null
-    publicKey?: string | null
-    followersCount?: number | null
-    followingCount?: number | null
-    relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
-  } | null
-}
-
-export type UserPagesQueryVariables = Exact<{
-  username: Scalars['String']
-}>
-
-export type UserPagesQuery = {
+export type PublicUserPagesQuery = {
   __typename?: 'Query'
   items?: Array<{
     __typename?: 'Page'
@@ -3608,17 +3773,71 @@ export type UserPagesQuery = {
   }> | null
 }
 
-export type UserProfilesQueryVariables = Exact<{
+export type PublicUserProfilesQueryVariables = Exact<{
   username: Scalars['String']
 }>
 
-export type UserProfilesQuery = { __typename?: 'Query'; item?: any | null }
+export type PublicUserProfilesQuery = { __typename?: 'Query'; item?: any | null }
 
 export type UserUpdateUserMutationVariables = Exact<{
   input: UserUpdateUserInput
 }>
 
 export type UserUpdateUserMutation = {
+  __typename?: 'Mutation'
+  item?: {
+    __typename?: 'User'
+    id?: string | null
+    pid?: number | null
+    createdAt?: string | null
+    updatedAt?: string | null
+    role?: UserRole | null
+    status?: UserStatus | null
+    username?: string | null
+    name?: string | null
+    bio?: string | null
+    avatarUrl?: string | null
+    metaUrl?: string | null
+    profileUrl?: string | null
+    publicKey?: string | null
+    followersCount?: number | null
+    followingCount?: number | null
+    relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
+  } | null
+}
+
+export type UserFollowUserMutationVariables = Exact<{
+  username: Scalars['String']
+}>
+
+export type UserFollowUserMutation = {
+  __typename?: 'Mutation'
+  item?: {
+    __typename?: 'User'
+    id?: string | null
+    pid?: number | null
+    createdAt?: string | null
+    updatedAt?: string | null
+    role?: UserRole | null
+    status?: UserStatus | null
+    username?: string | null
+    name?: string | null
+    bio?: string | null
+    avatarUrl?: string | null
+    metaUrl?: string | null
+    profileUrl?: string | null
+    publicKey?: string | null
+    followersCount?: number | null
+    followingCount?: number | null
+    relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
+  } | null
+}
+
+export type UserUnfollowUserMutationVariables = Exact<{
+  username: Scalars['String']
+}>
+
+export type UserUnfollowUserMutation = {
   __typename?: 'Mutation'
   item?: {
     __typename?: 'User'
@@ -3785,12 +4004,10 @@ export const InviteDetailsFragmentDoc = gql`
     isExpired
     isUsedUp
     owner {
-      id
-      username
-      name
-      avatarUrl
+      ...UserDetails
     }
   }
+  ${UserDetailsFragmentDoc}
 `
 export const PageBlockDetailsFragmentDoc = gql`
   fragment PageBlockDetails on PageBlock {
@@ -4194,6 +4411,46 @@ export const PublicInviteDocument = gql`
 
 export function usePublicInviteQuery(options: Omit<Urql.UseQueryArgs<PublicInviteQueryVariables>, 'query'>) {
   return Urql.useQuery<PublicInviteQuery, PublicInviteQueryVariables>({ query: PublicInviteDocument, ...options })
+}
+export const UserInvitesDocument = gql`
+  query UserInvites {
+    items: userInvites {
+      ...InviteDetails
+    }
+  }
+  ${InviteDetailsFragmentDoc}
+`
+
+export function useUserInvitesQuery(options?: Omit<Urql.UseQueryArgs<UserInvitesQueryVariables>, 'query'>) {
+  return Urql.useQuery<UserInvitesQuery, UserInvitesQueryVariables>({ query: UserInvitesDocument, ...options })
+}
+export const UserInviteDocument = gql`
+  query UserInvite {
+    item: userInvite {
+      ...InviteDetails
+      users {
+        ...UserDetails
+      }
+    }
+  }
+  ${InviteDetailsFragmentDoc}
+  ${UserDetailsFragmentDoc}
+`
+
+export function useUserInviteQuery(options?: Omit<Urql.UseQueryArgs<UserInviteQueryVariables>, 'query'>) {
+  return Urql.useQuery<UserInviteQuery, UserInviteQueryVariables>({ query: UserInviteDocument, ...options })
+}
+export const UserAcceptInviteDocument = gql`
+  mutation UserAcceptInvite($code: String!) {
+    item: userAcceptInvite(code: $code) {
+      ...InviteDetails
+    }
+  }
+  ${InviteDetailsFragmentDoc}
+`
+
+export function useUserAcceptInviteMutation() {
+  return Urql.useMutation<UserAcceptInviteMutation, UserAcceptInviteMutationVariables>(UserAcceptInviteDocument)
 }
 export const AdminPageBlockDocument = gql`
   query AdminPageBlock($pageBlockId: String!) {
@@ -4750,9 +5007,9 @@ export const AdminDeleteUserDocument = gql`
 export function useAdminDeleteUserMutation() {
   return Urql.useMutation<AdminDeleteUserMutation, AdminDeleteUserMutationVariables>(AdminDeleteUserDocument)
 }
-export const UserDocument = gql`
-  query User($username: String!) {
-    item: user(username: $username) {
+export const PublicUserDocument = gql`
+  query PublicUser($username: String!) {
+    item: publicUser(username: $username) {
       ...UserDetails
       identities {
         ...IdentityDetails
@@ -4763,12 +5020,12 @@ export const UserDocument = gql`
   ${IdentityDetailsFragmentDoc}
 `
 
-export function useUserQuery(options: Omit<Urql.UseQueryArgs<UserQueryVariables>, 'query'>) {
-  return Urql.useQuery<UserQuery, UserQueryVariables>({ query: UserDocument, ...options })
+export function usePublicUserQuery(options: Omit<Urql.UseQueryArgs<PublicUserQueryVariables>, 'query'>) {
+  return Urql.useQuery<PublicUserQuery, PublicUserQueryVariables>({ query: PublicUserDocument, ...options })
 }
-export const UserFollowersDocument = gql`
-  query UserFollowers($username: String!) {
-    item: userFollowers(username: $username) {
+export const PublicUserFollowersDocument = gql`
+  query PublicUserFollowers($username: String!) {
+    item: publicUserFollowers(username: $username) {
       ...UserDetails
       identities {
         ...IdentityDetails
@@ -4779,12 +5036,17 @@ export const UserFollowersDocument = gql`
   ${IdentityDetailsFragmentDoc}
 `
 
-export function useUserFollowersQuery(options: Omit<Urql.UseQueryArgs<UserFollowersQueryVariables>, 'query'>) {
-  return Urql.useQuery<UserFollowersQuery, UserFollowersQueryVariables>({ query: UserFollowersDocument, ...options })
+export function usePublicUserFollowersQuery(
+  options: Omit<Urql.UseQueryArgs<PublicUserFollowersQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<PublicUserFollowersQuery, PublicUserFollowersQueryVariables>({
+    query: PublicUserFollowersDocument,
+    ...options,
+  })
 }
-export const UserFollowingDocument = gql`
-  query UserFollowing($username: String!) {
-    item: userFollowing(username: $username) {
+export const PublicFollowingDocument = gql`
+  query PublicFollowing($username: String!) {
+    item: publicUserFollowing(username: $username) {
       ...UserDetails
       identities {
         ...IdentityDetails
@@ -4795,69 +5057,40 @@ export const UserFollowingDocument = gql`
   ${IdentityDetailsFragmentDoc}
 `
 
-export function useUserFollowingQuery(options: Omit<Urql.UseQueryArgs<UserFollowingQueryVariables>, 'query'>) {
-  return Urql.useQuery<UserFollowingQuery, UserFollowingQueryVariables>({ query: UserFollowingDocument, ...options })
+export function usePublicFollowingQuery(options: Omit<Urql.UseQueryArgs<PublicFollowingQueryVariables>, 'query'>) {
+  return Urql.useQuery<PublicFollowingQuery, PublicFollowingQueryVariables>({
+    query: PublicFollowingDocument,
+    ...options,
+  })
 }
-export const UserInvitesDocument = gql`
-  query UserInvites($username: String!) {
-    item: userInvites(username: $username) {
-      ...InviteDetails
-      users {
-        ...UserDetails
-      }
-    }
-  }
-  ${InviteDetailsFragmentDoc}
-  ${UserDetailsFragmentDoc}
-`
-
-export function useUserInvitesQuery(options: Omit<Urql.UseQueryArgs<UserInvitesQueryVariables>, 'query'>) {
-  return Urql.useQuery<UserInvitesQuery, UserInvitesQueryVariables>({ query: UserInvitesDocument, ...options })
-}
-export const UserFollowDocument = gql`
-  mutation UserFollow($username: String!) {
-    item: userFollow(username: $username) {
-      ...UserDetails
-    }
-  }
-  ${UserDetailsFragmentDoc}
-`
-
-export function useUserFollowMutation() {
-  return Urql.useMutation<UserFollowMutation, UserFollowMutationVariables>(UserFollowDocument)
-}
-export const UserUnfollowDocument = gql`
-  mutation UserUnfollow($username: String!) {
-    item: userUnfollow(username: $username) {
-      ...UserDetails
-    }
-  }
-  ${UserDetailsFragmentDoc}
-`
-
-export function useUserUnfollowMutation() {
-  return Urql.useMutation<UserUnfollowMutation, UserUnfollowMutationVariables>(UserUnfollowDocument)
-}
-export const UserPagesDocument = gql`
-  query UserPages($username: String!) {
-    items: userPages(username: $username) {
+export const PublicUserPagesDocument = gql`
+  query PublicUserPages($username: String!) {
+    items: publicUserPages(username: $username) {
       ...PageDetails
     }
   }
   ${PageDetailsFragmentDoc}
 `
 
-export function useUserPagesQuery(options: Omit<Urql.UseQueryArgs<UserPagesQueryVariables>, 'query'>) {
-  return Urql.useQuery<UserPagesQuery, UserPagesQueryVariables>({ query: UserPagesDocument, ...options })
+export function usePublicUserPagesQuery(options: Omit<Urql.UseQueryArgs<PublicUserPagesQueryVariables>, 'query'>) {
+  return Urql.useQuery<PublicUserPagesQuery, PublicUserPagesQueryVariables>({
+    query: PublicUserPagesDocument,
+    ...options,
+  })
 }
-export const UserProfilesDocument = gql`
-  query UserProfiles($username: String!) {
-    item: userProfiles(username: $username)
+export const PublicUserProfilesDocument = gql`
+  query PublicUserProfiles($username: String!) {
+    item: publicUserProfiles(username: $username)
   }
 `
 
-export function useUserProfilesQuery(options: Omit<Urql.UseQueryArgs<UserProfilesQueryVariables>, 'query'>) {
-  return Urql.useQuery<UserProfilesQuery, UserProfilesQueryVariables>({ query: UserProfilesDocument, ...options })
+export function usePublicUserProfilesQuery(
+  options: Omit<Urql.UseQueryArgs<PublicUserProfilesQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<PublicUserProfilesQuery, PublicUserProfilesQueryVariables>({
+    query: PublicUserProfilesDocument,
+    ...options,
+  })
 }
 export const UserUpdateUserDocument = gql`
   mutation UserUpdateUser($input: UserUpdateUserInput!) {
@@ -4870,4 +5103,28 @@ export const UserUpdateUserDocument = gql`
 
 export function useUserUpdateUserMutation() {
   return Urql.useMutation<UserUpdateUserMutation, UserUpdateUserMutationVariables>(UserUpdateUserDocument)
+}
+export const UserFollowUserDocument = gql`
+  mutation UserFollowUser($username: String!) {
+    item: userFollowUser(username: $username) {
+      ...UserDetails
+    }
+  }
+  ${UserDetailsFragmentDoc}
+`
+
+export function useUserFollowUserMutation() {
+  return Urql.useMutation<UserFollowUserMutation, UserFollowUserMutationVariables>(UserFollowUserDocument)
+}
+export const UserUnfollowUserDocument = gql`
+  mutation UserUnfollowUser($username: String!) {
+    item: userUnfollowUser(username: $username) {
+      ...UserDetails
+    }
+  }
+  ${UserDetailsFragmentDoc}
+`
+
+export function useUserUnfollowUserMutation() {
+  return Urql.useMutation<UserUnfollowUserMutation, UserUnfollowUserMutationVariables>(UserUnfollowUserDocument)
 }

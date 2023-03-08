@@ -302,15 +302,16 @@ type Query {
   config: Config
   adminDomains(input: AdminListDomainInput): [Domain!]
   adminDomain(domainId: String!): Domain
-  publicInvite(code: String!): Invite
   adminInvites(input: AdminListInviteInput): [Invite!]
   adminInvite(inviteId: String!): Invite
+  publicInvite(code: String!): Invite
+  userInvite: Invite
+  userInvites: [Invite!]
   publicPage(pageId: String!): Page
   adminPages(input: AdminListPageInput): [Page!]
   adminPage(pageId: String!): Page
   userPage(pageId: String!): Page
   adminPageBlock(pageBlockId: String!): PageBlock
-  userPageBlock(pageBlockId: String!): PageBlock
   adminPageDomain(domainId: String!, path: String!): PageDomain
   publicPlans: [Plan!]
   adminPlans(input: AdminListPlanInput): [Plan!]
@@ -318,12 +319,12 @@ type Query {
   queue(type: QueueType!): Queue
   queueJobs(type: QueueType!, statuses: [JobStatus!]!): [Job!]
   queues: [Queue!]
-  user(username: String!): User
-  userFollowers(username: String!): [User!]
-  userFollowing(username: String!): [User!]
-  userInvites(username: String!): [Invite!]
-  userPages(username: String!): [Page!]
-  userProfiles(username: String!): JSON
+  publicUser(username: String!): User
+  publicUserFollowers(username: String!): [User!]
+  publicUserFollowing(username: String!): [User!]
+  publicUserInvites(username: String!): [Invite!]
+  publicUserPages(username: String!): [Page!]
+  publicUserProfiles(username: String!): JSON
   adminUser(userId: String!): User
   adminUsers: [User!]
 }
@@ -370,6 +371,7 @@ type Mutation {
   adminCreateInvite(input: AdminCreateInviteInput!): Invite
   adminDeleteInvite(inviteId: String!): Invite
   adminUpdateInvite(inviteId: String!, input: AdminUpdateInviteInput!): Invite
+  userAcceptInvite(code: String!): Invite
   adminCreatePage(input: AdminCreatePageInput!): Page
   adminDeletePage(pageId: String!): Page
   adminUpdatePage(pageId: String!, input: AdminUpdatePageInput!): Page
@@ -392,8 +394,8 @@ type Mutation {
   queueDeleteJob(type: QueueType!, jobId: String!): Boolean
   queuePause(type: QueueType!): Boolean
   queueResume(type: QueueType!): Boolean
-  userFollow(username: String!): User
-  userUnfollow(username: String!): User
+  userFollowUser(username: String!): User
+  userUnfollowUser(username: String!): User
   userUpdateUser(input: UserUpdateUserInput!): User
   adminCreateUser(input: AdminCreateUserInput!): User
   adminUpdateUser(userId: String!, input: AdminUpdateUserInput!): User

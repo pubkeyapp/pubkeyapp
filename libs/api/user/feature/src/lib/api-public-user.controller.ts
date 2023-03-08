@@ -1,12 +1,12 @@
 import { Controller, Get, Param } from '@nestjs/common'
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { IdentityProvider } from '@pubkeyapp/api/identity/data-access'
-import { ApiUserPublicService, User } from '@pubkeyapp/api/user/data-access'
+import { ApiPublicUserService, User } from '@pubkeyapp/api/user/data-access'
 
 @ApiTags('user')
 @Controller('user')
 export class ApiPublicUserController {
-  constructor(private readonly service: ApiUserPublicService) {}
+  constructor(private readonly service: ApiPublicUserService) {}
 
   @Get('get-user-by-id/:userId')
   @ApiParam({ name: 'userId', type: 'string' })

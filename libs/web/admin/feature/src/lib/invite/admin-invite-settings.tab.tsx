@@ -24,7 +24,7 @@ export function AdminInviteSettingsTab({
   ]
 
   return (
-    <Paper withBorder radius="md" p={theme.spacing.md}>
+    <Paper>
       <UiForm<AdminUpdateInviteInput>
         fields={fields}
         model={{

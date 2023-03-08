@@ -8,14 +8,12 @@ export function AdminInviteOverviewTab({ invite }: { invite: Invite }) {
 
   return (
     <Stack>
-      <Paper withBorder radius="md" p={theme.spacing.md}>
+      <Paper>
         <Stack spacing={theme.spacing.lg}>
           <UiPageHeaderTitle title="Inviter" />
           {invite.owner ? <AdminUiUserLink user={invite.owner} /> : null}
           <UiPageHeaderTitle title="Expires" />
-          <Box>
-            <Code color="brand">{invite.expiresAt}</Code>
-          </Box>
+          <Box>{invite.expiresAt ? <Code color="brand">{invite.expiresAt}</Code> : <Code color="red">Never</Code>}</Box>
           <UiPageHeaderTitle
             title={`Invited users: ${invite.useCount}/${(invite?.maxUses ?? 0) > 0 ? invite.maxUses : '∞'}`}
           />

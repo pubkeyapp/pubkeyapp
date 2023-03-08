@@ -3,7 +3,7 @@ import { Injectable, NotFoundException } from '@nestjs/common'
 import { Invite } from './entity/invite.entity'
 
 @Injectable()
-export class ApiInviteService {
+export class ApiPublicInviteService {
   constructor(private readonly core: ApiCoreService) {}
 
   getInviteUrl(invite: Invite) {

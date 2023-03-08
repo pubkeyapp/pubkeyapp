@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 export function UiBackButton({ to = '..' }: { to?: string }) {
   return (
     <ActionIcon component={Link} to={to} size="lg">
-      <IconArrowLeft size={24} />
+      <IconArrowLeft size={36} />
     </ActionIcon>
   )
 }

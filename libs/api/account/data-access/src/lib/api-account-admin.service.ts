@@ -8,7 +8,7 @@ export class ApiAccountAdminService {
   constructor(private readonly core: ApiCoreService) {}
 
   async adminAccounts(adminId: string, input: AdminListAccountInput) {
-    await this.core.ensureAdminUser(adminId)
+    await this.core.ensureUserAdmin(adminId)
 
     return this.core.data.account.findMany({
       where: Object.keys(input).length
@@ -39,7 +39,7 @@ export class ApiAccountAdminService {
   }
 
   async adminAccount(adminId: string, id: string) {
-    await this.core.ensureAdminUser(adminId)
+    await this.core.ensureUserAdmin(adminId)
 
     const account = await this.core.data.account.findUnique({
       where: {

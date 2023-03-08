@@ -8,7 +8,7 @@ export function AdminPlanOverviewTab({ plan }: { plan: Plan }) {
 
   return (
     <Stack>
-      <Paper withBorder radius="md" p={theme.spacing.md}>
+      <Paper>
         <Stack spacing={theme.spacing.lg}>
           <UiPageHeaderTitle title="Plans" />
           <UiDebug data={plan} />

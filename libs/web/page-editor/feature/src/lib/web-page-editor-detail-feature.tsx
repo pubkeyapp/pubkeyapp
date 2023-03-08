@@ -144,7 +144,7 @@ export function WebPageEditorDetailFeature() {
         <UiPageHeader
           title={
             <Group>
-              <PageTypeIcon type={page?.item?.type as PageType} size={24} />
+              <PageTypeIcon type={page?.item?.type as PageType} size={36} />
               <Tooltip label={`Edit the ${page?.item?.type} page`}>
                 <Anchor component={Link} to={`/profiles/${page?.item?.id}`} size="xl">
                   {page?.item?.type}
@@ -159,6 +159,7 @@ export function WebPageEditorDetailFeature() {
             ) : (
               <Group>
                 <Button
+                  size="sm"
                   component={Link}
                   to={`${page?.item?.previewUrl}`}
                   target="_blank"
@@ -166,7 +167,7 @@ export function WebPageEditorDetailFeature() {
                 >
                   Preview Page
                 </Button>
-                <Button component={Link} to={`/profiles/${pageId}/publish`}>
+                <Button size="sm" component={Link} to={`/profiles/${pageId}/publish`}>
                   Publish Page
                 </Button>
               </Group>

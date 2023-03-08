@@ -22,6 +22,7 @@ export class ApiAnonAccountService implements OnModuleInit {
   async onModuleInit() {}
 
   async getAccount(userId: string, network: NetworkType, address: string) {
+    await this.core.ensureUserActive(userId)
     if (BLOCKED_ACCOUNTS.includes(address)) {
       throw new NotFoundException(`Account ${address} not found on ${network} `)
     }
@@ -121,7 +122,8 @@ export class ApiAnonAccountService implements OnModuleInit {
     return this.findAccount(network, address)
   }
 
-  getAccountHistory(userId: string, network: NetworkType, address: string) {
+  async getAccountHistory(userId: string, network: NetworkType, address: string) {
+    await this.core.ensureUserActive(userId)
     return this.solana.getHeliusTransactions(network, address)
   }
 

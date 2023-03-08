@@ -27,13 +27,13 @@ export function UiPageHeader({ leftAction, rightAction, title }: UiPageHeaderPro
   const theme = useMantineTheme()
   return (
     <Paper withBorder>
-      <Flex align="center" justify="space-between">
+      <Group position="apart" align="center">
         <Group spacing={theme.spacing.sm} noWrap sx={{ overflow: 'hidden' }}>
           {leftAction ? leftAction : null}
           {typeof title === 'string' ? <UiPageHeaderTitle title={title} /> : title}
         </Group>
         <Group>{rightAction ? rightAction : null}</Group>
-      </Flex>
+      </Group>
     </Paper>
   )
 }

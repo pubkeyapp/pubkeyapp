@@ -1,7 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { User } from '@prisma/client'
 import { ApiCoreService } from '@pubkeyapp/api/core/data-access'
-import { GumSdkProfileMetadata } from '@pubkeyapp/gum-sdk'
 import { UserUpdateUserInput } from './dto/user-update-user.input'
 import { UserRelation } from './entity/user.relation'
 
@@ -9,40 +8,7 @@ import { UserRelation } from './entity/user.relation'
 export class ApiUserUserService {
   constructor(private readonly core: ApiCoreService) {}
 
-  async user(username) {
-    const user = await this.core.data.findUserByUsername(username)
-    if (!user) {
-      throw new NotFoundException()
-    }
-    return user
-  }
-
-  userFollowers(username) {
-    return this.core.data.user.findMany({
-      where: {
-        following: { some: { follower: { username } } },
-      },
-    })
-  }
-
-  userFollowing(username) {
-    return this.core.data.user.findMany({
-      where: {
-        followers: { some: { owner: { username } } },
-      },
-    })
-  }
-
-  userInvites(username: string) {
-    return this.core.data.invite
-      .findMany({
-        where: { owner: { username } },
-        include: { users: true },
-      })
-      .then((res) => res.map((item) => ({ ...item, code: undefined })))
-  }
-
-  async userFollow(ownerId: string, username: string): Promise<User> {
+  async userFollowUser(ownerId: string, username: string): Promise<User> {
     const user = await this.ensureValidUser(username)
 
     if (user.id === ownerId) {
@@ -62,7 +28,7 @@ export class ApiUserUserService {
     return user
   }
 
-  async userUnfollow(ownerId: string, username: string): Promise<User> {
+  async userUnfollowUser(ownerId: string, username: string): Promise<User> {
     const user = await this.ensureValidUser(username)
 
     if (user.id === ownerId) {
@@ -82,14 +48,6 @@ export class ApiUserUserService {
     await Promise.all([this.decrementFollowingCount(ownerId), this.decrementFollowersCount(user.id)])
 
     return user
-  }
-
-  async userPages(username: string) {
-    const user = await this.ensureValidUser(username)
-    return this.core.data.page.findMany({
-      where: { owner: { id: user.id } },
-      include: { owner: true, domains: { include: { domain: true } }, blocks: true },
-    })
   }
 
   async userRelation(ownerId: string, username: string): Promise<UserRelation> {
@@ -146,63 +104,5 @@ export class ApiUserUserService {
       throw new NotFoundException(`User ${username} not found`)
     }
     return user
-  }
-
-  async userProfiles(username: string) {
-    const found = await this.core.data.findUserByUsername(username)
-    if (!found) {
-      throw new NotFoundException(`User ${username} not found`)
-    }
-    if (!found.publicKey) {
-      throw new BadRequestException(`User ${username} has no public key`)
-    }
-
-    const users = await this.core.cache.wrap(
-      'gum',
-      `get-users-for-pk:${found.publicKey}`,
-      () => this.core.gum.getUsersForPk(found.publicKey),
-      60 * 10,
-    )
-    const userPks = users.map((item) => item.pubkey)
-    if (userPks.length === 0) {
-      return {
-        users: users,
-        usersLength: users.length,
-        profiles: [],
-        profilesLength: 0,
-      }
-    }
-
-    const profiles = await this.core.cache.wrap(
-      'gum',
-      `get-profiles-for-pks:${userPks.sort().join('-')}`,
-      () => this.core.gum.getProfilesForPks(userPks),
-      60 * 10,
-    )
-
-    const profilePks = profiles.map((item) => item.pubkey)
-    const profileMetas = await this.core.cache.wrap(
-      'gum',
-      `get-profile-metas-for-pks:${profilePks.sort().join('-')}`,
-      () => this.core.gum.getProfileMetasForPks(profilePks),
-      10,
-    )
-
-    const result: GumSdkProfileMetadata[] = profileMetas.map((item) => {
-      const profile = profiles.find((profile) => profile.pubkey === item.profileId)
-      const user = users.find((user) => user.pubkey === profile?.username)
-      return {
-        ...item,
-        profile: {
-          ...profile,
-          user,
-        },
-      }
-    })
-
-    return {
-      users,
-      profiles: result,
-    }
   }
 }

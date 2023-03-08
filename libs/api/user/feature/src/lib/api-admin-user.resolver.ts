@@ -1,12 +1,12 @@
 import { ApiAuthGraphqlGuard, CtxUser } from '@pubkeyapp/api/auth/data-access'
-import { AdminCreateUserInput, AdminUpdateUserInput, ApiUserAdminService, User } from '@pubkeyapp/api/user/data-access'
+import { AdminCreateUserInput, AdminUpdateUserInput, ApiAdminUserService, User } from '@pubkeyapp/api/user/data-access'
 import { UseGuards } from '@nestjs/common'
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 
 @Resolver()
 @UseGuards(ApiAuthGraphqlGuard)
 export class ApiAdminUserResolver {
-  constructor(private readonly service: ApiUserAdminService) {}
+  constructor(private readonly service: ApiAdminUserService) {}
 
   @Query(() => User, { nullable: true })
   adminUser(@CtxUser() user: User, @Args('userId') userId: string) {

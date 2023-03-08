@@ -31,7 +31,7 @@ export function AdminDomainSettingsTab({
   ]
 
   return (
-    <Paper withBorder radius="md" p={theme.spacing.md}>
+    <Paper>
       <UiForm<AdminUpdateDomainInput>
         fields={fields}
         model={{

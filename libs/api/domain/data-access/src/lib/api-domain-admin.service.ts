@@ -9,7 +9,7 @@ export class ApiDomainAdminService {
   constructor(private readonly core: ApiCoreService) {}
 
   async adminCreateDomain(adminId: string, input: AdminCreateDomainInput) {
-    await this.core.ensureAdminUser(adminId)
+    await this.core.ensureUserAdmin(adminId)
     const { ownerId, ...data } = input
 
     return this.core.data.domain.create({
@@ -25,12 +25,12 @@ export class ApiDomainAdminService {
   }
 
   async adminDeleteDomain(adminId: string, domainId: string) {
-    await this.core.ensureAdminUser(adminId)
+    await this.core.ensureUserAdmin(adminId)
     return this.core.data.domain.delete({ where: { id: domainId } })
   }
 
   async adminDomains(adminId: string, input: AdminListDomainInput) {
-    await this.core.ensureAdminUser(adminId)
+    await this.core.ensureUserAdmin(adminId)
     return this.core.data.domain.findMany({
       where: { ownerId: input.ownerId ? input.ownerId : undefined },
       include: { owner: true, pages: true },
@@ -39,12 +39,12 @@ export class ApiDomainAdminService {
   }
 
   async adminDomain(adminId: string, domainId: string) {
-    await this.core.ensureAdminUser(adminId)
+    await this.core.ensureUserAdmin(adminId)
     return this.core.data.domain.findUnique({ where: { id: domainId }, include: { owner: true, pages: true } })
   }
 
   async adminUpdateDomain(adminId: string, domainId: string, input: AdminUpdateDomainInput) {
-    await this.core.ensureAdminUser(adminId)
+    await this.core.ensureUserAdmin(adminId)
     return this.core.data.domain.update({ where: { id: domainId }, data: input })
   }
 }

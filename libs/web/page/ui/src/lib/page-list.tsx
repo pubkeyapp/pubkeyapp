@@ -11,7 +11,7 @@ export function PageList({ pages }: { pages: Page[] }) {
         <Box key={page.id}>
           <Group position="apart">
             <Group>
-              <PageTypeIcon type={page.type as PageType} size={24} />
+              <PageTypeIcon type={page.type as PageType} size={36} />
               <Tooltip label={`Edit the ${page.type} page`}>
                 <Anchor component={Link} to={`/profiles/${page.id}`} size="xl">
                   {page.type}

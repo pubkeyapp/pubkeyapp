@@ -9,6 +9,7 @@ export class ApiUserPageService {
   constructor(private readonly core: ApiCoreService) {}
 
   async userCreatePage(userId: string, input: UserCreatePageInput) {
+    await this.core.ensureUserActive(userId)
     return this.core.data.page.create({
       data: {
         ownerId: input.ownerId ?? userId,
@@ -27,7 +28,7 @@ export class ApiUserPageService {
     return this.core.data.page.delete({ where: { id: pageId } })
   }
 
-  async userPage(userId: string, pageId: string) {
+  userPage(userId: string, pageId: string) {
     return this.ensurePageOwner(userId, pageId)
   }
 
@@ -37,6 +38,7 @@ export class ApiUserPageService {
   }
 
   async ensurePageOwner(userId: string, pageId: string) {
+    await this.core.ensureUserActive(userId)
     const page = await this.core.data.page.findUnique({
       where: { id: pageId },
       include: {

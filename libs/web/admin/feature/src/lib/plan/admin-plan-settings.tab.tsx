@@ -13,7 +13,7 @@ export function AdminPlanSettingsTab({
   const theme = useMantineTheme()
 
   return (
-    <Paper withBorder radius="md" p={theme.spacing.md}>
+    <Paper>
       <UiForm<AdminUpdatePlanInput>
         fields={adminPlanFormFields}
         model={{

@@ -33,7 +33,7 @@ export function AdminPlanCreateFeature() {
 
   return (
     <UiPage title={`Create Plan`} leftAction={<UiBackButton />}>
-      <Paper withBorder radius="md" p={theme.spacing.md}>
+      <Paper>
         <UiForm<AdminCreatePlanInput>
           fields={adminPlanFormFields}
           model={{

@@ -49,7 +49,7 @@ export function AdminInviteCreateFeature() {
 
   return (
     <UiPage title={`Create Invite`} leftAction={<UiBackButton />}>
-      <Paper withBorder radius="md" p={theme.spacing.md}>
+      <Paper>
         <UiForm<AdminCreateInviteInput>
           fields={fields}
           model={{ maxUses: 0, expiresAt: '', ownerId: '' }}

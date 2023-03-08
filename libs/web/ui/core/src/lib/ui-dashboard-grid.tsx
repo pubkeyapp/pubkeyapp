@@ -1,11 +1,8 @@
-import { Card, createStyles, SimpleGrid, Text, UnstyledButton } from '@mantine/core'
+import { createStyles, Paper, SimpleGrid, Text } from '@mantine/core'
 import { ComponentType } from 'react'
 import { Link } from 'react-router-dom'
 
 const useStyles = createStyles((theme) => ({
-  card: {
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
-  },
   item: {
     display: 'flex',
     flexDirection: 'column',
@@ -14,7 +11,6 @@ const useStyles = createStyles((theme) => ({
     textAlign: 'center',
     borderRadius: theme.radius.xl,
     height: 180,
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
     transition: 'box-shadow 150ms ease, transform 100ms ease',
 
     '&:hover': {
@@ -37,31 +33,29 @@ export interface UiDashboardItem {
   color?: string
 }
 
-export function UiDashboardGrid({ links }: { links: UiDashboardItem[] }) {
+export function UiDashboard({ links }: { links: UiDashboardItem[] }) {
   const { classes, theme } = useStyles()
 
   const items = links.map((item, index) => (
-    <UnstyledButton key={item.label} component={Link} to={item.link} className={classes.item}>
+    <Paper key={item.label} component={Link} to={item.link} className={classes.item}>
       <item.icon color={theme.colors[getColorByIndex(index)][6]} size={64} />
       <Text size="lg" mt={7}>
         {item.label}
       </Text>
-    </UnstyledButton>
+    </Paper>
   ))
 
   return (
-    <SimpleGrid cols={3} spacing="xl">
+    <SimpleGrid
+      cols={3}
+      spacing="xl"
+      breakpoints={[
+        { maxWidth: '62rem', cols: 3, spacing: 'md' },
+        { maxWidth: '48rem', cols: 2, spacing: 'sm' },
+        { maxWidth: '36rem', cols: 1, spacing: 'sm' },
+      ]}
+    >
       {items}
     </SimpleGrid>
-  )
-}
-
-export function UiDashboard({ links }: { links: UiDashboardItem[] }) {
-  const { classes } = useStyles()
-
-  return (
-    <Card withBorder className={classes.card}>
-      <UiDashboardGrid links={links} />
-    </Card>
   )
 }

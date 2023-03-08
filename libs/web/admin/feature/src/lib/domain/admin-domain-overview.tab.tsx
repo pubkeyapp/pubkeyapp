@@ -7,7 +7,7 @@ export function AdminDomainOverviewTab({ domain }: { domain: Domain }) {
 
   return (
     <Stack>
-      <Paper withBorder radius="md" p={theme.spacing.md}>
+      <Paper>
         <Stack spacing={theme.spacing.lg}>
           {!domain?.pages?.length ? (
             <Alert color={'brand'}>No pages found.</Alert>

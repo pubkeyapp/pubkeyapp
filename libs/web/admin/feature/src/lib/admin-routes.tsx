@@ -1,4 +1,4 @@
-import { ActionIcon, Box, Container, Group, Stack, Text, UnstyledButton, useMantineTheme } from '@mantine/core'
+import { ActionIcon, Box, Container, Group, Stack, Text, Tooltip, UnstyledButton, useMantineTheme } from '@mantine/core'
 import { getColorByIndex, UiDashboardItem } from '@pubkeyapp/web/ui/core'
 import { UiPageHeader } from '@pubkeyapp/web/ui/page'
 import {
@@ -67,19 +67,16 @@ export function AdminLayout({ links }: { links: UiDashboardItem[] }) {
           }
           leftAction={
             <ActionIcon component={Link} to="/admin">
-              <IconShield height={32} />
+              <IconShield size={32} />
             </ActionIcon>
           }
           rightAction={
             <Group>
               {links.map((item, index) => (
-                <UnstyledButton key={item.label} component={Link} to={item.link}>
-                  <Group align="center" spacing={4}>
+                <UnstyledButton key={item.label} component={Link} to={item.link} sx={{ display: 'flex' }}>
+                  <Tooltip label={item.label} withArrow>
                     <item.icon color={theme.colors[`${item.color}`][6]} size={32} />
-                    <Text size="xs" color="dimmed">
-                      {item.label}
-                    </Text>
-                  </Group>
+                  </Tooltip>
                 </UnstyledButton>
               ))}
             </Group>

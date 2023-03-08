@@ -2,7 +2,7 @@ import { Anchor, Box, Container, Flex, Paper, SimpleGrid, Stack } from '@mantine
 import { useAuth } from '@pubkeyapp/web/auth/data-access'
 import { PageCreateButtons, PageList } from '@pubkeyapp/web/page/ui'
 import { UiLoader } from '@pubkeyapp/web/ui/core'
-import { useUserPagesQuery, useUserQuery } from '@pubkeyapp/web/util/sdk'
+import { usePublicUserPagesQuery, usePublicUserQuery } from '@pubkeyapp/web/util/sdk'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { EarlyFeatureActions } from '../early/early-feature'
@@ -10,8 +10,8 @@ import { DashboardConnectIdentities } from './dashboard-connect.identities'
 
 export function DashboardFeature() {
   const { user } = useAuth()
-  const [{ data: userData }] = useUserQuery({ variables: { username: `${user?.username}` } })
-  const [{ data: pages, fetching }] = useUserPagesQuery({ variables: { username: `${user?.username}` } })
+  const [{ data: userData }] = usePublicUserQuery({ variables: { username: `${user?.username}` } })
+  const [{ data: pages, fetching }] = usePublicUserPagesQuery({ variables: { username: `${user?.username}` } })
 
   return (
     <Container size="xl">

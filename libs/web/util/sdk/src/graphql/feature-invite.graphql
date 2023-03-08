@@ -10,10 +10,7 @@ fragment InviteDetails on Invite {
   isExpired
   isUsedUp
   owner {
-    id
-    username
-    name
-    avatarUrl
+    ...UserDetails
   }
 }
 
@@ -56,5 +53,26 @@ query PublicInvite($code: String!) {
     users {
       ...UserDetails
     }
+  }
+}
+
+query UserInvites {
+  items: userInvites {
+    ...InviteDetails
+  }
+}
+
+query UserInvite {
+  item: userInvite {
+    ...InviteDetails
+    users {
+      ...UserDetails
+    }
+  }
+}
+
+mutation UserAcceptInvite($code: String!) {
+  item: userAcceptInvite(code: $code) {
+    ...InviteDetails
   }
 }

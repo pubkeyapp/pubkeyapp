@@ -10,7 +10,7 @@ export class ApiAdminPageService {
   constructor(private readonly core: ApiCoreService) {}
 
   async adminCreatePage(adminId: string, input: AdminCreatePageInput) {
-    await this.core.ensureAdminUser(adminId)
+    await this.core.ensureUserAdmin(adminId)
     return this.core.data.page.create({
       data: {
         ownerId: input.ownerId ?? adminId,
@@ -24,13 +24,13 @@ export class ApiAdminPageService {
   }
 
   async adminDeletePage(adminId: string, pageId: string) {
-    await this.core.ensureAdminUser(adminId)
+    await this.core.ensureUserAdmin(adminId)
     await this.core.data.pageBlock.deleteMany({ where: { pageId } })
     return this.core.data.page.delete({ where: { id: pageId } })
   }
 
   async adminPages(adminId: string, input: AdminListPageInput) {
-    await this.core.ensureAdminUser(adminId)
+    await this.core.ensureUserAdmin(adminId)
     return this.core.data.page.findMany({
       where: { ownerId: input.ownerId ? input.ownerId : undefined },
       include: { owner: true, domains: { include: { domain: true } } },
@@ -38,7 +38,7 @@ export class ApiAdminPageService {
   }
 
   async adminPage(adminId: string, pageId: string) {
-    await this.core.ensureAdminUser(adminId)
+    await this.core.ensureUserAdmin(adminId)
     return this.core.data.page.findUnique({
       where: { id: pageId },
       include: {
@@ -54,7 +54,7 @@ export class ApiAdminPageService {
   }
 
   async adminUpdatePage(adminId: string, pageId: string, input: AdminUpdatePageInput) {
-    await this.core.ensureAdminUser(adminId)
+    await this.core.ensureUserAdmin(adminId)
     return this.core.data.page.update({ where: { id: pageId }, data: input })
   }
 }

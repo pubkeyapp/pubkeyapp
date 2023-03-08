@@ -8,6 +8,7 @@ export class ApiPublicPageService {
   constructor(private readonly core: ApiCoreService) {}
 
   getPageById(pageId: string) {
+    // FIXME: Add caching
     return this.core.data.page
       .findUnique({
         where: { id: pageId },

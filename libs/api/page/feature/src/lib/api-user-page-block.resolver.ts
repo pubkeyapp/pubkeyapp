@@ -19,11 +19,6 @@ export class ApiUserPageBlockResolver {
     return this.service.userAddPageBlock(user.id, pageId, input)
   }
 
-  @Query(() => PageBlock, { nullable: true })
-  userPageBlock(@CtxUser() user: User, @Args('pageBlockId') pageBlockId: string) {
-    return this.service.userPageBlock(user.id, pageBlockId)
-  }
-
   @Mutation(() => PageBlock, { nullable: true })
   userRemovePageBlock(@CtxUser() user: User, @Args('pageId') pageId: string, @Args('pageBlockId') pageBlockId: string) {
     return this.service.userRemovePageBlock(user.id, pageId, pageBlockId)

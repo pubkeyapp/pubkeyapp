@@ -1,4 +1,4 @@
-import { Box, Tabs, Text } from '@mantine/core'
+import { Box, rem, Tabs, Text } from '@mantine/core'
 import { ReactNode } from 'react'
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 
@@ -18,7 +18,23 @@ export function UiTabRoutes({ tabs }: { tabs: UiTabRoute[] }) {
 
   return (
     <Box>
-      <Tabs value={activeTab} onTabChange={(value) => navigate(`${value}`)} variant="pills" radius="xl" mb="xl">
+      <Tabs
+        value={activeTab}
+        onTabChange={(value) => navigate(`${value}`)}
+        variant="pills"
+        radius="xl"
+        mb="xl"
+        styles={(theme) => {
+          return {
+            tab: {
+              border: `${rem(4)} solid ${theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[4]}`,
+              '&[data-active]': {
+                borderColor: theme.colorScheme === 'dark' ? theme.colors.brand[8] : theme.colors.brand[6],
+              },
+            },
+          }
+        }}
+      >
         <Tabs.List grow>
           {tabs.map((tab) => (
             <Tabs.Tab key={tab.value} value={tab.value}>

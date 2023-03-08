@@ -22,6 +22,7 @@ export class ApiCoreDataService extends PrismaClient implements OnModuleDestroy,
   }
 
   findUserByUsername(username: string) {
+    // FIXME: Add caching
     return this.user
       .findUnique({ where: { username }, include: { identities: true } })
       .then((user) => (user ? convertCoreDbUser(user, this.config.apiUrl) : null))

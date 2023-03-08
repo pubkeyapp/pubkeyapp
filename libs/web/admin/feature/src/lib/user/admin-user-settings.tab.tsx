@@ -29,7 +29,7 @@ export function AdminUserSettingsTab({
   ]
 
   return (
-    <Paper withBorder radius="md" p={theme.spacing.md}>
+    <Paper>
       <UiForm<AdminUpdateUserInput> fields={fields} model={{ ...user, bio: user.bio ?? '' }} submit={updateUser}>
         <Button type="submit">Submit</Button>
       </UiForm>

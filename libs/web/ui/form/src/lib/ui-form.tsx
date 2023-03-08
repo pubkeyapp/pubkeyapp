@@ -102,6 +102,9 @@ export function UiForm<T>({
             case UiFormFieldType.Text:
               return (
                 <TextInput
+                  size="lg"
+                  radius="xl"
+                  styles={{ input: { marginTop: 16 } }}
                   key={field.key?.toString()}
                   description={field.description}
                   label={field.label}

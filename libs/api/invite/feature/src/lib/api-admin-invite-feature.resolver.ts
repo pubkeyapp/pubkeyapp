@@ -1,5 +1,5 @@
 import { ApiAuthGraphqlGuard, CtxUser } from '@pubkeyapp/api/auth/data-access'
-import { AdminListInviteInput, ApiInviteAdminService } from '@pubkeyapp/api/invite/data-access'
+import { AdminListInviteInput, ApiAdminInviteService } from '@pubkeyapp/api/invite/data-access'
 import { User } from '@pubkeyapp/api/user/data-access'
 import { UseGuards } from '@nestjs/common'
 import { Resolver, Query, Args, Mutation } from '@nestjs/graphql'
@@ -7,8 +7,8 @@ import { AdminCreateInviteInput, AdminUpdateInviteInput, Invite } from '@pubkeya
 
 @Resolver()
 @UseGuards(ApiAuthGraphqlGuard)
-export class ApiInviteFeatureAdminResolver {
-  constructor(private readonly service: ApiInviteAdminService) {}
+export class ApiAdminInviteFeatureResolver {
+  constructor(private readonly service: ApiAdminInviteService) {}
 
   @Mutation(() => Invite, { nullable: true })
   adminCreateInvite(@CtxUser() user: User, @Args('input') input: AdminCreateInviteInput) {

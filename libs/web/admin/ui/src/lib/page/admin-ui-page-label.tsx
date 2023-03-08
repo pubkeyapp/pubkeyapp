@@ -8,7 +8,7 @@ export function AdminUiPageLabel({ page }: { page: Page }) {
   return (
     <Group spacing="sm" p={4} position="apart" align="center">
       <Group>
-        <PageTypeIcon type={page.type as PageType} size={24} />
+        <PageTypeIcon type={page.type as PageType} size={32} />
         <Text component={Link} to={link} size="xl" weight={500} color="brand">
           {page.title}
         </Text>

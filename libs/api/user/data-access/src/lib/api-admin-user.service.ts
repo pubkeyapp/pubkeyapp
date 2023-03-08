@@ -1,13 +1,13 @@
-import { ApiCoreService } from '@pubkeyapp/api/core/data-access'
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { IdentityProvider, UserRole, UserStatus } from '@prisma/client'
+import { ApiCoreService } from '@pubkeyapp/api/core/data-access'
 import { AdminCreateUserInput } from './dto/admin-create-user.input'
 import { AdminUpdateUserInput } from './dto/admin-update-user.input'
 
 @Injectable()
-export class ApiUserAdminService {
+export class ApiAdminUserService {
   async adminUser(adminId: string, userId) {
-    await this.core.ensureAdminUser(adminId)
+    await this.core.ensureUserAdmin(adminId)
     const found = await this.core.data.findUserById(userId)
     if (!found) {
       throw new NotFoundException()
@@ -16,14 +16,14 @@ export class ApiUserAdminService {
   }
 
   async adminUsers(adminId: string) {
-    await this.core.ensureAdminUser(adminId)
+    await this.core.ensureUserAdmin(adminId)
     return this.core.data.user.findMany({ include: { identities: true }, orderBy: { updatedAt: 'desc' } })
   }
 
   constructor(private readonly core: ApiCoreService) {}
 
   async adminCreateUser(adminId: string, input: AdminCreateUserInput) {
-    await this.core.ensureAdminUser(adminId)
+    await this.core.ensureUserAdmin(adminId)
     const found = await this.core.data.findUserByIdentity({
       provider: IdentityProvider.Solana,
       providerId: input.publicKey,
@@ -35,7 +35,7 @@ export class ApiUserAdminService {
   }
 
   async adminUpdateUser(adminId: string, userId: string, input: AdminUpdateUserInput) {
-    await this.core.ensureAdminUser(adminId)
+    await this.core.ensureUserAdmin(adminId)
     const found = await this.core.data.findUserById(userId)
     if (!found) {
       throw new NotFoundException()
@@ -47,7 +47,7 @@ export class ApiUserAdminService {
   }
 
   async adminDeleteUser(adminId: string, userId: string) {
-    await this.core.ensureAdminUser(adminId)
+    await this.core.ensureUserAdmin(adminId)
     // Delete user data
     await this.core.data.identity.deleteMany({ where: { ownerId: userId } })
     await this.core.data.invite.deleteMany({ where: { ownerId: userId } })
