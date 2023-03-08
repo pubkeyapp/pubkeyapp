@@ -1,4 +1,4 @@
-import { ActionIcon, Container, Stack, Text } from '@mantine/core'
+import { ActionIcon, Box, Container, Stack, Text } from '@mantine/core'
 import { UiTabRoutes } from '@pubkeyapp/web/ui/core'
 import { UiPageHeader } from '@pubkeyapp/web/ui/page'
 import { IconSettings } from '@tabler/icons-react'
@@ -8,7 +8,7 @@ import { SettingsUserProfileTab } from './settings-user-profile-tab'
 
 export function SettingsFeature() {
   return (
-    <Container size="md">
+    <Container size="xl">
       <Stack>
         <UiPageHeader
           title={
@@ -22,20 +22,24 @@ export function SettingsFeature() {
             </ActionIcon>
           }
         />
-        <UiTabRoutes
-          tabs={[
-            {
-              label: 'Your Profile',
-              value: 'profile',
-              component: <SettingsUserProfileTab />,
-            },
-            {
-              label: 'Your Identities',
-              value: 'identities',
-              component: <SettingsUserIdentitiesTab />,
-            },
-          ]}
-        />
+        <Box>
+          <Container size="lg">
+            <UiTabRoutes
+              tabs={[
+                {
+                  label: 'Your Profile',
+                  value: 'profile',
+                  component: <SettingsUserProfileTab />,
+                },
+                {
+                  label: 'Your Identities',
+                  value: 'identities',
+                  component: <SettingsUserIdentitiesTab />,
+                },
+              ]}
+            />
+          </Container>
+        </Box>
       </Stack>
     </Container>
   )

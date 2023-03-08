@@ -53,8 +53,8 @@ export function AdminRoutes() {
 export function AdminLayout({ links }: { links: UiDashboardItem[] }) {
   const theme = useMantineTheme()
   return (
-    <Box>
-      <Container mt="lg">
+    <Container size="xl">
+      <Stack>
         <UiPageHeader
           title={
             <Text component={Link} to="/admin" size="xl" weight={500}>
@@ -70,19 +70,21 @@ export function AdminLayout({ links }: { links: UiDashboardItem[] }) {
             <Group>
               {links.map((item, index) => (
                 <UnstyledButton key={item.label} component={Link} to={item.link}>
-                  <Stack align="center" spacing={4}>
+                  <Group align="center" spacing={4}>
                     <item.icon color={theme.colors[`${item.color}`][6]} size={32} />
                     <Text size="xs" color="dimmed">
                       {item.label}
                     </Text>
-                  </Stack>
+                  </Group>
                 </UnstyledButton>
               ))}
             </Group>
           }
         />
-      </Container>
-      <Outlet />
-    </Box>
+        <Box>
+          <Outlet />
+        </Box>
+      </Stack>
+    </Container>
   )
 }

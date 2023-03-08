@@ -15,7 +15,9 @@ export function UserTable({ deleteUser, users }: AdminUserTableProps) {
   return (
     <ScrollArea>
       <DataTable
-        borderRadius="md"
+        borderRadius="xl"
+        styles={{ root: { paddingTop: 10 } }}
+        sx={{ borderWidth: 4 }}
         withBorder
         shadow="xs"
         columns={[
