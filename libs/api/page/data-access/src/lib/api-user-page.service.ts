@@ -27,13 +27,6 @@ export class ApiUserPageService {
     return this.core.data.page.delete({ where: { id: pageId } })
   }
 
-  async userPages(userId: string) {
-    return this.core.data.page.findMany({
-      where: { ownerId: userId },
-      include: { owner: true, domains: { include: { domain: true } } },
-    })
-  }
-
   async userPage(userId: string, pageId: string) {
     return this.ensurePageOwner(userId, pageId)
   }

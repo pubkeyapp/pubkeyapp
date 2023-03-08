@@ -1,5 +1,6 @@
 import {
   ActionIcon,
+  Anchor,
   Box,
   Button,
   Card,
@@ -21,6 +22,7 @@ import {
   PageBlockRender,
   PageColorSelect,
   PageEditorPreview,
+  PageTypeIcon,
 } from '@pubkeyapp/web/page/ui'
 import {
   showNotificationError,
@@ -35,6 +37,7 @@ import {
   Page,
   PageBlock,
   PageStatus,
+  PageType,
   usePublicPageQuery,
   UserAddPageBlockInput,
   useUserAddPageBlockMutation,
@@ -140,9 +143,14 @@ export function WebPageEditorDetailFeature() {
       <Skeleton visible={!page?.item} radius="xl">
         <UiPageHeader
           title={
-            <Text component={Link} to={'/profiles/' + pageId} size="xl">
-              Edit {page?.item?.type} Profile
-            </Text>
+            <Group>
+              <PageTypeIcon type={page?.item?.type as PageType} size={24} />
+              <Tooltip label={`Edit the ${page?.item?.type} page`}>
+                <Anchor component={Link} to={`/profiles/${page?.item?.id}`} size="xl">
+                  {page?.item?.type}
+                </Anchor>
+              </Tooltip>
+            </Group>
           }
           leftAction={<UiBackButton to="/profiles" />}
           rightAction={

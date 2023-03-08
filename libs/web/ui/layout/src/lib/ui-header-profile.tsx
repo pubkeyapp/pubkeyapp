@@ -55,7 +55,17 @@ export function UiHeaderProfile() {
                     <Text size="sm" sx={{ lineHeight: 1 }}>
                       gm
                     </Text>
-                    <Text truncate weight={'bold'} size="sm" sx={{ lineHeight: 1 }} lineClamp={1}>
+                    <Text
+                      onClick={() => setUserMenuOpened(false)}
+                      color={'brand'}
+                      component={Link}
+                      to={`${user.profileUrl}`}
+                      truncate
+                      weight={'bold'}
+                      size="sm"
+                      sx={{ lineHeight: 1 }}
+                      lineClamp={1}
+                    >
                       {user.name}
                     </Text>
                   </Group>

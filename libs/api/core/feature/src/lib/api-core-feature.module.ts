@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common'
 import { GraphQLModule } from '@nestjs/graphql'
 import { ServeStaticModule } from '@nestjs/serve-static'
 import { OgmaModule } from '@ogma/nestjs-module'
+import { ApiAccountFeatureModule } from '@pubkeyapp/api/account/feature'
 import { ApiAuthFeatureModule } from '@pubkeyapp/api/auth/feature'
 import { ApiConfigDataAccessModule, ApiConfigDataAccessService } from '@pubkeyapp/api/config/data-access'
 import { ApiConfigFeatureModule } from '@pubkeyapp/api/config/feature'
@@ -28,6 +29,7 @@ import { serveStaticFactory } from './serve-static.factory'
   providers: [ApiCoreFeatureResolver],
   exports: [],
   imports: [
+    ApiAccountFeatureModule,
     ApiAuthFeatureModule,
     ApiConfigFeatureModule,
     ApiCoreDataAccessModule,

@@ -36,6 +36,11 @@ export class ApiUserUserResolver {
     return this.service.userFollow(user.id, username)
   }
 
+  @Query(() => [Page], { nullable: true })
+  userPages(@Args('username') username: string) {
+    return this.service.userPages(username)
+  }
+
   @Query(() => GraphQLJSON, { nullable: true })
   userProfiles(@Args('username') username: string) {
     return this.service.userProfiles(username)

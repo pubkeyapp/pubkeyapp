@@ -5,6 +5,7 @@ import {
   IconCards,
   IconGlobe,
   IconMoneybag,
+  IconNotes,
   IconPageBreak,
   IconShield,
   IconStack3,
@@ -12,6 +13,7 @@ import {
 } from '@tabler//icons-react'
 import { useMemo } from 'react'
 import { Link, Navigate, Outlet, Route, Routes } from 'react-router-dom'
+import { AdminAccountRoutes } from './account/admin-account.routes'
 import { AdminDashboardFeature } from './admin-dashboard-feature'
 import { AdminDomainRoutes } from './domain/admin-domain.routes'
 import { AdminInviteRoutes } from './invite/admin-invite.routes'
@@ -23,6 +25,7 @@ import { AdminUserRoutes } from './user/admin-user.routes'
 export function AdminRoutes() {
   const links: UiDashboardItem[] = useMemo(() => {
     return [
+      { label: 'Accounts', icon: IconNotes, link: '/admin/accounts' },
       { label: 'Domains', icon: IconGlobe, link: '/admin/domains' },
       { label: 'Invites', icon: IconCards, link: '/admin/invites' },
       { label: 'Plans', icon: IconMoneybag, link: '/admin/plans' },
@@ -38,6 +41,7 @@ export function AdminRoutes() {
     <Routes>
       <Route index element={<Navigate replace to="dashboard" />} />
       <Route element={<AdminLayout links={links} />}>
+        <Route path="accounts/*" element={<AdminAccountRoutes />} />
         <Route path="dashboard" element={<AdminDashboardFeature links={links} />} />
         <Route path="domains/*" element={<AdminDomainRoutes />} />
         <Route path="invites/*" element={<AdminInviteRoutes />} />

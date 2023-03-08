@@ -20,6 +20,34 @@ export type Scalars = {
   JSON: any
 }
 
+export type Account = {
+  __typename?: 'Account'
+  address?: Maybe<Scalars['String']>
+  createdAt?: Maybe<Scalars['DateTime']>
+  discoveredAt?: Maybe<Scalars['DateTime']>
+  discoveredBy?: Maybe<User>
+  explorerUrl?: Maybe<Scalars['String']>
+  id?: Maybe<Scalars['String']>
+  identity?: Maybe<Identity>
+  name?: Maybe<Scalars['String']>
+  network?: Maybe<NetworkType>
+  owner?: Maybe<Account>
+  program?: Maybe<Scalars['String']>
+  tokens?: Maybe<Array<Account>>
+  type?: Maybe<AccountType>
+  updatedAt?: Maybe<Scalars['DateTime']>
+}
+
+export enum AccountType {
+  Account = 'Account',
+  BonfidaDomain = 'BonfidaDomain',
+  BonfidaTwitter = 'BonfidaTwitter',
+  Mint = 'Mint',
+  Program = 'Program',
+  System = 'System',
+  Token = 'Token',
+}
+
 export type AdminAddPageBlockInput = {
   data?: InputMaybe<Scalars['JSON']>
   order?: InputMaybe<Scalars['Int']>
@@ -66,6 +94,14 @@ export type AdminCreatePlanInput = {
 export type AdminCreateUserInput = {
   publicKey?: InputMaybe<Scalars['String']>
   role?: InputMaybe<UserRole>
+}
+
+export type AdminListAccountInput = {
+  address?: InputMaybe<Scalars['String']>
+  name?: InputMaybe<Scalars['String']>
+  network?: InputMaybe<NetworkType>
+  program?: InputMaybe<Scalars['String']>
+  type?: InputMaybe<AccountType>
 }
 
 export type AdminListDomainInput = {
@@ -200,6 +236,7 @@ export type Identity = {
   __typename?: 'Identity'
   createdAt?: Maybe<Scalars['String']>
   id?: Maybe<Scalars['String']>
+  owner?: Maybe<User>
   provider?: Maybe<IdentityProvider>
   providerId: Scalars['String']
   updatedAt?: Maybe<Scalars['String']>
@@ -450,6 +487,12 @@ export type MutationUserUpdateUserArgs = {
   input: UserUpdateUserInput
 }
 
+export enum NetworkType {
+  SolanaDevnet = 'SolanaDevnet',
+  SolanaMainnet = 'SolanaMainnet',
+  SolanaTestnet = 'SolanaTestnet',
+}
+
 export type Page = {
   __typename?: 'Page'
   blocks?: Maybe<Array<PageBlock>>
@@ -536,6 +579,8 @@ export type PlanFeature = {
 
 export type Query = {
   __typename?: 'Query'
+  adminAccount?: Maybe<Account>
+  adminAccounts?: Maybe<Array<Account>>
   adminDomain?: Maybe<Domain>
   adminDomains?: Maybe<Array<Domain>>
   adminInvite?: Maybe<Invite>
@@ -559,6 +604,8 @@ export type Query = {
   requestChallenge?: Maybe<AuthChallengeRequest>
   uptime: Scalars['Float']
   user?: Maybe<User>
+  userAccount?: Maybe<Account>
+  userAccountHistory?: Maybe<Scalars['JSON']>
   userFollowers?: Maybe<Array<User>>
   userFollowing?: Maybe<Array<User>>
   userInvites?: Maybe<Array<Invite>>
@@ -566,6 +613,14 @@ export type Query = {
   userPageBlock?: Maybe<PageBlock>
   userPages?: Maybe<Array<Page>>
   userProfiles?: Maybe<Scalars['JSON']>
+}
+
+export type QueryAdminAccountArgs = {
+  accountId: Scalars['String']
+}
+
+export type QueryAdminAccountsArgs = {
+  input: AdminListAccountInput
 }
 
 export type QueryAdminDomainArgs = {
@@ -638,6 +693,16 @@ export type QueryUserArgs = {
   username: Scalars['String']
 }
 
+export type QueryUserAccountArgs = {
+  address: Scalars['String']
+  network: NetworkType
+}
+
+export type QueryUserAccountHistoryArgs = {
+  address: Scalars['String']
+  network: NetworkType
+}
+
 export type QueryUserFollowersArgs = {
   username: Scalars['String']
 }
@@ -656,6 +721,10 @@ export type QueryUserPageArgs = {
 
 export type QueryUserPageBlockArgs = {
   pageBlockId: Scalars['String']
+}
+
+export type QueryUserPagesArgs = {
+  username: Scalars['String']
 }
 
 export type QueryUserProfilesArgs = {
@@ -765,6 +834,646 @@ export type UserUpdateUserInput = {
   name?: InputMaybe<Scalars['String']>
   username?: InputMaybe<Scalars['String']>
 }
+
+export type AccountDetailsFragment = {
+  __typename?: 'Account'
+  id?: string | null
+  updatedAt?: any | null
+  createdAt?: any | null
+  name?: string | null
+  program?: string | null
+  network?: NetworkType | null
+  type?: AccountType | null
+  address?: string | null
+  explorerUrl?: string | null
+  discoveredAt?: any | null
+  discoveredBy?: {
+    __typename?: 'User'
+    id?: string | null
+    pid?: number | null
+    createdAt?: string | null
+    updatedAt?: string | null
+    role?: UserRole | null
+    status?: UserStatus | null
+    username?: string | null
+    name?: string | null
+    bio?: string | null
+    avatarUrl?: string | null
+    metaUrl?: string | null
+    profileUrl?: string | null
+    publicKey?: string | null
+    followersCount?: number | null
+    followingCount?: number | null
+    relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
+  } | null
+  identity?: {
+    __typename?: 'Identity'
+    id?: string | null
+    provider?: IdentityProvider | null
+    providerId: string
+    verified: boolean
+    owner?: {
+      __typename?: 'User'
+      id?: string | null
+      pid?: number | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      role?: UserRole | null
+      status?: UserStatus | null
+      username?: string | null
+      name?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      followersCount?: number | null
+      followingCount?: number | null
+      relation?: {
+        __typename?: 'UserRelation'
+        isYou: boolean
+        isFollowedByYou: boolean
+        isFollowingYou: boolean
+      } | null
+    } | null
+  } | null
+}
+
+export type AdminAccountsQueryVariables = Exact<{
+  input: AdminListAccountInput
+}>
+
+export type AdminAccountsQuery = {
+  __typename?: 'Query'
+  items?: Array<{
+    __typename?: 'Account'
+    id?: string | null
+    updatedAt?: any | null
+    createdAt?: any | null
+    name?: string | null
+    program?: string | null
+    network?: NetworkType | null
+    type?: AccountType | null
+    address?: string | null
+    explorerUrl?: string | null
+    discoveredAt?: any | null
+    owner?: {
+      __typename?: 'Account'
+      id?: string | null
+      updatedAt?: any | null
+      createdAt?: any | null
+      name?: string | null
+      program?: string | null
+      network?: NetworkType | null
+      type?: AccountType | null
+      address?: string | null
+      explorerUrl?: string | null
+      discoveredAt?: any | null
+      discoveredBy?: {
+        __typename?: 'User'
+        id?: string | null
+        pid?: number | null
+        createdAt?: string | null
+        updatedAt?: string | null
+        role?: UserRole | null
+        status?: UserStatus | null
+        username?: string | null
+        name?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        profileUrl?: string | null
+        publicKey?: string | null
+        followersCount?: number | null
+        followingCount?: number | null
+        relation?: {
+          __typename?: 'UserRelation'
+          isYou: boolean
+          isFollowedByYou: boolean
+          isFollowingYou: boolean
+        } | null
+      } | null
+      identity?: {
+        __typename?: 'Identity'
+        id?: string | null
+        provider?: IdentityProvider | null
+        providerId: string
+        verified: boolean
+        owner?: {
+          __typename?: 'User'
+          id?: string | null
+          pid?: number | null
+          createdAt?: string | null
+          updatedAt?: string | null
+          role?: UserRole | null
+          status?: UserStatus | null
+          username?: string | null
+          name?: string | null
+          bio?: string | null
+          avatarUrl?: string | null
+          metaUrl?: string | null
+          profileUrl?: string | null
+          publicKey?: string | null
+          followersCount?: number | null
+          followingCount?: number | null
+          relation?: {
+            __typename?: 'UserRelation'
+            isYou: boolean
+            isFollowedByYou: boolean
+            isFollowingYou: boolean
+          } | null
+        } | null
+      } | null
+    } | null
+    identity?: {
+      __typename?: 'Identity'
+      id?: string | null
+      provider?: IdentityProvider | null
+      providerId: string
+      verified: boolean
+      owner?: {
+        __typename?: 'User'
+        id?: string | null
+        pid?: number | null
+        createdAt?: string | null
+        updatedAt?: string | null
+        role?: UserRole | null
+        status?: UserStatus | null
+        username?: string | null
+        name?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        profileUrl?: string | null
+        publicKey?: string | null
+        followersCount?: number | null
+        followingCount?: number | null
+        relation?: {
+          __typename?: 'UserRelation'
+          isYou: boolean
+          isFollowedByYou: boolean
+          isFollowingYou: boolean
+        } | null
+      } | null
+    } | null
+    discoveredBy?: {
+      __typename?: 'User'
+      id?: string | null
+      pid?: number | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      role?: UserRole | null
+      status?: UserStatus | null
+      username?: string | null
+      name?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      followersCount?: number | null
+      followingCount?: number | null
+      relation?: {
+        __typename?: 'UserRelation'
+        isYou: boolean
+        isFollowedByYou: boolean
+        isFollowingYou: boolean
+      } | null
+    } | null
+  }> | null
+}
+
+export type AdminAccountQueryVariables = Exact<{
+  accountId: Scalars['String']
+}>
+
+export type AdminAccountQuery = {
+  __typename?: 'Query'
+  item?: {
+    __typename?: 'Account'
+    id?: string | null
+    updatedAt?: any | null
+    createdAt?: any | null
+    name?: string | null
+    program?: string | null
+    network?: NetworkType | null
+    type?: AccountType | null
+    address?: string | null
+    explorerUrl?: string | null
+    discoveredAt?: any | null
+    owner?: {
+      __typename?: 'Account'
+      id?: string | null
+      updatedAt?: any | null
+      createdAt?: any | null
+      name?: string | null
+      program?: string | null
+      network?: NetworkType | null
+      type?: AccountType | null
+      address?: string | null
+      explorerUrl?: string | null
+      discoveredAt?: any | null
+      discoveredBy?: {
+        __typename?: 'User'
+        id?: string | null
+        pid?: number | null
+        createdAt?: string | null
+        updatedAt?: string | null
+        role?: UserRole | null
+        status?: UserStatus | null
+        username?: string | null
+        name?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        profileUrl?: string | null
+        publicKey?: string | null
+        followersCount?: number | null
+        followingCount?: number | null
+        relation?: {
+          __typename?: 'UserRelation'
+          isYou: boolean
+          isFollowedByYou: boolean
+          isFollowingYou: boolean
+        } | null
+      } | null
+      identity?: {
+        __typename?: 'Identity'
+        id?: string | null
+        provider?: IdentityProvider | null
+        providerId: string
+        verified: boolean
+        owner?: {
+          __typename?: 'User'
+          id?: string | null
+          pid?: number | null
+          createdAt?: string | null
+          updatedAt?: string | null
+          role?: UserRole | null
+          status?: UserStatus | null
+          username?: string | null
+          name?: string | null
+          bio?: string | null
+          avatarUrl?: string | null
+          metaUrl?: string | null
+          profileUrl?: string | null
+          publicKey?: string | null
+          followersCount?: number | null
+          followingCount?: number | null
+          relation?: {
+            __typename?: 'UserRelation'
+            isYou: boolean
+            isFollowedByYou: boolean
+            isFollowingYou: boolean
+          } | null
+        } | null
+      } | null
+    } | null
+    tokens?: Array<{
+      __typename?: 'Account'
+      id?: string | null
+      updatedAt?: any | null
+      createdAt?: any | null
+      name?: string | null
+      program?: string | null
+      network?: NetworkType | null
+      type?: AccountType | null
+      address?: string | null
+      explorerUrl?: string | null
+      discoveredAt?: any | null
+      discoveredBy?: {
+        __typename?: 'User'
+        id?: string | null
+        pid?: number | null
+        createdAt?: string | null
+        updatedAt?: string | null
+        role?: UserRole | null
+        status?: UserStatus | null
+        username?: string | null
+        name?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        profileUrl?: string | null
+        publicKey?: string | null
+        followersCount?: number | null
+        followingCount?: number | null
+        relation?: {
+          __typename?: 'UserRelation'
+          isYou: boolean
+          isFollowedByYou: boolean
+          isFollowingYou: boolean
+        } | null
+      } | null
+      identity?: {
+        __typename?: 'Identity'
+        id?: string | null
+        provider?: IdentityProvider | null
+        providerId: string
+        verified: boolean
+        owner?: {
+          __typename?: 'User'
+          id?: string | null
+          pid?: number | null
+          createdAt?: string | null
+          updatedAt?: string | null
+          role?: UserRole | null
+          status?: UserStatus | null
+          username?: string | null
+          name?: string | null
+          bio?: string | null
+          avatarUrl?: string | null
+          metaUrl?: string | null
+          profileUrl?: string | null
+          publicKey?: string | null
+          followersCount?: number | null
+          followingCount?: number | null
+          relation?: {
+            __typename?: 'UserRelation'
+            isYou: boolean
+            isFollowedByYou: boolean
+            isFollowingYou: boolean
+          } | null
+        } | null
+      } | null
+    }> | null
+    identity?: {
+      __typename?: 'Identity'
+      id?: string | null
+      provider?: IdentityProvider | null
+      providerId: string
+      verified: boolean
+      owner?: {
+        __typename?: 'User'
+        id?: string | null
+        pid?: number | null
+        createdAt?: string | null
+        updatedAt?: string | null
+        role?: UserRole | null
+        status?: UserStatus | null
+        username?: string | null
+        name?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        profileUrl?: string | null
+        publicKey?: string | null
+        followersCount?: number | null
+        followingCount?: number | null
+        relation?: {
+          __typename?: 'UserRelation'
+          isYou: boolean
+          isFollowedByYou: boolean
+          isFollowingYou: boolean
+        } | null
+      } | null
+    } | null
+    discoveredBy?: {
+      __typename?: 'User'
+      id?: string | null
+      pid?: number | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      role?: UserRole | null
+      status?: UserStatus | null
+      username?: string | null
+      name?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      followersCount?: number | null
+      followingCount?: number | null
+      relation?: {
+        __typename?: 'UserRelation'
+        isYou: boolean
+        isFollowedByYou: boolean
+        isFollowingYou: boolean
+      } | null
+    } | null
+  } | null
+}
+
+export type UserAccountQueryVariables = Exact<{
+  network: NetworkType
+  address: Scalars['String']
+}>
+
+export type UserAccountQuery = {
+  __typename?: 'Query'
+  item?: {
+    __typename?: 'Account'
+    id?: string | null
+    updatedAt?: any | null
+    createdAt?: any | null
+    name?: string | null
+    program?: string | null
+    network?: NetworkType | null
+    type?: AccountType | null
+    address?: string | null
+    explorerUrl?: string | null
+    discoveredAt?: any | null
+    owner?: {
+      __typename?: 'Account'
+      id?: string | null
+      updatedAt?: any | null
+      createdAt?: any | null
+      name?: string | null
+      program?: string | null
+      network?: NetworkType | null
+      type?: AccountType | null
+      address?: string | null
+      explorerUrl?: string | null
+      discoveredAt?: any | null
+      discoveredBy?: {
+        __typename?: 'User'
+        id?: string | null
+        pid?: number | null
+        createdAt?: string | null
+        updatedAt?: string | null
+        role?: UserRole | null
+        status?: UserStatus | null
+        username?: string | null
+        name?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        profileUrl?: string | null
+        publicKey?: string | null
+        followersCount?: number | null
+        followingCount?: number | null
+        relation?: {
+          __typename?: 'UserRelation'
+          isYou: boolean
+          isFollowedByYou: boolean
+          isFollowingYou: boolean
+        } | null
+      } | null
+      identity?: {
+        __typename?: 'Identity'
+        id?: string | null
+        provider?: IdentityProvider | null
+        providerId: string
+        verified: boolean
+        owner?: {
+          __typename?: 'User'
+          id?: string | null
+          pid?: number | null
+          createdAt?: string | null
+          updatedAt?: string | null
+          role?: UserRole | null
+          status?: UserStatus | null
+          username?: string | null
+          name?: string | null
+          bio?: string | null
+          avatarUrl?: string | null
+          metaUrl?: string | null
+          profileUrl?: string | null
+          publicKey?: string | null
+          followersCount?: number | null
+          followingCount?: number | null
+          relation?: {
+            __typename?: 'UserRelation'
+            isYou: boolean
+            isFollowedByYou: boolean
+            isFollowingYou: boolean
+          } | null
+        } | null
+      } | null
+    } | null
+    tokens?: Array<{
+      __typename?: 'Account'
+      id?: string | null
+      updatedAt?: any | null
+      createdAt?: any | null
+      name?: string | null
+      program?: string | null
+      network?: NetworkType | null
+      type?: AccountType | null
+      address?: string | null
+      explorerUrl?: string | null
+      discoveredAt?: any | null
+      discoveredBy?: {
+        __typename?: 'User'
+        id?: string | null
+        pid?: number | null
+        createdAt?: string | null
+        updatedAt?: string | null
+        role?: UserRole | null
+        status?: UserStatus | null
+        username?: string | null
+        name?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        profileUrl?: string | null
+        publicKey?: string | null
+        followersCount?: number | null
+        followingCount?: number | null
+        relation?: {
+          __typename?: 'UserRelation'
+          isYou: boolean
+          isFollowedByYou: boolean
+          isFollowingYou: boolean
+        } | null
+      } | null
+      identity?: {
+        __typename?: 'Identity'
+        id?: string | null
+        provider?: IdentityProvider | null
+        providerId: string
+        verified: boolean
+        owner?: {
+          __typename?: 'User'
+          id?: string | null
+          pid?: number | null
+          createdAt?: string | null
+          updatedAt?: string | null
+          role?: UserRole | null
+          status?: UserStatus | null
+          username?: string | null
+          name?: string | null
+          bio?: string | null
+          avatarUrl?: string | null
+          metaUrl?: string | null
+          profileUrl?: string | null
+          publicKey?: string | null
+          followersCount?: number | null
+          followingCount?: number | null
+          relation?: {
+            __typename?: 'UserRelation'
+            isYou: boolean
+            isFollowedByYou: boolean
+            isFollowingYou: boolean
+          } | null
+        } | null
+      } | null
+    }> | null
+    discoveredBy?: {
+      __typename?: 'User'
+      id?: string | null
+      pid?: number | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      role?: UserRole | null
+      status?: UserStatus | null
+      username?: string | null
+      name?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      followersCount?: number | null
+      followingCount?: number | null
+      relation?: {
+        __typename?: 'UserRelation'
+        isYou: boolean
+        isFollowedByYou: boolean
+        isFollowingYou: boolean
+      } | null
+    } | null
+    identity?: {
+      __typename?: 'Identity'
+      id?: string | null
+      provider?: IdentityProvider | null
+      providerId: string
+      verified: boolean
+      owner?: {
+        __typename?: 'User'
+        id?: string | null
+        pid?: number | null
+        createdAt?: string | null
+        updatedAt?: string | null
+        role?: UserRole | null
+        status?: UserStatus | null
+        username?: string | null
+        name?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        profileUrl?: string | null
+        publicKey?: string | null
+        followersCount?: number | null
+        followingCount?: number | null
+        relation?: {
+          __typename?: 'UserRelation'
+          isYou: boolean
+          isFollowedByYou: boolean
+          isFollowingYou: boolean
+        } | null
+      } | null
+    } | null
+  } | null
+}
+
+export type UserAccountHistoryQueryVariables = Exact<{
+  network: NetworkType
+  address: Scalars['String']
+}>
+
+export type UserAccountHistoryQuery = { __typename?: 'Query'; items?: any | null }
 
 export type AuthChallengeRequestDetailsFragment = {
   __typename?: 'AuthChallengeRequest'
@@ -2024,60 +2733,6 @@ export type UserPageQuery = {
   } | null
 }
 
-export type UserPagesQueryVariables = Exact<{ [key: string]: never }>
-
-export type UserPagesQuery = {
-  __typename?: 'Query'
-  items?: Array<{
-    __typename?: 'Page'
-    id?: string | null
-    createdAt?: string | null
-    updatedAt?: string | null
-    status?: PageStatus | null
-    type?: PageType | null
-    title?: string | null
-    description?: string | null
-    color?: string | null
-    previewUrl?: string | null
-    siteUrl?: string | null
-    viewUrl?: string | null
-    domains?: Array<{
-      __typename?: 'PageDomain'
-      id?: string | null
-      createdAt?: string | null
-      updatedAt?: string | null
-      path?: string | null
-      viewUrl?: string | null
-      domain?: { __typename?: 'Domain'; id?: string | null; name?: string | null } | null
-      page?: { __typename?: 'Page'; id?: string | null; title?: string | null } | null
-    }> | null
-    owner?: {
-      __typename?: 'User'
-      id?: string | null
-      pid?: number | null
-      createdAt?: string | null
-      updatedAt?: string | null
-      role?: UserRole | null
-      status?: UserStatus | null
-      username?: string | null
-      name?: string | null
-      bio?: string | null
-      avatarUrl?: string | null
-      metaUrl?: string | null
-      profileUrl?: string | null
-      publicKey?: string | null
-      followersCount?: number | null
-      followingCount?: number | null
-      relation?: {
-        __typename?: 'UserRelation'
-        isYou: boolean
-        isFollowedByYou: boolean
-        isFollowingYou: boolean
-      } | null
-    } | null
-  }> | null
-}
-
 export type UserUpdatePageMutationVariables = Exact<{
   pageId: Scalars['String']
   input: UserUpdatePageInput
@@ -2907,6 +3562,52 @@ export type UserUnfollowMutation = {
   } | null
 }
 
+export type UserPagesQueryVariables = Exact<{
+  username: Scalars['String']
+}>
+
+export type UserPagesQuery = {
+  __typename?: 'Query'
+  items?: Array<{
+    __typename?: 'Page'
+    id?: string | null
+    createdAt?: string | null
+    updatedAt?: string | null
+    status?: PageStatus | null
+    type?: PageType | null
+    title?: string | null
+    description?: string | null
+    color?: string | null
+    previewUrl?: string | null
+    siteUrl?: string | null
+    viewUrl?: string | null
+    owner?: {
+      __typename?: 'User'
+      id?: string | null
+      pid?: number | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      role?: UserRole | null
+      status?: UserStatus | null
+      username?: string | null
+      name?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      followersCount?: number | null
+      followingCount?: number | null
+      relation?: {
+        __typename?: 'UserRelation'
+        isYou: boolean
+        isFollowedByYou: boolean
+        isFollowingYou: boolean
+      } | null
+    } | null
+  }> | null
+}
+
 export type UserProfilesQueryVariables = Exact<{
   username: Scalars['String']
 }>
@@ -2940,6 +3641,63 @@ export type UserUpdateUserMutation = {
   } | null
 }
 
+export const UserRelationDetailsFragmentDoc = gql`
+  fragment UserRelationDetails on UserRelation {
+    isYou
+    isFollowedByYou
+    isFollowingYou
+  }
+`
+export const UserDetailsFragmentDoc = gql`
+  fragment UserDetails on User {
+    id
+    pid
+    createdAt
+    updatedAt
+    role
+    status
+    username
+    name
+    bio
+    avatarUrl
+    metaUrl
+    profileUrl
+    publicKey
+    followersCount
+    followingCount
+    relation {
+      ...UserRelationDetails
+    }
+  }
+  ${UserRelationDetailsFragmentDoc}
+`
+export const AccountDetailsFragmentDoc = gql`
+  fragment AccountDetails on Account {
+    id
+    updatedAt
+    createdAt
+    name
+    program
+    network
+    type
+    address
+    explorerUrl
+    discoveredAt
+    discoveredBy {
+      ...UserDetails
+    }
+    identity {
+      id
+      provider
+      providerId
+      verified
+      owner {
+        ...UserDetails
+      }
+    }
+  }
+  ${UserDetailsFragmentDoc}
+`
 export const AuthChallengeRequestDetailsFragmentDoc = gql`
   fragment AuthChallengeRequestDetails on AuthChallengeRequest {
     challenge
@@ -3061,36 +3819,6 @@ export const PageDomainDetailsFragmentDoc = gql`
     viewUrl
   }
 `
-export const UserRelationDetailsFragmentDoc = gql`
-  fragment UserRelationDetails on UserRelation {
-    isYou
-    isFollowedByYou
-    isFollowingYou
-  }
-`
-export const UserDetailsFragmentDoc = gql`
-  fragment UserDetails on User {
-    id
-    pid
-    createdAt
-    updatedAt
-    role
-    status
-    username
-    name
-    bio
-    avatarUrl
-    metaUrl
-    profileUrl
-    publicKey
-    followersCount
-    followingCount
-    relation {
-      ...UserRelationDetails
-    }
-  }
-  ${UserRelationDetailsFragmentDoc}
-`
 export const PageDetailsFragmentDoc = gql`
   fragment PageDetails on Page {
     id
@@ -3165,6 +3893,91 @@ export const JobDetailsFragmentDoc = gql`
     failedReason
   }
 `
+export const AdminAccountsDocument = gql`
+  query AdminAccounts($input: AdminListAccountInput!) {
+    items: adminAccounts(input: $input) {
+      ...AccountDetails
+      owner {
+        ...AccountDetails
+      }
+      identity {
+        id
+        provider
+        providerId
+        verified
+        owner {
+          ...UserDetails
+        }
+      }
+    }
+  }
+  ${AccountDetailsFragmentDoc}
+  ${UserDetailsFragmentDoc}
+`
+
+export function useAdminAccountsQuery(options: Omit<Urql.UseQueryArgs<AdminAccountsQueryVariables>, 'query'>) {
+  return Urql.useQuery<AdminAccountsQuery, AdminAccountsQueryVariables>({ query: AdminAccountsDocument, ...options })
+}
+export const AdminAccountDocument = gql`
+  query AdminAccount($accountId: String!) {
+    item: adminAccount(accountId: $accountId) {
+      ...AccountDetails
+      owner {
+        ...AccountDetails
+      }
+      tokens {
+        ...AccountDetails
+      }
+      identity {
+        id
+        provider
+        providerId
+        verified
+        owner {
+          ...UserDetails
+        }
+      }
+    }
+  }
+  ${AccountDetailsFragmentDoc}
+  ${UserDetailsFragmentDoc}
+`
+
+export function useAdminAccountQuery(options: Omit<Urql.UseQueryArgs<AdminAccountQueryVariables>, 'query'>) {
+  return Urql.useQuery<AdminAccountQuery, AdminAccountQueryVariables>({ query: AdminAccountDocument, ...options })
+}
+export const UserAccountDocument = gql`
+  query UserAccount($network: NetworkType!, $address: String!) {
+    item: userAccount(network: $network, address: $address) {
+      ...AccountDetails
+      owner {
+        ...AccountDetails
+      }
+      tokens {
+        ...AccountDetails
+      }
+    }
+  }
+  ${AccountDetailsFragmentDoc}
+`
+
+export function useUserAccountQuery(options: Omit<Urql.UseQueryArgs<UserAccountQueryVariables>, 'query'>) {
+  return Urql.useQuery<UserAccountQuery, UserAccountQueryVariables>({ query: UserAccountDocument, ...options })
+}
+export const UserAccountHistoryDocument = gql`
+  query UserAccountHistory($network: NetworkType!, $address: String!) {
+    items: userAccountHistory(network: $network, address: $address)
+  }
+`
+
+export function useUserAccountHistoryQuery(
+  options: Omit<Urql.UseQueryArgs<UserAccountHistoryQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<UserAccountHistoryQuery, UserAccountHistoryQueryVariables>({
+    query: UserAccountHistoryDocument,
+    ...options,
+  })
+}
 export const MeDocument = gql`
   query me {
     me {
@@ -3681,22 +4494,6 @@ export const UserPageDocument = gql`
 export function useUserPageQuery(options: Omit<Urql.UseQueryArgs<UserPageQueryVariables>, 'query'>) {
   return Urql.useQuery<UserPageQuery, UserPageQueryVariables>({ query: UserPageDocument, ...options })
 }
-export const UserPagesDocument = gql`
-  query UserPages {
-    items: userPages {
-      ...PageDetails
-      domains {
-        ...PageDomainDetails
-      }
-    }
-  }
-  ${PageDetailsFragmentDoc}
-  ${PageDomainDetailsFragmentDoc}
-`
-
-export function useUserPagesQuery(options?: Omit<Urql.UseQueryArgs<UserPagesQueryVariables>, 'query'>) {
-  return Urql.useQuery<UserPagesQuery, UserPagesQueryVariables>({ query: UserPagesDocument, ...options })
-}
 export const UserUpdatePageDocument = gql`
   mutation UserUpdatePage($pageId: String!, $input: UserUpdatePageInput!) {
     item: userUpdatePage(pageId: $pageId, input: $input) {
@@ -4040,6 +4837,18 @@ export const UserUnfollowDocument = gql`
 
 export function useUserUnfollowMutation() {
   return Urql.useMutation<UserUnfollowMutation, UserUnfollowMutationVariables>(UserUnfollowDocument)
+}
+export const UserPagesDocument = gql`
+  query UserPages($username: String!) {
+    items: userPages(username: $username) {
+      ...PageDetails
+    }
+  }
+  ${PageDetailsFragmentDoc}
+`
+
+export function useUserPagesQuery(options: Omit<Urql.UseQueryArgs<UserPagesQueryVariables>, 'query'>) {
+  return Urql.useQuery<UserPagesQuery, UserPagesQueryVariables>({ query: UserPagesDocument, ...options })
 }
 export const UserProfilesDocument = gql`
   query UserProfiles($username: String!) {

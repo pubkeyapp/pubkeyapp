@@ -132,6 +132,10 @@ export class ApiConfigDataAccessService {
     return this.environment === 'production'
   }
 
+  get heliusApiKey() {
+    return this.config.get('helius.apiKey')
+  }
+
   get host() {
     return this.config.get('host')
   }

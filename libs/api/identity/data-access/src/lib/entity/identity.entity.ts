@@ -1,4 +1,4 @@
-import { Field, ObjectType } from '@nestjs/graphql'
+import { Field, HideField, ObjectType } from '@nestjs/graphql'
 import { ApiProperty } from '@nestjs/swagger'
 import { IdentityProvider } from './identity-provider.enum'
 
@@ -25,4 +25,6 @@ export class Identity {
   @ApiProperty()
   @Field()
   verified: boolean
+  @HideField()
+  ownerId: string
 }

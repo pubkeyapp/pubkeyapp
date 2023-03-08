@@ -1,4 +1,5 @@
 import { Flex, Paper, Stack, Text } from '@mantine/core'
+import { useAuth } from '@pubkeyapp/web/auth/data-access'
 import { PageCreateButtons, PageList } from '@pubkeyapp/web/page/ui'
 import { UiBackButton } from '@pubkeyapp/web/ui/core'
 import { UiPageHeader } from '@pubkeyapp/web/ui/page'
@@ -7,7 +8,8 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 export function WebPageEditorListFeature() {
-  const [{ data: pages }] = useUserPagesQuery()
+  const { user } = useAuth()
+  const [{ data: pages }] = useUserPagesQuery({ variables: { username: `${user?.username}` } })
 
   return (
     <Stack>

@@ -2,7 +2,7 @@ import { CACHE_MANAGER, Inject, Injectable, Logger } from '@nestjs/common'
 import { style } from '@ogma/styler'
 import { Cache } from 'cache-manager'
 
-export type CacheNamespace = 'gum' | 'page' | 'user'
+export type CacheNamespace = 'bonfida' | 'gum' | 'page' | 'user'
 
 export function getCacheKey(namespace: CacheNamespace, key: string) {
   return `pubkey:${namespace}:${key}`

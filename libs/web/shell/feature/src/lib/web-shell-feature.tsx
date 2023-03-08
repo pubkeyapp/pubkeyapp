@@ -6,10 +6,12 @@ import { UiThemeProvider } from '@pubkeyapp/web/ui/theme'
 import { GraphQLProvider, UserRole, UserStatus } from '@pubkeyapp/web/util/sdk'
 import { lazy } from 'react'
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
+import { AccountFeature } from './account/account-feature'
 import { DashboardFeature } from './dashboard/dashboard-feature'
 import { EarlyFeature } from './early/early-feature'
 import { HomepageContentFeature, HomepageFeature } from './homepage/homepage-feature'
 import { LoginFeature } from './login/login-feature'
+import { ProfileRoutes } from './profile/profile-routes'
 import { SettingsFeature } from './settings/settings-feature'
 
 const AdminFeature = lazy(() => import('@pubkeyapp/web/admin/feature'))
@@ -49,10 +51,12 @@ export function WebShellFeature() {
                 <Route path="/dashboard" element={<DashboardFeature />} />
                 <Route path="/profiles/*" element={<PageEditorFeature />} />
                 <Route element={<UserRoleGuard role={UserRole.Admin} />}>
+                  <Route path="/account/*" element={<AccountFeature />} />
                   <Route path="/admin/*" element={<AdminFeature />} />
                 </Route>
               </Route>
               <Route path="/early" element={<EarlyFeature />} />
+              <Route path="/u/*" element={<ProfileRoutes />} />
               <Route path="/settings/*" element={<SettingsFeature />} />
               <Route path="/profile/identities/*" element={<div>TBD: Profile Identities Page</div>} />
               <Route path="/intent/connect/*" element={<div>TBD: Connect Identity Page</div>} />

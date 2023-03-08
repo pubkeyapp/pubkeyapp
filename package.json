@@ -60,6 +60,7 @@
     "@ogma/styler": "^1.0.0",
     "@openapitools/openapi-generator-cli": "^2.5.2",
     "@prisma/client": "^4.11.0",
+    "@solana/spl-token": "^0.3.7",
     "@solana/wallet-adapter-base": "^0.9.22",
     "@solana/wallet-adapter-react": "^0.15.30",
     "@solana/wallet-adapter-wallets": "^0.19.15",
@@ -106,6 +107,7 @@
   "devDependencies": {
     "@babel/core": "^7.21.0",
     "@babel/preset-react": "^7.14.5",
+    "@bonfida/spl-name-service": "^0.1.67",
     "@genql/cli": "^3.0.4",
     "@graphql-codegen/add": "^3.2.3",
     "@graphql-codegen/cli": "^2.16.2",

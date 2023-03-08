@@ -1,9 +1,8 @@
-import { Alert, Badge, Container, createStyles, Group, Paper, Stack, Text } from '@mantine/core'
+import { Alert, Container, createStyles, Group, Paper, Stack, Text } from '@mantine/core'
 import { useAuth } from '@pubkeyapp/web/auth/data-access'
-import { SolanaLogo } from '@pubkeyapp/web/ui/core'
 import { Identity, IdentityProvider, User } from '@pubkeyapp/web/util/sdk'
-import { IconBrandDiscord, IconCheck, IconQuestionCircle } from '@tabler/icons-react'
 import TimeAgo from 'timeago-react'
+import { IdentityProviderAvatar, IdentityProviderLink, VerifiedBadge } from '@pubkeyapp/web/identity/ui'
 
 export function SettingsUserIdentitiesTab() {
   const { user } = useAuth()
@@ -69,33 +68,4 @@ export function UserIdentityItem({ identity, user }: CommentHtmlProps) {
       </Group>
     </Paper>
   )
-}
-
-export function IdentityProviderLink({ provider, providerId }: { provider: IdentityProvider; providerId: string }) {
-  switch (
-    provider
-    // case IdentityProvider.Solana:
-    //   return <LinkAccount address={providerId} />
-  ) {
-  }
-  return <div>{providerId}</div>
-}
-
-export function VerifiedBadge() {
-  const icon = (
-    <Text display="flex">
-      <IconCheck size={16} />
-    </Text>
-  )
-  return <Badge leftSection={icon}>Verified</Badge>
-}
-
-export function IdentityProviderAvatar({ provider }: { provider: IdentityProvider }) {
-  switch (provider) {
-    case IdentityProvider.Discord:
-      return <IconBrandDiscord height={48} width={48} />
-    case IdentityProvider.Solana:
-      return <SolanaLogo />
-  }
-  return <IconQuestionCircle />
 }

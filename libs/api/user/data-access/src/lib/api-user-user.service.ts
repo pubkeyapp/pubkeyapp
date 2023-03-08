@@ -84,6 +84,14 @@ export class ApiUserUserService {
     return user
   }
 
+  async userPages(username: string) {
+    const user = await this.ensureValidUser(username)
+    return this.core.data.page.findMany({
+      where: { owner: { id: user.id } },
+      include: { owner: true, domains: { include: { domain: true } }, blocks: true },
+    })
+  }
+
   async userRelation(ownerId: string, username: string): Promise<UserRelation> {
     const member = await this.core.data.user.findUnique({
       where: { username },

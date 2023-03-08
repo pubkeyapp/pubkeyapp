@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { ApiDiscordDataAccessService } from '@pubkeyapp/api/discord/data-access'
-import { ApiSolanaDataAccessService } from '@pubkeyapp/api/solana/data-access'
+import { ApiSolanaService } from '@pubkeyapp/api/solana/data-access'
 import { ClusterType } from '@pubkeyapp/solana'
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js'
 import { Ctx, Options, SlashCommand, SlashCommandContext, StringOption } from 'necord'
@@ -28,10 +28,7 @@ export class SolanaAccount {
 
 @Injectable()
 export class ApiDiscordSolanaAccountService {
-  constructor(
-    private readonly core: ApiDiscordDataAccessService,
-    private readonly solana: ApiSolanaDataAccessService,
-  ) {}
+  constructor(private readonly core: ApiDiscordDataAccessService, private readonly solana: ApiSolanaService) {}
 
   @SlashCommand({ name: 'account', description: 'Look up an account on Solana.' })
   async account(@Ctx() [interaction]: SlashCommandContext, @Options() { address, cluster }: SolanaAccount) {

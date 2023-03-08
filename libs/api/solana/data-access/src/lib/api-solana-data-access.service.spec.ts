@@ -1,15 +1,15 @@
 import { Test } from '@nestjs/testing'
-import { ApiSolanaDataAccessService } from './api-solana-data-access.service'
+import { ApiSolanaService } from './api-solana.service'
 
 describe('ApiSolanaDataAccessService', () => {
-  let service: ApiSolanaDataAccessService
+  let service: ApiSolanaService
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
-      providers: [ApiSolanaDataAccessService],
+      providers: [ApiSolanaService],
     }).compile()
 
-    service = module.get(ApiSolanaDataAccessService)
+    service = module.get(ApiSolanaService)
   })
 
   it('should be defined', () => {

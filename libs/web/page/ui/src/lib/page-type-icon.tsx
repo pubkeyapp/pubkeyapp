@@ -1,4 +1,4 @@
-import { useMantineTheme } from '@mantine/core'
+import { Button, ButtonProps, useMantineTheme } from '@mantine/core'
 import { PageType } from '@pubkeyapp/web/util/sdk'
 import { IconBuildingBank, IconDeviceGamepad, IconPigMoney, IconQuestionMark, IconUser } from '@tabler/icons-react'
 import React from 'react'
@@ -32,4 +32,21 @@ export function PageTypeIcon({ size = 16, type, color }: { size?: number; type: 
     default:
       return <IconQuestionMark size={size} color={color} />
   }
+}
+
+export interface PageTypeButtonProps extends ButtonProps {
+  component?: any
+  pageType: PageType | string
+  onClick?: () => void
+}
+
+export function PageTypeButton({ pageType, component, ...props }: PageTypeButtonProps) {
+  const theme = useMantineTheme()
+  const color = props.color ?? theme.colors[PageTypeColor({ type: pageType })][6]
+
+  return (
+    <Button {...props} onClick={props.onClick}>
+      {pageType}
+    </Button>
+  )
 }

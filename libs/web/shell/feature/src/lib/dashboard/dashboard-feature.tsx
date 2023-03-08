@@ -11,7 +11,7 @@ import { DashboardConnectIdentities } from './dashboard-connect.identities'
 export function DashboardFeature() {
   const { user } = useAuth()
   const [{ data: userData }] = useUserQuery({ variables: { username: `${user?.username}` } })
-  const [{ data: pages, fetching }] = useUserPagesQuery()
+  const [{ data: pages, fetching }] = useUserPagesQuery({ variables: { username: `${user?.username}` } })
 
   return (
     <Container size="xl">

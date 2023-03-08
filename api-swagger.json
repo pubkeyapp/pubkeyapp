@@ -1,6 +1,42 @@
 {
   "openapi": "3.0.0",
   "paths": {
+    "/api/account/get-account/{network}/{address}": {
+      "get": {
+        "operationId": "getAccount",
+        "summary": "",
+        "parameters": [
+          {
+            "name": "address",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "network",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "$ref": "#/components/schemas/NetworkType"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Account"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/auth/me": {
       "get": {
         "operationId": "me",
@@ -178,6 +214,26 @@
         "tags": ["page"]
       }
     },
+    "/api/solana/bonfida/lookup/{publicKey}": {
+      "get": {
+        "operationId": "ApiSolanaFeatureController_bonfidaLookup",
+        "parameters": [
+          {
+            "name": "publicKey",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/api/user/get-user-by-id/{userId}": {
       "get": {
         "operationId": "getUserById",
@@ -329,6 +385,10 @@
       }
     },
     "schemas": {
+      "NetworkType": {
+        "type": "string",
+        "enum": ["SolanaDevnet", "SolanaMainnet", "SolanaTestnet"]
+      },
       "UserRole": {
         "type": "string",
         "enum": ["Admin", "User"]
@@ -415,6 +475,76 @@
           }
         },
         "required": ["id", "name", "bio", "avatarUrl"]
+      },
+      "AccountType": {
+        "type": "string",
+        "enum": ["Account", "BonfidaDomain", "BonfidaTwitter", "Mint", "Program", "Token", "System"]
+      },
+      "Account": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "discoveredBy": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          },
+          "identity": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Identity"
+              }
+            ]
+          },
+          "owner": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Account"
+              }
+            ]
+          },
+          "tokens": {
+            "nullable": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Account"
+            }
+          },
+          "name": {
+            "type": "string"
+          },
+          "program": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "network": {
+            "$ref": "#/components/schemas/NetworkType"
+          },
+          "type": {
+            "$ref": "#/components/schemas/AccountType"
+          }
+        },
+        "required": [
+          "id",
+          "discoveredBy",
+          "identity",
+          "owner",
+          "tokens",
+          "name",
+          "program",
+          "address",
+          "network",
+          "type"
+        ]
       },
       "RequestChallenge": {
         "type": "object",

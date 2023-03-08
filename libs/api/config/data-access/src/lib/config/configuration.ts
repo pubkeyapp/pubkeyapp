@@ -1,4 +1,5 @@
 import { UserRole } from '@prisma/client'
+import * as process from 'process'
 // Remove trailing slashes from the URLs to avoid double slashes
 const API_URL = getUrl('API_URL')
 // Infer the WEB URL from the API_URL if it's not set
@@ -64,6 +65,9 @@ export default () => ({
     clientId: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     enabled: process.env.GOOGLE_ENABLED?.toLowerCase() !== 'false',
+  },
+  helius: {
+    apiKey: process.env.HELIUS_API_KEY,
   },
   host: process.env.HOST,
   port: parseInt(process.env.PORT, 10),

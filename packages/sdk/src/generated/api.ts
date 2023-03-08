@@ -36,6 +36,92 @@ import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError } from './base'
 /**
  *
  * @export
+ * @interface Account
+ */
+export interface Account {
+  /**
+   *
+   * @type {string}
+   * @memberof Account
+   */
+  id: string
+  /**
+   *
+   * @type {User}
+   * @memberof Account
+   */
+  discoveredBy: User | null
+  /**
+   *
+   * @type {Identity}
+   * @memberof Account
+   */
+  identity: Identity | null
+  /**
+   *
+   * @type {Account}
+   * @memberof Account
+   */
+  owner: Account | null
+  /**
+   *
+   * @type {Array<Account>}
+   * @memberof Account
+   */
+  tokens: Array<Account> | null
+  /**
+   *
+   * @type {string}
+   * @memberof Account
+   */
+  name: string
+  /**
+   *
+   * @type {string}
+   * @memberof Account
+   */
+  program: string
+  /**
+   *
+   * @type {string}
+   * @memberof Account
+   */
+  address: string
+  /**
+   *
+   * @type {NetworkType}
+   * @memberof Account
+   */
+  network: NetworkType
+  /**
+   *
+   * @type {AccountType}
+   * @memberof Account
+   */
+  type: AccountType
+}
+
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const AccountType = {
+  Account: 'Account',
+  BonfidaDomain: 'BonfidaDomain',
+  BonfidaTwitter: 'BonfidaTwitter',
+  Mint: 'Mint',
+  Program: 'Program',
+  Token: 'Token',
+  System: 'System',
+} as const
+
+export type AccountType = (typeof AccountType)[keyof typeof AccountType]
+
+/**
+ *
+ * @export
  * @interface Cluster
  */
 export interface Cluster {
@@ -216,6 +302,20 @@ export const IdentityProvider = {
 } as const
 
 export type IdentityProvider = (typeof IdentityProvider)[keyof typeof IdentityProvider]
+
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const NetworkType = {
+  SolanaDevnet: 'SolanaDevnet',
+  SolanaMainnet: 'SolanaMainnet',
+  SolanaTestnet: 'SolanaTestnet',
+} as const
+
+export type NetworkType = (typeof NetworkType)[keyof typeof NetworkType]
 
 /**
  *
@@ -1012,6 +1112,228 @@ export class ConfigApi extends BaseAPI implements ConfigApiInterface {
   public getConfig(options?: AxiosRequestConfig) {
     return ConfigApiFp(this.configuration)
       .getConfig(options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+}
+
+/**
+ * DefaultApi - axios parameter creator
+ * @export
+ */
+export const DefaultApiAxiosParamCreator = function (configuration?: Configuration) {
+  return {
+    /**
+     *
+     * @param {string} publicKey
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    apiSolanaFeatureControllerBonfidaLookup: async (
+      publicKey: string,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'publicKey' is not null or undefined
+      assertParamExists('apiSolanaFeatureControllerBonfidaLookup', 'publicKey', publicKey)
+      const localVarPath = `/api/solana/bonfida/lookup/{publicKey}`.replace(
+        `{${'publicKey'}}`,
+        encodeURIComponent(String(publicKey)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     *
+     * @summary
+     * @param {string} address
+     * @param {NetworkType} network
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getAccount: async (
+      address: string,
+      network: NetworkType,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'address' is not null or undefined
+      assertParamExists('getAccount', 'address', address)
+      // verify required parameter 'network' is not null or undefined
+      assertParamExists('getAccount', 'network', network)
+      const localVarPath = `/api/account/get-account/{network}/{address}`
+        .replace(`{${'address'}}`, encodeURIComponent(String(address)))
+        .replace(`{${'network'}}`, encodeURIComponent(String(network)))
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+  }
+}
+
+/**
+ * DefaultApi - functional programming interface
+ * @export
+ */
+export const DefaultApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = DefaultApiAxiosParamCreator(configuration)
+  return {
+    /**
+     *
+     * @param {string} publicKey
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async apiSolanaFeatureControllerBonfidaLookup(
+      publicKey: string,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.apiSolanaFeatureControllerBonfidaLookup(
+        publicKey,
+        options,
+      )
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+    },
+    /**
+     *
+     * @summary
+     * @param {string} address
+     * @param {NetworkType} network
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getAccount(
+      address: string,
+      network: NetworkType,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Account>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getAccount(address, network, options)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+    },
+  }
+}
+
+/**
+ * DefaultApi - factory interface
+ * @export
+ */
+export const DefaultApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+  const localVarFp = DefaultApiFp(configuration)
+  return {
+    /**
+     *
+     * @param {string} publicKey
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    apiSolanaFeatureControllerBonfidaLookup(publicKey: string, options?: any): AxiosPromise<void> {
+      return localVarFp
+        .apiSolanaFeatureControllerBonfidaLookup(publicKey, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     *
+     * @summary
+     * @param {string} address
+     * @param {NetworkType} network
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getAccount(address: string, network: NetworkType, options?: any): AxiosPromise<Account> {
+      return localVarFp.getAccount(address, network, options).then((request) => request(axios, basePath))
+    },
+  }
+}
+
+/**
+ * DefaultApi - interface
+ * @export
+ * @interface DefaultApi
+ */
+export interface DefaultApiInterface {
+  /**
+   *
+   * @param {string} publicKey
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  apiSolanaFeatureControllerBonfidaLookup(publicKey: string, options?: AxiosRequestConfig): AxiosPromise<void>
+
+  /**
+   *
+   * @summary
+   * @param {string} address
+   * @param {NetworkType} network
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  getAccount(address: string, network: NetworkType, options?: AxiosRequestConfig): AxiosPromise<Account>
+}
+
+/**
+ * DefaultApi - object-oriented interface
+ * @export
+ * @class DefaultApi
+ * @extends {BaseAPI}
+ */
+export class DefaultApi extends BaseAPI implements DefaultApiInterface {
+  /**
+   *
+   * @param {string} publicKey
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public apiSolanaFeatureControllerBonfidaLookup(publicKey: string, options?: AxiosRequestConfig) {
+    return DefaultApiFp(this.configuration)
+      .apiSolanaFeatureControllerBonfidaLookup(publicKey, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   *
+   * @summary
+   * @param {string} address
+   * @param {NetworkType} network
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public getAccount(address: string, network: NetworkType, options?: AxiosRequestConfig) {
+    return DefaultApiFp(this.configuration)
+      .getAccount(address, network, options)
       .then((request) => request(this.axios, this.basePath))
   }
 }

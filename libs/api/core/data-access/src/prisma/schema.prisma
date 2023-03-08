@@ -8,6 +8,43 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Account {
+  id             String      @id @default(cuid())
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @default(now()) @updatedAt
+  address        String
+  name           String
+  program        String?
+  network        NetworkType
+  type           AccountType
+  discoveredAt   DateTime?
+  discoveredBy   User?       @relation("AccountsDiscovered", fields: [discoveredById], references: [id])
+  discoveredById String?
+  owner          Account?    @relation("Token", fields: [ownerId], references: [id])
+  ownerId        String?
+  identity       Identity?   @relation(fields: [identityId], references: [id])
+  identityId     String?
+  tokens         Account[]   @relation("Token")
+
+  @@unique([address, network])
+}
+
+enum AccountType {
+  Account
+  BonfidaDomain
+  BonfidaTwitter
+  Mint
+  Program
+  Token
+  System
+}
+
+enum NetworkType {
+  SolanaDevnet
+  SolanaMainnet
+  SolanaTestnet
+}
+
 model User {
   id        String     @id @default(cuid())
   pid       Int        @unique @default(autoincrement())
@@ -20,16 +57,17 @@ model User {
   avatarUrl String?
   bio       String?
 
-  domains        Domain[]
-  identities     Identity[]
-  invites        Invite[]
-  invite         Invite?    @relation("UserInvite", fields: [inviteId], references: [id])
-  inviteId       String?
-  followers      Follow[]   @relation("followers")
-  followersCount Int        @default(0)
-  following      Follow[]   @relation("follower")
-  followingCount Int        @default(0)
-  pages          Page[]
+  domains            Domain[]
+  identities         Identity[]
+  invites            Invite[]
+  invite             Invite?    @relation("UserInvite", fields: [inviteId], references: [id])
+  inviteId           String?
+  followers          Follow[]   @relation("followers")
+  followersCount     Int        @default(0)
+  following          Follow[]   @relation("follower")
+  followingCount     Int        @default(0)
+  pages              Page[]
+  accountsDiscovered Account[]  @relation("AccountsDiscovered")
 }
 
 model Follow {
@@ -61,6 +99,7 @@ model Identity {
   provider   IdentityProvider
   providerId String
   verified   Boolean          @default(false)
+  accounts   Account[]
   owner      User             @relation(fields: [ownerId], references: [id])
   ownerId    String
 

@@ -1,5 +1,7 @@
 export * from './lib/admin-ui-external-link'
 export * from './lib/admin-ui-user-link'
+export * from './lib/account/admin-ui-account-label'
+export * from './lib/account/admin-ui-account-table'
 export * from './lib/domain/admin-ui-domain-label'
 export * from './lib/domain/admin-ui-domain-link'
 export * from './lib/domain/admin-ui-domain-table'

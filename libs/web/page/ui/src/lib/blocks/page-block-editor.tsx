@@ -11,6 +11,7 @@ export function PageBlockEditor({ submit }: { submit: (input: AdminAddPageBlockI
   const comingSoonIcons: { label: string }[] = [
     { label: 'Metaplex NFTs' },
     { label: 'Dialect' },
+    { label: 'Solana Pay' },
     { label: 'Backpack' },
     { label: 'Bonfida Name Service' },
     { label: 'Social Media Embeds' },

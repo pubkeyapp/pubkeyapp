@@ -78,15 +78,6 @@ query UserPage($pageId: String!) {
   }
 }
 
-query UserPages {
-  items: userPages {
-    ...PageDetails
-    domains {
-      ...PageDomainDetails
-    }
-  }
-}
-
 mutation UserUpdatePage($pageId: String!, $input: UserUpdatePageInput!) {
   item: userUpdatePage(pageId: $pageId, input: $input) {
     ...PageDetails

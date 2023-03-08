@@ -19,11 +19,6 @@ export class ApiUserPageResolver {
     return this.service.userDeletePage(user.id, pageId)
   }
 
-  @Query(() => [Page], { nullable: true })
-  userPages(@CtxUser() user: User) {
-    return this.service.userPages(user.id)
-  }
-
   @Query(() => Page, { nullable: true })
   userPage(@CtxUser() user: User, @Args('pageId') pageId: string) {
     return this.service.userPage(user.id, pageId)

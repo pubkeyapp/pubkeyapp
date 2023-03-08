@@ -27,6 +27,11 @@ export class GatewayController {
       return res.redirect(this.service.getAppUrl())
     }
 
+    // Redirect /u/{username}
+    if (req.originalUrl.startsWith('/u/')) {
+      return res.redirect(this.service.getAppUrl() + req.originalUrl)
+    }
+
     // Redirect to Discord OAuth if the URL starts with /join-discord
     if (req.originalUrl.startsWith('/join-discord')) {
       return res.redirect(this.service.getDiscordUrl())

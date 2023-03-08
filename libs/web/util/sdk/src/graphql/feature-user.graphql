@@ -106,6 +106,12 @@ mutation UserUnfollow($username: String!) {
   }
 }
 
+query UserPages($username: String!) {
+  items: userPages(username: $username) {
+    ...PageDetails
+  }
+}
+
 query UserProfiles($username: String!) {
   item: userProfiles(username: $username)
 }

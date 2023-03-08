@@ -16,6 +16,8 @@
     "baseUrl": ".",
     "paths": {
       "@pubkeyapp/api-app-module": ["apps/api/src/app/app.module.ts"],
+      "@pubkeyapp/api/account/data-access": ["libs/api/account/data-access/src/index.ts"],
+      "@pubkeyapp/api/account/feature": ["libs/api/account/feature/src/index.ts"],
       "@pubkeyapp/api/auth/data-access": ["libs/api/auth/data-access/src/index.ts"],
       "@pubkeyapp/api/auth/feature": ["libs/api/auth/feature/src/index.ts"],
       "@pubkeyapp/api/auth/util": ["libs/api/auth/util/src/index.ts"],
@@ -52,6 +54,7 @@
       "@pubkeyapp/web/admin/feature": ["libs/web/admin/feature/src/index.ts"],
       "@pubkeyapp/web/admin/ui": ["libs/web/admin/ui/src/index.ts"],
       "@pubkeyapp/web/auth/data-access": ["libs/web/auth/data-access/src/index.ts"],
+      "@pubkeyapp/web/identity/ui": ["libs/web/identity/ui/src/index.ts"],
       "@pubkeyapp/web/invite/data-access": ["libs/web/invite/data-access/src/index.ts"],
       "@pubkeyapp/web/invite/ui": ["libs/web/invite/ui/src/index.ts"],
       "@pubkeyapp/web/page-editor/feature": ["libs/web/page-editor/feature/src/index.ts"],

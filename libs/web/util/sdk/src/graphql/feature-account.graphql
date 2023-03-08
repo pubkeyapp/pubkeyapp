@@ -1,0 +1,78 @@
+fragment AccountDetails on Account {
+  id
+  updatedAt
+  createdAt
+  name
+  program
+  network
+  type
+  address
+  explorerUrl
+  discoveredAt
+  discoveredBy {
+    ...UserDetails
+  }
+  identity {
+    id
+    provider
+    providerId
+    verified
+    owner {
+      ...UserDetails
+    }
+  }
+}
+
+query AdminAccounts($input: AdminListAccountInput!) {
+  items: adminAccounts(input: $input) {
+    ...AccountDetails
+    owner {
+      ...AccountDetails
+    }
+    identity {
+      id
+      provider
+      providerId
+      verified
+      owner {
+        ...UserDetails
+      }
+    }
+  }
+}
+
+query AdminAccount($accountId: String!) {
+  item: adminAccount(accountId: $accountId) {
+    ...AccountDetails
+    owner {
+      ...AccountDetails
+    }
+    tokens {
+      ...AccountDetails
+    }
+    identity {
+      id
+      provider
+      providerId
+      verified
+      owner {
+        ...UserDetails
+      }
+    }
+  }
+}
+query UserAccount($network: NetworkType!, $address: String!) {
+  item: userAccount(network: $network, address: $address) {
+    ...AccountDetails
+    owner {
+      ...AccountDetails
+    }
+    tokens {
+      ...AccountDetails
+    }
+  }
+}
+
+query UserAccountHistory($network: NetworkType!, $address: String!) {
+  items: userAccountHistory(network: $network, address: $address)
+}

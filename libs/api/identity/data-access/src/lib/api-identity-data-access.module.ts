@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common'
-import { ApiIdentityDataAccessService } from './api-identity-data-access.service'
+import { ApiPublicIdentityService } from './api-public-identity.service'
 import { ApiCoreDataAccessModule } from '@pubkeyapp/api/core/data-access'
 
 @Module({
   controllers: [],
-  providers: [ApiIdentityDataAccessService],
-  exports: [ApiIdentityDataAccessService],
+  providers: [ApiPublicIdentityService],
+  exports: [ApiPublicIdentityService],
   imports: [ApiCoreDataAccessModule],
 })
 export class ApiIdentityDataAccessModule {}

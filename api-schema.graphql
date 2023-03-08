@@ -9,6 +9,7 @@ type Identity {
   provider: IdentityProvider
   providerId: String!
   verified: Boolean!
+  owner: User
 }
 
 enum IdentityProvider {
@@ -97,6 +98,44 @@ type Config {
   app: ConfigApp!
   cluster: Cluster!
   clusters: [Cluster!]!
+}
+
+type Account {
+  id: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  discoveredAt: DateTime
+  discoveredBy: User
+  identity: Identity
+  owner: Account
+  tokens: [Account!]
+  name: String
+  program: String
+  address: String
+  network: NetworkType
+  type: AccountType
+  explorerUrl: String
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+enum NetworkType {
+  SolanaDevnet
+  SolanaMainnet
+  SolanaTestnet
+}
+
+enum AccountType {
+  Account
+  BonfidaDomain
+  BonfidaTwitter
+  Mint
+  Program
+  Token
+  System
 }
 
 type AuthChallengeRequest {
@@ -194,11 +233,6 @@ type Invite {
   isUsedUp: Boolean
 }
 
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
 type PlanFeature {
   id: String
   createdAt: DateTime
@@ -259,6 +293,10 @@ enum QueueType {
 
 type Query {
   uptime: Float!
+  adminAccount(accountId: String!): Account
+  adminAccounts(input: AdminListAccountInput!): [Account!]
+  userAccount(network: NetworkType!, address: String!): Account
+  userAccountHistory(network: NetworkType!, address: String!): JSON
   me: User
   requestChallenge(publicKey: String!): AuthChallengeRequest
   config: Config
@@ -270,7 +308,6 @@ type Query {
   publicPage(pageId: String!): Page
   adminPages(input: AdminListPageInput): [Page!]
   adminPage(pageId: String!): Page
-  userPages: [Page!]
   userPage(pageId: String!): Page
   adminPageBlock(pageBlockId: String!): PageBlock
   userPageBlock(pageBlockId: String!): PageBlock
@@ -285,9 +322,18 @@ type Query {
   userFollowers(username: String!): [User!]
   userFollowing(username: String!): [User!]
   userInvites(username: String!): [Invite!]
+  userPages(username: String!): [Page!]
   userProfiles(username: String!): JSON
   adminUser(userId: String!): User
   adminUsers: [User!]
+}
+
+input AdminListAccountInput {
+  network: NetworkType
+  type: AccountType
+  address: String
+  program: String
+  name: String
 }
 
 input AdminListDomainInput {
