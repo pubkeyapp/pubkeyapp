@@ -19,8 +19,8 @@ export function DashboardFeature() {
         <Paper>
           <Flex direction="column" justify="space-between" sx={{ height: '100%' }}>
             <Stack mb={32}>
-              <Anchor size="xl" component={Link} to="/pages" fw={500}>
-                Your Pages
+              <Anchor size="xl" component={Link} to="/profiles" fw={500}>
+                Your Profiles
               </Anchor>
               {fetching ? <UiLoader /> : <PageList pages={pages?.items ?? []} />}
             </Stack>

@@ -69,11 +69,8 @@ export function UiHeaderProfile() {
           <Menu.Item component={Link} to="/dashboard">
             Dashboard
           </Menu.Item>
-          <Menu.Item component={Link} to="/pages">
-            Your Pages
-          </Menu.Item>
-          <Menu.Item component={Link} to={`${user.profileUrl}`}>
-            Your Profile
+          <Menu.Item component={Link} to="/profiles">
+            Your Profiles
           </Menu.Item>
           {user.role === UserRole.Admin ? (
             <>

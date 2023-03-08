@@ -13,8 +13,8 @@ export function WebPageEditorListFeature() {
     <Stack>
       <UiPageHeader
         title={
-          <Text component={Link} to="/pages" size="xl">
-            Pages
+          <Text component={Link} to="/profiles" size="xl">
+            Profiles
           </Text>
         }
         leftAction={<UiBackButton to="/dashboard" />}
@@ -23,7 +23,7 @@ export function WebPageEditorListFeature() {
         <Flex direction="column" justify="space-between" sx={{ height: '100%' }}>
           <Stack mb={32}>
             <Text size="xl" fw={500}>
-              Your pages
+              Your profiles
             </Text>
             <PageList pages={pages?.items ?? []} />
           </Stack>

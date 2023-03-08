@@ -1,4 +1,4 @@
-import { Anchor, Badge, Box, Button, Group, Stack } from '@mantine/core'
+import { Anchor, Badge, Box, Button, Group, Stack, Tooltip } from '@mantine/core'
 import { Page, PageStatus, PageType } from '@pubkeyapp/web/util/sdk'
 import React from 'react'
 import { Link } from 'react-router-dom'
@@ -12,13 +12,30 @@ export function PageList({ pages }: { pages: Page[] }) {
           <Group position="apart">
             <Group>
               <PageTypeIcon type={page.type as PageType} size={24} />
-              <Anchor component={Link} to={`/pages/${page.id}`} size="xl">
-                {page.type}: {page.title}
-              </Anchor>
+              <Tooltip label={`Edit the ${page.type} page`}>
+                <Anchor component={Link} to={`/profiles/${page.id}`} size="xl">
+                  {page.type}
+                </Anchor>
+              </Tooltip>
             </Group>
-            <Badge color={page.status === PageStatus.Published ? 'green' : 'brand'} variant="outline">
-              {page.status}
-            </Badge>
+            <Group>
+              <Badge color={page.status === PageStatus.Published ? 'green' : 'grape'} variant="outline">
+                {page.status}
+              </Badge>
+              {page.viewUrl ? (
+                <Tooltip label={`View the page on ${page.viewUrl}`}>
+                  <Button size="xs" component="a" href={page.viewUrl} target="_blank">
+                    View
+                  </Button>
+                </Tooltip>
+              ) : (
+                <Tooltip label="Page is not online yet, showing preview">
+                  <Button size="xs" component={Link} to={`${page.previewUrl}`} target="_blank" variant="default">
+                    View
+                  </Button>
+                </Tooltip>
+              )}
+            </Group>
           </Group>
         </Box>
       ))}

@@ -98,7 +98,7 @@ export function WebPageEditorDetailFeature() {
           return showNotificationError(res.error.message)
         }
         if (!res.error && res.data?.item) {
-          return showNotificationSuccess('Page updated')
+          return showNotificationSuccess('Profile updated')
         }
         return false
       })
@@ -127,7 +127,7 @@ export function WebPageEditorDetailFeature() {
           return showNotificationError(result.error.message)
         }
         if (result.data?.item) {
-          navigate('/pages')
+          navigate('/profiles')
           return showNotificationSuccess(`Page ${page?.item?.type} deleted`)
         }
         return false
@@ -140,11 +140,11 @@ export function WebPageEditorDetailFeature() {
       <Skeleton visible={!page?.item} radius="xl">
         <UiPageHeader
           title={
-            <Text component={Link} to={'/pages/' + pageId} size="xl">
-              Edit {page?.item?.type} Page
+            <Text component={Link} to={'/profiles/' + pageId} size="xl">
+              Edit {page?.item?.type} Profile
             </Text>
           }
-          leftAction={<UiBackButton to="/pages" />}
+          leftAction={<UiBackButton to="/profiles" />}
           rightAction={
             page?.item?.status === PageStatus.Published ? (
               <Button>View Page</Button>
@@ -158,7 +158,7 @@ export function WebPageEditorDetailFeature() {
                 >
                   Preview Page
                 </Button>
-                <Button component={Link} to={`/pages/${pageId}/publish`}>
+                <Button component={Link} to={`/profiles/${pageId}/publish`}>
                   Publish Page
                 </Button>
               </Group>

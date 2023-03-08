@@ -42,7 +42,7 @@ export function PageCreateButtons({ pages }: { pages: Page[] }) {
           leftIcon={<PageTypeIcon type={type as PageType} size={24} />}
           onClick={() => createPage(type)}
         >
-          Create {type} Page
+          Create {type} Profile
         </Button>
       ))}
     </Group>
