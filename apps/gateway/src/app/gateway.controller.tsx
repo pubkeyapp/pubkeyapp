@@ -9,22 +9,27 @@ import { renderToStaticMarkup, renderToString } from 'react-dom/server'
 import { GatewayHtml } from '../views/gateway-html'
 import { GatewayNotFound } from '../views/gateway-not-found'
 
-import { AppService } from './app.service'
+import { GatewayService } from './gateway.service'
 
 const stylesServer = createStylesServer()
 
 @Controller()
-export class AppController {
-  private readonly logger = new Logger(AppController.name)
-  constructor(private readonly service: AppService) {}
+export class GatewayController {
+  private readonly logger = new Logger(GatewayController.name)
+  constructor(private readonly service: GatewayService) {}
 
   @Get('*')
   async index(@Req() req: Request, @Res() res: Response) {
     const url = this.getUrlFromRequest(req)
 
+    // Redirect to App if the URL is the root
+    if (req.originalUrl === '/') {
+      return res.redirect(this.service.getAppUrl())
+    }
+
     // Redirect to Discord OAuth if the URL starts with /join-discord
     if (req.originalUrl.startsWith('/join-discord')) {
-      return res.redirect('https://discord.gg/XxuZQeDPNf')
+      return res.redirect(this.service.getDiscordUrl())
     }
 
     // Render a GitHub demo page if the URL starts with /github/

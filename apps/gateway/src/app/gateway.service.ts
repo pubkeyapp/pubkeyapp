@@ -6,9 +6,9 @@ import LRUCache from 'lru-cache'
 import { join } from 'path'
 
 @Injectable()
-export class AppService implements OnModuleInit {
+export class GatewayService implements OnModuleInit {
   private readonly cache = new LRUCache<string, Page>({ ttl: 60 * 1000, max: 1000 })
-  private readonly logger = new Logger(AppService.name)
+  private readonly logger = new Logger(GatewayService.name)
   private readonly rootPath: string
   private sdk: PubKeySdk
 
@@ -23,6 +23,10 @@ export class AppService implements OnModuleInit {
 
   getAppUrl(): string {
     return this.sdk.appConfig.app.url
+  }
+
+  getDiscordUrl(): string {
+    return 'https://discord.gg/XxuZQeDPNf'
   }
   async getPage(url: string): Promise<Page | null> {
     const cached = this.cache.get(url)
