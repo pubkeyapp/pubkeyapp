@@ -52,7 +52,7 @@ export class GithubStrategy extends PassportStrategy(Strategy, 'github') {
           hireable: profile.hireable,
           twitter_username: profile.twitter_username,
           avatarUrl: profile.avatar_url ?? profile.photos.length ? profile.photos[0].value : undefined,
-          __raw: profile,
+          // __raw: profile,
         },
       },
     })

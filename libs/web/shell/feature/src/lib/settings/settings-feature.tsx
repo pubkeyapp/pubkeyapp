@@ -3,7 +3,6 @@ import { UiTabRoutes } from '@pubkeyapp/web/ui/core'
 import { UiPageHeader } from '@pubkeyapp/web/ui/page'
 import { IconSettings } from '@tabler/icons-react'
 import { Link } from 'react-router-dom'
-import { SettingsUserIdentitiesTab } from './settings-user-identities-tab'
 import { SettingsUserProfileTab } from './settings-user-profile-tab'
 
 export function SettingsFeature() {
@@ -30,11 +29,6 @@ export function SettingsFeature() {
                   label: 'Your Profile',
                   value: 'profile',
                   component: <SettingsUserProfileTab />,
-                },
-                {
-                  label: 'Your Identities',
-                  value: 'identities',
-                  component: <SettingsUserIdentitiesTab />,
                 },
               ]}
             />

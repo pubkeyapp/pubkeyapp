@@ -44,7 +44,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
           username: profile.displayName,
           name: profile.name ? `${profile.name.givenName} ${profile.name.familyName}`.trim() : undefined,
           avatarUrl: profile.photos?.[0].value,
-          __raw: profile,
+          // __raw: profile,
         },
       },
     })

@@ -305,6 +305,7 @@ type Profile {
   status: ProfileStatus
   owner: User
   page: Page
+  identities: [Identity!]
 }
 
 enum ProfileType {
@@ -458,6 +459,8 @@ type Mutation {
   userDeleteProfile(profileId: String!): Profile
   userSyncProfile(profileId: String!): Profile
   userUpdateProfile(profileId: String!, input: UserUpdateProfileInput!): Profile
+  userLinkProfileIdentity(profileId: String!, identityId: String!): Profile
+  userUnlinkProfileIdentity(profileId: String!, identityId: String!): Profile
   queueLoad(input: QueueLoadInput!): Queue
   queueClean(type: QueueType!): Boolean
   queueDeleteJob(type: QueueType!, jobId: String!): Boolean

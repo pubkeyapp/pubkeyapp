@@ -66,4 +66,6 @@ export class Profile {
   page?: Page
   @HideField()
   ownerId: string
+  @HideField()
+  identities: unknown[]
 }

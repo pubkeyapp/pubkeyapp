@@ -149,7 +149,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
       return client
         .query(MeDocument, {})
         .toPromise()
-        .then((res) => setUser(res.data.me))
+        .then((res) => setUser(res?.data?.me))
     },
   }
   return <AuthProviderContext.Provider value={value}>{children}</AuthProviderContext.Provider>

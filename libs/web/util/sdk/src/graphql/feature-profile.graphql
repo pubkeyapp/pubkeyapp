@@ -46,6 +46,18 @@ mutation AdminDeleteProfile($profileId: String!) {
   }
 }
 
+mutation UserLinkProfileIdentity($profileId: String!, $identityId: String!) {
+  item: userLinkProfileIdentity(profileId: $profileId, identityId: $identityId) {
+    ...ProfileDetails
+  }
+}
+
+mutation UserUnlinkProfileIdentity($profileId: String!, $identityId: String!) {
+  item: userUnlinkProfileIdentity(profileId: $profileId, identityId: $identityId) {
+    ...ProfileDetails
+  }
+}
+
 query UserProfile($profileId: String!) {
   item: userProfile(profileId: $profileId) {
     ...ProfileDetails
@@ -75,6 +87,9 @@ query UserProfiles {
     }
     page {
       ...PageSummary
+    }
+    identities {
+      ...IdentityDetails
     }
   }
 }

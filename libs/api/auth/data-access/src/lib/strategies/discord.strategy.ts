@@ -48,7 +48,7 @@ export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
           avatarUrl,
           bannerUrl,
           verified: profile.verified,
-          __raw: profile,
+          // __raw: profile,
         },
       },
     })

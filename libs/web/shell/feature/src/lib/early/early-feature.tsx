@@ -63,7 +63,7 @@ export function EarlyFeature() {
   return (
     <Container className={classes.root}>
       <div className={classes.label}>gm</div>
-      <Title className={classes.title}>You are early!</Title>
+      <Title className={classes.title}>You're early.</Title>
       <Text color="dimmed" size="lg" align="center" className={classes.description}>
         You are one of the first users to join PubKey.
       </Text>

@@ -44,7 +44,7 @@ export class TwitterStrategy extends PassportStrategy(Strategy, 'twitter') {
           name: profile.display_name,
           avatarUrl,
           verified: profile.verified,
-          __raw: profile,
+          // __raw: profile,
         },
       },
     })

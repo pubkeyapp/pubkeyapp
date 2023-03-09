@@ -351,9 +351,11 @@ export type Mutation = {
   userDeletePage?: Maybe<Page>
   userDeleteProfile?: Maybe<Profile>
   userFollowUser?: Maybe<User>
+  userLinkProfileIdentity?: Maybe<Profile>
   userRemovePageBlock?: Maybe<PageBlock>
   userSyncProfile?: Maybe<Profile>
   userUnfollowUser?: Maybe<User>
+  userUnlinkProfileIdentity?: Maybe<Profile>
   userUpdatePage?: Maybe<Page>
   userUpdatePageBlock?: Maybe<PageBlock>
   userUpdateProfile?: Maybe<Profile>
@@ -525,6 +527,11 @@ export type MutationUserFollowUserArgs = {
   username: Scalars['String']
 }
 
+export type MutationUserLinkProfileIdentityArgs = {
+  identityId: Scalars['String']
+  profileId: Scalars['String']
+}
+
 export type MutationUserRemovePageBlockArgs = {
   pageBlockId: Scalars['String']
   pageId: Scalars['String']
@@ -536,6 +543,11 @@ export type MutationUserSyncProfileArgs = {
 
 export type MutationUserUnfollowUserArgs = {
   username: Scalars['String']
+}
+
+export type MutationUserUnlinkProfileIdentityArgs = {
+  identityId: Scalars['String']
+  profileId: Scalars['String']
 }
 
 export type MutationUserUpdatePageArgs = {
@@ -657,6 +669,7 @@ export type Profile = {
   followers?: Maybe<Scalars['Int']>
   following?: Maybe<Scalars['Int']>
   id?: Maybe<Scalars['String']>
+  identities?: Maybe<Array<Identity>>
   metaUrl?: Maybe<Scalars['String']>
   name?: Maybe<Scalars['String']>
   owner?: Maybe<User>
@@ -3705,6 +3718,54 @@ export type AdminDeleteProfileMutation = {
   } | null
 }
 
+export type UserLinkProfileIdentityMutationVariables = Exact<{
+  profileId: Scalars['String']
+  identityId: Scalars['String']
+}>
+
+export type UserLinkProfileIdentityMutation = {
+  __typename?: 'Mutation'
+  item?: {
+    __typename?: 'Profile'
+    id?: string | null
+    createdAt?: string | null
+    updatedAt?: string | null
+    name?: string | null
+    username?: string | null
+    bio?: string | null
+    avatar?: string | null
+    metaUrl?: string | null
+    color?: string | null
+    followers?: number | null
+    following?: number | null
+    type?: ProfileType | null
+  } | null
+}
+
+export type UserUnlinkProfileIdentityMutationVariables = Exact<{
+  profileId: Scalars['String']
+  identityId: Scalars['String']
+}>
+
+export type UserUnlinkProfileIdentityMutation = {
+  __typename?: 'Mutation'
+  item?: {
+    __typename?: 'Profile'
+    id?: string | null
+    createdAt?: string | null
+    updatedAt?: string | null
+    name?: string | null
+    username?: string | null
+    bio?: string | null
+    avatar?: string | null
+    metaUrl?: string | null
+    color?: string | null
+    followers?: number | null
+    following?: number | null
+    type?: ProfileType | null
+  } | null
+}
+
 export type UserProfileQueryVariables = Exact<{
   profileId: Scalars['String']
 }>
@@ -3850,6 +3911,16 @@ export type UserProfilesQuery = {
       siteUrl?: string | null
       viewUrl?: string | null
     } | null
+    identities?: Array<{
+      __typename?: 'Identity'
+      id?: string | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      provider?: IdentityProvider | null
+      providerId: string
+      profile?: any | null
+      verified: boolean
+    }> | null
   }> | null
 }
 
@@ -5726,6 +5797,34 @@ export const AdminDeleteProfileDocument = gql`
 export function useAdminDeleteProfileMutation() {
   return Urql.useMutation<AdminDeleteProfileMutation, AdminDeleteProfileMutationVariables>(AdminDeleteProfileDocument)
 }
+export const UserLinkProfileIdentityDocument = gql`
+  mutation UserLinkProfileIdentity($profileId: String!, $identityId: String!) {
+    item: userLinkProfileIdentity(profileId: $profileId, identityId: $identityId) {
+      ...ProfileDetails
+    }
+  }
+  ${ProfileDetailsFragmentDoc}
+`
+
+export function useUserLinkProfileIdentityMutation() {
+  return Urql.useMutation<UserLinkProfileIdentityMutation, UserLinkProfileIdentityMutationVariables>(
+    UserLinkProfileIdentityDocument,
+  )
+}
+export const UserUnlinkProfileIdentityDocument = gql`
+  mutation UserUnlinkProfileIdentity($profileId: String!, $identityId: String!) {
+    item: userUnlinkProfileIdentity(profileId: $profileId, identityId: $identityId) {
+      ...ProfileDetails
+    }
+  }
+  ${ProfileDetailsFragmentDoc}
+`
+
+export function useUserUnlinkProfileIdentityMutation() {
+  return Urql.useMutation<UserUnlinkProfileIdentityMutation, UserUnlinkProfileIdentityMutationVariables>(
+    UserUnlinkProfileIdentityDocument,
+  )
+}
 export const UserProfileDocument = gql`
   query UserProfile($profileId: String!) {
     item: userProfile(profileId: $profileId) {
@@ -5774,11 +5873,15 @@ export const UserProfilesDocument = gql`
       page {
         ...PageSummary
       }
+      identities {
+        ...IdentityDetails
+      }
     }
   }
   ${ProfileDetailsFragmentDoc}
   ${UserSummaryFragmentDoc}
   ${PageSummaryFragmentDoc}
+  ${IdentityDetailsFragmentDoc}
 `
 
 export function useUserProfilesQuery(options?: Omit<Urql.UseQueryArgs<UserProfilesQueryVariables>, 'query'>) {

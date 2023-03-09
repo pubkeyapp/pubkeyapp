@@ -25,7 +25,11 @@ export class ApiUserProfileService {
     await this.core.ensureUserActive(userId)
     return this.core.data.profile.findMany({
       where: { ownerId: userId },
-      include: { user: true, page: { include: { domains: { include: { domain: true } } } } },
+      include: {
+        user: true,
+        identities: true,
+        page: { include: { domains: { include: { domain: true } } } },
+      },
     })
   }
 
@@ -55,6 +59,22 @@ export class ApiUserProfileService {
     return this.core.data.profile.update({
       where: { id: profileId },
       data: { ...input },
+    })
+  }
+
+  async userLinkProfileIdentity(userId: string, profileId: string, identityId: string) {
+    await this.ensureProfileOwner(userId, profileId)
+    return this.core.data.profile.update({
+      where: { id: profileId },
+      data: { identities: { connect: { id: identityId } } },
+    })
+  }
+
+  async userUnlinkProfileIdentity(userId: string, profileId: string, identityId: string) {
+    await this.ensureProfileOwner(userId, profileId)
+    return this.core.data.profile.update({
+      where: { id: profileId },
+      data: { identities: { disconnect: { id: identityId } } },
     })
   }
 

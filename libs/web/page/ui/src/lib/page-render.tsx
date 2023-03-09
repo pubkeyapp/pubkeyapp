@@ -43,7 +43,7 @@ export function PageUiRender({
 export function PageWrapper({ hideShareButton, page }: { hideShareButton?: boolean; page: Page }) {
   return (
     <Flex direction="column" justify="space-between" h={'100%'}>
-      <Stack spacing={64} sx={{ overflow: 'auto' }}>
+      <Stack spacing={64} sx={{ overflow: 'auto' }} mb="xl" pb="xl">
         <PageUiRender page={page} hideShareButton={hideShareButton} />
       </Stack>
       <Stack spacing={'xl'} mt="xl" mb={54}>
@@ -56,9 +56,11 @@ export function PageWrapper({ hideShareButton, page }: { hideShareButton?: boole
           </Tooltip>
         </Group>
         <Center>
-          <Anchor component="a" href={`${page.siteUrl}`}>
-            <PubKeyLogo size={32} />
-          </Anchor>
+          <Tooltip label={'Connect on PubKey'}>
+            <Anchor component="a" href={`${page.siteUrl}`}>
+              <PubKeyLogo size={32} />
+            </Anchor>
+          </Tooltip>
         </Center>
       </Stack>
     </Flex>

@@ -20,7 +20,7 @@ export function IdentityProviderLink({
     case IdentityProvider.Github:
       return (
         <Anchor color="brand" component={'a'} href={`https://github.com/${username}`} target="_blank">
-          {username ?? providerId}
+          {username}
         </Anchor>
       )
     case IdentityProvider.Solana:
@@ -29,6 +29,12 @@ export function IdentityProviderLink({
           {username ?? providerId}
         </Anchor>
       )
+    case IdentityProvider.Twitter:
+      return (
+        <Anchor color="brand" component={'a'} href={`https://twitter.com/${username}`} target="_blank">
+          {username}
+        </Anchor>
+      )
   }
-  return <div>{providerId}</div>
+  return <div>{username ?? providerId}</div>
 }

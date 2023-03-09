@@ -35,7 +35,7 @@ export class ApiAuthFeatureController {
   @ApiExcludeEndpoint()
   @UseGuards(ApiAuthJwtGuard, ApiAuthDiscordGuard)
   async discordAuthCallback(@Req() req: AuthRequest, @Res({ passthrough: true }) res: Response) {
-    res.redirect(this.service.core.config.webUrl + '/settings/identities')
+    res.redirect(this.service.core.config.webUrl + '/dashboard/identities')
   }
 
   @Get('github')
@@ -49,7 +49,7 @@ export class ApiAuthFeatureController {
   @ApiExcludeEndpoint()
   @UseGuards(ApiAuthJwtGuard, ApiAuthGithubGuard)
   async githubAuthCallback(@Req() req: AuthRequest, @Res({ passthrough: true }) res: Response) {
-    res.redirect(this.service.core.config.webUrl + '/settings/identities')
+    res.redirect(this.service.core.config.webUrl + '/dashboard/identities')
   }
 
   @Get('google')
@@ -63,7 +63,7 @@ export class ApiAuthFeatureController {
   @ApiExcludeEndpoint()
   @UseGuards(ApiAuthJwtGuard, ApiAuthGoogleGuard)
   async googleAuthCallback(@Req() req: AuthRequest, @Res({ passthrough: true }) res: Response) {
-    res.redirect(this.service.core.config.webUrl + '/settings/identities')
+    res.redirect(this.service.core.config.webUrl + '/dashboard/identities')
   }
 
   @Get('twitter')
@@ -77,7 +77,7 @@ export class ApiAuthFeatureController {
   @ApiExcludeEndpoint()
   @UseGuards(ApiAuthJwtGuard, ApiAuthTwitterGuard)
   async twitterAuthCallback(@Req() req: AuthRequest, @Res({ passthrough: true }) res: Response) {
-    res.redirect(this.service.core.config.webUrl + '/settings/identities')
+    res.redirect(this.service.core.config.webUrl + '/dashboard/identities')
   }
 
   @UseGuards(ApiAnonJwtGuard)

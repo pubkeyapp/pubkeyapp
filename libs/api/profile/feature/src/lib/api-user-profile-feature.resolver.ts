@@ -48,4 +48,22 @@ export class ApiUserProfileFeatureResolver {
   ) {
     return this.service.userUpdateProfile(user.id, profileId, input)
   }
+
+  @Mutation(() => Profile, { nullable: true })
+  userLinkProfileIdentity(
+    @CtxUser() user: User,
+    @Args('profileId') profileId: string,
+    @Args('identityId') identityId: string,
+  ) {
+    return this.service.userLinkProfileIdentity(user.id, profileId, identityId)
+  }
+
+  @Mutation(() => Profile, { nullable: true })
+  userUnlinkProfileIdentity(
+    @CtxUser() user: User,
+    @Args('profileId') profileId: string,
+    @Args('identityId') identityId: string,
+  ) {
+    return this.service.userUnlinkProfileIdentity(user.id, profileId, identityId)
+  }
 }

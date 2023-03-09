@@ -59,6 +59,7 @@ export function IdentityBadge({ identity }: { identity: Identity }) {
             <IdentityProviderAvatar provider={identity.provider as IdentityProvider} size={24} />
           </ThemeIcon>
         }
+        styles={{ inner: { textTransform: 'none' } }}
       >
         {IdentityProviderLabel({ identity })}
       </Badge>

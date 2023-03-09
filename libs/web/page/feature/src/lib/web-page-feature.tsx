@@ -44,7 +44,7 @@ export function WebPageFeature() {
 
   return (
     <UiErrorLoader error={error} loading={loading}>
-      <Center h="100vh">{page ? <PageWrapper page={page} /> : <UiError title="Page not found" />}</Center>
+      <Center mih="100vh">{page ? <PageWrapper page={page} /> : <UiError title="Page not found" />}</Center>
     </UiErrorLoader>
   )
 }

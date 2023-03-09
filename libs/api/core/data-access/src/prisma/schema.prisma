@@ -109,6 +109,7 @@ model Identity {
   accounts   Account[]
   owner      User             @relation(fields: [ownerId], references: [id])
   ownerId    String
+  profiles   Profile[]
 
   @@unique([provider, providerId])
 }
@@ -207,24 +208,25 @@ model PageDomain {
 }
 
 model Profile {
-  id        String        @id @default(cuid())
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @default(now()) @updatedAt
-  type      ProfileType
-  status    ProfileStatus @default(Draft)
-  name      String?
-  bio       String?
-  username  String?
-  metaUrl   String?
-  avatar    String?
-  following Int?
-  followers Int?
-  color     String?       @default("brand")
-  owner     User          @relation(fields: [ownerId], references: [id])
-  ownerId   String
-  page      Page?         @relation(fields: [pageId], references: [id])
-  pageId    String?       @unique
-  user      User?         @relation("UserProfile")
+  id         String        @id @default(cuid())
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @default(now()) @updatedAt
+  type       ProfileType
+  status     ProfileStatus @default(Draft)
+  name       String?
+  bio        String?
+  username   String?
+  metaUrl    String?
+  avatar     String?
+  following  Int?
+  followers  Int?
+  color      String?       @default("brand")
+  identities Identity[]
+  owner      User          @relation(fields: [ownerId], references: [id])
+  ownerId    String
+  page       Page?         @relation(fields: [pageId], references: [id])
+  pageId     String?       @unique
+  user       User?         @relation("UserProfile")
 }
 
 enum ProfileStatus {
