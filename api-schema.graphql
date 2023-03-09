@@ -15,6 +15,7 @@ type Identity {
 
 enum IdentityProvider {
   Discord
+  Github
   Solana
 }
 

@@ -13,6 +13,8 @@ export const validationSchema = Joi.object({
   DISCORD_CLIENT_ID: Joi.string().required(),
   DISCORD_CLIENT_SECRET: Joi.string().required(),
   DISCORD_DEVELOPMENT_GUILD_ID: Joi.string(),
+  GITHUB_CLIENT_ID: Joi.string().required(),
+  GITHUB_CLIENT_SECRET: Joi.string().required(),
   GUM_ENDPOINT: Joi.string().required(),
   HELIUS_API_KEY: Joi.string().required(),
   HOST: Joi.string().default('0.0.0.0'),

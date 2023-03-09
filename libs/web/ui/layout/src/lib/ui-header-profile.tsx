@@ -52,20 +52,7 @@ export function UiHeaderProfile() {
               <Group position="apart" noWrap>
                 <Text truncate>
                   <Group spacing={4} noWrap pb={2}>
-                    <Text size="sm" sx={{ lineHeight: 1 }}>
-                      gm
-                    </Text>
-                    <Text
-                      onClick={() => setUserMenuOpened(false)}
-                      color={'brand'}
-                      component={Link}
-                      to={`${user.profileUrl}`}
-                      truncate
-                      weight={'bold'}
-                      size="sm"
-                      sx={{ lineHeight: 1 }}
-                      lineClamp={1}
-                    >
+                    <Text truncate weight={'bold'} size="sm" sx={{ lineHeight: 1 }} lineClamp={1}>
                       {user.name}
                     </Text>
                   </Group>
@@ -79,8 +66,8 @@ export function UiHeaderProfile() {
           <Menu.Item component={Link} to="/dashboard">
             Dashboard
           </Menu.Item>
-          <Menu.Item component={Link} to="/profiles">
-            Your Profiles
+          <Menu.Item component={Link} to={`${user.profileUrl}`}>
+            Your Profile
           </Menu.Item>
           {user.role === UserRole.Admin ? (
             <>

@@ -27,13 +27,7 @@ export class ApiAuthService {
   private readonly jwtOptions: JwtSignOptions = {}
 
   private readonly logger = new Logger(ApiAuthService.name)
-  constructor(readonly core: ApiCoreService, private jwt: JwtService) {
-    setTimeout(() => {
-      this.core.data.identity.findMany().then((identities) => {
-        this.logger.debug(identities)
-      })
-    }, 2000)
-  }
+  constructor(readonly core: ApiCoreService, private jwt: JwtService) {}
 
   async login(req: AuthRequest, res: Response): Promise<CoreUser> {
     const user = req.user

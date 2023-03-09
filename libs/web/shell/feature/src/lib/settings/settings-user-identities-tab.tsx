@@ -22,7 +22,7 @@ import {
 } from '@pubkeyapp/web/identity/ui'
 import { showNotificationError, showNotificationSuccess, UiDebugModal } from '@pubkeyapp/web/ui/core'
 import { Identity, IdentityProvider, useUserDeleteIdentityMutation } from '@pubkeyapp/web/util/sdk'
-import { IconBrandDiscord, IconTrash } from '@tabler/icons-react'
+import { IconBrandDiscord, IconBrandGithub, IconTrash } from '@tabler/icons-react'
 import React from 'react'
 
 export function SettingsUserIdentitiesTab() {
@@ -60,6 +60,10 @@ export function SettingsUserIdentitiesTab() {
         <Group mt={36} position="center">
           <Button component="a" href="/api/auth/discord" leftIcon={<IconBrandDiscord size={36} />}>
             Link Discord Identity
+          </Button>
+
+          <Button component="a" href="/api/auth/github" leftIcon={<IconBrandGithub size={36} />}>
+            Link GitHub Identity
           </Button>
         </Group>
       </Stack>
@@ -104,14 +108,15 @@ export function UserIdentityItem({
               <Group align="center">
                 <IdentityProviderBadge identity={identity} />
               </Group>
-              <Group align="center">
+              <Group align="center" spacing={4}>
+                <UiDebugModal data={identity} />
                 <Text size="xs" color="dimmed">
                   <IdentityProviderLink
                     providerId={identity.providerId}
                     provider={identity.provider as IdentityProvider}
+                    username={identity.profile?.username}
                   />
                 </Text>
-                <UiDebugModal data={identity} />
               </Group>
             </Stack>
             <Stack spacing={8} align="end">

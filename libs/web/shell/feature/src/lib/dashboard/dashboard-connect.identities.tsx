@@ -38,6 +38,7 @@ export function DashboardConnectIdentities({ identities }: { identities: Identit
       icon: <IconBrandGithub size={36} />,
       label: 'GitHub',
       link: `/intent/connect/github`,
+      identity: identities.find((i) => i.provider === IdentityProvider.Github),
     },
   ]
 

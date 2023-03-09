@@ -1,18 +1,18 @@
 import { Controller, Get, Logger, Param, Post, Req, Res, UseGuards } from '@nestjs/common'
 import { ApiBody, ApiExcludeEndpoint, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger'
-import { Request, Response } from 'express'
 import {
   ApiAnonJwtGuard,
+  ApiAuthDiscordGuard,
+  ApiAuthGithubGuard,
+  ApiAuthJwtGuard,
   ApiAuthService,
   ApiAuthSolanaGuard,
-  ResponseChallengeOptions,
-  RequestChallenge,
   AuthRequest,
-  ApiAuthDiscordGuard,
-  ApiAuthJwtGuard,
+  RequestChallenge,
+  ResponseChallengeOptions,
 } from '@pubkeyapp/api/auth/data-access'
 import { User } from '@pubkeyapp/api/user/data-access'
-import { boolean } from 'joi'
+import { Response } from 'express'
 
 @ApiTags('auth')
 @Controller('auth')
@@ -33,7 +33,20 @@ export class ApiAuthFeatureController {
   @ApiExcludeEndpoint()
   @UseGuards(ApiAuthJwtGuard, ApiAuthDiscordGuard)
   async discordAuthCallback(@Req() req: AuthRequest, @Res({ passthrough: true }) res: Response) {
-    console.log('req', req.user)
+    res.redirect(this.service.core.config.webUrl + '/settings/identities')
+  }
+
+  @Get('github')
+  @ApiExcludeEndpoint()
+  @UseGuards(ApiAuthJwtGuard, ApiAuthGithubGuard)
+  github() {
+    return
+  }
+
+  @Get('github/callback')
+  @ApiExcludeEndpoint()
+  @UseGuards(ApiAuthJwtGuard, ApiAuthGithubGuard)
+  async githubAuthCallback(@Req() req: AuthRequest, @Res({ passthrough: true }) res: Response) {
     res.redirect(this.service.core.config.webUrl + '/settings/identities')
   }
 
