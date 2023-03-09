@@ -1,4 +1,4 @@
-import { ApiConfigDataAccessModule, ApiConfigDataAccessService } from '@pubkeyapp/api/config/data-access'
+import { ApiConfigDataAccessModule, ApiConfigService } from '@pubkeyapp/api/config/data-access'
 import { CacheModule, Module } from '@nestjs/common'
 import * as redisStore from 'cache-manager-redis-store'
 
@@ -8,9 +8,9 @@ import { ApiCoreCacheService } from './api-core-cache.service'
   imports: [
     CacheModule.registerAsync({
       imports: [ApiConfigDataAccessModule],
-      inject: [ApiConfigDataAccessService],
+      inject: [ApiConfigService],
       isGlobal: false,
-      useFactory: (cfg: ApiConfigDataAccessService) => ({
+      useFactory: (cfg: ApiConfigService) => ({
         store: redisStore,
         url: cfg.redisUrl,
         ttl: 5,

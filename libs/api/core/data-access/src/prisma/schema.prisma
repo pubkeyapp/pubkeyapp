@@ -218,3 +218,13 @@ model PlanFeature {
   plan      Plan     @relation(fields: [planId], references: [id])
   planId    String
 }
+
+model Setting {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+  default     String?
+  description String
+  key         String   @unique
+  value       String?
+}

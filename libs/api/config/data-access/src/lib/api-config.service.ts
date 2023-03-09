@@ -7,13 +7,14 @@ import { ClusterType } from '@pubkeyapp/solana'
 import { CookieOptions } from 'express-serve-static-core'
 import * as fs from 'fs'
 import { RedisOptions } from 'ioredis'
+import { ApiConfigSettingsService } from './api-config-settings.service'
 import { Cluster } from './entity/cluster.entity'
 import { Config } from './entity/config.entity'
 
 @Injectable()
-export class ApiConfigDataAccessService {
-  private readonly logger = new Logger(ApiConfigDataAccessService.name)
-  constructor(private readonly config: ConfigService) {}
+export class ApiConfigService {
+  private readonly logger = new Logger(ApiConfigService.name)
+  constructor(private readonly config: ConfigService, readonly settings: ApiConfigSettingsService) {}
 
   get apiLogColor() {
     return this.config.get('api.log.color')
@@ -95,8 +96,8 @@ export class ApiConfigDataAccessService {
     const clusterDevnet: Cluster = {
       id: 'devnet',
       name: 'Devnet',
-      endpoint: process.env.SOLANA_DEVNET_ENDPOINT,
-      explorerUrl: `https://solscan.io/{path}?cluster=devnet`,
+      endpoint: this.settings.get('solana:devnet:endpoint'),
+      explorerUrl: this.settings.get('solana:devnet:explorerUrl'),
       type: ClusterType.Devnet,
     }
     const clusterMainnet: Cluster = {

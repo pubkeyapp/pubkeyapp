@@ -100,6 +100,21 @@ type Config {
   clusters: [Cluster!]!
 }
 
+type Setting {
+  id: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  default: String
+  description: String
+  key: String
+  value: String
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Account {
   id: String
   createdAt: DateTime
@@ -116,11 +131,6 @@ type Account {
   type: AccountType
   explorerUrl: String
 }
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
 
 enum NetworkType {
   SolanaDevnet
@@ -293,6 +303,7 @@ enum QueueType {
 
 type Query {
   uptime: Float!
+  adminGetSettings: [Setting!]
   adminAccount(accountId: String!): Account
   adminAccounts(input: AdminListAccountInput!): [Account!]
   userAccount(network: NetworkType!, address: String!): Account
@@ -363,6 +374,7 @@ enum JobStatus {
 }
 
 type Mutation {
+  adminSetSetting(key: String!, value: String!): Setting
   logout: Boolean
   respondChallenge(challenge: String!, publicKey: String!, signature: String!): User
   adminCreateDomain(input: AdminCreateDomainInput!): Domain

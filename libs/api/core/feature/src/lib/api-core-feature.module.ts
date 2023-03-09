@@ -1,11 +1,12 @@
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
 import { Module } from '@nestjs/common'
+import { EventEmitterModule } from '@nestjs/event-emitter'
 import { GraphQLModule } from '@nestjs/graphql'
 import { ServeStaticModule } from '@nestjs/serve-static'
 import { OgmaModule } from '@ogma/nestjs-module'
 import { ApiAccountFeatureModule } from '@pubkeyapp/api/account/feature'
 import { ApiAuthFeatureModule } from '@pubkeyapp/api/auth/feature'
-import { ApiConfigDataAccessModule, ApiConfigDataAccessService } from '@pubkeyapp/api/config/data-access'
+import { ApiConfigDataAccessModule, ApiConfigService } from '@pubkeyapp/api/config/data-access'
 import { ApiConfigFeatureModule } from '@pubkeyapp/api/config/feature'
 import { ApiCoreDataAccessModule } from '@pubkeyapp/api/core/data-access'
 import { ApiDiscordFeatureModule } from '@pubkeyapp/api/discord/feature'
@@ -18,6 +19,7 @@ import { ApiQueueFeatureModule } from '@pubkeyapp/api/queue/feature'
 import { ApiSolanaFeatureModule } from '@pubkeyapp/api/solana/feature'
 import { ApiUserFeatureModule } from '@pubkeyapp/api/user/feature'
 import { join } from 'path'
+import { ApiAdminCoreResolver } from './api-admin-core.resolver'
 
 import { ApiCoreFeatureOgmaConfig } from './api-core-feature-ogma-config'
 import { ApiCoreFeatureController } from './api-core-feature.controller'
@@ -26,7 +28,7 @@ import { serveStaticFactory } from './serve-static.factory'
 
 @Module({
   controllers: [ApiCoreFeatureController],
-  providers: [ApiCoreFeatureResolver],
+  providers: [ApiCoreFeatureResolver, ApiAdminCoreResolver],
   exports: [],
   imports: [
     ApiAccountFeatureModule,
@@ -42,6 +44,7 @@ import { serveStaticFactory } from './serve-static.factory'
     ApiQueueFeatureModule,
     ApiSolanaFeatureModule,
     ApiUserFeatureModule,
+    EventEmitterModule.forRoot({ global: true, delimiter: ':' }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       fieldResolverEnhancers: ['guards'],
@@ -52,7 +55,7 @@ import { serveStaticFactory } from './serve-static.factory'
     OgmaModule.forRootAsync({
       useClass: ApiCoreFeatureOgmaConfig,
       imports: [ApiConfigDataAccessModule],
-      inject: [ApiConfigDataAccessService],
+      inject: [ApiConfigService],
     }),
     ServeStaticModule.forRootAsync({ useFactory: serveStaticFactory() }),
   ],

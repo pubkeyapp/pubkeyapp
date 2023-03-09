@@ -1,15 +1,15 @@
 import { Test } from '@nestjs/testing'
-import { ApiConfigDataAccessService } from './api-config-data-access.service'
+import { ApiConfigService } from './api-config.service'
 
 describe('ApiConfigDataAccessService', () => {
-  let service: ApiConfigDataAccessService
+  let service: ApiConfigService
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
-      providers: [ApiConfigDataAccessService],
+      providers: [ApiConfigService],
     }).compile()
 
-    service = module.get(ApiConfigDataAccessService)
+    service = module.get(ApiConfigService)
   })
 
   it('should be defined', () => {

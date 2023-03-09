@@ -1,5 +1,6 @@
 import { getAllDomains, getHandleAndRegistryKey, reverseLookup } from '@bonfida/spl-name-service'
 import { Injectable, Logger } from '@nestjs/common'
+import { OnEvent } from '@nestjs/event-emitter'
 import { AccountType, NetworkType } from '@prisma/client'
 import { ApiCoreService } from '@pubkeyapp/api/core/data-access'
 import { TokenInfo } from '@pubkeyapp/api/solana/util'
@@ -14,8 +15,12 @@ export class ApiSolanaService {
 
   private readonly connections = new Map<ClusterType, Solana>()
 
-  constructor(private readonly core: ApiCoreService) {
-    this.setupConnections()
+  constructor(private readonly core: ApiCoreService) {}
+
+  @OnEvent('core:reload')
+  async reload() {
+    this.logger.verbose('  => Reloading Solana connections')
+    await this.setupConnections()
   }
 
   getSolana(cluster: ClusterType): Solana {
@@ -41,6 +46,11 @@ export class ApiSolanaService {
   private async setupConnections() {
     const config = await this.core.config.getConfig()
     for (const cluster of config.clusters) {
+      // Bail if the endpoint is not a valid URL
+      if (!cluster.endpoint.startsWith('http')) {
+        this.logger.warn(`Invalid endpoint for ${cluster.type} cluster: ${cluster.endpoint}`)
+        continue
+      }
       const connection = new Connection(cluster.endpoint, 'confirmed')
       this.connections.set(
         cluster.type,

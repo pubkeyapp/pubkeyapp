@@ -7,6 +7,7 @@ import {
   IconMoneybag,
   IconNotes,
   IconPageBreak,
+  IconSettings,
   IconShield,
   IconStack3,
   IconUsers,
@@ -20,6 +21,7 @@ import { AdminInviteRoutes } from './invite/admin-invite.routes'
 import { AdminPageRoutes } from './page/admin-page.routes'
 import { AdminPlanRoutes } from './plan/admin-plan.routes'
 import { AdminQueueFeature } from './queue/admin-queue-feature'
+import { AdminSettingsRoutes } from './settings/admin-settings.routes'
 import { AdminUserRoutes } from './user/admin-user.routes'
 
 export function AdminRoutes() {
@@ -31,6 +33,7 @@ export function AdminRoutes() {
       { label: 'Plans', icon: IconMoneybag, link: '/admin/plans' },
       { label: 'Pages', icon: IconPageBreak, link: '/admin/pages' },
       { label: 'Queues', icon: IconStack3, link: '/admin/queues' },
+      { label: 'Settings', icon: IconSettings, link: '/admin/settings' },
       { label: 'Users', icon: IconUsers, link: '/admin/users' },
     ].map((item, index) => ({
       ...item,
@@ -45,9 +48,10 @@ export function AdminRoutes() {
         <Route path="dashboard" element={<AdminDashboardFeature links={links} />} />
         <Route path="domains/*" element={<AdminDomainRoutes />} />
         <Route path="invites/*" element={<AdminInviteRoutes />} />
-        <Route path="queues/*" element={<AdminQueueFeature />} />
-        <Route path="plans/*" element={<AdminPlanRoutes />} />
         <Route path="pages/*" element={<AdminPageRoutes />} />
+        <Route path="plans/*" element={<AdminPlanRoutes />} />
+        <Route path="queues/*" element={<AdminQueueFeature />} />
+        <Route path="settings/*" element={<AdminSettingsRoutes />} />
         <Route path="users/*" element={<AdminUserRoutes />} />
       </Route>
     </Routes>

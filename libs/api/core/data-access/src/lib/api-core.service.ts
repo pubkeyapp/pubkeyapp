@@ -1,36 +1,29 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { Injectable, Logger, NotFoundException, OnApplicationBootstrap } from '@nestjs/common'
+import { EventEmitter2 } from '@nestjs/event-emitter'
 import { Identity, IdentityProvider, UserRole, UserStatus } from '@prisma/client'
-import { ApiConfigDataAccessService } from '@pubkeyapp/api/config/data-access'
+import { ApiConfigService } from '@pubkeyapp/api/config/data-access'
 import { GumSdk } from '@pubkeyapp/gum-sdk'
-
 import { convertCoreDbUser, CoreDbUser, CoreUser } from './api-core.helpers'
 import { ApiCoreCacheService } from './cache/api-core-cache.service'
 import { ApiCoreDataService } from './data/api-core-data.service'
+import { ApiCoreSettingsService } from './settings/api-core-settings.service'
 
 @Injectable()
-export class ApiCoreService {
+export class ApiCoreService implements OnApplicationBootstrap {
+  private readonly logger = new Logger(ApiCoreService.name)
   readonly gum = new GumSdk({ endpoint: process.env.GUM_ENDPOINT })
   constructor(
     readonly cache: ApiCoreCacheService,
-    readonly config: ApiConfigDataAccessService,
+    readonly config: ApiConfigService,
     readonly data: ApiCoreDataService,
+    private eventEmitter: EventEmitter2,
+    readonly settings: ApiCoreSettingsService,
   ) {}
 
-  uptime() {
-    return process.uptime()
-  }
-
-  async getUserRole(userId): Promise<UserRole> {
-    return this.cache.wrap<UserRole>(
-      'user',
-      `${userId}:role`,
-      async () => {
-        const found = await this.data.user.findFirst({ where: { id: userId } })
-
-        return found?.role
-      },
-      60,
-    )
+  async onApplicationBootstrap(): Promise<void> {
+    this.logger.verbose('  => BOOTSTRAPPING CORE')
+    await this.provisionSettings()
+    setTimeout(() => this.reload(), 1000)
   }
 
   async ensureUser(userId: string): Promise<CoreUser> {
@@ -123,5 +116,75 @@ export class ApiCoreService {
           .then((user: CoreDbUser) => (user ? convertCoreDbUser(user, this.config.apiUrl) : undefined)),
       10,
     )
+  }
+
+  private async loadSettings() {
+    return this.data.setting.findMany({ orderBy: { key: 'asc' } }).then(async (res) => {
+      const keys = this.config.settings.keys
+
+      const invalid = res.filter((s) => !keys.includes(s.key))
+      for (const item of invalid) {
+        this.logger.warn(` => Deleting unknown setting ${item.key} => ${item.value} (default: ${item.default})`)
+        await this.data.setting.delete({ where: { key: item.key } })
+      }
+
+      const valid = res.filter((s) => keys.includes(s.key))
+      this.logger.verbose(`Loading ${valid.length} settings`)
+      this.config.settings.clear()
+      valid.forEach((setting) => {
+        this.logger.verbose(` => Loaded setting ${setting.key} => ${setting.value} (default: ${setting.default})`)
+        this.config.settings.set(setting)
+      })
+      return res
+    })
+  }
+
+  private async provisionSettings() {
+    for (const setting of this.config.settings.provisioned) {
+      const existing = await this.data.setting.findFirst({ where: { key: setting.key } })
+      if (existing && existing.description === setting.description && existing.default === setting.default) {
+        this.logger.verbose(`Setting ${setting.key} already exists`)
+        continue
+      }
+      await this.data.setting.upsert({
+        where: { key: setting.key },
+        update: {
+          description: setting.description,
+          default: setting.default,
+        },
+        create: setting,
+      })
+    }
+    await this.loadSettings()
+    this.logger.verbose('Settings provisioned, emitting reload event')
+  }
+
+  private reload() {
+    this.eventEmitter.emit('core:reload', {
+      settings: this.config.settings.values,
+    })
+  }
+
+  uptime() {
+    return process.uptime()
+  }
+
+  adminGetSettings(user: CoreUser) {
+    if (user.role !== UserRole.Admin) {
+      throw new Error('Unauthorized')
+    }
+    return this.data.setting.findMany({ orderBy: { key: 'asc' } })
+  }
+
+  adminSetSetting(user: CoreUser, key: string, value: string) {
+    if (user.role !== UserRole.Admin) {
+      throw new Error('Unauthorized')
+    }
+    return this.data.setting.update({ where: { key }, data: { value } }).then((res) => {
+      this.logger.verbose(` => Updated setting ${key} => ${value} (user: ${user.id})`)
+      this.config.settings.set({ key, value })
+      this.reload()
+      return res
+    })
   }
 }

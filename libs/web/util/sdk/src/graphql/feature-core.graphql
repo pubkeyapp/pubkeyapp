@@ -1,3 +1,25 @@
 query Uptime {
   uptime
 }
+
+fragment SettingDetail on Setting {
+  id
+  createdAt
+  updatedAt
+  default
+  description
+  key
+  value
+}
+
+query AdminGetSettings {
+  items: adminGetSettings {
+    ...SettingDetail
+  }
+}
+
+mutation AdminSetSetting($key: String!, $value: String!) {
+  item: adminSetSetting(key: $key, value: $value) {
+    ...SettingDetail
+  }
+}

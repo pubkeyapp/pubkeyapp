@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
-import { ApiConfigDataAccessService } from './api-config-data-access.service'
+import { ApiConfigSettingsService } from './api-config-settings.service'
+import { ApiConfigService } from './api-config.service'
 import configuration from './config/configuration'
 import { validationSchema } from './config/validation-schema'
 
 @Module({
-  providers: [ApiConfigDataAccessService],
-  exports: [ApiConfigDataAccessService],
+  providers: [ApiConfigService, ApiConfigSettingsService],
+  exports: [ApiConfigService],
   imports: [
     ConfigModule.forRoot({
       cache: true,

@@ -59,7 +59,7 @@ export class ApiUserInviteService {
     if (!invite) {
       throw new Error('Invite not found')
     }
-    if (invite.useCount >= invite.maxUses || invite.users?.length >= invite.maxUses) {
+    if (invite.maxUses && (invite.useCount >= invite.maxUses || invite.users?.length >= invite.maxUses)) {
       throw new Error('Invite is already used')
     }
     if (invite.expiresAt && invite.expiresAt < new Date()) {

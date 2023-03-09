@@ -3,6 +3,7 @@ import { Cluster } from '@pubkeyapp/web/util/sdk'
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base'
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react'
 import { PhantomWalletAdapter, SolflareWalletAdapter } from '@solana/wallet-adapter-wallets'
+import { clusterApiUrl } from '@solana/web3.js'
 import { createContext, ReactNode, useContext, useMemo } from 'react'
 import { useConfig } from './web-config.provider'
 
@@ -18,7 +19,15 @@ export function SolanaProvider({ children }: { children: ReactNode }) {
   const { cluster, clusters } = useConfig()
 
   const endpoint = useMemo(() => {
-    return cluster?.endpoint ?? ''
+    const value = cluster?.endpoint ?? ''
+
+    if (!value?.startsWith('http')) {
+      const defaultUrl = clusterApiUrl(cluster?.id.toLowerCase() as WalletAdapterNetwork)
+      console.warn(`Solana Provider endpoint invalid (${value}), using default: ${defaultUrl}`)
+      return defaultUrl
+    }
+
+    return value
   }, [cluster])
 
   const wallets = useMemo(

@@ -304,6 +304,7 @@ export type Mutation = {
   adminDeleteUser?: Maybe<User>
   adminRemovePageBlock?: Maybe<PageBlock>
   adminRemovePageDomain?: Maybe<PageDomain>
+  adminSetSetting?: Maybe<Setting>
   adminUpdateDomain?: Maybe<Domain>
   adminUpdateInvite?: Maybe<Invite>
   adminUpdatePage?: Maybe<Page>
@@ -387,6 +388,11 @@ export type MutationAdminRemovePageBlockArgs = {
 export type MutationAdminRemovePageDomainArgs = {
   pageDomainId: Scalars['String']
   pageId: Scalars['String']
+}
+
+export type MutationAdminSetSettingArgs = {
+  key: Scalars['String']
+  value: Scalars['String']
 }
 
 export type MutationAdminUpdateDomainArgs = {
@@ -588,6 +594,7 @@ export type Query = {
   adminAccounts?: Maybe<Array<Account>>
   adminDomain?: Maybe<Domain>
   adminDomains?: Maybe<Array<Domain>>
+  adminGetSettings?: Maybe<Array<Setting>>
   adminInvite?: Maybe<Invite>
   adminInvites?: Maybe<Array<Invite>>
   adminPage?: Maybe<Page>
@@ -761,6 +768,17 @@ export type QueueLoadInput = {
 export enum QueueType {
   CloseAccount = 'CloseAccount',
   ParseBlock = 'ParseBlock',
+}
+
+export type Setting = {
+  __typename?: 'Setting'
+  createdAt?: Maybe<Scalars['DateTime']>
+  default?: Maybe<Scalars['String']>
+  description?: Maybe<Scalars['String']>
+  id?: Maybe<Scalars['String']>
+  key?: Maybe<Scalars['String']>
+  updatedAt?: Maybe<Scalars['DateTime']>
+  value?: Maybe<Scalars['String']>
 }
 
 export type User = {
@@ -1624,6 +1642,52 @@ export type ConfigQuery = {
 export type UptimeQueryVariables = Exact<{ [key: string]: never }>
 
 export type UptimeQuery = { __typename?: 'Query'; uptime: number }
+
+export type SettingDetailFragment = {
+  __typename?: 'Setting'
+  id?: string | null
+  createdAt?: any | null
+  updatedAt?: any | null
+  default?: string | null
+  description?: string | null
+  key?: string | null
+  value?: string | null
+}
+
+export type AdminGetSettingsQueryVariables = Exact<{ [key: string]: never }>
+
+export type AdminGetSettingsQuery = {
+  __typename?: 'Query'
+  items?: Array<{
+    __typename?: 'Setting'
+    id?: string | null
+    createdAt?: any | null
+    updatedAt?: any | null
+    default?: string | null
+    description?: string | null
+    key?: string | null
+    value?: string | null
+  }> | null
+}
+
+export type AdminSetSettingMutationVariables = Exact<{
+  key: Scalars['String']
+  value: Scalars['String']
+}>
+
+export type AdminSetSettingMutation = {
+  __typename?: 'Mutation'
+  item?: {
+    __typename?: 'Setting'
+    id?: string | null
+    createdAt?: any | null
+    updatedAt?: any | null
+    default?: string | null
+    description?: string | null
+    key?: string | null
+    value?: string | null
+  } | null
+}
 
 export type DomainDetailsFragment = {
   __typename?: 'Domain'
@@ -3963,6 +4027,17 @@ export const ConfigDetailsFragmentDoc = gql`
   ${ConfigAppDetailsFragmentDoc}
   ${ClusterDetailsFragmentDoc}
 `
+export const SettingDetailFragmentDoc = gql`
+  fragment SettingDetail on Setting {
+    id
+    createdAt
+    updatedAt
+    default
+    description
+    key
+    value
+  }
+`
 export const DomainDetailsFragmentDoc = gql`
   fragment DomainDetails on Domain {
     id
@@ -4267,6 +4342,33 @@ export const UptimeDocument = gql`
 
 export function useUptimeQuery(options?: Omit<Urql.UseQueryArgs<UptimeQueryVariables>, 'query'>) {
   return Urql.useQuery<UptimeQuery, UptimeQueryVariables>({ query: UptimeDocument, ...options })
+}
+export const AdminGetSettingsDocument = gql`
+  query AdminGetSettings {
+    items: adminGetSettings {
+      ...SettingDetail
+    }
+  }
+  ${SettingDetailFragmentDoc}
+`
+
+export function useAdminGetSettingsQuery(options?: Omit<Urql.UseQueryArgs<AdminGetSettingsQueryVariables>, 'query'>) {
+  return Urql.useQuery<AdminGetSettingsQuery, AdminGetSettingsQueryVariables>({
+    query: AdminGetSettingsDocument,
+    ...options,
+  })
+}
+export const AdminSetSettingDocument = gql`
+  mutation AdminSetSetting($key: String!, $value: String!) {
+    item: adminSetSetting(key: $key, value: $value) {
+      ...SettingDetail
+    }
+  }
+  ${SettingDetailFragmentDoc}
+`
+
+export function useAdminSetSettingMutation() {
+  return Urql.useMutation<AdminSetSettingMutation, AdminSetSettingMutationVariables>(AdminSetSettingDocument)
 }
 export const AdminDomainDocument = gql`
   query AdminDomain($domainId: String!) {

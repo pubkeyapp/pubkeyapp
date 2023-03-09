@@ -1,4 +1,4 @@
-import { ApiConfigDataAccessService } from '@pubkeyapp/api/config/data-access'
+import { ApiConfigService } from '@pubkeyapp/api/config/data-access'
 import { Logger, ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { OgmaService } from '@ogma/nestjs-module'
@@ -10,7 +10,7 @@ import { AppModule } from './app/app.module'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { bufferLogs: true })
-  const config = app.get(ApiConfigDataAccessService)
+  const config = app.get(ApiConfigService)
   const logger = app.get<OgmaService>(OgmaService)
   app.useLogger(logger)
   app.setGlobalPrefix(config.prefix)

@@ -1,6 +1,6 @@
 import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common'
 import { IdentityProvider, PrismaClient, UserRole, UserStatus } from '@prisma/client'
-import { ApiConfigDataAccessService } from '@pubkeyapp/api/config/data-access'
+import { ApiConfigService } from '@pubkeyapp/api/config/data-access'
 import { getSolanaName } from 'sol-namor/src'
 import { convertCoreDbUser, CoreUser } from '../api-core.helpers'
 
@@ -8,7 +8,7 @@ import { convertCoreDbUser, CoreUser } from '../api-core.helpers'
 export class ApiCoreDataService extends PrismaClient implements OnModuleDestroy, OnModuleInit {
   private readonly logger = new Logger(ApiCoreDataService.name)
 
-  constructor(private readonly config: ApiConfigDataAccessService) {
+  constructor(private readonly config: ApiConfigService) {
     super()
   }
 
