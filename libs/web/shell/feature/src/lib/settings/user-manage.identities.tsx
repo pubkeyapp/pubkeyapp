@@ -191,7 +191,7 @@ export function CreateNewIdentity() {
   return (
     <SimpleGrid cols={2} spacing="md" breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
       {items.map((item) => (
-        <Button key={item.label} variant="subtle" component="a" href={item.label} leftIcon={<item.icon size={36} />}>
+        <Button key={item.label} variant="subtle" component="a" href={item.link} leftIcon={<item.icon size={36} />}>
           Link {item.label}
         </Button>
       ))}
