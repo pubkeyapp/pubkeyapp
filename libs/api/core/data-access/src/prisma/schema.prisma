@@ -33,6 +33,8 @@ enum AccountType {
   Account
   BonfidaDomain
   BonfidaTwitter
+  GumUser
+  GumProfile
   Mint
   Program
   Token
