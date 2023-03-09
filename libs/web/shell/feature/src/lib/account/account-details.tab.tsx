@@ -1,5 +1,5 @@
 import { Anchor, Badge, Container, Group, Paper, Skeleton, Stack, Text } from '@mantine/core'
-import { UiDebug, UiError, UiErrorLoader, UiUserLink } from '@pubkeyapp/web/ui/core'
+import { UiDebug, UiError, UiUserLink } from '@pubkeyapp/web/ui/core'
 import { NetworkType, useUserAccountHistoryQuery, useUserAccountQuery } from '@pubkeyapp/web/util/sdk'
 import React, { useMemo } from 'react'
 import { Link } from 'react-router-dom'
@@ -65,8 +65,18 @@ export function AccountDetailsTab({ address, network }: { address: string; netwo
                 <Text>
                   Type <Badge>{data?.item?.type}</Badge>
                 </Text>
-                <Anchor component={'a'} href={`https://solscan.io/account/${address}${suffix}`}>
-                  View on Solscan
+                <Anchor component={'a'} href={`https://solscan.io/account/${address}${suffix}`} target="_blank">
+                  Solscan
+                </Anchor>
+                <Anchor
+                  component={'a'}
+                  href={`https://explorer.solana.com/account/${address}${suffix}`}
+                  target="_blank"
+                >
+                  Solana Explorer
+                </Anchor>
+                <Anchor component={'a'} href={`https://solscan.fm/account/${address}${suffix}`} target="_blank">
+                  Solana FM
                 </Anchor>
               </Stack>
             </Paper>

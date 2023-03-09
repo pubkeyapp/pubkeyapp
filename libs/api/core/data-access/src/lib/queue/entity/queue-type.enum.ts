@@ -1,8 +1,9 @@
 import { registerEnumType } from '@nestjs/graphql'
 
 export enum QueueType {
-  CloseAccount = 'CloseAccount',
-  ParseBlock = 'ParseBlock',
+  AccountDiscover = 'AccountDiscover',
+  AccountClose = 'AccountClose',
+  BlockParse = 'BlockParse',
 }
 
 registerEnumType(QueueType, { name: 'QueueType' })

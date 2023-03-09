@@ -6,6 +6,7 @@ import { GumSdk } from '@pubkeyapp/gum-sdk'
 import { convertCoreDbUser, CoreDbUser, CoreUser } from './api-core.helpers'
 import { ApiCoreCacheService } from './cache/api-core-cache.service'
 import { ApiCoreDataService } from './data/api-core-data.service'
+import { ApiCoreQueueService } from './queue/api-core-queue.service'
 import { ApiCoreSettingsService } from './settings/api-core-settings.service'
 
 @Injectable()
@@ -17,6 +18,7 @@ export class ApiCoreService implements OnApplicationBootstrap {
     readonly config: ApiConfigService,
     readonly data: ApiCoreDataService,
     private eventEmitter: EventEmitter2,
+    readonly queue: ApiCoreQueueService,
     readonly settings: ApiCoreSettingsService,
   ) {}
 

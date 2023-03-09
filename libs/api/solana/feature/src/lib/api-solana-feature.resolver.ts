@@ -1,3 +1,4 @@
+import { Resolver } from '@nestjs/graphql'
 import { ApiSolanaService } from '@pubkeyapp/api/solana/data-access'
 
 @Resolver()

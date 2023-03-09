@@ -1,13 +1,15 @@
 import { Injectable, Logger } from '@nestjs/common'
+import { NetworkType } from '@prisma/client'
+import { ApiAnonAccountService } from '@pubkeyapp/api/account/data-access'
 import { ApiCoreService } from '@pubkeyapp/api/core/data-access'
 import { getProfileTypeColor } from './api-profile-helper'
-
 import { UserUpdateProfileInput } from './dto/user-update-profile.input'
 import { ProfileType } from './entity/profile-type.enum'
+
 @Injectable()
 export class ApiUserProfileService {
   private readonly logger = new Logger(ApiUserProfileService.name)
-  constructor(private readonly core: ApiCoreService) {}
+  constructor(private readonly core: ApiCoreService, private readonly account: ApiAnonAccountService) {}
 
   async userProfile(userId: string, profileId: string) {
     return this.ensureProfileOwner(userId, profileId)
@@ -78,5 +80,35 @@ export class ApiUserProfileService {
       throw new Error('Profile does not belong to user')
     }
     return profile
+  }
+
+  async userSyncProfile(userId: string, profileId: string) {
+    const user = await this.core.ensureUserActive(userId)
+    if (!user.publicKey) {
+      throw new Error('User does not have a public key')
+    }
+    // const profile = await this.ensureProfileOwner(userId, profileId)
+    // if (!profile.user) {
+    //   throw new Error('Profile does not have a user')
+    // }
+    // Make sure the owner has a Gum Profile
+    const owner = user.publicKey
+    // const gumUser = await this.core.gum.getGumProfile(owner)
+
+    const accounts: string[] = [
+      user.publicKey.toString(),
+      // gumUser.user.authority.toString(),
+      // gumUser.user.cl_pubkey.toString(),
+      // ...(gumUser?.profiles?.map((p) => p.cl_pubkey.toString()) || []),
+      // ...(gumUser?.meta?.map((p) => p.cl_pubkey.toString()) || []),
+    ]
+    // console.log('gumUser', gumUser)
+    // console.log('accounts', accounts)
+
+    for (const account of accounts) {
+      // console.log(' ==>> account', account)
+      const accountInfo = await this.account.getAccount(userId, NetworkType.SolanaDevnet, account, true)
+      console.log('accountInfo', accountInfo)
+    }
   }
 }

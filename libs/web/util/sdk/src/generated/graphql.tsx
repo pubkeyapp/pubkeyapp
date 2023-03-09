@@ -42,6 +42,9 @@ export enum AccountType {
   Account = 'Account',
   BonfidaDomain = 'BonfidaDomain',
   BonfidaTwitter = 'BonfidaTwitter',
+  GumProfile = 'GumProfile',
+  GumProfileMeta = 'GumProfileMeta',
+  GumUser = 'GumUser',
   Mint = 'Mint',
   Program = 'Program',
   System = 'System',
@@ -348,6 +351,7 @@ export type Mutation = {
   userDeleteProfile?: Maybe<Profile>
   userFollowUser?: Maybe<User>
   userRemovePageBlock?: Maybe<PageBlock>
+  userSyncProfile?: Maybe<Profile>
   userUnfollowUser?: Maybe<User>
   userUpdatePage?: Maybe<Page>
   userUpdatePageBlock?: Maybe<PageBlock>
@@ -523,6 +527,10 @@ export type MutationUserFollowUserArgs = {
 export type MutationUserRemovePageBlockArgs = {
   pageBlockId: Scalars['String']
   pageId: Scalars['String']
+}
+
+export type MutationUserSyncProfileArgs = {
+  profileId: Scalars['String']
 }
 
 export type MutationUserUnfollowUserArgs = {
@@ -870,8 +878,9 @@ export type QueueLoadInput = {
 }
 
 export enum QueueType {
-  CloseAccount = 'CloseAccount',
-  ParseBlock = 'ParseBlock',
+  AccountClose = 'AccountClose',
+  AccountDiscover = 'AccountDiscover',
+  BlockParse = 'BlockParse',
 }
 
 export type Setting = {
@@ -3890,6 +3899,29 @@ export type UserDeleteProfileMutation = {
   } | null
 }
 
+export type UserSyncProfileMutationVariables = Exact<{
+  profileId: Scalars['String']
+}>
+
+export type UserSyncProfileMutation = {
+  __typename?: 'Mutation'
+  item?: {
+    __typename?: 'Profile'
+    id?: string | null
+    createdAt?: string | null
+    updatedAt?: string | null
+    name?: string | null
+    username?: string | null
+    bio?: string | null
+    avatar?: string | null
+    metaUrl?: string | null
+    color?: string | null
+    followers?: number | null
+    following?: number | null
+    type?: ProfileType | null
+  } | null
+}
+
 export type UserCreateProfileMutationVariables = Exact<{
   type: ProfileType
 }>
@@ -5774,6 +5806,18 @@ export const UserDeleteProfileDocument = gql`
 
 export function useUserDeleteProfileMutation() {
   return Urql.useMutation<UserDeleteProfileMutation, UserDeleteProfileMutationVariables>(UserDeleteProfileDocument)
+}
+export const UserSyncProfileDocument = gql`
+  mutation UserSyncProfile($profileId: String!) {
+    item: userSyncProfile(profileId: $profileId) {
+      ...ProfileDetails
+    }
+  }
+  ${ProfileDetailsFragmentDoc}
+`
+
+export function useUserSyncProfileMutation() {
+  return Urql.useMutation<UserSyncProfileMutation, UserSyncProfileMutationVariables>(UserSyncProfileDocument)
 }
 export const UserCreateProfileDocument = gql`
   mutation UserCreateProfile($type: ProfileType!) {

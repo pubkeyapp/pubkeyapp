@@ -222,6 +222,24 @@
             "deprecationReason": null
           },
           {
+            "name": "GumProfile",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "GumProfileMeta",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "GumUser",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "Mint",
             "description": null,
             "isDeprecated": false,
@@ -3917,6 +3935,35 @@
             "deprecationReason": null
           },
           {
+            "name": "userSyncProfile",
+            "description": null,
+            "args": [
+              {
+                "name": "profileId",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Profile",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "userUnfollowUser",
             "description": null,
             "args": [
@@ -6593,13 +6640,19 @@
         "interfaces": null,
         "enumValues": [
           {
-            "name": "CloseAccount",
+            "name": "AccountClose",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
-            "name": "ParseBlock",
+            "name": "AccountDiscover",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "BlockParse",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null

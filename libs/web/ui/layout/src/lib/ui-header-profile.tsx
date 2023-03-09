@@ -78,9 +78,9 @@ export function UiHeaderProfile() {
               <Menu.Item component={Link} to="/admin">
                 Admin Dashboard
               </Menu.Item>
-              {/*<Menu.Item component={Link} to="/dev">*/}
-              {/*  Developer*/}
-              {/*</Menu.Item>*/}
+              <Menu.Item component={Link} to="/dev">
+                Developer
+              </Menu.Item>
             </>
           ) : null}
           <Menu.Divider />

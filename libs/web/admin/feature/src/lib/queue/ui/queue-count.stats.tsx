@@ -16,7 +16,7 @@ export function QueueCountStats({ count }: { count: QueueCount }) {
 export function JobStatusGrid({ data }: { data: { label: JobStatus; value: number }[] }) {
   const stats = data.map((stat) => {
     return (
-      <Paper withBorder p="md" radius="md" key={stat.label}>
+      <Paper key={stat.label}>
         <Group position="apart">
           <div>
             <Text color="dimmed" transform="uppercase" weight={700} size="xs">

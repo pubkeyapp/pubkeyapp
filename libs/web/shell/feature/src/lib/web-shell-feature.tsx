@@ -15,6 +15,7 @@ import { ProfileRoutes } from './profile/profile-routes'
 import { SettingsFeature } from './settings/settings-feature'
 
 const AdminFeature = lazy(() => import('@pubkeyapp/web/admin/feature'))
+const DevFeature = lazy(() => import('@pubkeyapp/web/dev/feature'))
 const PageFeature = lazy(() => import('@pubkeyapp/web/page/feature'))
 const PageEditorFeature = lazy(() => import('@pubkeyapp/web/page-editor/feature'))
 const PlanFeature = lazy(() => import('@pubkeyapp/web/plan/feature'))
@@ -53,6 +54,7 @@ export function WebShellFeature() {
                 <Route element={<UserRoleGuard role={UserRole.Admin} />}>
                   <Route path="/account/*" element={<AccountFeature />} />
                   <Route path="/admin/*" element={<AdminFeature />} />
+                  <Route path="/dev/*" element={<DevFeature />} />
                 </Route>
               </Route>
               <Route path="/early" element={<EarlyFeature />} />

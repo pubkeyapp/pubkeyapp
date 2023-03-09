@@ -36,6 +36,11 @@ export class ApiUserProfileFeatureResolver {
   }
 
   @Mutation(() => Profile, { nullable: true })
+  userSyncProfile(@CtxUser() user: User, @Args('profileId') profileId: string) {
+    return this.service.userSyncProfile(user.id, profileId)
+  }
+
+  @Mutation(() => Profile, { nullable: true })
   userUpdateProfile(
     @CtxUser() user: User,
     @Args('profileId') profileId: string,

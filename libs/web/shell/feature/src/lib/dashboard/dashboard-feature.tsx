@@ -1,8 +1,14 @@
 import { Accordion, Alert, Anchor, Avatar, Box, Button, Container, Group, Paper, Stack, Text } from '@mantine/core'
 import { useAuth } from '@pubkeyapp/web/auth/data-access'
 import { ProfileCreateButton, ProfileTypeBadge } from '@pubkeyapp/web/profile/ui'
-import { UiLoader } from '@pubkeyapp/web/ui/core'
-import { Profile, ProfileType, usePublicUserQuery, useUserProfilesQuery } from '@pubkeyapp/web/util/sdk'
+import { showNotificationError, showNotificationSuccess, UiLoader } from '@pubkeyapp/web/ui/core'
+import {
+  Profile,
+  ProfileType,
+  usePublicUserQuery,
+  useUserProfilesQuery,
+  useUserSyncProfileMutation,
+} from '@pubkeyapp/web/util/sdk'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useAccordionStyles } from '../../../../../page-editor/feature/src/lib/web-page-editor-publish-tab'
@@ -91,11 +97,26 @@ export function ProfileList({ profiles }: { profiles: Profile[] }) {
 }
 
 export function ProfileDetails({ profile }: { profile: Profile }) {
+  const [{ fetching: loading }, syncProfileMutation] = useUserSyncProfileMutation()
+  const syncProfile = () => {
+    syncProfileMutation({ profileId: `${profile.id}` })
+      .then((res) => {
+        console.log('res', res)
+        if (res.error) {
+          return showNotificationError(res.error.message)
+        }
+        if (!res.error && res.data?.item) {
+          return showNotificationSuccess('Profile synced')
+        }
+        return false
+      })
+      .catch((err) => showNotificationError(err.message))
+  }
   return (
     <Stack>
       <Stack>
-        <Group position="apart">
-          <Group>
+        <Group position="apart" align="start">
+          <Group align="center">
             <Avatar size={36} src={profile.avatar} radius="xl" />
             <Stack spacing={0}>
               <Text size="xl" fw={500}>
@@ -106,6 +127,9 @@ export function ProfileDetails({ profile }: { profile: Profile }) {
               </Anchor>
             </Stack>
           </Group>
+          <Button loading={loading} variant="default" size="sm" onClick={syncProfile}>
+            Sync Profile
+          </Button>
         </Group>
       </Stack>
       <Box>

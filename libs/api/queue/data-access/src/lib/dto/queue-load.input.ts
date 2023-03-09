@@ -1,6 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql'
+import { QueueType } from '@pubkeyapp/api/core/data-access'
 import { GraphQLJSON } from 'graphql-scalars'
-import { QueueType } from '../entity/queue-type.enum'
 
 @InputType()
 export class QueueLoadInput {

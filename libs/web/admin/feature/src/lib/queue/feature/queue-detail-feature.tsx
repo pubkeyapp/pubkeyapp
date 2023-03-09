@@ -1,4 +1,18 @@
-import { Alert, Badge, Box, Button, Card, Flex, Group, Select, Stack, Text, Textarea, Tooltip } from '@mantine/core'
+import {
+  Alert,
+  Badge,
+  Box,
+  Button,
+  Card,
+  Flex,
+  Group,
+  Paper,
+  Select,
+  Stack,
+  Text,
+  Textarea,
+  Tooltip,
+} from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
 import { UiLoader } from '@pubkeyapp/web/ui/core'
@@ -140,74 +154,76 @@ export function QueueDetailFeature() {
 
   return (
     <UiPage title={`${data?.item?.name}`}>
-      <Card withBorder radius="md">
-        <Group>
-          <Box>
-            <Badge>{data?.item?.isPaused ? 'Paused' : 'Started'}</Badge>
-          </Box>
-          {data?.item?.isPaused ? (
-            <Button onClick={() => resume()} leftIcon={<IconPlayerPlay />}>
-              Resume
-            </Button>
-          ) : (
-            <Button onClick={() => pause()} leftIcon={<IconPlayerPause />}>
-              Pause
-            </Button>
-          )}
-          <Tooltip label={`Automatic refresh each ${timeout / 1000} seconds`}>
-            <Button onClick={() => refresh()} leftIcon={<IconRefresh />}>
-              Refresh
-            </Button>
-          </Tooltip>
-          <Tooltip label={`This will remove all the jobs from the queue.`}>
-            <Button onClick={() => clean()} leftIcon={<IconTrash />}>
-              Clean
-            </Button>
-          </Tooltip>
-        </Group>
-      </Card>
-      {data?.item?.count ? (
-        <Card withBorder radius="md">
-          <QueueCountStats count={data.item.count} />
-        </Card>
-      ) : null}
-      {data?.item?.info ? (
-        <Card withBorder radius="md">
-          <Box component="pre" p="2" fz="xs">
-            {JSON.stringify(data?.item?.info, null, 2)}
-          </Box>
-        </Card>
-      ) : null}
-      <Card withBorder radius="md">
-        <Stack spacing={4}>
-          <form onSubmit={form.onSubmit((values) => submit(values))}>
-            <Stack spacing={16}>
-              <Text fz="2xl">{type}</Text>
-              {type === QueueType.CloseAccount ? (
-                <Text>The payload for the CloseAccount queue is a newline-separated list of accounts to close.</Text>
-              ) : null}
-              <Textarea
-                withAsterisk
-                minRows={6}
-                maxRows={20}
-                label="Payload"
-                placeholder="Payload"
-                {...form.getInputProps('payload')}
-              />
+      <Stack>
+        <Paper>
+          <Group>
+            <Box>
+              <Badge>{data?.item?.isPaused ? 'Paused' : 'Started'}</Badge>
+            </Box>
+            {data?.item?.isPaused ? (
+              <Button onClick={() => resume()} leftIcon={<IconPlayerPlay />}>
+                Resume
+              </Button>
+            ) : (
+              <Button onClick={() => pause()} leftIcon={<IconPlayerPause />}>
+                Pause
+              </Button>
+            )}
+            <Tooltip label={`Automatic refresh each ${timeout / 1000} seconds`}>
+              <Button onClick={() => refresh()} leftIcon={<IconRefresh />}>
+                Refresh
+              </Button>
+            </Tooltip>
+            <Tooltip label={`This will remove all the jobs from the queue.`}>
+              <Button onClick={() => clean()} leftIcon={<IconTrash />}>
+                Clean
+              </Button>
+            </Tooltip>
+          </Group>
+        </Paper>
+        {data?.item?.count ? (
+          <Paper>
+            <QueueCountStats count={data.item.count} />
+          </Paper>
+        ) : null}
+        {data?.item?.info ? (
+          <Paper>
+            <Box component="pre" p="2" fz="xs">
+              {JSON.stringify(data?.item?.info, null, 2)}
+            </Box>
+          </Paper>
+        ) : null}
+        {/*<Paper>*/}
+        {/*  <Stack spacing={4}>*/}
+        {/*    <form onSubmit={form.onSubmit((values) => submit(values))}>*/}
+        {/*      <Stack spacing={16}>*/}
+        {/*        <Text fz="2xl">{type}</Text>*/}
+        {/*        {type === QueueType.AccountClose ? (*/}
+        {/*          <Text>The payload for the AccountClose queue is a newline-separated list of accounts to close.</Text>*/}
+        {/*        ) : null}*/}
+        {/*        <Textarea*/}
+        {/*          withAsterisk*/}
+        {/*          minRows={6}*/}
+        {/*          maxRows={20}*/}
+        {/*          label="Payload"*/}
+        {/*          placeholder="Payload"*/}
+        {/*          {...form.getInputProps('payload')}*/}
+        {/*        />*/}
 
-              <Group position="right" mt="md">
-                <Button type="submit">Load Queue</Button>
-              </Group>
-            </Stack>
-          </form>
-        </Stack>
-      </Card>
-      <Card withBorder radius="md">
-        {data.item.type ? <QueueJobListFeature type={data.item.type} /> : null}
-        {/*<Box as="pre" p="2" borderWidth="1px" borderRadius="lg" overflow="hidden" fontSize="2xs">*/}
-        {/*  {JSON.stringify(data, null, 2)}*/}
-        {/*</Box>*/}
-      </Card>
+        {/*        <Group position="right" mt="md">*/}
+        {/*          <Button type="submit">Load Queue</Button>*/}
+        {/*        </Group>*/}
+        {/*      </Stack>*/}
+        {/*    </form>*/}
+        {/*  </Stack>*/}
+        {/*</Paper>*/}
+        <Paper>
+          {data.item.type ? <QueueJobListFeature type={data.item.type} /> : null}
+          {/*<Box as="pre" p="2" borderWidth="1px" borderRadius="lg" overflow="hidden" fontSize="2xs">*/}
+          {/*  {JSON.stringify(data, null, 2)}*/}
+          {/*</Box>*/}
+        </Paper>
+      </Stack>
     </UiPage>
   )
 }

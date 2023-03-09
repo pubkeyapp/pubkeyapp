@@ -90,6 +90,12 @@ mutation UserDeleteProfile($profileId: String!) {
   }
 }
 
+mutation UserSyncProfile($profileId: String!) {
+  item: userSyncProfile(profileId: $profileId) {
+    ...ProfileDetails
+  }
+}
+
 mutation UserCreateProfile($type: ProfileType!) {
   item: userCreateProfile(type: $type) {
     ...ProfileDetails

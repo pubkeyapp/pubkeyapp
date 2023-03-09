@@ -1,5 +1,5 @@
-import { Alert, Box, Button, Flex, Group, Stack, Text } from '@mantine/core'
-import { UiLoader } from '@pubkeyapp/web/ui/core'
+import { Alert, Box, Button, Code, Group, Stack, Text } from '@mantine/core'
+import { UiDebugModal, UiLoader } from '@pubkeyapp/web/ui/core'
 import { Job, JobStatus, QueueType, useQueueDeleteJobMutation, useQueueJobsQuery } from '@pubkeyapp/web/util/sdk'
 import { IconTrash } from '@tabler//icons-react'
 
@@ -58,16 +58,16 @@ export function QueueJobList({
           The {type} queue has no {status} jobs
         </Alert>
       ) : (
-        <Stack spacing={4}>
+        <Stack>
           <Alert color="info">
-            The {type} queue has {jobs?.length} ${status} jobs
+            The {type} queue has {jobs?.length} {status} jobs
           </Alert>
 
           <Box>
             {jobs?.map((job) => (
               <Box key={job.id}>
                 <Stack mb={2}>
-                  <Flex>
+                  <Group>
                     <Button>
                       <IconTrash
                         onClick={() => {
@@ -77,75 +77,27 @@ export function QueueJobList({
                       />
                     </Button>
                     <Box>
-                      <Box>{job.id}</Box>
+                      <Code>{job.id}</Code>
                     </Box>
-                  </Flex>
+                    <UiDebugModal data={job} />
+                  </Group>
                   {job.failedReason ? <Alert color="red">{job.failedReason}</Alert> : null}
                 </Stack>
                 <Box pb={4}>
-                  <QueueJobListItem job={job} type={type} />
+                  {job.stacktrace?.length ? (
+                    <Stack>
+                      <Text size="lg">Stack Trace</Text>
+                      <Box component="pre" p="2" fz="xs">
+                        {job.stacktrace}
+                      </Box>
+                    </Stack>
+                  ) : null}
                 </Box>
               </Box>
             ))}
           </Box>
         </Stack>
       )}
-      {/*<Box as="pre" p="2" borderWidth="1px" borderRadius="lg" overflow="hidden" fontSize="2xs">*/}
-      {/*  {JSON.stringify(jobs, null, 2)}*/}
-      {/*</Box>*/}
-    </Stack>
-  )
-}
-
-export function QueueJobListItem({ job, type }: { job: Job; type: QueueType }) {
-  return (
-    <Stack>
-      {job.stacktrace?.length ? (
-        <Stack>
-          <Text size="lg">Stack Trace</Text>
-          <Box component="pre" p="2" fz="xs">
-            {job.stacktrace}
-          </Box>
-        </Stack>
-      ) : null}
-      {type === QueueType.CloseAccount ? (
-        <Stack>
-          <Text size="lg">Requested Account</Text>
-          <Box component="pre" p="2" fz="xs">
-            {JSON.stringify(
-              {
-                account: job?.data?.account,
-                mint: job?.data?.mint,
-                info: job?.data?.info,
-              },
-              null,
-              2,
-            )}
-          </Box>
-          <Text size="lg">Server App</Text>
-          <Box component="pre" p="2" fz="xs">
-            {JSON.stringify(job?.data?.serverApp, null, 2)}
-          </Box>
-        </Stack>
-      ) : null}
-      {type === QueueType.ParseBlock ? (
-        <Stack>
-          <Text size="lg">ParseBlock</Text>
-          <Box component="pre" p="2" fz="xs">
-            {JSON.stringify(
-              {
-                data: job?.data,
-              },
-              null,
-              2,
-            )}
-          </Box>
-        </Stack>
-      ) : null}
-
-      {/*<Box component="pre" p="2" fz="xs">*/}
-      {/*  {JSON.stringify({ type, job }, null, 2)}*/}
-      {/*</Box>*/}
     </Stack>
   )
 }

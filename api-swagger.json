@@ -482,7 +482,18 @@
       },
       "AccountType": {
         "type": "string",
-        "enum": ["Account", "BonfidaDomain", "BonfidaTwitter", "Mint", "Program", "Token", "System"]
+        "enum": [
+          "Account",
+          "BonfidaDomain",
+          "BonfidaTwitter",
+          "GumUser",
+          "GumProfile",
+          "GumProfileMeta",
+          "Mint",
+          "Program",
+          "Token",
+          "System"
+        ]
       },
       "Account": {
         "type": "object",

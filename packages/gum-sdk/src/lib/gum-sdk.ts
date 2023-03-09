@@ -1,17 +1,43 @@
+import { SDK } from '@gumhq/sdk'
+import { Connection, PublicKey } from '@solana/web3.js'
 import { fetch } from 'cross-fetch'
 import { createClient } from '../generated'
 import { convertGumSdkProfileMetadata, GumSdkProfileMetadata } from './interfaces/gum-sdk-profile-meta.interface'
 import { convertGumSdkProfile, GumSdkProfile } from './interfaces/gum-sdk-profile.interface'
 import { convertGumSdkUser, GumSdkUser } from './interfaces/gum-sdk.user.interface'
 
+import { GraphQLClient } from 'graphql-request'
 interface GumSdkConfig {
   endpoint: string
 }
 
 export class GumSdk {
   private readonly client
+  readonly sdk: SDK
   constructor(private readonly config: GumSdkConfig) {
+    const graphqlClient = new GraphQLClient(process.env.GUM_ENDPOINT as string)
+    const connection = new Connection(process.env.SOLANA_DEVNET_ENDPOINT as string, 'confirmed')
+    this.sdk = new SDK({} as any, connection, { commitment: 'confirmed' }, 'devnet', graphqlClient)
     this.client = createClient({ url: config.endpoint, fetch: fetch })
+  }
+
+  async getGumProfile(owner: string) {
+    const ownerPk = new PublicKey(owner)
+    const user = await this.sdk.user.getUser(ownerPk)
+    const userPublicKey = user.cl_pubkey.toString()
+
+    const profiles = await this.sdk.profile.getProfilesByUser(ownerPk)
+    const filteredProfiles = profiles.filter((p) => p.username.toString() === userPublicKey)
+    const filteredProfilePks = filteredProfiles.map((p) => p.cl_pubkey.toString())
+
+    const profileMeta = await this.sdk.profileMetadata.getProfileMetadataByUser(ownerPk)
+    const filteredMeta = profileMeta.filter((p) => filteredProfilePks.includes(p.profile))
+
+    return {
+      user,
+      profiles: filteredProfiles,
+      meta: filteredMeta,
+    }
   }
 
   async getProfilesForPks(publicKeys: string[]): Promise<GumSdkProfile[]> {
