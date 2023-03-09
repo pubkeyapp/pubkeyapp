@@ -1,7 +1,13 @@
 import { ActionIcon, Avatar, Badge, Box } from '@mantine/core'
 import { SolanaLogo } from '@pubkeyapp/web/ui/core'
 import { Identity, IdentityProvider } from '@pubkeyapp/web/util/sdk'
-import { IconBrandDiscord, IconBrandGithub, IconCurrencySolana, IconQuestionCircle } from '@tabler/icons-react'
+import {
+  IconBrandDiscord,
+  IconBrandGithub,
+  IconBrandGoogle,
+  IconCurrencySolana,
+  IconQuestionCircle,
+} from '@tabler/icons-react'
 import React from 'react'
 
 export function IdentityProviderAvatar({ provider, size = 48 }: { provider: IdentityProvider; size?: number }) {
@@ -10,13 +16,15 @@ export function IdentityProviderAvatar({ provider, size = 48 }: { provider: Iden
       return <IconBrandDiscord size={size} />
     case IdentityProvider.Github:
       return <IconBrandGithub size={size} />
+    case IdentityProvider.Google:
+      return <IconBrandGoogle size={size} />
     case IdentityProvider.Solana:
       return <IconCurrencySolana size={size} />
   }
   return <IconQuestionCircle size={size} />
 }
 
-export function IdentityProviderBadge({ identity }: { identity: Identity }) {
+export function IdentityBadge({ identity }: { identity: Identity }) {
   const avatarUrl = identity?.profile?.avatarUrl
   return (
     <Badge

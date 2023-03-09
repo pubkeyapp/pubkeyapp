@@ -110,6 +110,7 @@ model Identity {
 enum IdentityProvider {
   Discord
   Github
+  Google
   Solana
 }
 

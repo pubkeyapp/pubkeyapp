@@ -4,6 +4,7 @@ import {
   ApiAnonJwtGuard,
   ApiAuthDiscordGuard,
   ApiAuthGithubGuard,
+  ApiAuthGoogleGuard,
   ApiAuthJwtGuard,
   ApiAuthService,
   ApiAuthSolanaGuard,
@@ -47,6 +48,20 @@ export class ApiAuthFeatureController {
   @ApiExcludeEndpoint()
   @UseGuards(ApiAuthJwtGuard, ApiAuthGithubGuard)
   async githubAuthCallback(@Req() req: AuthRequest, @Res({ passthrough: true }) res: Response) {
+    res.redirect(this.service.core.config.webUrl + '/settings/identities')
+  }
+
+  @Get('google')
+  @ApiExcludeEndpoint()
+  @UseGuards(ApiAuthJwtGuard, ApiAuthGoogleGuard)
+  google() {
+    return
+  }
+
+  @Get('google/callback')
+  @ApiExcludeEndpoint()
+  @UseGuards(ApiAuthJwtGuard, ApiAuthGoogleGuard)
+  async googleAuthCallback(@Req() req: AuthRequest, @Res({ passthrough: true }) res: Response) {
     res.redirect(this.service.core.config.webUrl + '/settings/identities')
   }
 

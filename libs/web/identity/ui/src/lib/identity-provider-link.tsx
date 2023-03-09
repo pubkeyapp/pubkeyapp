@@ -1,6 +1,5 @@
 import { Anchor } from '@mantine/core'
 import { IdentityProvider } from '@pubkeyapp/web/util/sdk'
-import { Link } from 'react-router-dom'
 
 export function IdentityProviderLink({
   provider,
@@ -26,7 +25,7 @@ export function IdentityProviderLink({
       )
     case IdentityProvider.Solana:
       return (
-        <Anchor color="brand" component={Link} to={`/account/${providerId}`}>
+        <Anchor color="brand" component={'a'} href={`https://solscan.io/account/${providerId}`} target="_blank">
           {username ?? providerId}
         </Anchor>
       )

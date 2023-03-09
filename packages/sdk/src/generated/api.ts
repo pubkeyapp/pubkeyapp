@@ -305,6 +305,7 @@ export interface Identity {
 export const IdentityProvider = {
   Discord: 'Discord',
   Github: 'Github',
+  Google: 'Google',
   Solana: 'Solana',
 } as const
 

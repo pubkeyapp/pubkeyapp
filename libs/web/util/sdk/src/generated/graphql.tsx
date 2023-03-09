@@ -247,6 +247,7 @@ export type Identity = {
 export enum IdentityProvider {
   Discord = 'Discord',
   Github = 'Github',
+  Google = 'Google',
   Solana = 'Solana',
 }
 

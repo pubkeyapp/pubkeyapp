@@ -1,28 +1,21 @@
 import {
   ActionIcon,
   Alert,
-  Avatar,
   Badge,
   Button,
   Container,
   createStyles,
   Group,
   Paper,
-  rem,
   Stack,
   Text,
   Tooltip,
 } from '@mantine/core'
 import { useAuth } from '@pubkeyapp/web/auth/data-access'
-import {
-  IdentityProviderAvatar,
-  IdentityProviderBadge,
-  IdentityProviderLink,
-  VerifiedBadge,
-} from '@pubkeyapp/web/identity/ui'
-import { showNotificationError, showNotificationSuccess, UiDebugModal } from '@pubkeyapp/web/ui/core'
+import { IdentityBadge, IdentityProviderAvatar, IdentityProviderLink, VerifiedBadge } from '@pubkeyapp/web/identity/ui'
+import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/core'
 import { Identity, IdentityProvider, useUserDeleteIdentityMutation } from '@pubkeyapp/web/util/sdk'
-import { IconBrandDiscord, IconBrandGithub, IconTrash } from '@tabler/icons-react'
+import { IconBrandDiscord, IconBrandGithub, IconBrandGoogle, IconBrandTwitter, IconTrash } from '@tabler/icons-react'
 import React from 'react'
 
 export function SettingsUserIdentitiesTab() {
@@ -65,6 +58,14 @@ export function SettingsUserIdentitiesTab() {
           <Button component="a" href="/api/auth/github" leftIcon={<IconBrandGithub size={36} />}>
             Link GitHub Identity
           </Button>
+
+          <Button component="a" href="/api/auth/google" leftIcon={<IconBrandGoogle size={36} />}>
+            Link Google Identity
+          </Button>
+
+          <Button disabled leftIcon={<IconBrandTwitter size={36} />}>
+            Twitter Coming Soon
+          </Button>
         </Group>
       </Stack>
     </Container>
@@ -106,10 +107,10 @@ export function UserIdentityItem({
           <Group position="apart">
             <Stack spacing={4}>
               <Group align="center">
-                <IdentityProviderBadge identity={identity} />
+                <IdentityBadge identity={identity} />
+                {/*<UiDebugModal data={{ ...identity, profile: { ...identity?.profile, __raw: undefined } }} />*/}
               </Group>
               <Group align="center" spacing={4}>
-                <UiDebugModal data={identity} />
                 <Text size="xs" color="dimmed">
                   <IdentityProviderLink
                     providerId={identity.providerId}

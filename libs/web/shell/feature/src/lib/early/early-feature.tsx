@@ -79,9 +79,6 @@ export function EarlyFeature() {
           </Code>
         </Tooltip>
       </Stack>
-      <Text color="dimmed" size="lg" align="center" className={classes.description}>
-        To get early access, take the following steps:
-      </Text>
       <EarlyFeatureActions />
     </Container>
   )
@@ -118,7 +115,21 @@ export function EarlyFeatureActions() {
   }
 
   return (
-    <Stack spacing="xl">
+    <Stack align="center" sx={{}} mt={32} spacing={32}>
+      {data?.item ? (
+        <Group spacing={4}>
+          {data?.item?.owner ? <UiUserLink user={data?.item?.owner} /> : 'Anon'} invited you to PubKey!
+        </Group>
+      ) : (
+        <Paper>
+          <EarlyAcceptInviteForm submit={acceptInvite} />
+        </Paper>
+      )}
+      {user?.status === UserStatus.Active ? <EarlyInviteList /> : null}
+
+      <Text color="dimmed" size="lg" align="center">
+        To get early access, take the following steps:
+      </Text>
       <Group position="center">
         <Tooltip label="Follow @PubKeyApp on Twitter">
           <Button
@@ -154,18 +165,6 @@ export function EarlyFeatureActions() {
           </Button>
         </Tooltip>
       </Group>
-      <Stack align="center" sx={{}} mt={64} spacing={32}>
-        {data?.item ? (
-          <Group spacing={4}>
-            {data?.item?.owner ? <UiUserLink user={data?.item?.owner} /> : 'Anon'} invited you to PubKey!
-          </Group>
-        ) : (
-          <Paper>
-            <EarlyAcceptInviteForm submit={acceptInvite} />
-          </Paper>
-        )}
-        {user?.status === UserStatus.Active ? <EarlyInviteList /> : null}
-      </Stack>
     </Stack>
   )
 }

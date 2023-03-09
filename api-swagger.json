@@ -777,7 +777,7 @@
       },
       "IdentityProvider": {
         "type": "string",
-        "enum": ["Discord", "Github", "Solana"]
+        "enum": ["Discord", "Github", "Google", "Solana"]
       }
     }
   }

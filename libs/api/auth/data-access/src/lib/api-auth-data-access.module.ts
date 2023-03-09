@@ -5,9 +5,10 @@ import { ApiAuthService } from './api-auth.service'
 import { JwtStrategy, SolanaStrategy } from './strategies'
 import { DiscordStrategy } from './strategies/discord.strategy'
 import { GithubStrategy } from './strategies/github.strategy'
+import { GoogleStrategy } from './strategies/google.strategy'
 
 @Module({
-  providers: [ApiAuthService, DiscordStrategy, GithubStrategy, JwtStrategy, SolanaStrategy],
+  providers: [ApiAuthService, DiscordStrategy, GithubStrategy, GoogleStrategy, JwtStrategy, SolanaStrategy],
   exports: [ApiAuthService],
   imports: [
     ApiCoreDataAccessModule,
