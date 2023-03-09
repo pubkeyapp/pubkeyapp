@@ -15,11 +15,19 @@ export class AccountDiscoverQueueProcessor {
   async handleProcess(job: Job<AccountDiscoverQueueData>, cb: DoneCallback) {
     this.logger.log(JSON.stringify(job, null, 2))
 
-    // const data = await this.account.discoverAccount(job.data)
-    //
-    // const discover = await this.account.getAccount()
-
-    cb(null, { data: job.data })
+    try {
+      const user = await this.account.core.getUserById(job.data.userId)
+      const result = await this.account.getAccount(job.data.userId, job.data.network, job.data.address)
+      await this.account.lookupIntegrations({
+        userId: job.data.userId,
+        address: job.data.address,
+        identityId: user.identities[0].id,
+      })
+      cb(null, { data: job.data, result })
+    } catch (error) {
+      this.logger.error(error)
+      cb(error)
+    }
   }
 }
 

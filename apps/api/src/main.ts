@@ -5,7 +5,7 @@ import { OgmaService } from '@ogma/nestjs-module'
 import { exec } from 'child_process'
 import cookieParser from 'cookie-parser'
 import redirectSSL from 'redirect-ssl'
-
+import session from 'express-session'
 import { AppModule } from './app/app.module'
 
 async function bootstrap() {
@@ -19,6 +19,14 @@ async function bootstrap() {
   app.use(redirectSSL.create({ enabled: config.redirectSsl }))
   config.configureSwagger(app)
   app.use(cookieParser())
+  app.use(
+    session({
+      secret: 'sessionSecret',
+      resave: false,
+      saveUninitialized: false,
+      cookie: { secure: config.isProduction },
+    }),
+  )
 
   const host = `http://${config.host}:${config.port}`
   try {

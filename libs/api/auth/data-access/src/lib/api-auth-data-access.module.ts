@@ -6,9 +6,18 @@ import { JwtStrategy, SolanaStrategy } from './strategies'
 import { DiscordStrategy } from './strategies/discord.strategy'
 import { GithubStrategy } from './strategies/github.strategy'
 import { GoogleStrategy } from './strategies/google.strategy'
+import { TwitterStrategy } from './strategies/twitter.strategy'
 
 @Module({
-  providers: [ApiAuthService, DiscordStrategy, GithubStrategy, GoogleStrategy, JwtStrategy, SolanaStrategy],
+  providers: [
+    ApiAuthService,
+    DiscordStrategy,
+    GithubStrategy,
+    GoogleStrategy,
+    JwtStrategy,
+    SolanaStrategy,
+    TwitterStrategy,
+  ],
   exports: [ApiAuthService],
   imports: [
     ApiCoreDataAccessModule,

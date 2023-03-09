@@ -8,6 +8,7 @@ import {
   ApiAuthJwtGuard,
   ApiAuthService,
   ApiAuthSolanaGuard,
+  ApiAuthTwitterGuard,
   AuthRequest,
   RequestChallenge,
   ResponseChallengeOptions,
@@ -62,6 +63,20 @@ export class ApiAuthFeatureController {
   @ApiExcludeEndpoint()
   @UseGuards(ApiAuthJwtGuard, ApiAuthGoogleGuard)
   async googleAuthCallback(@Req() req: AuthRequest, @Res({ passthrough: true }) res: Response) {
+    res.redirect(this.service.core.config.webUrl + '/settings/identities')
+  }
+
+  @Get('twitter')
+  @ApiExcludeEndpoint()
+  @UseGuards(ApiAuthJwtGuard, ApiAuthTwitterGuard)
+  twitter() {
+    return
+  }
+
+  @Get('twitter/callback')
+  @ApiExcludeEndpoint()
+  @UseGuards(ApiAuthJwtGuard, ApiAuthTwitterGuard)
+  async twitterAuthCallback(@Req() req: AuthRequest, @Res({ passthrough: true }) res: Response) {
     res.redirect(this.service.core.config.webUrl + '/settings/identities')
   }
 

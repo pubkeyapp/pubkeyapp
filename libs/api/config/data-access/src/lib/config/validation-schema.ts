@@ -32,4 +32,6 @@ export const validationSchema = Joi.object({
   REDIRECT_SSL: Joi.boolean().default('false'),
   SOLANA_DEVNET_ENDPOINT: Joi.string().default(clusterApiUrl('devnet')),
   SOLANA_MAINNET_ENDPOINT: Joi.string().default(clusterApiUrl('mainnet-beta')),
+  TWITTER_CONSUMER_KEY: Joi.string().required(),
+  TWITTER_CONSUMER_KEY_SECRET: Joi.string().required(),
 })

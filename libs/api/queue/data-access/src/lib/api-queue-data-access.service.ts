@@ -34,6 +34,7 @@ export class ApiQueueDataAccessService {
 
   async queueClean(adminId: string, type: QueueType): Promise<boolean> {
     await this.core.ensureUserAdmin(adminId)
+    await this.core.queue.queues.get(type).clean(0, 'active')
     await this.core.queue.queues.get(type).obliterate()
     return true
   }

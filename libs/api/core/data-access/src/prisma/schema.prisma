@@ -118,6 +118,7 @@ enum IdentityProvider {
   Github
   Google
   Solana
+  Twitter
 }
 
 model Invite {

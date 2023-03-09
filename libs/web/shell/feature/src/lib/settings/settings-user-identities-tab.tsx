@@ -63,8 +63,8 @@ export function SettingsUserIdentitiesTab() {
             Link Google Identity
           </Button>
 
-          <Button disabled leftIcon={<IconBrandTwitter size={36} />}>
-            Twitter Coming Soon
+          <Button component="a" href="/api/auth/twitter" leftIcon={<IconBrandTwitter size={36} />}>
+            Link Twitter Identity
           </Button>
         </Group>
       </Stack>
@@ -102,14 +102,20 @@ export function UserIdentityItem({
   return (
     <Paper className={classes.comment}>
       <Group>
-        {identity.provider ? <IdentityProviderAvatar provider={identity.provider} /> : null}
         <Stack spacing={2} sx={{ flexGrow: 1 }}>
           <Group position="apart">
             <Stack spacing={4}>
               <Group align="center">
                 <IdentityBadge identity={identity} />
-                {/*<UiDebugModal data={{ ...identity, profile: { ...identity?.profile, __raw: undefined } }} />*/}
+                {identity.providerId !== user?.publicKey ? (
+                  <Tooltip label="You can't delete your default identity">
+                    <Badge color="gray">Default Identity</Badge>
+                  </Tooltip>
+                ) : null}
               </Group>
+            </Stack>
+            <Stack spacing={8} align="end">
+              {identity.verified ? <VerifiedBadge /> : <Badge color="yellow">Not verified</Badge>}
               <Group align="center" spacing={4}>
                 <Text size="xs" color="dimmed">
                   <IdentityProviderLink
@@ -118,21 +124,14 @@ export function UserIdentityItem({
                     username={identity.profile?.username}
                   />
                 </Text>
+                {identity.providerId !== user?.publicKey ? (
+                  <Tooltip label="Delete Identity">
+                    <ActionIcon color="red" onClick={() => deleteIdentity(identity.id!)}>
+                      <IconTrash size={16} />
+                    </ActionIcon>
+                  </Tooltip>
+                ) : null}
               </Group>
-            </Stack>
-            <Stack spacing={8} align="end">
-              {identity.verified ? <VerifiedBadge /> : <Badge color="yellow">Not verified</Badge>}
-              {identity.providerId !== user?.publicKey ? (
-                <Tooltip label="Delete Identity">
-                  <ActionIcon color="red" onClick={() => deleteIdentity(identity.id!)}>
-                    <IconTrash size={16} />
-                  </ActionIcon>
-                </Tooltip>
-              ) : (
-                <Tooltip label="You can't delete your default identity">
-                  <Badge color="gray">Default Identity</Badge>
-                </Tooltip>
-              )}
             </Stack>
           </Group>
         </Stack>

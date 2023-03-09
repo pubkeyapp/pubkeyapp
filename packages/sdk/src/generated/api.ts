@@ -310,6 +310,7 @@ export const IdentityProvider = {
   Github: 'Github',
   Google: 'Google',
   Solana: 'Solana',
+  Twitter: 'Twitter',
 } as const
 
 export type IdentityProvider = (typeof IdentityProvider)[keyof typeof IdentityProvider]

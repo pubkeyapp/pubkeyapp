@@ -268,6 +268,7 @@ export enum IdentityProvider {
   Github = 'Github',
   Google = 'Google',
   Solana = 'Solana',
+  Twitter = 'Twitter',
 }
 
 export type Invite = {

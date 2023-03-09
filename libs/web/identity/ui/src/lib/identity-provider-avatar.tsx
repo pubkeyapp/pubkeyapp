@@ -1,4 +1,4 @@
-import { ActionIcon, Avatar, Badge, Box, ThemeIcon, Tooltip } from '@mantine/core'
+import { Avatar, Badge, Box, ThemeIcon, Tooltip } from '@mantine/core'
 import { ellipsify } from '@pubkeyapp/web/admin/ui'
 import { SolanaLogo } from '@pubkeyapp/web/ui/core'
 import { Identity, IdentityProvider } from '@pubkeyapp/web/util/sdk'
@@ -6,6 +6,7 @@ import {
   IconBrandDiscord,
   IconBrandGithub,
   IconBrandGoogle,
+  IconBrandTwitter,
   IconCurrencySolana,
   IconQuestionCircle,
 } from '@tabler/icons-react'
@@ -21,6 +22,8 @@ export function IdentityProviderAvatar({ provider, size = 48 }: { provider: Iden
       return <IconBrandGoogle size={size} />
     case IdentityProvider.Solana:
       return <IconCurrencySolana size={size} />
+    case IdentityProvider.Twitter:
+      return <IconBrandTwitter size={size} />
   }
   return <IconQuestionCircle size={size} />
 }

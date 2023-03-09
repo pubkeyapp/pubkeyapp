@@ -60,6 +60,7 @@ enum IdentityProvider {
   Github
   Google
   Solana
+  Twitter
 }
 
 type User {

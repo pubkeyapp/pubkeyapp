@@ -13,7 +13,7 @@ export const BLOCKED_ACCOUNTS = [
 export class ApiAnonAccountService implements OnModuleInit {
   private readonly logger = new Logger(ApiAnonAccountService.name)
   constructor(
-    private readonly core: ApiCoreService,
+    readonly core: ApiCoreService,
     private readonly solana: ApiSolanaService,
     private readonly queue: ApiAccountQueueService,
   ) {
@@ -22,11 +22,7 @@ export class ApiAnonAccountService implements OnModuleInit {
     // })
   }
 
-  async onModuleInit() {
-    // this.core.gum.sdk.user.getAllUsersAccounts().then((res) => {
-    //   console.log('All accounts', JSON.stringify(res, null, 2))
-    // })
-  }
+  async onModuleInit() {}
 
   async getAccount(userId: string, network: NetworkType, address: string, sync = false) {
     if (sync) {
@@ -109,6 +105,12 @@ export class ApiAnonAccountService implements OnModuleInit {
       }
     }
 
+    const exists = await this.findAccount(network, address)
+    if (exists) {
+      this.logger.log(`Account ${address} already exists`)
+      return exists
+    }
+
     const identity = await this.core.data.identity.findUnique({
       where: {
         provider_providerId: {
@@ -127,11 +129,6 @@ export class ApiAnonAccountService implements OnModuleInit {
       type = AccountType.Token
     }
 
-    const exists = await this.findAccount(network, address)
-    if (exists) {
-      this.logger.log(`Account ${address} already exists`)
-      return exists
-    }
     await this.core.data.account.create({
       data: {
         discoveredBy: { connect: { id: userId } },
