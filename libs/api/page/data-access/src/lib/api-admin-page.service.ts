@@ -33,7 +33,7 @@ export class ApiAdminPageService {
     await this.core.ensureUserAdmin(adminId)
     return this.core.data.page.findMany({
       where: { ownerId: input.ownerId ? input.ownerId : undefined },
-      include: { owner: true, domains: { include: { domain: true } } },
+      include: { owner: true, domains: { include: { domain: true } }, profile: true },
     })
   }
 
@@ -49,6 +49,7 @@ export class ApiAdminPageService {
           },
         },
         domains: { include: { domain: true } },
+        profile: true,
       },
     })
   }

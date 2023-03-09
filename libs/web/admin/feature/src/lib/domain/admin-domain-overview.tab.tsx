@@ -1,5 +1,5 @@
 import { Alert, Paper, Stack, useMantineTheme } from '@mantine/core'
-import { AdminUiPageLink } from '@pubkeyapp/web/admin/ui'
+import { AdminUiPageLabel } from '@pubkeyapp/web/admin/ui'
 import { Domain } from '@pubkeyapp/web/util/sdk'
 
 export function AdminDomainOverviewTab({ domain }: { domain: Domain }) {
@@ -12,7 +12,7 @@ export function AdminDomainOverviewTab({ domain }: { domain: Domain }) {
           {!domain?.pages?.length ? (
             <Alert color={'brand'}>No pages found.</Alert>
           ) : (
-            domain?.pages?.map((page) => <AdminUiPageLink key={page.id} page={page} />)
+            domain?.pages?.map((page, index) => <AdminUiPageLabel key={`${page?.id}-${index}`} page={page} />)
           )}
         </Stack>
       </Paper>

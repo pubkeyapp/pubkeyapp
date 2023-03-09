@@ -1,7 +1,7 @@
 import { Alert } from '@mantine/core'
 import { useAdminPage } from '@pubkeyapp/web/admin/data-access'
 import { AdminUiPageTable } from '@pubkeyapp/web/admin/ui'
-import { UiActionLink, UiErrorLoader } from '@pubkeyapp/web/ui/core'
+import { UiActionLink, UiDebugModal, UiErrorLoader } from '@pubkeyapp/web/ui/core'
 import { UiPage } from '@pubkeyapp/web/ui/page'
 import { IconCards, IconPlus } from '@tabler//icons-react'
 
@@ -17,6 +17,7 @@ export function AdminPageListFeature() {
       >
         {pages?.length ? <AdminUiPageTable pages={pages} deletePage={deletePage} /> : <Alert>No pages found</Alert>}
       </UiPage>
+      <UiDebugModal data={pages} />
     </UiErrorLoader>
   )
 }

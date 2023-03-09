@@ -1,44 +1,127 @@
-import { Box, Container, Flex, Paper, SimpleGrid, Stack, Text } from '@mantine/core'
+import { Accordion, Alert, Anchor, Avatar, Box, Button, Container, Group, Paper, Stack, Text } from '@mantine/core'
 import { useAuth } from '@pubkeyapp/web/auth/data-access'
-import { PageCreateButtons, PageList } from '@pubkeyapp/web/page/ui'
+import { ProfileCreateButton, ProfileTypeBadge } from '@pubkeyapp/web/profile/ui'
 import { UiLoader } from '@pubkeyapp/web/ui/core'
-import { usePublicUserPagesQuery, usePublicUserQuery } from '@pubkeyapp/web/util/sdk'
+import { Profile, ProfileType, usePublicUserQuery, useUserProfilesQuery } from '@pubkeyapp/web/util/sdk'
 import React from 'react'
+import { Link } from 'react-router-dom'
+import { useAccordionStyles } from '../../../../../page-editor/feature/src/lib/web-page-editor-publish-tab'
 import { EarlyFeatureActions } from '../early/early-feature'
-import { DashboardConnectIdentities } from './dashboard-connect.identities'
+import { DashboardIdentities } from './dashboard.identities'
 
 export function DashboardFeature() {
   const { user } = useAuth()
   const [{ data: userData }] = usePublicUserQuery({ variables: { username: `${user?.username}` } })
-  const [{ data: pages, fetching }] = usePublicUserPagesQuery({ variables: { username: `${user?.username}` } })
+  const [{ data: profiles, fetching }] = useUserProfilesQuery()
 
   return (
-    <Container size="xl">
-      <SimpleGrid cols={2} spacing="md" breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
-        <Paper>
-          <Flex direction="column" justify="space-between" sx={{ height: '100%' }}>
-            <Stack mb={32}>
-              <Text size="xl" fw={500}>
-                Your Profiles
-              </Text>
-              {fetching ? <UiLoader /> : <PageList pages={pages?.items ?? []} />}
+    <Box>
+      <Container size="sm">
+        <Stack spacing={64}>
+          {fetching ? (
+            <UiLoader />
+          ) : profiles?.items?.length ? (
+            <ProfileList profiles={profiles.items} />
+          ) : (
+            <Alert color="yellow" title="No profiles found">
+              Create a profile to start building your page
+            </Alert>
+          )}
+
+          <Paper>
+            <Stack>
+              <Group position="apart">
+                <Text size="xl" fw={500}>
+                  Your Identities
+                </Text>
+
+                <Button size="xs" variant="subtle" component={Link} to="/settings/identities">
+                  Manage Identities
+                </Button>
+              </Group>
+              <DashboardIdentities identities={userData?.item?.identities ?? []} />
             </Stack>
-            <PageCreateButtons pages={pages?.items ?? []} />
-          </Flex>
-        </Paper>
-        <Paper>
-          <Stack>
-            <Text size="xl" fw={500}>
-              Your Identities
-            </Text>
-            <DashboardConnectIdentities identities={userData?.item?.identities ?? []} />
-          </Stack>
-        </Paper>
-        {/*<UiDebug data={{ userData, profiles }} />*/}
-      </SimpleGrid>
-      <Box mt={36}>
+          </Paper>
+        </Stack>
+      </Container>
+      <Box my={64}>
         <EarlyFeatureActions />
       </Box>
-    </Container>
+    </Box>
+  )
+}
+
+export function ProfileList({ profiles }: { profiles: Profile[] }) {
+  const { classes } = useAccordionStyles()
+  const types = [ProfileType.Personal, ProfileType.Professional, ProfileType.Gaming, ProfileType.Degen]
+
+  return (
+    <Stack spacing="xl">
+      <Box>
+        <Accordion mx="auto" variant="filled" defaultValue={types[0]} classNames={classes} className={classes.root}>
+          {types.map((type) => {
+            const found = profiles.find((p) => p.type === type)
+            return (
+              <Accordion.Item value={type} key={type}>
+                <Accordion.Control>
+                  <ProfileTypeBadge profileType={type} />
+                </Accordion.Control>
+                <Accordion.Panel>
+                  <Box key={type} p="xs" pt={0}>
+                    <Stack>
+                      {found ? (
+                        <Stack>
+                          <ProfileDetails profile={found} />
+                        </Stack>
+                      ) : (
+                        <Group position="center">
+                          <ProfileCreateButton type={type} />
+                        </Group>
+                      )}
+                    </Stack>
+                  </Box>
+                </Accordion.Panel>
+              </Accordion.Item>
+            )
+          })}
+        </Accordion>
+      </Box>
+    </Stack>
+  )
+}
+
+export function ProfileDetails({ profile }: { profile: Profile }) {
+  return (
+    <Stack>
+      <Stack>
+        <Group position="apart">
+          <Group>
+            <Avatar size={36} src={profile.avatar} radius="xl" />
+            <Stack spacing={0}>
+              <Text size="xl" fw={500}>
+                {profile.name}
+              </Text>
+              <Anchor component={Link} to={`${profile.owner?.profileUrl}`} size="sm" color="brand">
+                {profile.username}
+              </Anchor>
+            </Stack>
+          </Group>
+        </Group>
+      </Stack>
+      <Box>
+        <Group position="center">
+          {profile.page ? (
+            <Group>
+              <Button variant="default" size="sm" component={Link} to={`/pages/${profile.page?.id}`}>
+                Edit Page
+              </Button>
+              <Button variant="default" size="sm" component={'a'} href={`${profile.page.viewUrl}`}>
+                View Page
+              </Button>
+            </Group>
+          ) : null}
+        </Group>
+      </Box>
+    </Stack>
   )
 }

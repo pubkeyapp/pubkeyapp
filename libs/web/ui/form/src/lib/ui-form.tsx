@@ -142,6 +142,8 @@ export function UiForm<T>({
             case UiFormFieldType.Textarea:
               return (
                 <Textarea
+                  size="lg"
+                  radius="xl"
                   key={field.key?.toString()}
                   description={field.description}
                   label={field.label}

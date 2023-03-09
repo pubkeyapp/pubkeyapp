@@ -120,6 +120,10 @@ export type AdminListPlanInput = {
   id?: InputMaybe<Scalars['String']>
 }
 
+export type AdminListProfileInput = {
+  ownerId?: InputMaybe<Scalars['String']>
+}
+
 export type AdminUpdateDomainInput = {
   order?: InputMaybe<Scalars['Int']>
   premium?: InputMaybe<Scalars['Boolean']>
@@ -152,6 +156,18 @@ export type AdminUpdatePlanInput = {
   priceMonth?: InputMaybe<Scalars['Int']>
   priceYear?: InputMaybe<Scalars['Int']>
   recommended?: InputMaybe<Scalars['Boolean']>
+}
+
+export type AdminUpdateProfileInput = {
+  avatar?: InputMaybe<Scalars['String']>
+  bio?: InputMaybe<Scalars['String']>
+  color?: InputMaybe<Scalars['String']>
+  followers?: InputMaybe<Scalars['Int']>
+  following?: InputMaybe<Scalars['Int']>
+  metaUrl?: InputMaybe<Scalars['String']>
+  name?: InputMaybe<Scalars['String']>
+  type?: InputMaybe<ProfileType>
+  username?: InputMaybe<Scalars['String']>
 }
 
 export type AdminUpdateUserInput = {
@@ -304,6 +320,7 @@ export type Mutation = {
   adminDeleteInvite?: Maybe<Invite>
   adminDeletePage?: Maybe<Page>
   adminDeletePlan?: Maybe<Plan>
+  adminDeleteProfile?: Maybe<Profile>
   adminDeleteUser?: Maybe<User>
   adminRemovePageBlock?: Maybe<PageBlock>
   adminRemovePageDomain?: Maybe<PageDomain>
@@ -313,6 +330,7 @@ export type Mutation = {
   adminUpdatePage?: Maybe<Page>
   adminUpdatePageBlock?: Maybe<PageBlock>
   adminUpdatePlan?: Maybe<Plan>
+  adminUpdateProfile?: Maybe<Profile>
   adminUpdateUser?: Maybe<User>
   logout?: Maybe<Scalars['Boolean']>
   queueClean?: Maybe<Scalars['Boolean']>
@@ -324,13 +342,16 @@ export type Mutation = {
   userAcceptInvite?: Maybe<Invite>
   userAddPageBlock?: Maybe<PageBlock>
   userCreatePage?: Maybe<Page>
+  userCreateProfile?: Maybe<Profile>
   userDeleteIdentity?: Maybe<User>
   userDeletePage?: Maybe<Page>
+  userDeleteProfile?: Maybe<Profile>
   userFollowUser?: Maybe<User>
   userRemovePageBlock?: Maybe<PageBlock>
   userUnfollowUser?: Maybe<User>
   userUpdatePage?: Maybe<Page>
   userUpdatePageBlock?: Maybe<PageBlock>
+  userUpdateProfile?: Maybe<Profile>
   userUpdateUser?: Maybe<User>
 }
 
@@ -380,6 +401,10 @@ export type MutationAdminDeletePlanArgs = {
   planId: Scalars['String']
 }
 
+export type MutationAdminDeleteProfileArgs = {
+  profileId: Scalars['String']
+}
+
 export type MutationAdminDeleteUserArgs = {
   userId: Scalars['String']
 }
@@ -423,6 +448,11 @@ export type MutationAdminUpdatePageBlockArgs = {
 export type MutationAdminUpdatePlanArgs = {
   input: AdminUpdatePlanInput
   planId: Scalars['String']
+}
+
+export type MutationAdminUpdateProfileArgs = {
+  input: AdminUpdateProfileInput
+  profileId: Scalars['String']
 }
 
 export type MutationAdminUpdateUserArgs = {
@@ -470,12 +500,20 @@ export type MutationUserCreatePageArgs = {
   input: UserCreatePageInput
 }
 
+export type MutationUserCreateProfileArgs = {
+  type: ProfileType
+}
+
 export type MutationUserDeleteIdentityArgs = {
   identityId: Scalars['String']
 }
 
 export type MutationUserDeletePageArgs = {
   pageId: Scalars['String']
+}
+
+export type MutationUserDeleteProfileArgs = {
+  profileId: Scalars['String']
 }
 
 export type MutationUserFollowUserArgs = {
@@ -502,6 +540,11 @@ export type MutationUserUpdatePageBlockArgs = {
   pageId: Scalars['String']
 }
 
+export type MutationUserUpdateProfileArgs = {
+  input: UserUpdateProfileInput
+  profileId: Scalars['String']
+}
+
 export type MutationUserUpdateUserArgs = {
   input: UserUpdateUserInput
 }
@@ -521,7 +564,7 @@ export type Page = {
   domains?: Maybe<Array<PageDomain>>
   id?: Maybe<Scalars['String']>
   owner?: Maybe<User>
-  previewUrl?: Maybe<Scalars['String']>
+  profile?: Maybe<Profile>
   siteUrl?: Maybe<Scalars['String']>
   status?: Maybe<PageStatus>
   title?: Maybe<Scalars['String']>
@@ -596,6 +639,38 @@ export type PlanFeature = {
   updatedAt?: Maybe<Scalars['DateTime']>
 }
 
+export type Profile = {
+  __typename?: 'Profile'
+  avatar?: Maybe<Scalars['String']>
+  bio?: Maybe<Scalars['String']>
+  color?: Maybe<Scalars['String']>
+  createdAt?: Maybe<Scalars['String']>
+  followers?: Maybe<Scalars['Int']>
+  following?: Maybe<Scalars['Int']>
+  id?: Maybe<Scalars['String']>
+  metaUrl?: Maybe<Scalars['String']>
+  name?: Maybe<Scalars['String']>
+  owner?: Maybe<User>
+  page?: Maybe<Page>
+  status?: Maybe<ProfileStatus>
+  type?: Maybe<ProfileType>
+  updatedAt?: Maybe<Scalars['String']>
+  username?: Maybe<Scalars['String']>
+}
+
+export enum ProfileStatus {
+  Demo = 'Demo',
+  Draft = 'Draft',
+  Published = 'Published',
+}
+
+export enum ProfileType {
+  Degen = 'Degen',
+  Gaming = 'Gaming',
+  Personal = 'Personal',
+  Professional = 'Professional',
+}
+
 export type Query = {
   __typename?: 'Query'
   adminAccount?: Maybe<Account>
@@ -611,6 +686,8 @@ export type Query = {
   adminPages?: Maybe<Array<Page>>
   adminPlan?: Maybe<Plan>
   adminPlans?: Maybe<Array<Plan>>
+  adminProfile?: Maybe<Profile>
+  adminProfiles?: Maybe<Array<Profile>>
   adminUser?: Maybe<User>
   adminUsers?: Maybe<Array<User>>
   config?: Maybe<Config>
@@ -634,6 +711,9 @@ export type Query = {
   userInvite?: Maybe<Invite>
   userInvites?: Maybe<Array<Invite>>
   userPage?: Maybe<Page>
+  userProfile?: Maybe<Profile>
+  userProfilePage?: Maybe<Page>
+  userProfiles?: Maybe<Array<Profile>>
 }
 
 export type QueryAdminAccountArgs = {
@@ -683,6 +763,14 @@ export type QueryAdminPlanArgs = {
 
 export type QueryAdminPlansArgs = {
   input?: InputMaybe<AdminListPlanInput>
+}
+
+export type QueryAdminProfileArgs = {
+  profileId: Scalars['String']
+}
+
+export type QueryAdminProfilesArgs = {
+  input?: InputMaybe<AdminListProfileInput>
 }
 
 export type QueryAdminUserArgs = {
@@ -748,6 +836,14 @@ export type QueryUserPageArgs = {
   pageId: Scalars['String']
 }
 
+export type QueryUserProfileArgs = {
+  profileId: Scalars['String']
+}
+
+export type QueryUserProfilePageArgs = {
+  profileId: Scalars['String']
+}
+
 export type Queue = {
   __typename?: 'Queue'
   count?: Maybe<QueueCount>
@@ -803,7 +899,9 @@ export type User = {
   metaUrl?: Maybe<Scalars['String']>
   name?: Maybe<Scalars['String']>
   pid?: Maybe<Scalars['Int']>
+  profile?: Maybe<Profile>
   profileUrl?: Maybe<Scalars['String']>
+  profiles?: Maybe<Array<Profile>>
   publicKey?: Maybe<Scalars['String']>
   relation?: Maybe<UserRelation>
   role?: Maybe<UserRole>
@@ -819,11 +917,7 @@ export type UserAddPageBlockInput = {
 }
 
 export type UserCreatePageInput = {
-  color?: InputMaybe<Scalars['String']>
-  description: Scalars['String']
-  ownerId?: InputMaybe<Scalars['String']>
-  title: Scalars['String']
-  type?: InputMaybe<PageType>
+  profileId?: InputMaybe<Scalars['String']>
 }
 
 export type UserRelation = {
@@ -854,6 +948,15 @@ export type UserUpdatePageInput = {
   color?: InputMaybe<Scalars['String']>
   description?: InputMaybe<Scalars['String']>
   title?: InputMaybe<Scalars['String']>
+}
+
+export type UserUpdateProfileInput = {
+  avatar?: InputMaybe<Scalars['String']>
+  bio?: InputMaybe<Scalars['String']>
+  color?: InputMaybe<Scalars['String']>
+  metaUrl?: InputMaybe<Scalars['String']>
+  name?: InputMaybe<Scalars['String']>
+  username?: InputMaybe<Scalars['String']>
 }
 
 export type UserUpdateUserInput = {
@@ -1549,6 +1652,21 @@ export type MeQuery = {
       profile?: any | null
       verified: boolean
     }> | null
+    profile?: {
+      __typename?: 'Profile'
+      id?: string | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      name?: string | null
+      username?: string | null
+      bio?: string | null
+      avatar?: string | null
+      metaUrl?: string | null
+      color?: string | null
+      followers?: number | null
+      following?: number | null
+      type?: ProfileType | null
+    } | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
   } | null
 }
@@ -1752,7 +1870,6 @@ export type AdminDomainQuery = {
       title?: string | null
       description?: string | null
       color?: string | null
-      previewUrl?: string | null
       siteUrl?: string | null
       viewUrl?: string | null
       owner?: {
@@ -2690,6 +2807,17 @@ export type AdminRemovePageDomainMutation = {
   } | null
 }
 
+export type PageSummaryFragment = {
+  __typename?: 'Page'
+  id?: string | null
+  createdAt?: string | null
+  updatedAt?: string | null
+  status?: PageStatus | null
+  type?: PageType | null
+  siteUrl?: string | null
+  viewUrl?: string | null
+}
+
 export type PageDetailsFragment = {
   __typename?: 'Page'
   id?: string | null
@@ -2700,7 +2828,6 @@ export type PageDetailsFragment = {
   title?: string | null
   description?: string | null
   color?: string | null
-  previewUrl?: string | null
   siteUrl?: string | null
   viewUrl?: string | null
   owner?: {
@@ -2740,7 +2867,6 @@ export type AdminPageQuery = {
     title?: string | null
     description?: string | null
     color?: string | null
-    previewUrl?: string | null
     siteUrl?: string | null
     viewUrl?: string | null
     blocks?: Array<{
@@ -2805,7 +2931,6 @@ export type AdminPagesQuery = {
     title?: string | null
     description?: string | null
     color?: string | null
-    previewUrl?: string | null
     siteUrl?: string | null
     viewUrl?: string | null
     domains?: Array<{
@@ -2818,6 +2943,21 @@ export type AdminPagesQuery = {
       domain?: { __typename?: 'Domain'; id?: string | null; name?: string | null } | null
       page?: { __typename?: 'Page'; id?: string | null; title?: string | null } | null
     }> | null
+    profile?: {
+      __typename?: 'Profile'
+      id?: string | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      name?: string | null
+      username?: string | null
+      bio?: string | null
+      avatar?: string | null
+      metaUrl?: string | null
+      color?: string | null
+      followers?: number | null
+      following?: number | null
+      type?: ProfileType | null
+    } | null
     owner?: {
       __typename?: 'User'
       id?: string | null
@@ -2861,7 +3001,6 @@ export type AdminCreatePageMutation = {
     title?: string | null
     description?: string | null
     color?: string | null
-    previewUrl?: string | null
     siteUrl?: string | null
     viewUrl?: string | null
     owner?: {
@@ -2908,7 +3047,6 @@ export type AdminUpdatePageMutation = {
     title?: string | null
     description?: string | null
     color?: string | null
-    previewUrl?: string | null
     siteUrl?: string | null
     viewUrl?: string | null
     owner?: {
@@ -2954,7 +3092,6 @@ export type AdminDeletePageMutation = {
     title?: string | null
     description?: string | null
     color?: string | null
-    previewUrl?: string | null
     siteUrl?: string | null
     viewUrl?: string | null
     owner?: {
@@ -3000,7 +3137,6 @@ export type PublicPageQuery = {
     title?: string | null
     description?: string | null
     color?: string | null
-    previewUrl?: string | null
     siteUrl?: string | null
     viewUrl?: string | null
     blocks?: Array<{
@@ -3022,6 +3158,21 @@ export type PublicPageQuery = {
       domain?: { __typename?: 'Domain'; id?: string | null; name?: string | null } | null
       page?: { __typename?: 'Page'; id?: string | null; title?: string | null } | null
     }> | null
+    profile?: {
+      __typename?: 'Profile'
+      id?: string | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      name?: string | null
+      username?: string | null
+      bio?: string | null
+      avatar?: string | null
+      metaUrl?: string | null
+      color?: string | null
+      followers?: number | null
+      following?: number | null
+      type?: ProfileType | null
+    } | null
     owner?: {
       __typename?: 'User'
       id?: string | null
@@ -3065,7 +3216,6 @@ export type UserPageQuery = {
     title?: string | null
     description?: string | null
     color?: string | null
-    previewUrl?: string | null
     siteUrl?: string | null
     viewUrl?: string | null
     blocks?: Array<{
@@ -3131,7 +3281,6 @@ export type UserUpdatePageMutation = {
     title?: string | null
     description?: string | null
     color?: string | null
-    previewUrl?: string | null
     siteUrl?: string | null
     viewUrl?: string | null
     owner?: {
@@ -3177,7 +3326,6 @@ export type UserDeletePageMutation = {
     title?: string | null
     description?: string | null
     color?: string | null
-    previewUrl?: string | null
     siteUrl?: string | null
     viewUrl?: string | null
     owner?: {
@@ -3223,7 +3371,6 @@ export type UserCreatePageMutation = {
     title?: string | null
     description?: string | null
     color?: string | null
-    previewUrl?: string | null
     siteUrl?: string | null
     viewUrl?: string | null
     owner?: {
@@ -3399,6 +3546,373 @@ export type PublicPlansQuery = {
   }> | null
 }
 
+export type ProfileDetailsFragment = {
+  __typename?: 'Profile'
+  id?: string | null
+  createdAt?: string | null
+  updatedAt?: string | null
+  name?: string | null
+  username?: string | null
+  bio?: string | null
+  avatar?: string | null
+  metaUrl?: string | null
+  color?: string | null
+  followers?: number | null
+  following?: number | null
+  type?: ProfileType | null
+}
+
+export type AdminProfileQueryVariables = Exact<{
+  profileId: Scalars['String']
+}>
+
+export type AdminProfileQuery = {
+  __typename?: 'Query'
+  item?: {
+    __typename?: 'Profile'
+    id?: string | null
+    createdAt?: string | null
+    updatedAt?: string | null
+    name?: string | null
+    username?: string | null
+    bio?: string | null
+    avatar?: string | null
+    metaUrl?: string | null
+    color?: string | null
+    followers?: number | null
+    following?: number | null
+    type?: ProfileType | null
+    owner?: {
+      __typename?: 'User'
+      id?: string | null
+      pid?: number | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      role?: UserRole | null
+      status?: UserStatus | null
+      username?: string | null
+      name?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      profileUrl?: string | null
+      publicKey?: string | null
+    } | null
+  } | null
+}
+
+export type AdminProfilesQueryVariables = Exact<{
+  input?: InputMaybe<AdminListProfileInput>
+}>
+
+export type AdminProfilesQuery = {
+  __typename?: 'Query'
+  items?: Array<{
+    __typename?: 'Profile'
+    id?: string | null
+    createdAt?: string | null
+    updatedAt?: string | null
+    name?: string | null
+    username?: string | null
+    bio?: string | null
+    avatar?: string | null
+    metaUrl?: string | null
+    color?: string | null
+    followers?: number | null
+    following?: number | null
+    type?: ProfileType | null
+    owner?: {
+      __typename?: 'User'
+      id?: string | null
+      pid?: number | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      role?: UserRole | null
+      status?: UserStatus | null
+      username?: string | null
+      name?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      profileUrl?: string | null
+      publicKey?: string | null
+    } | null
+    page?: {
+      __typename?: 'Page'
+      id?: string | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      status?: PageStatus | null
+      type?: PageType | null
+      siteUrl?: string | null
+      viewUrl?: string | null
+    } | null
+  }> | null
+}
+
+export type AdminUpdateProfileMutationVariables = Exact<{
+  profileId: Scalars['String']
+  input: AdminUpdateProfileInput
+}>
+
+export type AdminUpdateProfileMutation = {
+  __typename?: 'Mutation'
+  item?: {
+    __typename?: 'Profile'
+    id?: string | null
+    createdAt?: string | null
+    updatedAt?: string | null
+    name?: string | null
+    username?: string | null
+    bio?: string | null
+    avatar?: string | null
+    metaUrl?: string | null
+    color?: string | null
+    followers?: number | null
+    following?: number | null
+    type?: ProfileType | null
+  } | null
+}
+
+export type AdminDeleteProfileMutationVariables = Exact<{
+  profileId: Scalars['String']
+}>
+
+export type AdminDeleteProfileMutation = {
+  __typename?: 'Mutation'
+  item?: {
+    __typename?: 'Profile'
+    id?: string | null
+    createdAt?: string | null
+    updatedAt?: string | null
+    name?: string | null
+    username?: string | null
+    bio?: string | null
+    avatar?: string | null
+    metaUrl?: string | null
+    color?: string | null
+    followers?: number | null
+    following?: number | null
+    type?: ProfileType | null
+  } | null
+}
+
+export type UserProfileQueryVariables = Exact<{
+  profileId: Scalars['String']
+}>
+
+export type UserProfileQuery = {
+  __typename?: 'Query'
+  item?: {
+    __typename?: 'Profile'
+    id?: string | null
+    createdAt?: string | null
+    updatedAt?: string | null
+    name?: string | null
+    username?: string | null
+    bio?: string | null
+    avatar?: string | null
+    metaUrl?: string | null
+    color?: string | null
+    followers?: number | null
+    following?: number | null
+    type?: ProfileType | null
+  } | null
+}
+
+export type UserProfilePageQueryVariables = Exact<{
+  profileId: Scalars['String']
+}>
+
+export type UserProfilePageQuery = {
+  __typename?: 'Query'
+  item?: {
+    __typename?: 'Page'
+    id?: string | null
+    createdAt?: string | null
+    updatedAt?: string | null
+    status?: PageStatus | null
+    type?: PageType | null
+    title?: string | null
+    description?: string | null
+    color?: string | null
+    siteUrl?: string | null
+    viewUrl?: string | null
+    blocks?: Array<{
+      __typename?: 'PageBlock'
+      id?: string | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      type?: PageBlockType | null
+      data?: any | null
+      order?: number | null
+    }> | null
+    domains?: Array<{
+      __typename?: 'PageDomain'
+      id?: string | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      path?: string | null
+      viewUrl?: string | null
+      domain?: { __typename?: 'Domain'; id?: string | null; name?: string | null } | null
+      page?: { __typename?: 'Page'; id?: string | null; title?: string | null } | null
+    }> | null
+    owner?: {
+      __typename?: 'User'
+      id?: string | null
+      pid?: number | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      role?: UserRole | null
+      status?: UserStatus | null
+      username?: string | null
+      name?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      followersCount?: number | null
+      followingCount?: number | null
+      relation?: {
+        __typename?: 'UserRelation'
+        isYou: boolean
+        isFollowedByYou: boolean
+        isFollowingYou: boolean
+      } | null
+    } | null
+  } | null
+}
+
+export type UserProfilesQueryVariables = Exact<{ [key: string]: never }>
+
+export type UserProfilesQuery = {
+  __typename?: 'Query'
+  items?: Array<{
+    __typename?: 'Profile'
+    id?: string | null
+    createdAt?: string | null
+    updatedAt?: string | null
+    name?: string | null
+    username?: string | null
+    bio?: string | null
+    avatar?: string | null
+    metaUrl?: string | null
+    color?: string | null
+    followers?: number | null
+    following?: number | null
+    type?: ProfileType | null
+    owner?: {
+      __typename?: 'User'
+      id?: string | null
+      pid?: number | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      role?: UserRole | null
+      status?: UserStatus | null
+      username?: string | null
+      name?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        createdAt?: string | null
+        updatedAt?: string | null
+        name?: string | null
+        username?: string | null
+        bio?: string | null
+        avatar?: string | null
+        metaUrl?: string | null
+        color?: string | null
+        followers?: number | null
+        following?: number | null
+        type?: ProfileType | null
+      } | null
+    } | null
+    page?: {
+      __typename?: 'Page'
+      id?: string | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      status?: PageStatus | null
+      type?: PageType | null
+      siteUrl?: string | null
+      viewUrl?: string | null
+    } | null
+  }> | null
+}
+
+export type UserUpdateProfileMutationVariables = Exact<{
+  profileId: Scalars['String']
+  input: UserUpdateProfileInput
+}>
+
+export type UserUpdateProfileMutation = {
+  __typename?: 'Mutation'
+  item?: {
+    __typename?: 'Profile'
+    id?: string | null
+    createdAt?: string | null
+    updatedAt?: string | null
+    name?: string | null
+    username?: string | null
+    bio?: string | null
+    avatar?: string | null
+    metaUrl?: string | null
+    color?: string | null
+    followers?: number | null
+    following?: number | null
+    type?: ProfileType | null
+  } | null
+}
+
+export type UserDeleteProfileMutationVariables = Exact<{
+  profileId: Scalars['String']
+}>
+
+export type UserDeleteProfileMutation = {
+  __typename?: 'Mutation'
+  item?: {
+    __typename?: 'Profile'
+    id?: string | null
+    createdAt?: string | null
+    updatedAt?: string | null
+    name?: string | null
+    username?: string | null
+    bio?: string | null
+    avatar?: string | null
+    metaUrl?: string | null
+    color?: string | null
+    followers?: number | null
+    following?: number | null
+    type?: ProfileType | null
+  } | null
+}
+
+export type UserCreateProfileMutationVariables = Exact<{
+  type: ProfileType
+}>
+
+export type UserCreateProfileMutation = {
+  __typename?: 'Mutation'
+  item?: {
+    __typename?: 'Profile'
+    id?: string | null
+    createdAt?: string | null
+    updatedAt?: string | null
+    name?: string | null
+    username?: string | null
+    bio?: string | null
+    avatar?: string | null
+    metaUrl?: string | null
+    color?: string | null
+    followers?: number | null
+    following?: number | null
+    type?: ProfileType | null
+  } | null
+}
+
 export type QueueDetailsFragment = {
   __typename?: 'Queue'
   type: QueueType
@@ -3564,6 +4078,22 @@ export type UserRelationDetailsFragment = {
   isYou: boolean
   isFollowedByYou: boolean
   isFollowingYou: boolean
+}
+
+export type UserSummaryFragment = {
+  __typename?: 'User'
+  id?: string | null
+  pid?: number | null
+  createdAt?: string | null
+  updatedAt?: string | null
+  role?: UserRole | null
+  status?: UserStatus | null
+  username?: string | null
+  name?: string | null
+  bio?: string | null
+  avatarUrl?: string | null
+  profileUrl?: string | null
+  publicKey?: string | null
 }
 
 export type UserDetailsFragment = {
@@ -3763,6 +4293,36 @@ export type PublicUserQuery = {
       profile?: any | null
       verified: boolean
     }> | null
+    profile?: {
+      __typename?: 'Profile'
+      id?: string | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      name?: string | null
+      username?: string | null
+      bio?: string | null
+      avatar?: string | null
+      metaUrl?: string | null
+      color?: string | null
+      followers?: number | null
+      following?: number | null
+      type?: ProfileType | null
+    } | null
+    profiles?: Array<{
+      __typename?: 'Profile'
+      id?: string | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      name?: string | null
+      username?: string | null
+      bio?: string | null
+      avatar?: string | null
+      metaUrl?: string | null
+      color?: string | null
+      followers?: number | null
+      following?: number | null
+      type?: ProfileType | null
+    }> | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
   } | null
 }
@@ -3857,9 +4417,23 @@ export type PublicUserPagesQuery = {
     title?: string | null
     description?: string | null
     color?: string | null
-    previewUrl?: string | null
     siteUrl?: string | null
     viewUrl?: string | null
+    profile?: {
+      __typename?: 'Profile'
+      id?: string | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      name?: string | null
+      username?: string | null
+      bio?: string | null
+      avatar?: string | null
+      metaUrl?: string | null
+      color?: string | null
+      followers?: number | null
+      following?: number | null
+      type?: ProfileType | null
+    } | null
     owner?: {
       __typename?: 'User'
       id?: string | null
@@ -4163,6 +4737,17 @@ export const PageDomainDetailsFragmentDoc = gql`
     viewUrl
   }
 `
+export const PageSummaryFragmentDoc = gql`
+  fragment PageSummary on Page {
+    id
+    createdAt
+    updatedAt
+    status
+    type
+    siteUrl
+    viewUrl
+  }
+`
 export const PageDetailsFragmentDoc = gql`
   fragment PageDetails on Page {
     id
@@ -4176,7 +4761,6 @@ export const PageDetailsFragmentDoc = gql`
     owner {
       ...UserDetails
     }
-    previewUrl
     siteUrl
     viewUrl
   }
@@ -4198,6 +4782,22 @@ export const PlanDetailsFragmentDoc = gql`
       id
       name
     }
+  }
+`
+export const ProfileDetailsFragmentDoc = gql`
+  fragment ProfileDetails on Profile {
+    id
+    createdAt
+    updatedAt
+    name
+    username
+    bio
+    avatar
+    metaUrl
+    color
+    followers
+    following
+    type
   }
 `
 export const QueueCountDetailsFragmentDoc = gql`
@@ -4235,6 +4835,22 @@ export const JobDetailsFragmentDoc = gql`
     stacktrace
     returnvalue
     failedReason
+  }
+`
+export const UserSummaryFragmentDoc = gql`
+  fragment UserSummary on User {
+    id
+    pid
+    createdAt
+    updatedAt
+    role
+    status
+    username
+    name
+    bio
+    avatarUrl
+    profileUrl
+    publicKey
   }
 `
 export const AdminAccountsDocument = gql`
@@ -4309,10 +4925,14 @@ export const MeDocument = gql`
       identities {
         ...IdentityDetails
       }
+      profile {
+        ...ProfileDetails
+      }
     }
   }
   ${UserDetailsFragmentDoc}
   ${IdentityDetailsFragmentDoc}
+  ${ProfileDetailsFragmentDoc}
 `
 
 export function useMeQuery(options?: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'>) {
@@ -4812,10 +5432,14 @@ export const AdminPagesDocument = gql`
       domains {
         ...PageDomainDetails
       }
+      profile {
+        ...ProfileDetails
+      }
     }
   }
   ${PageDetailsFragmentDoc}
   ${PageDomainDetailsFragmentDoc}
+  ${ProfileDetailsFragmentDoc}
 `
 
 export function useAdminPagesQuery(options?: Omit<Urql.UseQueryArgs<AdminPagesQueryVariables>, 'query'>) {
@@ -4867,11 +5491,15 @@ export const PublicPageDocument = gql`
       domains {
         ...PageDomainDetails
       }
+      profile {
+        ...ProfileDetails
+      }
     }
   }
   ${PageDetailsFragmentDoc}
   ${PageBlockDetailsFragmentDoc}
   ${PageDomainDetailsFragmentDoc}
+  ${ProfileDetailsFragmentDoc}
 `
 
 export function usePublicPageQuery(options: Omit<Urql.UseQueryArgs<PublicPageQueryVariables>, 'query'>) {
@@ -5004,6 +5632,160 @@ export const PublicPlansDocument = gql`
 
 export function usePublicPlansQuery(options?: Omit<Urql.UseQueryArgs<PublicPlansQueryVariables>, 'query'>) {
   return Urql.useQuery<PublicPlansQuery, PublicPlansQueryVariables>({ query: PublicPlansDocument, ...options })
+}
+export const AdminProfileDocument = gql`
+  query AdminProfile($profileId: String!) {
+    item: adminProfile(profileId: $profileId) {
+      ...ProfileDetails
+      owner {
+        ...UserSummary
+      }
+    }
+  }
+  ${ProfileDetailsFragmentDoc}
+  ${UserSummaryFragmentDoc}
+`
+
+export function useAdminProfileQuery(options: Omit<Urql.UseQueryArgs<AdminProfileQueryVariables>, 'query'>) {
+  return Urql.useQuery<AdminProfileQuery, AdminProfileQueryVariables>({ query: AdminProfileDocument, ...options })
+}
+export const AdminProfilesDocument = gql`
+  query AdminProfiles($input: AdminListProfileInput) {
+    items: adminProfiles(input: $input) {
+      ...ProfileDetails
+      owner {
+        ...UserSummary
+      }
+      page {
+        ...PageSummary
+      }
+    }
+  }
+  ${ProfileDetailsFragmentDoc}
+  ${UserSummaryFragmentDoc}
+  ${PageSummaryFragmentDoc}
+`
+
+export function useAdminProfilesQuery(options?: Omit<Urql.UseQueryArgs<AdminProfilesQueryVariables>, 'query'>) {
+  return Urql.useQuery<AdminProfilesQuery, AdminProfilesQueryVariables>({ query: AdminProfilesDocument, ...options })
+}
+export const AdminUpdateProfileDocument = gql`
+  mutation AdminUpdateProfile($profileId: String!, $input: AdminUpdateProfileInput!) {
+    item: adminUpdateProfile(profileId: $profileId, input: $input) {
+      ...ProfileDetails
+    }
+  }
+  ${ProfileDetailsFragmentDoc}
+`
+
+export function useAdminUpdateProfileMutation() {
+  return Urql.useMutation<AdminUpdateProfileMutation, AdminUpdateProfileMutationVariables>(AdminUpdateProfileDocument)
+}
+export const AdminDeleteProfileDocument = gql`
+  mutation AdminDeleteProfile($profileId: String!) {
+    item: adminDeleteProfile(profileId: $profileId) {
+      ...ProfileDetails
+    }
+  }
+  ${ProfileDetailsFragmentDoc}
+`
+
+export function useAdminDeleteProfileMutation() {
+  return Urql.useMutation<AdminDeleteProfileMutation, AdminDeleteProfileMutationVariables>(AdminDeleteProfileDocument)
+}
+export const UserProfileDocument = gql`
+  query UserProfile($profileId: String!) {
+    item: userProfile(profileId: $profileId) {
+      ...ProfileDetails
+    }
+  }
+  ${ProfileDetailsFragmentDoc}
+`
+
+export function useUserProfileQuery(options: Omit<Urql.UseQueryArgs<UserProfileQueryVariables>, 'query'>) {
+  return Urql.useQuery<UserProfileQuery, UserProfileQueryVariables>({ query: UserProfileDocument, ...options })
+}
+export const UserProfilePageDocument = gql`
+  query UserProfilePage($profileId: String!) {
+    item: userProfilePage(profileId: $profileId) {
+      ...PageDetails
+      blocks {
+        ...PageBlockDetails
+      }
+      domains {
+        ...PageDomainDetails
+      }
+    }
+  }
+  ${PageDetailsFragmentDoc}
+  ${PageBlockDetailsFragmentDoc}
+  ${PageDomainDetailsFragmentDoc}
+`
+
+export function useUserProfilePageQuery(options: Omit<Urql.UseQueryArgs<UserProfilePageQueryVariables>, 'query'>) {
+  return Urql.useQuery<UserProfilePageQuery, UserProfilePageQueryVariables>({
+    query: UserProfilePageDocument,
+    ...options,
+  })
+}
+export const UserProfilesDocument = gql`
+  query UserProfiles {
+    items: userProfiles {
+      ...ProfileDetails
+      owner {
+        ...UserSummary
+        profile {
+          ...ProfileDetails
+        }
+      }
+      page {
+        ...PageSummary
+      }
+    }
+  }
+  ${ProfileDetailsFragmentDoc}
+  ${UserSummaryFragmentDoc}
+  ${PageSummaryFragmentDoc}
+`
+
+export function useUserProfilesQuery(options?: Omit<Urql.UseQueryArgs<UserProfilesQueryVariables>, 'query'>) {
+  return Urql.useQuery<UserProfilesQuery, UserProfilesQueryVariables>({ query: UserProfilesDocument, ...options })
+}
+export const UserUpdateProfileDocument = gql`
+  mutation UserUpdateProfile($profileId: String!, $input: UserUpdateProfileInput!) {
+    item: userUpdateProfile(profileId: $profileId, input: $input) {
+      ...ProfileDetails
+    }
+  }
+  ${ProfileDetailsFragmentDoc}
+`
+
+export function useUserUpdateProfileMutation() {
+  return Urql.useMutation<UserUpdateProfileMutation, UserUpdateProfileMutationVariables>(UserUpdateProfileDocument)
+}
+export const UserDeleteProfileDocument = gql`
+  mutation UserDeleteProfile($profileId: String!) {
+    item: userDeleteProfile(profileId: $profileId) {
+      ...ProfileDetails
+    }
+  }
+  ${ProfileDetailsFragmentDoc}
+`
+
+export function useUserDeleteProfileMutation() {
+  return Urql.useMutation<UserDeleteProfileMutation, UserDeleteProfileMutationVariables>(UserDeleteProfileDocument)
+}
+export const UserCreateProfileDocument = gql`
+  mutation UserCreateProfile($type: ProfileType!) {
+    item: userCreateProfile(type: $type) {
+      ...ProfileDetails
+    }
+  }
+  ${ProfileDetailsFragmentDoc}
+`
+
+export function useUserCreateProfileMutation() {
+  return Urql.useMutation<UserCreateProfileMutation, UserCreateProfileMutationVariables>(UserCreateProfileDocument)
 }
 export const QueuesDocument = gql`
   query Queues {
@@ -5160,10 +5942,17 @@ export const PublicUserDocument = gql`
       identities {
         ...IdentityDetails
       }
+      profile {
+        ...ProfileDetails
+      }
+      profiles {
+        ...ProfileDetails
+      }
     }
   }
   ${UserDetailsFragmentDoc}
   ${IdentityDetailsFragmentDoc}
+  ${ProfileDetailsFragmentDoc}
 `
 
 export function usePublicUserQuery(options: Omit<Urql.UseQueryArgs<PublicUserQueryVariables>, 'query'>) {
@@ -5213,9 +6002,13 @@ export const PublicUserPagesDocument = gql`
   query PublicUserPages($username: String!) {
     items: publicUserPages(username: $username) {
       ...PageDetails
+      profile {
+        ...ProfileDetails
+      }
     }
   }
   ${PageDetailsFragmentDoc}
+  ${ProfileDetailsFragmentDoc}
 `
 
 export function usePublicUserPagesQuery(options: Omit<Urql.UseQueryArgs<PublicUserPagesQueryVariables>, 'query'>) {

@@ -24,9 +24,9 @@ export function AdminPageDetailFeature() {
           leftAction={<UiBackButton />}
           rightAction={
             <Group align="center">
-              <Button component={'a'} href={data.item.previewUrl!} target={'_blank'}>
+              <Button component={'a'} href={data.item.viewUrl!} target={'_blank'}>
                 <Group spacing={2}>
-                  Preview
+                  View
                   <IconExternalLink size={16} />
                 </Group>
               </Button>

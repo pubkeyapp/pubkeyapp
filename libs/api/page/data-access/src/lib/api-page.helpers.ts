@@ -1,4 +1,4 @@
-import { Domain, Page, PageBlock, PageBlockType, PageDomain } from '@prisma/client'
+import { Domain, Page, PageBlock, PageBlockType, PageDomain, PageStatus, Prisma } from '@prisma/client'
 
 export function parseUrl(url: string): { hostname: string; path: string } {
   if (!url?.length) {
@@ -62,5 +62,15 @@ export function convertCoreDbPage(page: CoreDbPage): CorePage {
     ...page,
     blocks,
     urls: urls ?? [],
+  }
+}
+
+export function createNewPage(input: Prisma.PageUncheckedCreateInput): Prisma.PageUncheckedCreateInput {
+  return {
+    status: PageStatus.Draft,
+    ...input,
+    blocks: {
+      create: [{ type: PageBlockType.Header, data: { text: '## Hello, World!' } }],
+    },
   }
 }

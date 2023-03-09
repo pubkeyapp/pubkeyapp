@@ -1,4 +1,4 @@
-import { Field, ObjectType } from '@nestjs/graphql'
+import { Field, HideField, ObjectType } from '@nestjs/graphql'
 import { ApiProperty } from '@nestjs/swagger'
 import { User } from '@pubkeyapp/api/user/data-access'
 import { PageBlock } from './page-block.entity'
@@ -56,4 +56,6 @@ export class Page {
 
   @Field(() => [PageDomain], { nullable: true })
   domains: PageDomain[]
+  @HideField()
+  profile: unknown
 }

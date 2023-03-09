@@ -1,3 +1,13 @@
+fragment PageSummary on Page {
+  id
+  createdAt
+  updatedAt
+  status
+  type
+  siteUrl
+  viewUrl
+}
+
 fragment PageDetails on Page {
   id
   createdAt
@@ -10,7 +20,6 @@ fragment PageDetails on Page {
   owner {
     ...UserDetails
   }
-  previewUrl
   siteUrl
   viewUrl
 }
@@ -32,6 +41,9 @@ query AdminPages($input: AdminListPageInput) {
     ...PageDetails
     domains {
       ...PageDomainDetails
+    }
+    profile {
+      ...ProfileDetails
     }
   }
 }
@@ -62,6 +74,9 @@ query PublicPage($pageId: String!) {
     }
     domains {
       ...PageDomainDetails
+    }
+    profile {
+      ...ProfileDetails
     }
   }
 }

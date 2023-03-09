@@ -121,9 +121,7 @@ export function EarlyFeatureActions() {
           {data?.item?.owner ? <UiUserLink user={data?.item?.owner} /> : 'Anon'} invited you to PubKey!
         </Group>
       ) : (
-        <Paper>
-          <EarlyAcceptInviteForm submit={acceptInvite} />
-        </Paper>
+        <EarlyAcceptInviteForm submit={acceptInvite} />
       )}
       {user?.status === UserStatus.Active ? <EarlyInviteList /> : null}
 

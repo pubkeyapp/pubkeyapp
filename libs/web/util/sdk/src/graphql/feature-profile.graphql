@@ -1,0 +1,97 @@
+fragment ProfileDetails on Profile {
+  id
+  createdAt
+  updatedAt
+  name
+  username
+  bio
+  avatar
+  metaUrl
+  color
+  followers
+  following
+  type
+}
+
+query AdminProfile($profileId: String!) {
+  item: adminProfile(profileId: $profileId) {
+    ...ProfileDetails
+    owner {
+      ...UserSummary
+    }
+  }
+}
+
+query AdminProfiles($input: AdminListProfileInput) {
+  items: adminProfiles(input: $input) {
+    ...ProfileDetails
+    owner {
+      ...UserSummary
+    }
+    page {
+      ...PageSummary
+    }
+  }
+}
+
+mutation AdminUpdateProfile($profileId: String!, $input: AdminUpdateProfileInput!) {
+  item: adminUpdateProfile(profileId: $profileId, input: $input) {
+    ...ProfileDetails
+  }
+}
+
+mutation AdminDeleteProfile($profileId: String!) {
+  item: adminDeleteProfile(profileId: $profileId) {
+    ...ProfileDetails
+  }
+}
+
+query UserProfile($profileId: String!) {
+  item: userProfile(profileId: $profileId) {
+    ...ProfileDetails
+  }
+}
+
+query UserProfilePage($profileId: String!) {
+  item: userProfilePage(profileId: $profileId) {
+    ...PageDetails
+    blocks {
+      ...PageBlockDetails
+    }
+    domains {
+      ...PageDomainDetails
+    }
+  }
+}
+
+query UserProfiles {
+  items: userProfiles {
+    ...ProfileDetails
+    owner {
+      ...UserSummary
+      profile {
+        ...ProfileDetails
+      }
+    }
+    page {
+      ...PageSummary
+    }
+  }
+}
+mutation UserUpdateProfile($profileId: String!, $input: UserUpdateProfileInput!) {
+  item: userUpdateProfile(profileId: $profileId, input: $input) {
+    ...ProfileDetails
+  }
+}
+
+mutation UserDeleteProfile($profileId: String!) {
+  item: userDeleteProfile(profileId: $profileId) {
+    ...ProfileDetails
+  }
+}
+
+mutation UserCreateProfile($type: ProfileType!) {
+  item: userCreateProfile(type: $type) {
+    ...ProfileDetails
+  }
+}

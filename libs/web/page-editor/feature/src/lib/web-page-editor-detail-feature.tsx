@@ -130,7 +130,7 @@ export function WebPageEditorDetailFeature() {
           return showNotificationError(result.error.message)
         }
         if (result.data?.item) {
-          navigate('/profiles')
+          navigate('/dashboard')
           return showNotificationSuccess(`Page ${page?.item?.type} deleted`)
         }
         return false
@@ -146,13 +146,13 @@ export function WebPageEditorDetailFeature() {
             <Group>
               <PageTypeIcon type={page?.item?.type as PageType} size={36} />
               <Tooltip label={`Edit the ${page?.item?.type} page`}>
-                <Anchor component={Link} to={`/profiles/${page?.item?.id}`} size="xl">
+                <Anchor component={Link} to={`/pages/${page?.item?.id}`} size="xl">
                   {page?.item?.type}
                 </Anchor>
               </Tooltip>
             </Group>
           }
-          leftAction={<UiBackButton to="/profiles" />}
+          leftAction={<UiBackButton to="/dashboard" />}
           rightAction={
             page?.item?.status === PageStatus.Published ? (
               <Button>View Page</Button>
@@ -161,13 +161,13 @@ export function WebPageEditorDetailFeature() {
                 <Button
                   size="sm"
                   component={Link}
-                  to={`${page?.item?.previewUrl}`}
+                  to={`${page?.item?.viewUrl}`}
                   target="_blank"
                   rightIcon={<IconExternalLink size={16} />}
                 >
-                  Preview Page
+                  View Page
                 </Button>
-                <Button size="sm" component={Link} to={`/profiles/${pageId}/publish`}>
+                <Button size="sm" component={Link} to={`/pages/${pageId}/publish`}>
                   Publish Page
                 </Button>
               </Group>

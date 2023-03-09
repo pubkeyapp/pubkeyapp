@@ -40,11 +40,11 @@ export function PageUiRender({
   )
 }
 
-export function PageWrapper({ page }: { page: Page }) {
+export function PageWrapper({ hideShareButton, page }: { hideShareButton?: boolean; page: Page }) {
   return (
     <Flex direction="column" justify="space-between" h={'100%'}>
       <Stack spacing={64} sx={{ overflow: 'auto' }}>
-        <PageUiRender page={page} />
+        <PageUiRender page={page} hideShareButton={hideShareButton} />
       </Stack>
       <Stack spacing={'xl'} mt="xl" mb={54}>
         <Group position="center">

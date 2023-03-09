@@ -3,6 +3,7 @@ import { getAvatarUrl } from '@pubkeyapp/api/core/data-access'
 import { Identity } from '@pubkeyapp/api/identity/data-access'
 import { Invite } from '@pubkeyapp/api/invite/data-access'
 import { Page } from '@pubkeyapp/api/page/data-access'
+import { Profile } from '@pubkeyapp/api/profile/data-access'
 import { ApiPublicUserService, User } from '@pubkeyapp/api/user/data-access'
 import { GraphQLJSON } from 'graphql-scalars'
 
@@ -48,6 +49,16 @@ export class ApiPublicUserResolver {
   @ResolveField(() => [Identity], { nullable: true })
   identities(@Parent() user: User) {
     return user.identities
+  }
+
+  @ResolveField(() => Profile, { nullable: true })
+  profile(@Parent() user: User) {
+    return user.profile
+  }
+
+  @ResolveField(() => [Profile], { nullable: true })
+  profiles(@Parent() user: User) {
+    return user.profiles
   }
 
   @ResolveField(() => String, { nullable: true })

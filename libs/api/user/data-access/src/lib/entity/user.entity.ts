@@ -70,4 +70,10 @@ export class User {
   @ApiProperty({ type: 'integer', nullable: true, required: false })
   @Field(() => Int, { nullable: true })
   followingCount: number
+
+  @HideField()
+  profile: unknown
+
+  @HideField()
+  profiles: unknown[]
 }

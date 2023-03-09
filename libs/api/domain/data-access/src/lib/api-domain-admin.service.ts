@@ -33,14 +33,17 @@ export class ApiDomainAdminService {
     await this.core.ensureUserAdmin(adminId)
     return this.core.data.domain.findMany({
       where: { ownerId: input.ownerId ? input.ownerId : undefined },
-      include: { owner: true, pages: true },
+      include: { owner: true, pages: { include: { page: true } } },
       orderBy: [{ premium: 'asc' }, { order: 'asc' }],
     })
   }
 
   async adminDomain(adminId: string, domainId: string) {
     await this.core.ensureUserAdmin(adminId)
-    return this.core.data.domain.findUnique({ where: { id: domainId }, include: { owner: true, pages: true } })
+    return this.core.data.domain.findUnique({
+      where: { id: domainId },
+      include: { owner: true, pages: { include: { page: true } } },
+    })
   }
 
   async adminUpdateDomain(adminId: string, domainId: string, input: AdminUpdateDomainInput) {

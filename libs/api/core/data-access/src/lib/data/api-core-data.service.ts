@@ -24,7 +24,7 @@ export class ApiCoreDataService extends PrismaClient implements OnModuleDestroy,
   findUserByUsername(username: string) {
     // FIXME: Add caching
     return this.user
-      .findUnique({ where: { username }, include: { identities: true } })
+      .findUnique({ where: { username }, include: { profile: true, profiles: true, identities: true } })
       .then((user) => (user ? convertCoreDbUser(user, this.config.apiUrl) : null))
   }
 
@@ -42,7 +42,7 @@ export class ApiCoreDataService extends PrismaClient implements OnModuleDestroy,
       return null
     }
     return this.user
-      .findUnique({ where: { id: found.ownerId }, include: { identities: true } })
+      .findUnique({ where: { id: found.ownerId }, include: { profile: true, profiles: true, identities: true } })
       .then((user) => (user ? convertCoreDbUser(user, this.config.apiUrl) : null))
   }
 
@@ -51,7 +51,7 @@ export class ApiCoreDataService extends PrismaClient implements OnModuleDestroy,
   }
 
   findUserById(userId: string) {
-    return this.user.findUnique({ where: { id: userId }, include: { identities: true } })
+    return this.user.findUnique({ where: { id: userId }, include: { profile: true, profiles: true, identities: true } })
   }
 
   private async provisionUses() {

@@ -55,6 +55,6 @@ export class ApiDomainAdminResolver {
 
   @ResolveField(() => [Page], { nullable: true })
   pages(@Parent() domain: Domain) {
-    return domain.pages
+    return domain.pages.map((item: any) => item.page)
   }
 }

@@ -9,6 +9,9 @@ query me {
     identities {
       ...IdentityDetails
     }
+    profile {
+      ...ProfileDetails
+    }
   }
 }
 

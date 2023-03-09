@@ -5,7 +5,7 @@ import { DataTable } from 'mantine-datatable'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { AdminUiExternalLink } from '../admin-ui-external-link'
-import { AdminUiUserLink } from '../admin-ui-user-link'
+import { AdminUiProfileLink, AdminUiUserLink } from '../admin-ui-user-link'
 import { AdminUiPageLabel } from './admin-ui-page-label'
 
 interface AdminUiPageTableProps {
@@ -17,7 +17,9 @@ export function AdminUiPageTable({ deletePage, pages }: AdminUiPageTableProps) {
   return (
     <ScrollArea>
       <DataTable
-        borderRadius="md"
+        borderRadius="xl"
+        styles={{ root: { paddingTop: 10 } }}
+        sx={{ borderWidth: 4 }}
         withBorder
         shadow="xs"
         columns={[
@@ -26,14 +28,10 @@ export function AdminUiPageTable({ deletePage, pages }: AdminUiPageTableProps) {
             render: (page) => <AdminUiPageLabel page={page} />,
           },
           {
-            accessor: 'domains',
-            render: (item) => (
-              <Box>
-                {item.domains?.map((domain) => (
-                  <AdminUiExternalLink key={domain.id} link={domain.viewUrl!} />
-                ))}
-              </Box>
-            ),
+            accessor: 'profile',
+            render: (page) => {
+              return page.profile ? <AdminUiProfileLink profile={page.profile} /> : 'No profile'
+            },
           },
           {
             accessor: 'owner',
@@ -47,7 +45,7 @@ export function AdminUiPageTable({ deletePage, pages }: AdminUiPageTableProps) {
             textAlignment: 'right',
             render: (item) => (
               <Group spacing={0} position="right" noWrap>
-                <ActionIcon component={'a'} href={item.previewUrl!} target={'_blank'}>
+                <ActionIcon component={'a'} href={item.viewUrl!} target={'_blank'}>
                   <IconExternalLink size={16} />
                 </ActionIcon>
                 <ActionIcon component={Link} to={`/admin/pages/${item.id}/settings`}>

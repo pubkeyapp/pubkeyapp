@@ -1,6 +1,6 @@
 import { ActionIcon, Alert, Stack } from '@mantine/core'
 import { AdminUiAccountTable } from '@pubkeyapp/web/admin/ui'
-import { UiDebug, UiErrorLoader } from '@pubkeyapp/web/ui/core'
+import { UiErrorLoader } from '@pubkeyapp/web/ui/core'
 import { UiPage } from '@pubkeyapp/web/ui/page'
 import { AdminListAccountInput, useAdminAccountsQuery } from '@pubkeyapp/web/util/sdk'
 import { IconNotes } from '@tabler/icons-react'
@@ -26,7 +26,6 @@ export function AdminAccountListFeature() {
           ) : (
             <Alert>No accounts found</Alert>
           )}
-          <UiDebug data={{ data }} />
         </Stack>
       </UiPage>
     </UiErrorLoader>

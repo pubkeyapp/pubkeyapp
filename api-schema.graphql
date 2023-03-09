@@ -44,6 +44,8 @@ type User {
   following: [Follow!]
   followingCount: Int
   identities: [Identity!]
+  profile: Profile
+  profiles: [Profile!]
   relation: UserRelation
 }
 
@@ -199,7 +201,7 @@ type Page {
   owner: User
   blocks: [PageBlock!]
   domains: [PageDomain!]
-  previewUrl: String
+  profile: Profile
 }
 
 enum PageStatus {
@@ -244,6 +246,37 @@ type Invite {
   inviteUrl: String
   isExpired: Boolean
   isUsedUp: Boolean
+}
+
+type Profile {
+  id: String
+  createdAt: String
+  updatedAt: String
+  name: String
+  username: String
+  bio: String
+  avatar: String
+  metaUrl: String
+  color: String
+  followers: Int
+  following: Int
+  type: ProfileType
+  status: ProfileStatus
+  owner: User
+  page: Page
+}
+
+enum ProfileType {
+  Degen
+  Gaming
+  Personal
+  Professional
+}
+
+enum ProfileStatus {
+  Demo
+  Draft
+  Published
 }
 
 type PlanFeature {
@@ -330,6 +363,11 @@ type Query {
   publicPlans: [Plan!]
   adminPlans(input: AdminListPlanInput): [Plan!]
   adminPlan(planId: String!): Plan
+  adminProfiles(input: AdminListProfileInput): [Profile!]
+  adminProfile(profileId: String!): Profile
+  userProfile(profileId: String!): Profile
+  userProfilePage(profileId: String!): Page
+  userProfiles: [Profile!]
   queue(type: QueueType!): Queue
   queueJobs(type: QueueType!, statuses: [JobStatus!]!): [Job!]
   queues: [Queue!]
@@ -365,6 +403,10 @@ input AdminListPageInput {
 
 input AdminListPlanInput {
   id: String
+}
+
+input AdminListProfileInput {
+  ownerId: String
 }
 
 enum JobStatus {
@@ -405,6 +447,11 @@ type Mutation {
   adminCreatePlan(input: AdminCreatePlanInput!): Plan
   adminDeletePlan(planId: String!): Plan
   adminUpdatePlan(planId: String!, input: AdminUpdatePlanInput!): Plan
+  adminDeleteProfile(profileId: String!): Profile
+  adminUpdateProfile(profileId: String!, input: AdminUpdateProfileInput!): Profile
+  userCreateProfile(type: ProfileType!): Profile
+  userDeleteProfile(profileId: String!): Profile
+  userUpdateProfile(profileId: String!, input: UserUpdateProfileInput!): Profile
   queueLoad(input: QueueLoadInput!): Queue
   queueClean(type: QueueType!): Boolean
   queueDeleteJob(type: QueueType!, jobId: String!): Boolean
@@ -459,11 +506,7 @@ input AdminUpdatePageInput {
 }
 
 input UserCreatePageInput {
-  title: String!
-  description: String!
-  ownerId: String
-  color: String
-  type: PageType
+  profileId: String
 }
 
 input UserUpdatePageInput {
@@ -519,6 +562,27 @@ input AdminUpdatePlanInput {
   currency: String
   recommended: Boolean
   available: Boolean
+}
+
+input AdminUpdateProfileInput {
+  name: String
+  username: String
+  bio: String
+  avatar: String
+  metaUrl: String
+  color: String
+  followers: Int
+  following: Int
+  type: ProfileType
+}
+
+input UserUpdateProfileInput {
+  name: String
+  username: String
+  bio: String
+  avatar: String
+  metaUrl: String
+  color: String
 }
 
 input QueueLoadInput {

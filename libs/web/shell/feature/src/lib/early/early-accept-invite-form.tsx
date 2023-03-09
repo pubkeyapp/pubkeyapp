@@ -11,8 +11,7 @@ export function EarlyAcceptInviteForm({ submit }: { submit: (data: EarlyAcceptIn
     <UiForm<EarlyAcceptInviteFormInput>
       fields={[
         formFieldText('code', {
-          label: 'Code',
-          description: 'Enter your invite code here',
+          placeholder: 'Enter invite code here',
           required: true,
         }),
       ]}

@@ -4,6 +4,21 @@ fragment UserRelationDetails on UserRelation {
   isFollowingYou
 }
 
+fragment UserSummary on User {
+  id
+  pid
+  createdAt
+  updatedAt
+  role
+  status
+  username
+  name
+  bio
+  avatarUrl
+  profileUrl
+  publicKey
+}
+
 fragment UserDetails on User {
   id
   pid
@@ -64,6 +79,12 @@ query PublicUser($username: String!) {
     identities {
       ...IdentityDetails
     }
+    profile {
+      ...ProfileDetails
+    }
+    profiles {
+      ...ProfileDetails
+    }
   }
 }
 
@@ -88,6 +109,9 @@ query PublicFollowing($username: String!) {
 query PublicUserPages($username: String!) {
   items: publicUserPages(username: $username) {
     ...PageDetails
+    profile {
+      ...ProfileDetails
+    }
   }
 }
 

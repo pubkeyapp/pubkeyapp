@@ -1,22 +1,16 @@
-import { Badge, Group, Text } from '@mantine/core'
-import { PageTypeIcon } from '@pubkeyapp/web/page/ui'
-import { Page, PageStatus, PageType } from '@pubkeyapp/web/util/sdk'
+import { Anchor, Group } from '@mantine/core'
+import { Page } from '@pubkeyapp/web/util/sdk'
+import { IconPageBreak } from '@tabler/icons-react'
 import { Link } from 'react-router-dom'
 
 export function AdminUiPageLabel({ page }: { page: Page }) {
-  const link = `/admin/pages/${page.id}`
   return (
     <Group spacing="sm" p={4} position="apart" align="center">
       <Group>
-        <PageTypeIcon type={page.type as PageType} size={32} />
-        <Text component={Link} to={link} size="xl" weight={500} color="brand">
-          {page.title}
-        </Text>
-      </Group>
-      <Group>
-        <Badge color={page.status === PageStatus.Published ? 'green' : 'brand'} variant="outline">
-          {page.status}
-        </Badge>
+        <IconPageBreak size={32} />
+        <Anchor component={Link} to={`/admin/pages/${page.id}`}>
+          {page.id}
+        </Anchor>
       </Group>
     </Group>
   )

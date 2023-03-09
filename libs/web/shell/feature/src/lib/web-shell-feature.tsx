@@ -49,7 +49,7 @@ export function WebShellFeature() {
             <Route element={<AuthGuard redirectTo="/login" />}>
               <Route element={<UserStatusGuard status={UserStatus.Active} element={<EarlyFeature />} />}>
                 <Route path="/dashboard" element={<DashboardFeature />} />
-                <Route path="/profiles/*" element={<PageEditorFeature />} />
+                <Route path="/pages/*" element={<PageEditorFeature />} />
                 <Route element={<UserRoleGuard role={UserRole.Admin} />}>
                   <Route path="/account/*" element={<AccountFeature />} />
                   <Route path="/admin/*" element={<AdminFeature />} />

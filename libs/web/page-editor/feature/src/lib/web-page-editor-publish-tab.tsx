@@ -2,7 +2,7 @@ import { Accordion, Button, createStyles, Group, Text } from '@mantine/core'
 import { Page } from '@pubkeyapp/web/util/sdk'
 import React from 'react'
 
-const useStyles = createStyles((theme) => ({
+export const useAccordionStyles = createStyles((theme) => ({
   root: {
     backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
     borderRadius: theme.radius.xl,
@@ -34,7 +34,7 @@ const useStyles = createStyles((theme) => ({
 }))
 
 export function WebPageEditorPublishTab({ page }: { page: Page }) {
-  const { classes } = useStyles()
+  const { classes } = useAccordionStyles()
 
   const steps = [
     { id: 'step-1', title: 'Select domain', description: 'Coming Soon' },

@@ -10,7 +10,9 @@ import {
   IconSettings,
   IconShield,
   IconStack3,
+  IconSunglasses,
   IconUsers,
+  IconUserX,
 } from '@tabler//icons-react'
 import { useMemo } from 'react'
 import { Link, Navigate, Outlet, Route, Routes } from 'react-router-dom'
@@ -20,6 +22,7 @@ import { AdminDomainRoutes } from './domain/admin-domain.routes'
 import { AdminInviteRoutes } from './invite/admin-invite.routes'
 import { AdminPageRoutes } from './page/admin-page.routes'
 import { AdminPlanRoutes } from './plan/admin-plan.routes'
+import { AdminProfileRoutes } from './profile/admin-profile.routes'
 import { AdminQueueFeature } from './queue/admin-queue-feature'
 import { AdminSettingsRoutes } from './settings/admin-settings.routes'
 import { AdminUserRoutes } from './user/admin-user.routes'
@@ -30,8 +33,9 @@ export function AdminRoutes() {
       { label: 'Accounts', icon: IconNotes, link: '/admin/accounts' },
       { label: 'Domains', icon: IconGlobe, link: '/admin/domains' },
       { label: 'Invites', icon: IconCards, link: '/admin/invites' },
-      { label: 'Plans', icon: IconMoneybag, link: '/admin/plans' },
       { label: 'Pages', icon: IconPageBreak, link: '/admin/pages' },
+      { label: 'Plans', icon: IconMoneybag, link: '/admin/plans' },
+      { label: 'Profiles', icon: IconSunglasses, link: '/admin/profiles' },
       { label: 'Queues', icon: IconStack3, link: '/admin/queues' },
       { label: 'Settings', icon: IconSettings, link: '/admin/settings' },
       { label: 'Users', icon: IconUsers, link: '/admin/users' },
@@ -50,6 +54,7 @@ export function AdminRoutes() {
         <Route path="invites/*" element={<AdminInviteRoutes />} />
         <Route path="pages/*" element={<AdminPageRoutes />} />
         <Route path="plans/*" element={<AdminPlanRoutes />} />
+        <Route path="profiles/*" element={<AdminProfileRoutes />} />
         <Route path="queues/*" element={<AdminQueueFeature />} />
         <Route path="settings/*" element={<AdminSettingsRoutes />} />
         <Route path="users/*" element={<AdminUserRoutes />} />

@@ -35,7 +35,7 @@ export function IdentityProviderLabel({ identity }: { identity: Identity }): str
 export function IdentityBadge({ identity }: { identity: Identity }) {
   const avatarUrl = identity?.profile?.avatarUrl
   return (
-    <Tooltip label={`${identity.provider} identity`}>
+    <Tooltip label={`${identity.provider} identity`} withArrow position="right">
       <Badge
         pl={0}
         size="xl"

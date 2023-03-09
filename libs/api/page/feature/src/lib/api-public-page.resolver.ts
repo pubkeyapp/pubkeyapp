@@ -1,6 +1,7 @@
 import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
 import { Domain } from '@pubkeyapp/api/domain/data-access'
 import { ApiPublicPageService, Page } from '@pubkeyapp/api/page/data-access'
+import { Profile } from '@pubkeyapp/api/profile/data-access'
 
 @Resolver(() => Page)
 export class ApiPublicPageResolver {
@@ -12,11 +13,6 @@ export class ApiPublicPageResolver {
   }
 
   @ResolveField(() => String, { nullable: true })
-  previewUrl(@Parent() page: Page) {
-    return ['/p/', page.id, '/preview/'].join('')
-  }
-
-  @ResolveField(() => String, { nullable: true })
   siteUrl(@Parent() page: Page) {
     return this.service.siteUrl()
   }
@@ -24,9 +20,14 @@ export class ApiPublicPageResolver {
   @ResolveField(() => String, { nullable: true })
   viewUrl(@Parent() page: Page) {
     if (!page.domains?.length || !page.domains[0].domain) {
-      return null
+      return ['/p/', page.id, '/preview/'].join('')
     }
     const { domain, path } = page.domains[0]
     return Domain.url(domain, path)
+  }
+
+  @ResolveField(() => Profile, { nullable: true })
+  profile(@Parent() page: Page) {
+    return page?.profile
   }
 }

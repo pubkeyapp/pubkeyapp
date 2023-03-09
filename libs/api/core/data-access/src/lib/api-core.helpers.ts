@@ -1,7 +1,9 @@
-import { Identity, IdentityProvider, User } from '@prisma/client'
+import { Identity, IdentityProvider, Profile, User } from '@prisma/client'
 
 export type CoreDbUser = User & {
   identities: Identity[]
+  profile?: Profile
+  profiles: Profile[]
 }
 
 export type CoreIdentity = {
@@ -11,6 +13,7 @@ export type CoreIdentity = {
   profile?: unknown
   verified: boolean
 }
+
 export type CoreUser = Omit<CoreDbUser, 'identities'> & {
   identities: CoreIdentity[]
   avatar?: string

@@ -1,14 +1,14 @@
 import { Box, rem, Tabs, Text } from '@mantine/core'
-import { ReactNode } from 'react'
+import { ReactElement, ReactNode } from 'react'
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 
 export interface UiTabRoute {
   component: ReactNode
-  label: string
+  label: ReactElement | string
   value: string
 }
 
-export function UiTabRoutes({ tabs }: { tabs: UiTabRoute[] }) {
+export function UiTabRoutes({ grow = true, tabs }: { grow?: boolean; tabs: UiTabRoute[] }) {
   const navigate = useNavigate()
   const location = useLocation()
   // Set the active tab based on matching the location pathname with the tab value

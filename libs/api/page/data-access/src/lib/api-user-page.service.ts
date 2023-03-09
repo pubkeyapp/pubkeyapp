@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
-import { PageBlockType, PageStatus } from '@prisma/client'
 import { ApiCoreService } from '@pubkeyapp/api/core/data-access'
+import { createNewPage } from './api-page.helpers'
 import { UserCreatePageInput } from './dto/user-create-page.input'
 import { UserUpdatePageInput } from './dto/user-update-page.input'
 
@@ -10,15 +10,17 @@ export class ApiUserPageService {
 
   async userCreatePage(userId: string, input: UserCreatePageInput) {
     await this.core.ensureUserActive(userId)
+    const { profileId } = input
+    const profile = await this.core.data.profile.findUnique({ where: { id: profileId } })
+    if (profile.pageId) {
+      throw new Error('Profile already has a page')
+    }
+
     return this.core.data.page.create({
-      data: {
-        ownerId: input.ownerId ?? userId,
-        status: PageStatus.Draft,
-        ...input,
-        blocks: {
-          create: [{ type: PageBlockType.Header, data: { text: '## Hello, World!' } }],
-        },
-      },
+      data: createNewPage({
+        ownerId: userId,
+        profile: { connect: { id: profileId } },
+      }),
     })
   }
 

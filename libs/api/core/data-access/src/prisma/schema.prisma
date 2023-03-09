@@ -67,6 +67,9 @@ model User {
   following          Follow[]   @relation("follower")
   followingCount     Int        @default(0)
   pages              Page[]
+  profile            Profile?   @relation("UserProfile", fields: [profileId], references: [id])
+  profileId          String?    @unique
+  profiles           Profile[]
   accountsDiscovered Account[]  @relation("AccountsDiscovered")
 }
 
@@ -146,14 +149,15 @@ model Page {
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @default(now()) @updatedAt
   status      PageStatus   @default(Draft)
-  type        PageType
-  title       String
+  type        PageType?
+  title       String?
   color       String       @default("brand")
   description String?
+  blocks      PageBlock[]
+  domains     PageDomain[]
   owner       User         @relation(fields: [ownerId], references: [id])
   ownerId     String
-  domains     PageDomain[]
-  blocks      PageBlock[]
+  profile     Profile?
 }
 
 enum PageStatus {
@@ -196,6 +200,40 @@ model PageDomain {
   pageId    String
 
   @@unique([domainId, path])
+}
+
+model Profile {
+  id        String        @id @default(cuid())
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @default(now()) @updatedAt
+  type      ProfileType
+  status    ProfileStatus @default(Draft)
+  name      String?
+  bio       String?
+  username  String?
+  metaUrl   String?
+  avatar    String?
+  following Int?
+  followers Int?
+  color     String?       @default("brand")
+  owner     User          @relation(fields: [ownerId], references: [id])
+  ownerId   String
+  page      Page?         @relation(fields: [pageId], references: [id])
+  pageId    String?       @unique
+  user      User?         @relation("UserProfile")
+}
+
+enum ProfileStatus {
+  Demo
+  Draft
+  Published
+}
+
+enum ProfileType {
+  Degen
+  Gaming
+  Personal
+  Professional
 }
 
 model Plan {

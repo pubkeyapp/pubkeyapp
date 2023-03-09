@@ -1,7 +1,7 @@
 import { Alert, Group, Text } from '@mantine/core'
 import { useAdminDomain } from '@pubkeyapp/web/admin/data-access'
 import { AdminUiDomainLabel, AdminUiUserLink } from '@pubkeyapp/web/admin/ui'
-import { UiBackButton, UiErrorLoader, UiTabRoutes } from '@pubkeyapp/web/ui/core'
+import { UiBackButton, UiDebugModal, UiErrorLoader, UiTabRoutes } from '@pubkeyapp/web/ui/core'
 import { UiPage } from '@pubkeyapp/web/ui/page'
 import { Domain, useAdminDomainQuery } from '@pubkeyapp/web/util/sdk'
 import { useParams } from 'react-router-dom'
@@ -50,6 +50,7 @@ export function AdminDomainDetailFeature() {
           <Alert color={'red'}>Domain not found</Alert>
         </UiPage>
       )}
+      <UiDebugModal data={data?.item ?? {}} />
     </UiErrorLoader>
   )
 }
