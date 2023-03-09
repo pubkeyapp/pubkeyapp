@@ -31,7 +31,7 @@ export class ApiAdminUserService {
     if (found) {
       throw new Error(`User with public key ${input.publicKey} already exists`)
     }
-    return this.core.data.createUser(input.role ?? UserRole.User, UserStatus.Created, input.publicKey)
+    return this.core.data.createUserWithSolanaIdentity(input.role ?? UserRole.User, UserStatus.Created, input.publicKey)
   }
 
   async adminUpdateUser(adminId: string, userId: string, input: AdminUpdateUserInput) {

@@ -62,9 +62,13 @@ export class ApiCoreService implements OnApplicationBootstrap {
     return user
   }
 
-  getUserById(userId: string): Promise<CoreUser> {
+  async getUserById(userId: string, refresh = false): Promise<CoreUser> {
     if (!userId) {
       return Promise.reject("Can't get user without id")
+    }
+    const key = `get-by-id:${userId}`
+    if (refresh) {
+      await this.cache.del('user', key)
     }
     return this.cache.wrap<CoreUser>(
       'user',
@@ -186,5 +190,19 @@ export class ApiCoreService implements OnApplicationBootstrap {
       this.reload()
       return res
     })
+  }
+
+  async userDeleteIdentity(userId: string, identityId: string) {
+    const user = await this.ensureUserActive(userId)
+    const identity = await this.data.identity.findUnique({ where: { id: identityId } })
+    if (!identity) {
+      throw new Error('Identity not found')
+    }
+    if (identity.ownerId !== user.id) {
+      throw new Error('Unauthorized')
+    }
+    await this.data.identity.delete({ where: { id: identityId } })
+    this.logger.verbose(` => Deleted identity ${identityId} (user: ${user.id})`)
+    return this.getUserById(user.id, true)
   }
 }

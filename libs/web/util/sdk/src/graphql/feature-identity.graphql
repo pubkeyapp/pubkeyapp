@@ -4,17 +4,12 @@ fragment IdentityDetails on Identity {
   updatedAt
   provider
   providerId
+  profile
   verified
 }
 
-#query AdminIdentity($userId: String!) {
-#  item: adminIdentity(userId: $userId) {
-#    ...IdentityDetails
-#  }
-#}
-#
-#query AdminIdentities {
-#  items: adminIdentities {
-#    ...IdentityDetails
-#  }
-#}
+mutation UserDeleteIdentity($identityId: String!) {
+  item: userDeleteIdentity(identityId: $identityId) {
+    ...UserDetails
+  }
+}

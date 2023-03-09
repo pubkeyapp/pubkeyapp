@@ -1,11 +1,10 @@
-import { ApiProperty } from '@nestjs/swagger'
-import { getChallenge, verifySignature } from '@pubkeyapp/api/auth/util'
-import { ApiCoreService } from '@pubkeyapp/api/core/data-access'
 import { BadRequestException, Injectable, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common'
 import { JwtService, JwtSignOptions } from '@nestjs/jwt'
+import { ApiProperty } from '@nestjs/swagger'
 import { IdentityProvider, UserRole, UserStatus } from '@prisma/client'
+import { getChallenge, verifySignature } from '@pubkeyapp/api/auth/util'
+import { ApiCoreService, CoreUser } from '@pubkeyapp/api/core/data-access'
 import { Request, Response } from 'express'
-import { CoreUser } from '../../../../core/data-access/src/lib/api-core.helpers'
 import { ResponseChallengeOptions } from './dto/auth-challenge-response.dto'
 
 export interface AuthRequest extends Request {
@@ -24,11 +23,17 @@ export class RequestChallenge {
 }
 
 @Injectable()
-export class ApiAuthDataAccessService {
+export class ApiAuthService {
   private readonly jwtOptions: JwtSignOptions = {}
 
-  private readonly logger = new Logger(ApiAuthDataAccessService.name)
-  constructor(private readonly core: ApiCoreService, private jwt: JwtService) {}
+  private readonly logger = new Logger(ApiAuthService.name)
+  constructor(readonly core: ApiCoreService, private jwt: JwtService) {
+    setTimeout(() => {
+      this.core.data.identity.findMany().then((identities) => {
+        this.logger.debug(identities)
+      })
+    }, 2000)
+  }
 
   async login(req: AuthRequest, res: Response): Promise<CoreUser> {
     const user = req.user
@@ -101,7 +106,7 @@ export class ApiAuthDataAccessService {
 
     if (!found) {
       this.logger.error(`User with Solana identity ${publicKey} not found, creating new user...`)
-      await this.core.data.createUser(UserRole.User, UserStatus.Created, publicKey)
+      await this.core.data.createUserWithSolanaIdentity(UserRole.User, UserStatus.Created, publicKey)
       return this.findOrCreateSolanaIdentity(publicKey)
     }
 

@@ -1,5 +1,5 @@
 import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common'
-import { IdentityProvider, PrismaClient, UserRole, UserStatus } from '@prisma/client'
+import { IdentityProvider, Prisma, PrismaClient, UserRole, UserStatus } from '@prisma/client'
 import { ApiConfigService } from '@pubkeyapp/api/config/data-access'
 import { getSolanaName } from 'sol-namor/src'
 import { convertCoreDbUser, CoreUser } from '../api-core.helpers'
@@ -70,7 +70,7 @@ export class ApiCoreDataService extends PrismaClient implements OnModuleDestroy,
   createUsers(role: UserRole, publicKeys: string[]) {
     return Promise.all(
       publicKeys.map(async (publicKey, index) => {
-        const created = await this.createUser(role, UserStatus.Active, publicKey, index)
+        const created = await this.createUserWithSolanaIdentity(role, UserStatus.Active, publicKey, index)
         if (created) {
           this.logger.verbose(`Created ${created.role} ${created.username}`)
         }
@@ -79,24 +79,38 @@ export class ApiCoreDataService extends PrismaClient implements OnModuleDestroy,
     )
   }
 
-  async createUser(role: UserRole, status: UserStatus, publicKey: string, pid?: number) {
+  async createUserWithSolanaIdentity(role: UserRole, status: UserStatus, publicKey: string, pid?: number) {
     const found = await this.findUserByIdentity({ provider: 'Solana', providerId: publicKey })
     if (found) {
       this.logger.verbose(`Found ${found.role} ${found.username}`)
       return
     }
 
+    return this.createUserWithIdentity(role, status, getUsername(publicKey), pid, {
+      provider: 'Solana',
+      providerId: publicKey,
+    })
+  }
+
+  async createUserWithIdentity(
+    role: UserRole,
+    status: UserStatus,
+    username: string,
+    pid?: number,
+    identity?: Prisma.IdentityCreateWithoutOwnerInput,
+  ) {
+    const existing = await this.findUserByUsername(username)
+    if (existing) {
+      username = `${identity.provider}-${identity.providerId}`
+    }
     return this.user.create({
       data: {
-        status,
         pid: pid ?? undefined,
-        username: getUsername(publicKey),
         role,
+        status,
+        username,
         identities: {
-          create: {
-            provider: 'Solana',
-            providerId: publicKey,
-          },
+          create: identity,
         },
       },
     })

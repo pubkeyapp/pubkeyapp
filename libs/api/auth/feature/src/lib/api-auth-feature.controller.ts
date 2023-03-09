@@ -1,13 +1,15 @@
 import { Controller, Get, Logger, Param, Post, Req, Res, UseGuards } from '@nestjs/common'
-import { ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger'
+import { ApiBody, ApiExcludeEndpoint, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { Request, Response } from 'express'
 import {
   ApiAnonJwtGuard,
-  ApiAuthDataAccessService,
+  ApiAuthService,
   ApiAuthSolanaGuard,
   ResponseChallengeOptions,
   RequestChallenge,
   AuthRequest,
+  ApiAuthDiscordGuard,
+  ApiAuthJwtGuard,
 } from '@pubkeyapp/api/auth/data-access'
 import { User } from '@pubkeyapp/api/user/data-access'
 import { boolean } from 'joi'
@@ -16,8 +18,23 @@ import { boolean } from 'joi'
 @Controller('auth')
 export class ApiAuthFeatureController {
   private readonly logger = new Logger(ApiAuthFeatureController.name)
-  constructor(private readonly service: ApiAuthDataAccessService) {
-    this.logger.debug(`constructor: ${ApiAuthDataAccessService.name}`)
+  constructor(private readonly service: ApiAuthService) {
+    this.logger.debug(`constructor: ${ApiAuthService.name}`)
+  }
+
+  @Get('discord')
+  @ApiExcludeEndpoint()
+  @UseGuards(ApiAuthJwtGuard, ApiAuthDiscordGuard)
+  discord() {
+    return
+  }
+
+  @Get('discord/callback')
+  @ApiExcludeEndpoint()
+  @UseGuards(ApiAuthJwtGuard, ApiAuthDiscordGuard)
+  async discordAuthCallback(@Req() req: AuthRequest, @Res({ passthrough: true }) res: Response) {
+    console.log('req', req.user)
+    res.redirect(this.service.core.config.webUrl + '/settings/identities')
   }
 
   @UseGuards(ApiAnonJwtGuard)

@@ -1878,6 +1878,18 @@
             "deprecationReason": null
           },
           {
+            "name": "profile",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "JSON",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "provider",
             "description": null,
             "args": [],
@@ -3481,6 +3493,35 @@
             "type": {
               "kind": "OBJECT",
               "name": "Page",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "userDeleteIdentity",
+            "description": null,
+            "args": [
+              {
+                "name": "identityId",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "User",
               "ofType": null
             },
             "isDeprecated": false,

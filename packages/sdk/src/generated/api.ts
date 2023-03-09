@@ -285,6 +285,12 @@ export interface Identity {
   providerId: string
   /**
    *
+   * @type {object}
+   * @memberof Identity
+   */
+  profile?: object | null
+  /**
+   *
    * @type {boolean}
    * @memberof Identity
    */

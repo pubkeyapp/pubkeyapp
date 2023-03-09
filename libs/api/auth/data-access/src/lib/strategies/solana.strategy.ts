@@ -3,12 +3,12 @@ import { Injectable, Logger } from '@nestjs/common'
 import { PassportStrategy } from '@nestjs/passport'
 import { Strategy } from 'passport-custom'
 
-import { ApiAuthDataAccessService } from '../api-auth-data-access.service'
+import { ApiAuthService } from '../api-auth.service'
 
 @Injectable()
 export class SolanaStrategy extends PassportStrategy(Strategy, 'solana') {
   private readonly logger = new Logger(SolanaStrategy.name)
-  constructor(private auth: ApiAuthDataAccessService) {
+  constructor(private auth: ApiAuthService) {
     super()
   }
 

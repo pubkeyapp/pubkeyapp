@@ -18,7 +18,7 @@ export class ApiCoreCacheService {
 
   del(namespace: CacheNamespace, key: string) {
     const cacheKey = getCacheKey(namespace, key)
-    this.logger.debug(`[CACHE MISS] ${cacheKey} `)
+    this.logger.debug(`[CACHE DELETE] ${cacheKey} `)
     return this.cache.del(getCacheKey(namespace, key))
   }
 

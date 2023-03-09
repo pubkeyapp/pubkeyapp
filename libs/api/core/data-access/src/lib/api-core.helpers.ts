@@ -8,6 +8,7 @@ export type CoreIdentity = {
   id: string
   provider: IdentityProvider
   providerId: string
+  profile?: unknown
   verified: boolean
 }
 export type CoreUser = Omit<CoreDbUser, 'identities'> & {
@@ -28,6 +29,7 @@ export function convertCoreDbUser(user: CoreDbUser, apiUrl: string): CoreUser {
       id: identity.id,
       provider: identity.provider,
       providerId: identity.providerId,
+      profile: identity.profile,
       verified: identity.verified ? identity.verified : false,
     }
   })

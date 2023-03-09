@@ -16,6 +16,7 @@ fragment AccountDetails on Account {
     id
     provider
     providerId
+    profile
     verified
     owner {
       ...UserDetails
@@ -29,15 +30,6 @@ query AdminAccounts($input: AdminListAccountInput!) {
     owner {
       ...AccountDetails
     }
-    identity {
-      id
-      provider
-      providerId
-      verified
-      owner {
-        ...UserDetails
-      }
-    }
   }
 }
 
@@ -49,15 +41,6 @@ query AdminAccount($accountId: String!) {
     }
     tokens {
       ...AccountDetails
-    }
-    identity {
-      id
-      provider
-      providerId
-      verified
-      owner {
-        ...UserDetails
-      }
     }
   }
 }

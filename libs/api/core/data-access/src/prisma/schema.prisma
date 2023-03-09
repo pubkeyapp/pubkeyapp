@@ -98,6 +98,7 @@ model Identity {
   updatedAt  DateTime         @default(now()) @updatedAt
   provider   IdentityProvider
   providerId String
+  profile    Json?
   verified   Boolean          @default(false)
   accounts   Account[]
   owner      User             @relation(fields: [ownerId], references: [id])

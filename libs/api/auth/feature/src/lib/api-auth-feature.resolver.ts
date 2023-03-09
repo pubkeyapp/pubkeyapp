@@ -1,9 +1,4 @@
-import {
-  ApiAuthDataAccessService,
-  ApiAuthGraphqlGuard,
-  AuthChallengeRequest,
-  CtxUser,
-} from '@pubkeyapp/api/auth/data-access'
+import { ApiAuthService, ApiAuthGraphqlGuard, AuthChallengeRequest, CtxUser } from '@pubkeyapp/api/auth/data-access'
 import { User } from '@pubkeyapp/api/user/data-access'
 import { Logger, UseGuards } from '@nestjs/common'
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql'
@@ -11,7 +6,7 @@ import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql'
 @Resolver()
 export class ApiAuthFeatureResolver {
   private readonly logger = new Logger(ApiAuthFeatureResolver.name)
-  constructor(private readonly service: ApiAuthDataAccessService) {}
+  constructor(private readonly service: ApiAuthService) {}
 
   @Mutation(() => Boolean, { nullable: true })
   async logout(@Context() context) {

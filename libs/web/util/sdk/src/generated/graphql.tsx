@@ -237,6 +237,7 @@ export type Identity = {
   createdAt?: Maybe<Scalars['String']>
   id?: Maybe<Scalars['String']>
   owner?: Maybe<User>
+  profile?: Maybe<Scalars['JSON']>
   provider?: Maybe<IdentityProvider>
   providerId: Scalars['String']
   updatedAt?: Maybe<Scalars['String']>
@@ -321,6 +322,7 @@ export type Mutation = {
   userAcceptInvite?: Maybe<Invite>
   userAddPageBlock?: Maybe<PageBlock>
   userCreatePage?: Maybe<Page>
+  userDeleteIdentity?: Maybe<User>
   userDeletePage?: Maybe<Page>
   userFollowUser?: Maybe<User>
   userRemovePageBlock?: Maybe<PageBlock>
@@ -464,6 +466,10 @@ export type MutationUserAddPageBlockArgs = {
 
 export type MutationUserCreatePageArgs = {
   input: UserCreatePageInput
+}
+
+export type MutationUserDeleteIdentityArgs = {
+  identityId: Scalars['String']
 }
 
 export type MutationUserDeletePageArgs = {
@@ -891,6 +897,7 @@ export type AccountDetailsFragment = {
     id?: string | null
     provider?: IdentityProvider | null
     providerId: string
+    profile?: any | null
     verified: boolean
     owner?: {
       __typename?: 'User'
@@ -978,6 +985,7 @@ export type AdminAccountsQuery = {
         id?: string | null
         provider?: IdentityProvider | null
         providerId: string
+        profile?: any | null
         verified: boolean
         owner?: {
           __typename?: 'User'
@@ -1005,11 +1013,36 @@ export type AdminAccountsQuery = {
         } | null
       } | null
     } | null
+    discoveredBy?: {
+      __typename?: 'User'
+      id?: string | null
+      pid?: number | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      role?: UserRole | null
+      status?: UserStatus | null
+      username?: string | null
+      name?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      followersCount?: number | null
+      followingCount?: number | null
+      relation?: {
+        __typename?: 'UserRelation'
+        isYou: boolean
+        isFollowedByYou: boolean
+        isFollowingYou: boolean
+      } | null
+    } | null
     identity?: {
       __typename?: 'Identity'
       id?: string | null
       provider?: IdentityProvider | null
       providerId: string
+      profile?: any | null
       verified: boolean
       owner?: {
         __typename?: 'User'
@@ -1034,30 +1067,6 @@ export type AdminAccountsQuery = {
           isFollowedByYou: boolean
           isFollowingYou: boolean
         } | null
-      } | null
-    } | null
-    discoveredBy?: {
-      __typename?: 'User'
-      id?: string | null
-      pid?: number | null
-      createdAt?: string | null
-      updatedAt?: string | null
-      role?: UserRole | null
-      status?: UserStatus | null
-      username?: string | null
-      name?: string | null
-      bio?: string | null
-      avatarUrl?: string | null
-      metaUrl?: string | null
-      profileUrl?: string | null
-      publicKey?: string | null
-      followersCount?: number | null
-      followingCount?: number | null
-      relation?: {
-        __typename?: 'UserRelation'
-        isYou: boolean
-        isFollowedByYou: boolean
-        isFollowingYou: boolean
       } | null
     } | null
   }> | null
@@ -1122,6 +1131,7 @@ export type AdminAccountQuery = {
         id?: string | null
         provider?: IdentityProvider | null
         providerId: string
+        profile?: any | null
         verified: boolean
         owner?: {
           __typename?: 'User'
@@ -1190,6 +1200,7 @@ export type AdminAccountQuery = {
         id?: string | null
         provider?: IdentityProvider | null
         providerId: string
+        profile?: any | null
         verified: boolean
         owner?: {
           __typename?: 'User'
@@ -1217,11 +1228,36 @@ export type AdminAccountQuery = {
         } | null
       } | null
     }> | null
+    discoveredBy?: {
+      __typename?: 'User'
+      id?: string | null
+      pid?: number | null
+      createdAt?: string | null
+      updatedAt?: string | null
+      role?: UserRole | null
+      status?: UserStatus | null
+      username?: string | null
+      name?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      followersCount?: number | null
+      followingCount?: number | null
+      relation?: {
+        __typename?: 'UserRelation'
+        isYou: boolean
+        isFollowedByYou: boolean
+        isFollowingYou: boolean
+      } | null
+    } | null
     identity?: {
       __typename?: 'Identity'
       id?: string | null
       provider?: IdentityProvider | null
       providerId: string
+      profile?: any | null
       verified: boolean
       owner?: {
         __typename?: 'User'
@@ -1246,30 +1282,6 @@ export type AdminAccountQuery = {
           isFollowedByYou: boolean
           isFollowingYou: boolean
         } | null
-      } | null
-    } | null
-    discoveredBy?: {
-      __typename?: 'User'
-      id?: string | null
-      pid?: number | null
-      createdAt?: string | null
-      updatedAt?: string | null
-      role?: UserRole | null
-      status?: UserStatus | null
-      username?: string | null
-      name?: string | null
-      bio?: string | null
-      avatarUrl?: string | null
-      metaUrl?: string | null
-      profileUrl?: string | null
-      publicKey?: string | null
-      followersCount?: number | null
-      followingCount?: number | null
-      relation?: {
-        __typename?: 'UserRelation'
-        isYou: boolean
-        isFollowedByYou: boolean
-        isFollowingYou: boolean
       } | null
     } | null
   } | null
@@ -1335,6 +1347,7 @@ export type UserAccountQuery = {
         id?: string | null
         provider?: IdentityProvider | null
         providerId: string
+        profile?: any | null
         verified: boolean
         owner?: {
           __typename?: 'User'
@@ -1403,6 +1416,7 @@ export type UserAccountQuery = {
         id?: string | null
         provider?: IdentityProvider | null
         providerId: string
+        profile?: any | null
         verified: boolean
         owner?: {
           __typename?: 'User'
@@ -1459,6 +1473,7 @@ export type UserAccountQuery = {
       id?: string | null
       provider?: IdentityProvider | null
       providerId: string
+      profile?: any | null
       verified: boolean
       owner?: {
         __typename?: 'User'
@@ -1529,6 +1544,7 @@ export type MeQuery = {
       updatedAt?: string | null
       provider?: IdentityProvider | null
       providerId: string
+      profile?: any | null
       verified: boolean
     }> | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
@@ -1884,7 +1900,35 @@ export type IdentityDetailsFragment = {
   updatedAt?: string | null
   provider?: IdentityProvider | null
   providerId: string
+  profile?: any | null
   verified: boolean
+}
+
+export type UserDeleteIdentityMutationVariables = Exact<{
+  identityId: Scalars['String']
+}>
+
+export type UserDeleteIdentityMutation = {
+  __typename?: 'Mutation'
+  item?: {
+    __typename?: 'User'
+    id?: string | null
+    pid?: number | null
+    createdAt?: string | null
+    updatedAt?: string | null
+    role?: UserRole | null
+    status?: UserStatus | null
+    username?: string | null
+    name?: string | null
+    bio?: string | null
+    avatarUrl?: string | null
+    metaUrl?: string | null
+    profileUrl?: string | null
+    publicKey?: string | null
+    followersCount?: number | null
+    followingCount?: number | null
+    relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
+  } | null
 }
 
 export type InviteDetailsFragment = {
@@ -3570,6 +3614,7 @@ export type AdminUserQuery = {
       updatedAt?: string | null
       provider?: IdentityProvider | null
       providerId: string
+      profile?: any | null
       verified: boolean
     }> | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
@@ -3713,6 +3758,7 @@ export type PublicUserQuery = {
       updatedAt?: string | null
       provider?: IdentityProvider | null
       providerId: string
+      profile?: any | null
       verified: boolean
     }> | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
@@ -3749,6 +3795,7 @@ export type PublicUserFollowersQuery = {
       updatedAt?: string | null
       provider?: IdentityProvider | null
       providerId: string
+      profile?: any | null
       verified: boolean
     }> | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
@@ -3785,6 +3832,7 @@ export type PublicFollowingQuery = {
       updatedAt?: string | null
       provider?: IdentityProvider | null
       providerId: string
+      profile?: any | null
       verified: boolean
     }> | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
@@ -3973,6 +4021,7 @@ export const AccountDetailsFragmentDoc = gql`
       id
       provider
       providerId
+      profile
       verified
       owner {
         ...UserDetails
@@ -4063,6 +4112,7 @@ export const IdentityDetailsFragmentDoc = gql`
     updatedAt
     provider
     providerId
+    profile
     verified
   }
 `
@@ -4192,19 +4242,9 @@ export const AdminAccountsDocument = gql`
       owner {
         ...AccountDetails
       }
-      identity {
-        id
-        provider
-        providerId
-        verified
-        owner {
-          ...UserDetails
-        }
-      }
     }
   }
   ${AccountDetailsFragmentDoc}
-  ${UserDetailsFragmentDoc}
 `
 
 export function useAdminAccountsQuery(options: Omit<Urql.UseQueryArgs<AdminAccountsQueryVariables>, 'query'>) {
@@ -4220,19 +4260,9 @@ export const AdminAccountDocument = gql`
       tokens {
         ...AccountDetails
       }
-      identity {
-        id
-        provider
-        providerId
-        verified
-        owner {
-          ...UserDetails
-        }
-      }
     }
   }
   ${AccountDetailsFragmentDoc}
-  ${UserDetailsFragmentDoc}
 `
 
 export function useAdminAccountQuery(options: Omit<Urql.UseQueryArgs<AdminAccountQueryVariables>, 'query'>) {
@@ -4433,6 +4463,18 @@ export const AdminDeleteDomainDocument = gql`
 
 export function useAdminDeleteDomainMutation() {
   return Urql.useMutation<AdminDeleteDomainMutation, AdminDeleteDomainMutationVariables>(AdminDeleteDomainDocument)
+}
+export const UserDeleteIdentityDocument = gql`
+  mutation UserDeleteIdentity($identityId: String!) {
+    item: userDeleteIdentity(identityId: $identityId) {
+      ...UserDetails
+    }
+  }
+  ${UserDetailsFragmentDoc}
+`
+
+export function useUserDeleteIdentityMutation() {
+  return Urql.useMutation<UserDeleteIdentityMutation, UserDeleteIdentityMutationVariables>(UserDeleteIdentityDocument)
 }
 export const AdminInviteDocument = gql`
   query AdminInvite($inviteId: String!) {

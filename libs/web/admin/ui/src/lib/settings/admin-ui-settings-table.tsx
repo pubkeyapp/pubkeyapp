@@ -1,6 +1,7 @@
 import { Accordion, Button, createStyles, Group, Stack, Text, TextInput } from '@mantine/core'
 import { Setting } from '@pubkeyapp/web/util/sdk'
 import React, { useState } from 'react'
+import ReactMarkdown from 'react-markdown'
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -51,7 +52,7 @@ export function AdminUiSettingsTable({
                 <div>
                   <Text ff="monospace">{setting.key}</Text>
                   <Text size="sm" color="dimmed" weight={400}>
-                    {setting.description}
+                    <ReactMarkdown>{setting.description ?? ''}</ReactMarkdown>
                   </Text>
                 </div>
               </Group>

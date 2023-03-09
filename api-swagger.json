@@ -409,6 +409,10 @@
           "providerId": {
             "type": "string"
           },
+          "profile": {
+            "type": "object",
+            "nullable": true
+          },
           "verified": {
             "type": "boolean"
           }

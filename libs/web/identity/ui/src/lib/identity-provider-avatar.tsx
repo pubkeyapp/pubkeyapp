@@ -1,13 +1,44 @@
+import { ActionIcon, Avatar, Badge, Box } from '@mantine/core'
 import { SolanaLogo } from '@pubkeyapp/web/ui/core'
-import { IdentityProvider } from '@pubkeyapp/web/util/sdk'
-import { IconBrandDiscord, IconQuestionCircle } from '@tabler/icons-react'
+import { Identity, IdentityProvider } from '@pubkeyapp/web/util/sdk'
+import { IconBrandDiscord, IconCurrencySolana, IconQuestionCircle } from '@tabler/icons-react'
+import React from 'react'
 
-export function IdentityProviderAvatar({ provider }: { provider: IdentityProvider }) {
+export function IdentityProviderAvatar({ provider, size = 48 }: { provider: IdentityProvider; size?: number }) {
   switch (provider) {
     case IdentityProvider.Discord:
-      return <IconBrandDiscord height={48} width={48} />
+      return <IconBrandDiscord size={size} />
     case IdentityProvider.Solana:
-      return <SolanaLogo />
+      return <IconCurrencySolana size={size} />
   }
   return <IconQuestionCircle />
+}
+
+export function IdentityProviderBadge({ identity }: { identity: Identity }) {
+  const avatarUrl = identity?.profile?.avatarUrl
+  return (
+    <Badge
+      pl={0}
+      size="lg"
+      color="brand"
+      radius="xl"
+      pr={5}
+      leftSection={
+        avatarUrl ? (
+          <Avatar size={24} mr={5} src={avatarUrl} radius="xl" />
+        ) : (
+          <Box mt={6} ml={5}>
+            <SolanaLogo width={16} height={16} />
+          </Box>
+        )
+      }
+      rightSection={
+        <ActionIcon size="xs" color="brand" variant="transparent" radius="xl">
+          <IdentityProviderAvatar provider={identity.provider as IdentityProvider} size={16} />
+        </ActionIcon>
+      }
+    >
+      {identity?.profile?.username ?? `${identity.provider} Account`}
+    </Badge>
+  )
 }
