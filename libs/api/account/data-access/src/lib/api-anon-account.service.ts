@@ -35,7 +35,7 @@ export class ApiAnonAccountService implements OnModuleInit {
 
     await this.core.ensureUserActive(userId)
     if (BLOCKED_ACCOUNTS.includes(address)) {
-      throw new NotFoundException(`Account ${address} not found on ${network} `)
+      throw new NotFoundException(`Account ${address} not found on ${network} (Blocked)`)
     }
 
     let found = await this.findAccount(network, address)
@@ -45,7 +45,7 @@ export class ApiAnonAccountService implements OnModuleInit {
       found = await this.discoverAccount(userId, network, address, undefined, undefined, undefined, true)
     }
     if (!found) {
-      throw new NotFoundException(`Account ${address} not found on ${network} `)
+      throw new NotFoundException(`Account ${address} not found on ${network} (after discovery)`)
     }
 
     if (sync) {
@@ -74,6 +74,10 @@ export class ApiAnonAccountService implements OnModuleInit {
     }
     this.logger.verbose(`Discovering account ${address} on ${network}`)
     const solana = this.solana.getSolanaNetwork(network)
+    if (!solana) {
+      this.logger.warn(`Account ${address} not index on ${network} (No Solana)`)
+      return
+    }
     const accountInfo = await solana.getAccountInfo(address)
 
     if (
@@ -88,7 +92,7 @@ export class ApiAnonAccountService implements OnModuleInit {
     }
     let foundOwner
     if (accountInfo.program) {
-      this.logger.verbose(`Account ${address} is owned by ${accountInfo.program?.toString()}`)
+      this.logger.verbose(`Program Account ${address} is owned by ${accountInfo.program?.toString()}`)
       foundOwner = await this.core.data.account.findFirst({
         where: {
           network,
