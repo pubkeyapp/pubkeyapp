@@ -66,6 +66,9 @@ export function UiHeaderProfile() {
           <Menu.Item component={Link} to="/dashboard">
             Dashboard
           </Menu.Item>
+          <Menu.Item component={Link} to="/settings">
+            Settings
+          </Menu.Item>
           <Menu.Item component={Link} to={`${user.profileUrl}`}>
             Your Profile
           </Menu.Item>
@@ -80,10 +83,6 @@ export function UiHeaderProfile() {
               {/*</Menu.Item>*/}
             </>
           ) : null}
-          <Menu.Divider />
-          <Menu.Item component={Link} to="/settings">
-            Settings
-          </Menu.Item>
           <Menu.Divider />
           <Menu.Item onClick={() => logout()}>Sign out</Menu.Item>
         </Menu.Dropdown>

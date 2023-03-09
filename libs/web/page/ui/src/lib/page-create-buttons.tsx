@@ -37,8 +37,8 @@ export function PageCreateButtons({ pages }: { pages: Page[] }) {
       {missingTypes?.map((type) => (
         <Button
           key={type}
-          size="xl"
-          variant="default"
+          size="lg"
+          variant="subtle"
           leftIcon={<PageTypeIcon type={type as PageType} size={36} />}
           onClick={() => createPage(type)}
         >

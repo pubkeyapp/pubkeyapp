@@ -133,6 +133,7 @@ export function EarlyFeatureActions() {
       <Group position="center">
         <Tooltip label="Follow @PubKeyApp on Twitter">
           <Button
+            variant="outline"
             component="a"
             href="https://twitter.com/intent/user?screen_name=PubKeyApp"
             target="_blank"
@@ -144,6 +145,7 @@ export function EarlyFeatureActions() {
         </Tooltip>
         <Tooltip label="Share your #PID on Twitter and tag @PubKeyApp">
           <Button
+            variant="outline"
             component="a"
             href={`https://twitter.com/intent/tweet?text=${text}`}
             target="_blank"
@@ -155,6 +157,7 @@ export function EarlyFeatureActions() {
         </Tooltip>
         <Tooltip label="Join our Discord and share your PID Tweet">
           <Button
+            variant="outline"
             component="a"
             href="https://pubkey.app/join-discord"
             target="_blank"

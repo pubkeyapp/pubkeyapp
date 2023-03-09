@@ -1,10 +1,9 @@
-import { Anchor, Box, Container, Flex, Paper, SimpleGrid, Stack } from '@mantine/core'
+import { Box, Container, Flex, Paper, SimpleGrid, Stack, Text } from '@mantine/core'
 import { useAuth } from '@pubkeyapp/web/auth/data-access'
 import { PageCreateButtons, PageList } from '@pubkeyapp/web/page/ui'
 import { UiLoader } from '@pubkeyapp/web/ui/core'
 import { usePublicUserPagesQuery, usePublicUserQuery } from '@pubkeyapp/web/util/sdk'
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { EarlyFeatureActions } from '../early/early-feature'
 import { DashboardConnectIdentities } from './dashboard-connect.identities'
 
@@ -19,9 +18,9 @@ export function DashboardFeature() {
         <Paper>
           <Flex direction="column" justify="space-between" sx={{ height: '100%' }}>
             <Stack mb={32}>
-              <Anchor size="xl" component={Link} to="/profiles" fw={500}>
+              <Text size="xl" fw={500}>
                 Your Profiles
-              </Anchor>
+              </Text>
               {fetching ? <UiLoader /> : <PageList pages={pages?.items ?? []} />}
             </Stack>
             <PageCreateButtons pages={pages?.items ?? []} />
@@ -29,9 +28,9 @@ export function DashboardFeature() {
         </Paper>
         <Paper>
           <Stack>
-            <Anchor size="xl" component={Link} to="/settings/identities" fw={500}>
-              Your identities
-            </Anchor>
+            <Text size="xl" fw={500}>
+              Your Identities
+            </Text>
             <DashboardConnectIdentities identities={userData?.item?.identities ?? []} />
           </Stack>
         </Paper>
