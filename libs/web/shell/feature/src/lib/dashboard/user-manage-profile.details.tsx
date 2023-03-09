@@ -1,4 +1,4 @@
-import { ActionIcon, Anchor, Avatar, Badge, Button, Group, Menu, Stack, Text, Tooltip } from '@mantine/core'
+import { ActionIcon, Anchor, Avatar, Badge, Button, Group, Menu, Stack, Text, ThemeIcon, Tooltip } from '@mantine/core'
 import { useAuth } from '@pubkeyapp/web/auth/data-access'
 import { IdentityBadge } from '@pubkeyapp/web/identity/ui'
 import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/core'
@@ -8,7 +8,7 @@ import {
   useUserSyncProfileMutation,
   useUserUnlinkProfileIdentityMutation,
 } from '@pubkeyapp/web/util/sdk'
-import { IconTrash } from '@tabler/icons-react'
+import { IconTrash, IconUser, IconUserExclamation, IconUserPlus } from '@tabler/icons-react'
 import React, { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -77,11 +77,20 @@ export function UserManageProfileDetails({ profile }: { profile: Profile }) {
           ) : null}
         </Group>
       </Stack>
-      <Stack spacing="xl">
+      <Stack spacing="xl" my={16}>
         <Group position="apart" align="center">
-          <Group align="center">
-            <Text size="lg">Profile Identities</Text>
-          </Group>
+          <Badge
+            size="lg"
+            pl={0}
+            color="brand"
+            leftSection={
+              <ThemeIcon color={'brand'} variant="transparent" size="lg" radius="xl">
+                <IconUser size={16} />
+              </ThemeIcon>
+            }
+          >
+            Linked Identities
+          </Badge>
           <Group>
             <Menu shadow="md" width={300} withArrow>
               <Menu.Target>
