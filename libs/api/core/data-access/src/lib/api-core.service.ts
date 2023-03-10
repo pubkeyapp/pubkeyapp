@@ -193,18 +193,4 @@ export class ApiCoreService implements OnApplicationBootstrap {
       return res
     })
   }
-
-  async userDeleteIdentity(userId: string, identityId: string) {
-    const user = await this.ensureUserActive(userId)
-    const identity = await this.data.identity.findUnique({ where: { id: identityId } })
-    if (!identity) {
-      throw new Error('Identity not found')
-    }
-    if (identity.ownerId !== user.id) {
-      throw new Error('Unauthorized')
-    }
-    await this.data.identity.delete({ where: { id: identityId } })
-    this.logger.verbose(` => Deleted identity ${identityId} (user: ${user.id})`)
-    return this.getUserById(user.id, true)
-  }
 }

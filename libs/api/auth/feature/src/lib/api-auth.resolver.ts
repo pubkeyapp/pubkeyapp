@@ -17,7 +17,6 @@ export class ApiAuthResolver {
   @Query(() => User, { nullable: true })
   @UseGuards(ApiAuthGraphqlGuard)
   getMe(@CtxUser() user: User) {
-    this.logger.debug(`me: ${user?.username}`)
     return user
   }
 

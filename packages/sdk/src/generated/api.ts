@@ -83,6 +83,12 @@ export interface Account {
   program: string
   /**
    *
+   * @type {object}
+   * @memberof Account
+   */
+  metadata?: object | null
+  /**
+   *
    * @type {string}
    * @memberof Account
    */
@@ -114,6 +120,7 @@ export const AccountType = {
   GumUser: 'GumUser',
   GumProfile: 'GumProfile',
   GumProfileMeta: 'GumProfileMeta',
+  MetaplexNft: 'MetaplexNFT',
   Mint: 'Mint',
   Program: 'Program',
   Token: 'Token',
@@ -292,6 +299,12 @@ export interface Identity {
    * @memberof Identity
    */
   profile?: object | null
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof Identity
+   */
+  accounts?: Array<string> | null
   /**
    *
    * @type {boolean}

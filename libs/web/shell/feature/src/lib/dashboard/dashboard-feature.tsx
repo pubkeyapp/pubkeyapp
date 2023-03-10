@@ -4,7 +4,9 @@ import { UiLoader, UiTabRoutes } from '@pubkeyapp/web/ui/core'
 import { useUserGetProfilesQuery } from '@pubkeyapp/web/util/sdk'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { UserIdentitiesProvider } from '../settings/user-identities.provider'
 import { UserManageIdentities } from '../settings/user-manage.identities'
+import { UserDashboardProfileCard } from './user-dashboard-profile.card'
 import { UserManageProfiles } from './user-manage.profiles'
 
 export function DashboardFeature() {
@@ -12,36 +14,41 @@ export function DashboardFeature() {
   const [{ data: profiles, fetching }] = useUserGetProfilesQuery()
 
   return (
-    <Box py={32}>
-      <Container size="sm">
-        <UiTabRoutes
-          tabs={[
-            {
-              label: 'Manage Profiles',
-              value: 'profile',
-              component: (
-                <Stack spacing={64} mt={64}>
-                  {fetching ? <UiLoader /> : <UserManageProfiles profiles={profiles?.items ?? []} />}
-                </Stack>
-              ),
-            },
-            {
-              label: 'Manage Identities',
-              value: 'identities',
-              component: (
-                <Stack spacing={64} mt={64}>
-                  <UserManageIdentities identities={user?.identities ?? []} />
-                </Stack>
-              ),
-            },
-          ]}
-        />
-      </Container>
+    <Stack py={32} spacing={64}>
+      {user ? <UserDashboardProfileCard user={user as any} /> : null}
+      <Box>
+        <Container size="sm">
+          <UiTabRoutes
+            tabs={[
+              {
+                label: 'Manage Profiles',
+                value: 'profile',
+                component: (
+                  <Stack mt={64}>
+                    {fetching ? <UiLoader /> : <UserManageProfiles profiles={profiles?.items ?? []} />}
+                  </Stack>
+                ),
+              },
+              {
+                label: 'Manage Identities',
+                value: 'identities',
+                component: (
+                  <Stack mt={64}>
+                    <UserIdentitiesProvider>
+                      <UserManageIdentities />
+                    </UserIdentitiesProvider>
+                  </Stack>
+                ),
+              },
+            ]}
+          />
+        </Container>
+      </Box>
       <Group mt={64} position="center">
         <Button size="xs" variant="subtle" component={Link} to="/early">
           You're early.
         </Button>
       </Group>
-    </Box>
+    </Stack>
   )
 }

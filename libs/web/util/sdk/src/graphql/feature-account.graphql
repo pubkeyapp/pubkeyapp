@@ -4,6 +4,7 @@ fragment AccountDetails on Account {
   createdAt
   name
   program
+  metadata
   network
   type
   address

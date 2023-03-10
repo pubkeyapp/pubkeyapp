@@ -29,6 +29,7 @@ export type Account = {
   explorerUrl?: Maybe<Scalars['String']>
   id?: Maybe<Scalars['String']>
   identity?: Maybe<Identity>
+  metadata?: Maybe<Scalars['JSON']>
   name?: Maybe<Scalars['String']>
   network?: Maybe<NetworkType>
   owner?: Maybe<Account>
@@ -45,6 +46,7 @@ export enum AccountType {
   GumProfile = 'GumProfile',
   GumProfileMeta = 'GumProfileMeta',
   GumUser = 'GumUser',
+  MetaplexNft = 'MetaplexNFT',
   Mint = 'Mint',
   Program = 'Program',
   System = 'System',
@@ -253,6 +255,7 @@ export type Follow = {
 
 export type Identity = {
   __typename?: 'Identity'
+  accounts?: Maybe<Array<Account>>
   createdAt?: Maybe<Scalars['String']>
   id?: Maybe<Scalars['String']>
   owner?: Maybe<User>
@@ -352,6 +355,7 @@ export type Mutation = {
   userLinkProfileIdentity?: Maybe<Profile>
   userLogout?: Maybe<Scalars['Boolean']>
   userRemovePageBlock?: Maybe<PageBlock>
+  userSyncIdentity?: Maybe<Identity>
   userSyncProfile?: Maybe<Profile>
   userUnfollowUser?: Maybe<User>
   userUnlinkProfileIdentity?: Maybe<Profile>
@@ -530,6 +534,10 @@ export type MutationUserLinkProfileIdentityArgs = {
 export type MutationUserRemovePageBlockArgs = {
   pageBlockId: Scalars['String']
   pageId: Scalars['String']
+}
+
+export type MutationUserSyncIdentityArgs = {
+  identityId: Scalars['String']
 }
 
 export type MutationUserSyncProfileArgs = {
@@ -724,6 +732,8 @@ export type Query = {
   uptime: Scalars['Float']
   userGetAccount?: Maybe<Account>
   userGetAccountHistory?: Maybe<Scalars['JSON']>
+  userGetIdentities?: Maybe<Array<Identity>>
+  userGetIdentity?: Maybe<Identity>
   userGetInvite?: Maybe<Invite>
   userGetInvites?: Maybe<Array<Invite>>
   userGetPage?: Maybe<Page>
@@ -842,6 +852,10 @@ export type QueryUserGetAccountArgs = {
 export type QueryUserGetAccountHistoryArgs = {
   address: Scalars['String']
   network: NetworkType
+}
+
+export type QueryUserGetIdentityArgs = {
+  identityId: Scalars['String']
 }
 
 export type QueryUserGetPageArgs = {
@@ -980,6 +994,7 @@ export type AccountDetailsFragment = {
   createdAt?: any | null
   name?: string | null
   program?: string | null
+  metadata?: any | null
   network?: NetworkType | null
   type?: AccountType | null
   address?: string | null
@@ -1051,6 +1066,7 @@ export type AdminGetAccountsQuery = {
     createdAt?: any | null
     name?: string | null
     program?: string | null
+    metadata?: any | null
     network?: NetworkType | null
     type?: AccountType | null
     address?: string | null
@@ -1063,6 +1079,7 @@ export type AdminGetAccountsQuery = {
       createdAt?: any | null
       name?: string | null
       program?: string | null
+      metadata?: any | null
       network?: NetworkType | null
       type?: AccountType | null
       address?: string | null
@@ -1197,6 +1214,7 @@ export type AdminGetAccountQuery = {
     createdAt?: any | null
     name?: string | null
     program?: string | null
+    metadata?: any | null
     network?: NetworkType | null
     type?: AccountType | null
     address?: string | null
@@ -1209,6 +1227,7 @@ export type AdminGetAccountQuery = {
       createdAt?: any | null
       name?: string | null
       program?: string | null
+      metadata?: any | null
       network?: NetworkType | null
       type?: AccountType | null
       address?: string | null
@@ -1278,6 +1297,7 @@ export type AdminGetAccountQuery = {
       createdAt?: any | null
       name?: string | null
       program?: string | null
+      metadata?: any | null
       network?: NetworkType | null
       type?: AccountType | null
       address?: string | null
@@ -1413,6 +1433,7 @@ export type UserGetAccountQuery = {
     createdAt?: any | null
     name?: string | null
     program?: string | null
+    metadata?: any | null
     network?: NetworkType | null
     type?: AccountType | null
     address?: string | null
@@ -1425,6 +1446,7 @@ export type UserGetAccountQuery = {
       createdAt?: any | null
       name?: string | null
       program?: string | null
+      metadata?: any | null
       network?: NetworkType | null
       type?: AccountType | null
       address?: string | null
@@ -1494,6 +1516,7 @@ export type UserGetAccountQuery = {
       createdAt?: any | null
       name?: string | null
       program?: string | null
+      metadata?: any | null
       network?: NetworkType | null
       type?: AccountType | null
       address?: string | null
@@ -2054,6 +2077,128 @@ export type UserDeleteIdentityMutation = {
     followersCount?: number | null
     followingCount?: number | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
+  } | null
+}
+
+export type UserGetIdentitiesQueryVariables = Exact<{ [key: string]: never }>
+
+export type UserGetIdentitiesQuery = {
+  __typename?: 'Query'
+  items?: Array<{
+    __typename?: 'Identity'
+    id?: string | null
+    createdAt?: string | null
+    updatedAt?: string | null
+    provider?: IdentityProvider | null
+    providerId: string
+    profile?: any | null
+    verified: boolean
+    accounts?: Array<{
+      __typename?: 'Account'
+      id?: string | null
+      updatedAt?: any | null
+      createdAt?: any | null
+      name?: string | null
+      program?: string | null
+      metadata?: any | null
+      network?: NetworkType | null
+      type?: AccountType | null
+      address?: string | null
+      explorerUrl?: string | null
+      discoveredAt?: any | null
+      discoveredBy?: {
+        __typename?: 'User'
+        id?: string | null
+        pid?: number | null
+        createdAt?: string | null
+        updatedAt?: string | null
+        role?: UserRole | null
+        status?: UserStatus | null
+        username?: string | null
+        name?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        profileUrl?: string | null
+        publicKey?: string | null
+        followersCount?: number | null
+        followingCount?: number | null
+        relation?: {
+          __typename?: 'UserRelation'
+          isYou: boolean
+          isFollowedByYou: boolean
+          isFollowingYou: boolean
+        } | null
+      } | null
+      identity?: {
+        __typename?: 'Identity'
+        id?: string | null
+        provider?: IdentityProvider | null
+        providerId: string
+        profile?: any | null
+        verified: boolean
+        owner?: {
+          __typename?: 'User'
+          id?: string | null
+          pid?: number | null
+          createdAt?: string | null
+          updatedAt?: string | null
+          role?: UserRole | null
+          status?: UserStatus | null
+          username?: string | null
+          name?: string | null
+          bio?: string | null
+          avatarUrl?: string | null
+          metaUrl?: string | null
+          profileUrl?: string | null
+          publicKey?: string | null
+          followersCount?: number | null
+          followingCount?: number | null
+          relation?: {
+            __typename?: 'UserRelation'
+            isYou: boolean
+            isFollowedByYou: boolean
+            isFollowingYou: boolean
+          } | null
+        } | null
+      } | null
+    }> | null
+  }> | null
+}
+
+export type UserGetIdentityQueryVariables = Exact<{
+  identityId: Scalars['String']
+}>
+
+export type UserGetIdentityQuery = {
+  __typename?: 'Query'
+  item?: {
+    __typename?: 'Identity'
+    id?: string | null
+    createdAt?: string | null
+    updatedAt?: string | null
+    provider?: IdentityProvider | null
+    providerId: string
+    profile?: any | null
+    verified: boolean
+  } | null
+}
+
+export type UserSyncIdentityMutationVariables = Exact<{
+  identityId: Scalars['String']
+}>
+
+export type UserSyncIdentityMutation = {
+  __typename?: 'Mutation'
+  item?: {
+    __typename?: 'Identity'
+    id?: string | null
+    createdAt?: string | null
+    updatedAt?: string | null
+    provider?: IdentityProvider | null
+    providerId: string
+    profile?: any | null
+    verified: boolean
   } | null
 }
 
@@ -4632,6 +4777,7 @@ export const AccountDetailsFragmentDoc = gql`
     createdAt
     name
     program
+    metadata
     network
     type
     address
@@ -5157,6 +5303,52 @@ export const UserDeleteIdentityDocument = gql`
 
 export function useUserDeleteIdentityMutation() {
   return Urql.useMutation<UserDeleteIdentityMutation, UserDeleteIdentityMutationVariables>(UserDeleteIdentityDocument)
+}
+export const UserGetIdentitiesDocument = gql`
+  query UserGetIdentities {
+    items: userGetIdentities {
+      ...IdentityDetails
+      accounts {
+        ...AccountDetails
+      }
+    }
+  }
+  ${IdentityDetailsFragmentDoc}
+  ${AccountDetailsFragmentDoc}
+`
+
+export function useUserGetIdentitiesQuery(options?: Omit<Urql.UseQueryArgs<UserGetIdentitiesQueryVariables>, 'query'>) {
+  return Urql.useQuery<UserGetIdentitiesQuery, UserGetIdentitiesQueryVariables>({
+    query: UserGetIdentitiesDocument,
+    ...options,
+  })
+}
+export const UserGetIdentityDocument = gql`
+  query UserGetIdentity($identityId: String!) {
+    item: userGetIdentity(identityId: $identityId) {
+      ...IdentityDetails
+    }
+  }
+  ${IdentityDetailsFragmentDoc}
+`
+
+export function useUserGetIdentityQuery(options: Omit<Urql.UseQueryArgs<UserGetIdentityQueryVariables>, 'query'>) {
+  return Urql.useQuery<UserGetIdentityQuery, UserGetIdentityQueryVariables>({
+    query: UserGetIdentityDocument,
+    ...options,
+  })
+}
+export const UserSyncIdentityDocument = gql`
+  mutation UserSyncIdentity($identityId: String!) {
+    item: userSyncIdentity(identityId: $identityId) {
+      ...IdentityDetails
+    }
+  }
+  ${IdentityDetailsFragmentDoc}
+`
+
+export function useUserSyncIdentityMutation() {
+  return Urql.useMutation<UserSyncIdentityMutation, UserSyncIdentityMutationVariables>(UserSyncIdentityDocument)
 }
 export const AdminGetInviteDocument = gql`
   query AdminGetInvite($inviteId: String!) {

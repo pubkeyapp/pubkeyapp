@@ -2,7 +2,7 @@ import { CACHE_MANAGER, Inject, Injectable, Logger } from '@nestjs/common'
 import { style } from '@ogma/styler'
 import { Cache } from 'cache-manager'
 
-export type CacheNamespace = 'bonfida' | 'gum' | 'page' | 'user'
+export type CacheNamespace = 'bonfida' | 'gum' | 'page' | 'solana' | 'user'
 
 export function getCacheKey(namespace: CacheNamespace, key: string) {
   return `pubkey:${namespace}:${key}`
@@ -41,21 +41,22 @@ export class ApiCoreCacheService {
       return
     }
 
-    this.logger.verbose(`${style.bGreen.apply('[CACHE HIT]')} ${cacheKey} ttl=${ttl} seconds`)
+    // FIXME: Check amount of cache hits
+    // this.logger.verbose(`${style.bGreen.apply('[CACHE HIT]')} ${cacheKey} ttl=${ttl} seconds`)
     return found
   }
 
   /**
    * Get a value from the cache based on the namespace and key.
    */
-  private get<T>(namespace: CacheNamespace, key: string) {
+  get<T>(namespace: CacheNamespace, key: string) {
     return this.cache.get<T>(getCacheKey(namespace, key))
   }
 
   /**
    * Set a value in the cache based on the namespace and key.
    */
-  private set<T>(namespace: CacheNamespace, key: string, value: T, ttl?: number) {
+  set<T>(namespace: CacheNamespace, key: string, value: T, ttl?: number) {
     return this.cache.set<T>(getCacheKey(namespace, key), value, { ttl: ttl ?? 5 })
   }
 }

@@ -15,6 +15,7 @@ model Account {
   address        String
   name           String
   program        String?
+  metadata       Json?
   network        NetworkType
   type           AccountType
   discoveredAt   DateTime?
@@ -36,6 +37,7 @@ enum AccountType {
   GumUser
   GumProfile
   GumProfileMeta
+  MetaplexNFT
   Mint
   Program
   Token

@@ -1,4 +1,4 @@
-import { Button, Paper, useMantineTheme } from '@mantine/core'
+import { Button, Paper } from '@mantine/core'
 import { formFieldSelect, formFieldText, formFieldTextarea, UiForm, UiFormField } from '@pubkeyapp/web/ui/form'
 import { AdminUpdateUserInput, User, UserRole, UserStatus } from '@pubkeyapp/web/util/sdk'
 
@@ -17,8 +17,6 @@ export function AdminUserSettingsTab({
   user: User
   updateUser: (user: Partial<AdminUpdateUserInput>) => Promise<boolean>
 }) {
-  const theme = useMantineTheme()
-
   const fields: UiFormField<AdminUpdateUserInput>[] = [
     formFieldSelect('role', { label: 'Role', options: userRoleOptions() }),
     formFieldSelect('status', { label: 'Status', options: userStatusOptions() }),

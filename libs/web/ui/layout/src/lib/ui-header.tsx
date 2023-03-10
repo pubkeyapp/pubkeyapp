@@ -93,7 +93,7 @@ export function UiHeader({ links, logo }: UiHeaderProps) {
         </Group>
         <Group spacing={5}>{items}</Group>
         <Group>
-          <WalletMultiButton size="sm" />
+          <WalletMultiButton size="sm" sx={{ border: 0 }} />
           <UiThemeToggle />
           <UiHeaderProfile />
         </Group>

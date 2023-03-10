@@ -44,6 +44,49 @@ type Job {
   failedReason: String
 }
 
+type Account {
+  id: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  discoveredAt: DateTime
+  discoveredBy: User
+  identity: Identity
+  owner: Account
+  tokens: [Account!]
+  name: String
+  program: String
+  metadata: JSON
+  address: String
+  network: NetworkType
+  type: AccountType
+  explorerUrl: String
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+enum NetworkType {
+  SolanaDevnet
+  SolanaMainnet
+  SolanaTestnet
+}
+
+enum AccountType {
+  Account
+  BonfidaDomain
+  BonfidaTwitter
+  GumUser
+  GumProfile
+  GumProfileMeta
+  MetaplexNFT
+  Mint
+  Program
+  Token
+  System
+}
+
 type Identity {
   id: String
   createdAt: String
@@ -51,6 +94,7 @@ type Identity {
   provider: IdentityProvider
   providerId: String!
   profile: JSON
+  accounts: [Account!]
   verified: Boolean!
   owner: User
 }
@@ -156,47 +200,6 @@ type Setting {
   description: String
   key: String
   value: String
-}
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
-type Account {
-  id: String
-  createdAt: DateTime
-  updatedAt: DateTime
-  discoveredAt: DateTime
-  discoveredBy: User
-  identity: Identity
-  owner: Account
-  tokens: [Account!]
-  name: String
-  program: String
-  address: String
-  network: NetworkType
-  type: AccountType
-  explorerUrl: String
-}
-
-enum NetworkType {
-  SolanaDevnet
-  SolanaMainnet
-  SolanaTestnet
-}
-
-enum AccountType {
-  Account
-  BonfidaDomain
-  BonfidaTwitter
-  GumUser
-  GumProfile
-  GumProfileMeta
-  Mint
-  Program
-  Token
-  System
 }
 
 type AuthChallengeRequest {
@@ -355,6 +358,8 @@ type Query {
   config: Config
   adminGetDomains(input: AdminGetDomainsInput): [Domain!]
   adminGetDomain(domainId: String!): Domain
+  userGetIdentity(identityId: String!): Identity
+  userGetIdentities: [Identity!]
   adminGetInvites(input: AdminGetInvitesInput): [Invite!]
   adminGetInvite(inviteId: String!): Invite
   anonGetInvite(code: String!): Invite
@@ -430,7 +435,9 @@ type Mutation {
   adminCreateDomain(input: AdminCreateDomainInput!): Domain
   adminDeleteDomain(domainId: String!): Domain
   adminUpdateDomain(domainId: String!, input: AdminUpdateDomainInput!): Domain
+  userLinkIdentity(provider: IdentityProvider!, providerId: String!): User
   userDeleteIdentity(identityId: String!): User
+  userSyncIdentity(identityId: String!): Identity
   adminCreateInvite(input: AdminCreateInviteInput!): Invite
   adminDeleteInvite(inviteId: String!): Invite
   adminUpdateInvite(inviteId: String!, input: AdminUpdateInviteInput!): Invite

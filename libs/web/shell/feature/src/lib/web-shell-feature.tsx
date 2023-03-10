@@ -11,6 +11,7 @@ import { DashboardFeature } from './dashboard/dashboard-feature'
 import { EarlyFeature } from './early/early-feature'
 import { HomepageContentFeature, HomepageFeature } from './homepage/homepage-feature'
 import { LoginFeature } from './login/login-feature'
+import { PidRoutes } from './pid/pid.routes'
 import { ProfileRoutes } from './profile/profile-routes'
 import { SettingsFeature } from './settings/settings-feature'
 
@@ -58,10 +59,11 @@ export function WebShellFeature() {
                 </Route>
               </Route>
               <Route path="/early" element={<EarlyFeature />} />
-              <Route path="/u/*" element={<ProfileRoutes />} />
-              <Route path="/settings/*" element={<SettingsFeature />} />
-              <Route path="/profile/identities/*" element={<div>TBD: Profile Identities Page</div>} />
               <Route path="/intent/connect/*" element={<div>TBD: Connect Identity Page</div>} />
+              <Route path="/pid" element={<PidRoutes />} />
+              <Route path="/profile/identities/*" element={<div>TBD: Profile Identities Page</div>} />
+              <Route path="/settings/*" element={<SettingsFeature />} />
+              <Route path="/u/*" element={<ProfileRoutes />} />
             </Route>
             <Route path="*" element={<UiNotFound />} />
           </Route>

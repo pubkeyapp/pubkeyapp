@@ -1,7 +1,9 @@
 import { Button, Code, Container, createStyles, Group, rem, Stack, Text, Title, Tooltip } from '@mantine/core'
+
 import { useAuth } from '@pubkeyapp/web/auth/data-access'
 import { showNotificationError, showNotificationSuccess, UiUserLink } from '@pubkeyapp/web/ui/core'
 import {
+  User,
   UserStatus,
   useUserAcceptInviteMutation,
   useUserGetInviteQuery,
@@ -67,16 +69,7 @@ export function EarlyFeature() {
         You are one of the first users to join PubKey.
       </Text>
       <Stack align="center" sx={{ marginBottom: `calc(${theme.spacing.xl} * 1.5)` }}>
-        <Tooltip label="This is your PubKey ID" withArrow>
-          <Code
-            color={user?.status === UserStatus.Active ? 'green' : 'brand'}
-            sx={{ fontSize: 24, borderRadius: 50 }}
-            px="xl"
-            py="lg"
-          >
-            pid#{user?.pid}
-          </Code>
-        </Tooltip>
+        {user ? <UserPid user={user} /> : null}
       </Stack>
       <EarlyFeatureActions />
     </Container>
@@ -191,5 +184,20 @@ export function EarlyInviteList() {
         </Text>
       )}
     </Stack>
+  )
+}
+
+export function UserPid({ user }: { user: User }) {
+  return (
+    <Tooltip label="This is your PubKey ID" withArrow>
+      <Code
+        color={user?.status === UserStatus.Active ? 'green' : 'brand'}
+        sx={{ fontSize: 24, borderRadius: 50 }}
+        px="xl"
+        py="lg"
+      >
+        pid#{user?.pid}
+      </Code>
+    </Tooltip>
   )
 }

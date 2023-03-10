@@ -2,6 +2,7 @@ import { Field, ObjectType } from '@nestjs/graphql'
 import { ApiProperty } from '@nestjs/swagger'
 import { Identity } from '@pubkeyapp/api/identity/data-access'
 import { User } from '@pubkeyapp/api/user/data-access'
+import { GraphQLJSON } from 'graphql-scalars'
 import { AccountType } from './account-type.enum'
 import { NetworkType } from './network-type.enum'
 
@@ -43,7 +44,9 @@ export class Account {
   @ApiProperty()
   @Field({ nullable: true })
   program?: string
-
+  @ApiProperty({ required: false, nullable: true })
+  @Field(() => GraphQLJSON, { nullable: true })
+  metadata?: unknown
   @ApiProperty()
   @Field({ nullable: true })
   address: string

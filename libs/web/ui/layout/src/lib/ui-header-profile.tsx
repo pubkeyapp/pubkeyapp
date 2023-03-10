@@ -63,14 +63,14 @@ export function UiHeaderProfile() {
           </Menu.Label>
           <Menu.Divider />
 
-          <Menu.Item component={Link} to="/dashboard">
-            Dashboard
+          <Menu.Item component={Link} to="/dashboard/profiles">
+            Manage Profiles
           </Menu.Item>
-          <Menu.Item component={Link} to="/settings">
-            Settings
+          <Menu.Item component={Link} to="/dashboard/identities">
+            Manage Identities
           </Menu.Item>
           <Menu.Item component={Link} to={`${user.profileUrl}`}>
-            Your Profile
+            View Your Profile
           </Menu.Item>
           {user.role === UserRole.Admin ? (
             <>
@@ -84,6 +84,9 @@ export function UiHeaderProfile() {
             </>
           ) : null}
           <Menu.Divider />
+          <Menu.Item component={Link} to="/settings">
+            Settings
+          </Menu.Item>
           <Menu.Item onClick={() => logout()}>Sign out</Menu.Item>
         </Menu.Dropdown>
       ) : null}

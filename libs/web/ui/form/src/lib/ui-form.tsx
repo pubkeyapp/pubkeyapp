@@ -63,7 +63,7 @@ export function UiForm<T>({
 
   return (
     <form onSubmit={form.onSubmit(handleSubmit)}>
-      <Stack spacing={theme.spacing.md}>
+      <Stack spacing={32}>
         {fields.map((field) => {
           switch (field.type) {
             case UiFormFieldType.Checkbox:

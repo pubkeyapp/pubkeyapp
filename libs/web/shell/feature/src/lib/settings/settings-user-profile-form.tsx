@@ -12,7 +12,6 @@ export function SettingsUserForm({
   const fields: UiFormField<UserUpdateUserInput>[] = [
     formFieldText('username', { label: 'Username' }),
     formFieldText('name', { label: 'Name' }),
-    formFieldText('avatarUrl', { label: 'Avatar URL' }),
     formFieldTextarea('bio', { label: 'Bio' }),
   ]
 

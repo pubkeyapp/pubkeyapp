@@ -4,17 +4,22 @@ import { IdentityBadge } from '@pubkeyapp/web/identity/ui'
 import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/core'
 import {
   Profile,
+  UserUpdateProfileInput,
+  useUserGetIdentitiesQuery,
+  useUserGetProfileQuery,
   useUserLinkProfileIdentityMutation,
   useUserSyncProfileMutation,
   useUserUnlinkProfileIdentityMutation,
+  useUserUpdateProfileMutation,
 } from '@pubkeyapp/web/util/sdk'
 import { IconTrash, IconUser, IconUserExclamation, IconUserPlus } from '@tabler/icons-react'
 import React, { useMemo } from 'react'
 import { Link } from 'react-router-dom'
+import { UserSelectAvatarModal } from './user-select-avatar-modal'
 
 export function UserManageProfileDetails({ profile }: { profile: Profile }) {
   const { user } = useAuth()
-
+  const [, updateProfileMutation] = useUserUpdateProfileMutation()
   const [, linkIdentityMutation] = useUserLinkProfileIdentityMutation()
   const [, unlinkIdentityMutation] = useUserUnlinkProfileIdentityMutation()
 
@@ -42,20 +47,41 @@ export function UserManageProfileDetails({ profile }: { profile: Profile }) {
       })
       .catch((err) => showNotificationError(err.message))
   }
+  const updateProfile = async (input: UserUpdateProfileInput) => {
+    return updateProfileMutation({ profileId: `${profile.id}`, input })
+      .then((res) => {
+        if (res.error) return showNotificationError(res.error.message)
+        if (!res.error && res.data?.item) {
+          showNotificationSuccess('Profile updated! ')
+          return !!res.data.item
+        }
+        return false
+      })
+      .catch((err) => showNotificationError(err.message))
+  }
 
   const enabled = useMemo(() => {
     return user?.identities?.filter((identity) => profile.identities?.find((pId) => pId.id === identity.id))
-  }, [user?.identities])
+  }, [user?.identities, profile])
   const identities = useMemo(() => {
     return user?.identities?.filter((identity) => !profile.identities?.find((pId) => pId.id === identity.id))
-  }, [user?.identities])
+  }, [user?.identities, profile])
 
   return (
     <Stack>
       <Stack>
         <Group position="apart" align="start">
           <Group align="center">
-            <Avatar size={36} src={profile.avatar} radius="xl" />
+            {user ? (
+              <UserSelectAvatarModal
+                size={64}
+                radius="xl"
+                avatarUrl={profile.avatar ?? ''}
+                user={user}
+                identities={profile.identities ?? user.identities ?? []}
+                updateAvatar={(avatarUrl) => updateProfile({ avatar: avatarUrl })}
+              />
+            ) : null}
             <Stack spacing={0}>
               <Text size="xl" fw={500}>
                 {profile.name}

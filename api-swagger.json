@@ -413,6 +413,13 @@
             "type": "object",
             "nullable": true
           },
+          "accounts": {
+            "nullable": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
           "verified": {
             "type": "boolean"
           }
@@ -489,6 +496,7 @@
           "GumUser",
           "GumProfile",
           "GumProfileMeta",
+          "MetaplexNFT",
           "Mint",
           "Program",
           "Token",
@@ -537,6 +545,10 @@
           },
           "program": {
             "type": "string"
+          },
+          "metadata": {
+            "type": "object",
+            "nullable": true
           },
           "address": {
             "type": "string"

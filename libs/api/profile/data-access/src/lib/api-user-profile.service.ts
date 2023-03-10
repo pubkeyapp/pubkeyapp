@@ -41,10 +41,10 @@ export class ApiUserProfileService {
         type,
         ownerId: userId,
         color: getProfileTypeColor(type),
-        bio: user.profile?.bio,
-        name: user.profile?.name,
-        username: user.profile?.username,
-        avatar: user.profile?.avatar,
+        bio: user.profile?.bio ?? user.bio,
+        name: user.profile?.name ?? user.name,
+        username: user.profile?.username ?? user.username,
+        avatar: user.profile?.avatar ?? user.avatarUrl,
       },
     })
   }

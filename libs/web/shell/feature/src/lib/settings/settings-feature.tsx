@@ -26,7 +26,7 @@ export function SettingsFeature() {
             <UiTabRoutes
               tabs={[
                 {
-                  label: 'Your Profile',
+                  label: 'Your PubKey Profile',
                   value: 'profile',
                   component: <SettingsUserProfileTab />,
                 },

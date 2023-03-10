@@ -13,3 +13,30 @@ mutation UserDeleteIdentity($identityId: String!) {
     ...UserDetails
   }
 }
+
+query UserGetIdentities {
+  items: userGetIdentities {
+    ...IdentityDetails
+    accounts {
+      ...AccountDetails
+    }
+  }
+}
+
+query UserGetIdentity($identityId: String!) {
+  item: userGetIdentity(identityId: $identityId) {
+    ...IdentityDetails
+  }
+}
+
+mutation UserLinkIdentity($provider: IdentityProvider!, $providerId: String!) {
+  item: userLinkIdentity(provider: $provider, providerId: $providerId) {
+    ...IdentityDetails
+  }
+}
+
+mutation UserSyncIdentity($identityId: String!) {
+  item: userSyncIdentity(identityId: $identityId) {
+    ...IdentityDetails
+  }
+}
