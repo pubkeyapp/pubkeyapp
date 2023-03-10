@@ -14,12 +14,12 @@ import {
   ThemeIcon,
   Tooltip,
 } from '@mantine/core'
-import { Plan, usePublicPlansQuery } from '@pubkeyapp/web/util/sdk'
+import { Plan, useAnonGetPlansQuery } from '@pubkeyapp/web/util/sdk'
 import { IconCheck } from '@tabler/icons-react'
 import React, { useMemo, useState } from 'react'
 
 export function WebPlanFeature() {
-  const [{ data }] = usePublicPlansQuery()
+  const [{ data }] = useAnonGetPlansQuery()
   const [selectCycle, setSelectCycle] = useState<'monthly' | 'yearly'>('monthly')
   const monthly = useMemo(() => selectCycle === 'monthly', [selectCycle])
 

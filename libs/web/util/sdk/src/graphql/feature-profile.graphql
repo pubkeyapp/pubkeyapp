@@ -13,8 +13,8 @@ fragment ProfileDetails on Profile {
   type
 }
 
-query AdminProfile($profileId: String!) {
-  item: adminProfile(profileId: $profileId) {
+query AdminGetProfile($profileId: String!) {
+  item: adminGetProfile(profileId: $profileId) {
     ...ProfileDetails
     owner {
       ...UserSummary
@@ -22,8 +22,8 @@ query AdminProfile($profileId: String!) {
   }
 }
 
-query AdminProfiles($input: AdminListProfileInput) {
-  items: adminProfiles(input: $input) {
+query AdminGetProfiles($input: AdminGetProfilesInput) {
+  items: adminGetProfiles(input: $input) {
     ...ProfileDetails
     owner {
       ...UserSummary
@@ -58,14 +58,14 @@ mutation UserUnlinkProfileIdentity($profileId: String!, $identityId: String!) {
   }
 }
 
-query UserProfile($profileId: String!) {
-  item: userProfile(profileId: $profileId) {
+query UserGetProfile($profileId: String!) {
+  item: userGetProfile(profileId: $profileId) {
     ...ProfileDetails
   }
 }
 
-query UserProfilePage($profileId: String!) {
-  item: userProfilePage(profileId: $profileId) {
+query UserGetProfilePage($profileId: String!) {
+  item: userGetProfilePage(profileId: $profileId) {
     ...PageDetails
     blocks {
       ...PageBlockDetails
@@ -76,8 +76,8 @@ query UserProfilePage($profileId: String!) {
   }
 }
 
-query UserProfiles {
-  items: userProfiles {
+query UserGetProfiles {
+  items: userGetProfiles {
     ...ProfileDetails
     owner {
       ...UserSummary

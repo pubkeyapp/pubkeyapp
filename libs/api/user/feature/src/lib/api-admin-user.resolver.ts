@@ -1,22 +1,12 @@
-import { ApiAuthGraphqlGuard, CtxUser } from '@pubkeyapp/api/auth/data-access'
-import { AdminCreateUserInput, AdminUpdateUserInput, ApiAdminUserService, User } from '@pubkeyapp/api/user/data-access'
 import { UseGuards } from '@nestjs/common'
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
+import { ApiAuthGraphqlGuard, CtxUser } from '@pubkeyapp/api/auth/data-access'
+import { AdminCreateUserInput, AdminUpdateUserInput, ApiAdminUserService, User } from '@pubkeyapp/api/user/data-access'
 
 @Resolver()
 @UseGuards(ApiAuthGraphqlGuard)
 export class ApiAdminUserResolver {
   constructor(private readonly service: ApiAdminUserService) {}
-
-  @Query(() => User, { nullable: true })
-  adminUser(@CtxUser() user: User, @Args('userId') userId: string) {
-    return this.service.adminUser(user.id, userId)
-  }
-
-  @Query(() => [User], { nullable: true })
-  adminUsers(@CtxUser() user: User) {
-    return this.service.adminUsers(user.id)
-  }
 
   @Mutation(() => User, { nullable: true })
   adminCreateUser(@CtxUser() user: User, @Args('input') input: AdminCreateUserInput) {
@@ -24,12 +14,22 @@ export class ApiAdminUserResolver {
   }
 
   @Mutation(() => User, { nullable: true })
-  adminUpdateUser(@CtxUser() user: User, @Args('userId') userId: string, @Args('input') input: AdminUpdateUserInput) {
-    return this.service.adminUpdateUser(user.id, userId, input)
+  adminDeleteUser(@CtxUser() user: User, @Args('userId') userId: string) {
+    return this.service.adminDeleteUser(user.id, userId)
+  }
+
+  @Query(() => User, { nullable: true })
+  adminGetUser(@CtxUser() user: User, @Args('userId') userId: string) {
+    return this.service.adminGetUser(user.id, userId)
+  }
+
+  @Query(() => [User], { nullable: true })
+  adminGetUsers(@CtxUser() user: User) {
+    return this.service.adminGetUsers(user.id)
   }
 
   @Mutation(() => User, { nullable: true })
-  adminDeleteUser(@CtxUser() user: User, @Args('userId') userId: string) {
-    return this.service.adminDeleteUser(user.id, userId)
+  adminUpdateUser(@CtxUser() user: User, @Args('userId') userId: string, @Args('input') input: AdminUpdateUserInput) {
+    return this.service.adminUpdateUser(user.id, userId, input)
   }
 }

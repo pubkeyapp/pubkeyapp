@@ -3,7 +3,7 @@ import { useAdminPage } from '@pubkeyapp/web/admin/data-access'
 import { UiBackButton } from '@pubkeyapp/web/ui/core'
 import { formFieldSelect, formFieldText, formFieldTextarea, UiForm, UiFormField } from '@pubkeyapp/web/ui/form'
 import { UiPage } from '@pubkeyapp/web/ui/page'
-import { AdminCreatePageInput, useAdminUsersQuery } from '@pubkeyapp/web/util/sdk'
+import { AdminCreatePageInput, useAdminGetUsersQuery } from '@pubkeyapp/web/util/sdk'
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -11,7 +11,7 @@ export function AdminPageCreateFeature() {
   const theme = useMantineTheme()
   const navigate = useNavigate()
   const { createItem } = useAdminPage()
-  const [{ data: userData }] = useAdminUsersQuery()
+  const [{ data: userData }] = useAdminGetUsersQuery()
 
   const createPage = async (page: Partial<AdminCreatePageInput>): Promise<boolean> => {
     return createItem(page as AdminCreatePageInput).then((res) => {

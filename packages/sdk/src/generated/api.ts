@@ -1140,12 +1140,12 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    apiSolanaFeatureControllerBonfidaLookup: async (
+    apiSolanaControllerBonfidaLookup: async (
       publicKey: string,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'publicKey' is not null or undefined
-      assertParamExists('apiSolanaFeatureControllerBonfidaLookup', 'publicKey', publicKey)
+      assertParamExists('apiSolanaControllerBonfidaLookup', 'publicKey', publicKey)
       const localVarPath = `/api/solana/bonfida/lookup/{publicKey}`.replace(
         `{${'publicKey'}}`,
         encodeURIComponent(String(publicKey)),
@@ -1226,14 +1226,11 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async apiSolanaFeatureControllerBonfidaLookup(
+    async apiSolanaControllerBonfidaLookup(
       publicKey: string,
       options?: AxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.apiSolanaFeatureControllerBonfidaLookup(
-        publicKey,
-        options,
-      )
+      const localVarAxiosArgs = await localVarAxiosParamCreator.apiSolanaControllerBonfidaLookup(publicKey, options)
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
@@ -1268,10 +1265,8 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    apiSolanaFeatureControllerBonfidaLookup(publicKey: string, options?: any): AxiosPromise<void> {
-      return localVarFp
-        .apiSolanaFeatureControllerBonfidaLookup(publicKey, options)
-        .then((request) => request(axios, basePath))
+    apiSolanaControllerBonfidaLookup(publicKey: string, options?: any): AxiosPromise<void> {
+      return localVarFp.apiSolanaControllerBonfidaLookup(publicKey, options).then((request) => request(axios, basePath))
     },
     /**
      *
@@ -1300,7 +1295,7 @@ export interface DefaultApiInterface {
    * @throws {RequiredError}
    * @memberof DefaultApiInterface
    */
-  apiSolanaFeatureControllerBonfidaLookup(publicKey: string, options?: AxiosRequestConfig): AxiosPromise<void>
+  apiSolanaControllerBonfidaLookup(publicKey: string, options?: AxiosRequestConfig): AxiosPromise<void>
 
   /**
    *
@@ -1328,9 +1323,9 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public apiSolanaFeatureControllerBonfidaLookup(publicKey: string, options?: AxiosRequestConfig) {
+  public apiSolanaControllerBonfidaLookup(publicKey: string, options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
-      .apiSolanaFeatureControllerBonfidaLookup(publicKey, options)
+      .apiSolanaControllerBonfidaLookup(publicKey, options)
       .then((request) => request(this.axios, this.basePath))
   }
 

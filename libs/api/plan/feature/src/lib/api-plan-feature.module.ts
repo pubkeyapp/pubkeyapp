@@ -1,12 +1,12 @@
 import { ApiPlanDataAccessModule } from '@pubkeyapp/api/plan/data-access'
 import { Module } from '@nestjs/common'
-import { ApiPlanFeatureAdminResolver } from './api-plan-feature-admin.resolver'
-import { ApiPlanFeatureController } from './api-plan-feature.controller'
-import { ApiPlanFeatureResolver } from './api-plan-feature.resolver'
+import { ApiAdminPlanResolver } from './api-admin-plan.resolver'
+import { ApiPlanController } from './api-plan.controller'
+import { ApiAnonPlanResolver } from './api-anon-plan.resolver'
 
 @Module({
-  controllers: [ApiPlanFeatureController],
+  controllers: [ApiPlanController],
   imports: [ApiPlanDataAccessModule],
-  providers: [ApiPlanFeatureResolver, ApiPlanFeatureAdminResolver],
+  providers: [ApiAnonPlanResolver, ApiAdminPlanResolver],
 })
 export class ApiPlanFeatureModule {}

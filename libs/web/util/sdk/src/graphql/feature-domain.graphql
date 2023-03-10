@@ -15,8 +15,8 @@ fragment DomainDetails on Domain {
   }
 }
 
-query AdminDomain($domainId: String!) {
-  item: adminDomain(domainId: $domainId) {
+query AdminGetDomain($domainId: String!) {
+  item: adminGetDomain(domainId: $domainId) {
     ...DomainDetails
     pages {
       ...PageDetails
@@ -24,8 +24,8 @@ query AdminDomain($domainId: String!) {
   }
 }
 
-query AdminDomains($input: AdminListDomainInput) {
-  items: adminDomains(input: $input) {
+query AdminGetDomains($input: AdminGetDomainsInput) {
+  items: adminGetDomains(input: $input) {
     ...DomainDetails
   }
 }

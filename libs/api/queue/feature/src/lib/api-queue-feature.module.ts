@@ -1,9 +1,9 @@
 import { ApiQueueDataAccessModule } from '@pubkeyapp/api/queue/data-access'
 import { Module } from '@nestjs/common'
-import { ApiQueueAdminFeatureResolver } from './api-queue-admin-feature.resolver'
+import { ApiAdminQueueResolver } from './api-admin-queue.resolver'
 
 @Module({
-  providers: [ApiQueueAdminFeatureResolver],
+  providers: [ApiAdminQueueResolver],
   imports: [ApiQueueDataAccessModule],
 })
 export class ApiQueueFeatureModule {}

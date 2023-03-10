@@ -1,18 +1,15 @@
-import { Button, Paper, useMantineTheme } from '@mantine/core'
+import { Button, Paper } from '@mantine/core'
 import { useAdminPlan } from '@pubkeyapp/web/plan/data-access'
 import { UiBackButton } from '@pubkeyapp/web/ui/core'
 import { UiForm } from '@pubkeyapp/web/ui/form'
 import { UiPage } from '@pubkeyapp/web/ui/page'
-import { AdminCreatePlanInput, useAdminUsersQuery } from '@pubkeyapp/web/util/sdk'
-import { useMemo } from 'react'
+import { AdminCreatePlanInput } from '@pubkeyapp/web/util/sdk'
 import { useNavigate } from 'react-router-dom'
 import { adminPlanFormFields } from './admin-plan-form-fields'
 
 export function AdminPlanCreateFeature() {
-  const theme = useMantineTheme()
   const navigate = useNavigate()
   const { createItem } = useAdminPlan()
-  const [{ data: userData }] = useAdminUsersQuery()
 
   const createPlan = async (plan: Partial<AdminCreatePlanInput>): Promise<boolean> => {
     return createItem(plan as AdminCreatePlanInput).then((res) => {
@@ -22,14 +19,6 @@ export function AdminPlanCreateFeature() {
       return !!res
     })
   }
-
-  const userOptions: { label: string; value: string }[] = useMemo(() => {
-    return (
-      userData?.items?.map((user) => {
-        return { label: `${user.name} - ${user.username}`, value: user.id ?? '' }
-      }) ?? []
-    )
-  }, [userData])
 
   return (
     <UiPage title={`Create Plan`} leftAction={<UiBackButton />}>

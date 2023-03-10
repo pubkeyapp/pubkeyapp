@@ -17,7 +17,7 @@ export class AccountDiscoverQueueProcessor {
 
     try {
       const user = await this.account.core.getUserById(job.data.userId)
-      const result = await this.account.getAccount(job.data.userId, job.data.network, job.data.address)
+      const result = await this.account.userGetAccount(job.data.userId, job.data.network, job.data.address)
       await this.account.lookupIntegrations({
         userId: job.data.userId,
         address: job.data.address,

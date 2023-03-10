@@ -9,7 +9,7 @@ import {
   UiTabRoutes,
 } from '@pubkeyapp/web/ui/core'
 import { UiPage } from '@pubkeyapp/web/ui/page'
-import { AdminUpdateUserInput, useAdminUpdateUserMutation, useAdminUserQuery } from '@pubkeyapp/web/util/sdk'
+import { AdminUpdateUserInput, useAdminGetUserQuery, useAdminUpdateUserMutation } from '@pubkeyapp/web/util/sdk'
 import { useParams } from 'react-router-dom'
 import { AdminUserIdentitiesTab } from './admin-user-identities.tab'
 import { AdminUserInvitesTab } from './admin-user-invites.tab'
@@ -19,7 +19,7 @@ import { AdminUserSettingsTab } from './admin-user-settings.tab'
 
 export function AdminUserDetailFeature() {
   const { userId } = useParams<{ userId: string }>()
-  const [{ data, error, fetching }, refresh] = useAdminUserQuery({ variables: { userId: `${userId}` } })
+  const [{ data, error, fetching }, refresh] = useAdminGetUserQuery({ variables: { userId: `${userId}` } })
 
   const [, updateUserMutation] = useAdminUpdateUserMutation()
 

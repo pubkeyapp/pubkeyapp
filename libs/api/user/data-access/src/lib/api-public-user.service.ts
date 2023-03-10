@@ -7,11 +7,11 @@ import { GumSdkProfileMetadata } from '@pubkeyapp/gum-sdk'
 export class ApiPublicUserService {
   constructor(private readonly core: ApiCoreService) {}
 
-  publicUser(username) {
+  anonGetUser(username) {
     return this.core.ensureUsername(username)
   }
 
-  async publicUserPages(username: string) {
+  async anonGetUserPages(username: string) {
     const user = await this.core.ensureUsername(username)
     return this.core.data.page.findMany({
       where: { owner: { id: user.id } },
@@ -19,7 +19,7 @@ export class ApiPublicUserService {
     })
   }
 
-  async publicUserFollowers(username) {
+  async anonGetUserFollowers(username) {
     await this.core.ensureUsername(username)
     return this.core.data.user.findMany({
       where: {
@@ -28,7 +28,7 @@ export class ApiPublicUserService {
     })
   }
 
-  async publicUserFollowing(username) {
+  async anonGetUserFollowing(username) {
     await this.core.ensureUsername(username)
     return this.core.data.user.findMany({
       where: {
@@ -37,7 +37,7 @@ export class ApiPublicUserService {
     })
   }
 
-  async publicUserInvites(username: string) {
+  async anonGetUserInvites(username: string) {
     await this.core.ensureUsername(username)
     return this.core.data.invite
       .findMany({
@@ -47,7 +47,7 @@ export class ApiPublicUserService {
       .then((res) => res.map((item) => ({ ...item, code: undefined })))
   }
 
-  async publicUserProfiles(username: string) {
+  async anonGetUserProfiles(username: string) {
     const found = await this.core.ensureUsername(username)
     if (!found.publicKey) {
       throw new BadRequestException(`User ${username} has no public key`)

@@ -20,8 +20,8 @@ export class ApiUserPageResolver {
   }
 
   @Query(() => Page, { nullable: true })
-  userPage(@CtxUser() user: User, @Args('pageId') pageId: string) {
-    return this.service.userPage(user.id, pageId)
+  userGetPage(@CtxUser() user: User, @Args('pageId') pageId: string) {
+    return this.service.userGetPage(user.id, pageId)
   }
 
   @Mutation(() => Page, { nullable: true })

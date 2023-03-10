@@ -6,7 +6,7 @@ import { AdminUpdateUserInput } from './dto/admin-update-user.input'
 
 @Injectable()
 export class ApiAdminUserService {
-  async adminUser(adminId: string, userId) {
+  async adminGetUser(adminId: string, userId) {
     await this.core.ensureUserAdmin(adminId)
     const found = await this.core.data.findUserById(userId)
     if (!found) {
@@ -15,7 +15,7 @@ export class ApiAdminUserService {
     return found
   }
 
-  async adminUsers(adminId: string) {
+  async adminGetUsers(adminId: string) {
     await this.core.ensureUserAdmin(adminId)
     return this.core.data.user.findMany({ include: { identities: true }, orderBy: { updatedAt: 'desc' } })
   }

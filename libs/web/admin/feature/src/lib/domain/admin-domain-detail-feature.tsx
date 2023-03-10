@@ -3,7 +3,7 @@ import { useAdminDomain } from '@pubkeyapp/web/admin/data-access'
 import { AdminUiDomainLabel, AdminUiUserLink } from '@pubkeyapp/web/admin/ui'
 import { UiBackButton, UiDebugModal, UiErrorLoader, UiTabRoutes } from '@pubkeyapp/web/ui/core'
 import { UiPage } from '@pubkeyapp/web/ui/page'
-import { Domain, useAdminDomainQuery } from '@pubkeyapp/web/util/sdk'
+import { Domain, useAdminGetDomainQuery } from '@pubkeyapp/web/util/sdk'
 import { useParams } from 'react-router-dom'
 
 import { AdminDomainOverviewTab } from './admin-domain-overview.tab'
@@ -12,7 +12,7 @@ import { AdminDomainSettingsTab } from './admin-domain-settings.tab'
 export function AdminDomainDetailFeature() {
   const { domainId } = useParams<{ domainId: string }>()
   const { updateDomain } = useAdminDomain()
-  const [{ data, error, fetching }] = useAdminDomainQuery({ variables: { domainId: domainId as string } })
+  const [{ data, error, fetching }] = useAdminGetDomainQuery({ variables: { domainId: domainId as string } })
 
   return (
     <UiErrorLoader error={error} loading={fetching}>

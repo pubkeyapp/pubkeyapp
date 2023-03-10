@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common'
 import { ApiDomainDataAccessModule } from '@pubkeyapp/api/domain/data-access'
-import { ApiDomainAdminResolver } from './api-domain-admin.resolver'
+import { ApiAdminDomainResolver } from './api-admin-domain.resolver'
+import { ApiDomainFieldResolver } from './api-domain-field.resolver'
 
 @Module({
   imports: [ApiDomainDataAccessModule],
-  providers: [ApiDomainAdminResolver],
+  providers: [ApiAdminDomainResolver, ApiDomainFieldResolver],
 })
 export class ApiDomainFeatureModule {}

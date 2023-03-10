@@ -4,7 +4,7 @@ import { formFieldSelect, formFieldText, UiForm, UiFormField } from '@pubkeyapp/
 import {
   AdminAddPageDomainDocument,
   AdminAddPageDomainInput,
-  AdminPageDomainDocument,
+  AdminGetPageDomainDocument,
   Page,
   PageDomain,
 } from '@pubkeyapp/web/util/sdk'
@@ -37,7 +37,7 @@ export function AdminPageDomainAddForm({ page }: { page: Page }) {
     setLoading(true)
     setModel(input as AdminAddPageDomainInput)
     return client
-      .query(AdminPageDomainDocument, { domainId: input.domainId, path: input.path })
+      .query(AdminGetPageDomainDocument, { domainId: input.domainId, path: input.path })
       .toPromise()
       .then((adminPageDomain) => {
         setChecked(true)

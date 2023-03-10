@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common'
-import { ApiConfigFeatureController } from './api-config-feature.controller'
+import { ApiConfigController } from './api-config.controller'
 import { ApiConfigDataAccessModule } from '@pubkeyapp/api/config/data-access'
-import { ApiConfigFeatureResolver } from './api-config-feature.resolver'
+import { ApiConfigResolver } from './api-config.resolver'
 
 @Module({
-  controllers: [ApiConfigFeatureController],
-  providers: [ApiConfigFeatureResolver],
+  controllers: [ApiConfigController],
+  providers: [ApiConfigResolver],
   imports: [ApiConfigDataAccessModule],
 })
 export class ApiConfigFeatureModule {}

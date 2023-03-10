@@ -33,6 +33,6 @@ export function fieldsMessage(title: string, fields: APIEmbedField[]) {
   )
 }
 
-export function unknownUser(user: DiscordUser) {
-  return `${user} I don't think we have met before.`
+export function unknownUser(user: DiscordUser, subject?: DiscordUser) {
+  return `${user} I don't think ${subject ? subject + ' and I' : 'we'} have met before.`
 }

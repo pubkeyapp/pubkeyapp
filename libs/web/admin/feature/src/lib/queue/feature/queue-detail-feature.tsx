@@ -1,29 +1,14 @@
-import {
-  Alert,
-  Badge,
-  Box,
-  Button,
-  Card,
-  Flex,
-  Group,
-  Paper,
-  Select,
-  Stack,
-  Text,
-  Textarea,
-  Tooltip,
-} from '@mantine/core'
+import { Alert, Badge, Box, Button, Group, Paper, Stack, Tooltip } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { showNotification } from '@mantine/notifications'
 import { UiLoader } from '@pubkeyapp/web/ui/core'
 import { UiPage } from '@pubkeyapp/web/ui/page'
 import {
   QueueType,
-  useQueueCleanMutation,
-  useQueueLoadMutation,
-  useQueuePauseMutation,
-  useQueueQuery,
-  useQueueResumeMutation,
+  useAdminCleanQueueMutation,
+  useAdminGetQueueQuery,
+  useAdminPauseQueueMutation,
+  useAdminResumeQueueMutation,
 } from '@pubkeyapp/web/util/sdk'
 import { IconPlayerPause, IconPlayerPlay, IconRefresh, IconTrash } from '@tabler//icons-react'
 import { useEffect, useState } from 'react'
@@ -38,14 +23,13 @@ const DEFAULT_TIMEOUT = 5000
 export function QueueDetailFeature() {
   const [timeout, setTimeout] = useState(DEFAULT_TIMEOUT)
   const { type } = useParams<{ type: string }>()
-  const [{ data, fetching }, refresh] = useQueueQuery({
+  const [{ data, fetching }, refresh] = useAdminGetQueueQuery({
     variables: { type: `${type}` as QueueType },
   })
 
-  const [, cleanQueue] = useQueueCleanMutation()
-  const [, pauseQueue] = useQueuePauseMutation()
-  const [, resumeQueue] = useQueueResumeMutation()
-  const [, loadQueue] = useQueueLoadMutation()
+  const [, cleanQueue] = useAdminCleanQueueMutation()
+  const [, pauseQueue] = useAdminPauseQueueMutation()
+  const [, resumeQueue] = useAdminResumeQueueMutation()
 
   useEffect(() => {
     if (!type) return
@@ -119,16 +103,6 @@ export function QueueDetailFeature() {
         }
         refresh()
         toastSuccess('Queue paused')
-      })
-      .catch((error) => toastError(error.message))
-  }
-  const submit = ({ serverAppId, payload }: { serverAppId: string; payload: unknown }) => {
-    loadQueue({ input: { type: type as QueueType, serverAppId, payload } })
-      .then((res) => {
-        if (res.error) {
-          return toastError(res.error.message)
-        }
-        toastSuccess('Queue loaded')
       })
       .catch((error) => toastError(error.message))
   }

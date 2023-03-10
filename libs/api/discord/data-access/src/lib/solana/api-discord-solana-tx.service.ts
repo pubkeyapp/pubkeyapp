@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 
-import { ApiDiscordDataAccessService } from '@pubkeyapp/api/discord/data-access'
+import { ApiDiscordService } from '@pubkeyapp/api/discord/data-access'
 import { ApiSolanaService } from '@pubkeyapp/api/solana/data-access'
 import { ClusterType } from '@pubkeyapp/solana'
 import { Ctx, Options, SlashCommand, SlashCommandContext, StringOption } from 'necord'
@@ -28,7 +28,7 @@ export class SolanaTx {
 
 @Injectable()
 export class ApiDiscordSolanaTxService {
-  constructor(private readonly core: ApiDiscordDataAccessService, private readonly solana: ApiSolanaService) {}
+  constructor(private readonly core: ApiDiscordService, private readonly solana: ApiSolanaService) {}
 
   @SlashCommand({ name: 'tx', description: 'Look up an transaction on Solana.' })
   async tx(@Ctx() [interaction]: SlashCommandContext, @Options() { signature, cluster }: SolanaTx) {

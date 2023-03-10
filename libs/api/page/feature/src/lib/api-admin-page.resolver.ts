@@ -3,7 +3,7 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { ApiAuthGraphqlGuard, CtxUser } from '@pubkeyapp/api/auth/data-access'
 import {
   AdminCreatePageInput,
-  AdminListPageInput,
+  AdminGetPagesInput,
   AdminUpdatePageInput,
   ApiAdminPageService,
   Page,
@@ -26,21 +26,21 @@ export class ApiAdminPageResolver {
   }
 
   @Query(() => [Page], { nullable: true })
-  adminPages(
+  adminGetPages(
     @CtxUser() user: User,
     @Args({
       name: 'input',
-      type: () => AdminListPageInput,
+      type: () => AdminGetPagesInput,
       nullable: true,
     })
-    input: AdminListPageInput,
+    input: AdminGetPagesInput,
   ) {
-    return this.service.adminPages(user.id, input)
+    return this.service.adminGetPagesInput(user.id, input)
   }
 
   @Query(() => Page, { nullable: true })
-  adminPage(@CtxUser() user: User, @Args('pageId') pageId: string) {
-    return this.service.adminPage(user.id, pageId)
+  adminGetPage(@CtxUser() user: User, @Args('pageId') pageId: string) {
+    return this.service.adminGetPage(user.id, pageId)
   }
 
   @Mutation(() => Page, { nullable: true })

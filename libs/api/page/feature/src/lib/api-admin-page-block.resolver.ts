@@ -1,5 +1,5 @@
 import { UseGuards } from '@nestjs/common'
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
+import { Args, Mutation, Resolver } from '@nestjs/graphql'
 import { ApiAuthGraphqlGuard, CtxUser } from '@pubkeyapp/api/auth/data-access'
 import {
   AdminAddPageBlockInput,
@@ -21,11 +21,6 @@ export class ApiAdminPageBlockResolver {
     @Args('input') input: AdminAddPageBlockInput,
   ) {
     return this.service.adminAddPageBlock(user.id, pageId, input)
-  }
-
-  @Query(() => PageBlock, { nullable: true })
-  adminPageBlock(@CtxUser() user: User, @Args('pageBlockId') pageBlockId: string) {
-    return this.service.adminPageBlock(user.id, pageBlockId)
   }
 
   @Mutation(() => PageBlock, { nullable: true })

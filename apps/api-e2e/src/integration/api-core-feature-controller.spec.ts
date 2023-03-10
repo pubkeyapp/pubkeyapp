@@ -1,7 +1,7 @@
 import { INestApplication } from '@nestjs/common'
 import { apiUrl, expectEndpoint, getEndpoint, initializeE2eApp } from './helpers'
 
-describe('ApiCoreFeatureController (e2e)', () => {
+describe('ApiCoreController (e2e)', () => {
   let app: INestApplication
 
   beforeEach(async () => {

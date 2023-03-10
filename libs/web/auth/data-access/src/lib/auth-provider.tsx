@@ -2,12 +2,12 @@ import { Button, Stack, Text } from '@mantine/core'
 import { modals } from '@mantine/modals'
 import { useWalletModal } from '@pubkeyapp/wallet-adapter-mantine-ui'
 import {
-  LogoutDocument,
-  MeDocument,
-  RequestChallengeDocument,
-  RespondChallengeDocument,
-  useMeQuery,
+  AnonRequestChallengeDocument,
+  AnonRespondChallengeDocument,
+  GetMeDocument,
+  useGetMeQuery,
   User,
+  UserLogoutDocument,
 } from '@pubkeyapp/web/util/sdk'
 import { useWallet } from '@solana/wallet-adapter-react'
 import bs58 from 'bs58'
@@ -35,7 +35,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | undefined>()
-  const [{ data, error: meError, fetching }, refresh] = useMeQuery()
+  const [{ data, error: meError, fetching }, refresh] = useGetMeQuery()
   const client = useClient()
   const [user, setUser] = useState<User | undefined>(undefined)
 
@@ -90,7 +90,9 @@ function AuthProvider({ children }: { children: ReactNode }) {
     setLoading(true)
 
     console.log(`Logging in with keypair: ${input.publicKey}`)
-    const requestChallenge = await client.query(RequestChallengeDocument, { publicKey: input.publicKey }).toPromise()
+    const requestChallenge = await client
+      .query(AnonRequestChallengeDocument, { publicKey: input.publicKey })
+      .toPromise()
 
     if (requestChallenge.error) {
       setError(requestChallenge.error.message || 'Unknown error')
@@ -108,7 +110,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
     console.log(bs58.encode(signature))
 
     const respondChallenge = await client
-      .mutation(RespondChallengeDocument, {
+      .mutation(AnonRespondChallengeDocument, {
         publicKey: input.publicKey,
         challenge: requestChallenge.data.result?.challenge,
         signature: bs58.encode(signature),
@@ -120,14 +122,14 @@ function AuthProvider({ children }: { children: ReactNode }) {
       // setError(respondChallenge.error.message || 'Unknown error')
       // throw respondChallenge.error
     }
-    await client.query(MeDocument, {}).toPromise()
+    await client.query(GetMeDocument, {}).toPromise()
     setLoading(false)
   }
   const logout = async () => {
     setLoading(true)
     setError(undefined)
     setUser(undefined)
-    await client.mutation(LogoutDocument, {}).toPromise()
+    await client.mutation(UserLogoutDocument, {}).toPromise()
     await new Promise((resolve) => setTimeout(resolve, 500))
     await disconnect()
 
@@ -147,7 +149,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
     user,
     refresh: () => {
       return client
-        .query(MeDocument, {})
+        .query(GetMeDocument, {})
         .toPromise()
         .then((res) => setUser(res?.data?.me))
     },

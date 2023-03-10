@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common'
 import { ApiDiscordDataAccessModule } from '@pubkeyapp/api/discord/data-access'
 
-import { ApiDiscordFeatureController } from './api-discord-feature.controller'
+import { ApiDiscordController } from './api-discord.controller'
 
 @Module({
-  controllers: [ApiDiscordFeatureController],
+  controllers: [ApiDiscordController],
   imports: [ApiDiscordDataAccessModule],
 })
 export class ApiDiscordFeatureModule {}

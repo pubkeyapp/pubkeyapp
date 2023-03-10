@@ -14,8 +14,8 @@ fragment PageDomainDetails on PageDomain {
   viewUrl
 }
 
-query AdminPageDomain($domainId: String!, $path: String!) {
-  item: adminPageDomain(domainId: $domainId, path: $path) {
+query AdminGetPageDomain($domainId: String!, $path: String!) {
+  item: adminGetPageDomain(domainId: $domainId, path: $path) {
     ...PageDomainDetails
     page {
       id

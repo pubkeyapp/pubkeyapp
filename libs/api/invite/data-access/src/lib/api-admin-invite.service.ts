@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { ApiCoreService } from '@pubkeyapp/api/core/data-access'
 import { generateInviteCode } from './api-invite-helpers'
 import { AdminCreateInviteInput } from './dto/admin-create-invite.input'
-import { AdminListInviteInput } from './dto/admin-list-invite.input'
+import { AdminGetInvitesInput } from './dto/admin-get-invites.input'
 import { AdminUpdateInviteInput } from './dto/admin-update-invite.input'
 
 @Injectable()
@@ -27,7 +27,7 @@ export class ApiAdminInviteService {
     return this.core.data.invite.delete({ where: { id } })
   }
 
-  async adminInvites(adminId: string, input: AdminListInviteInput) {
+  async adminGetInvites(adminId: string, input: AdminGetInvitesInput) {
     await this.core.ensureUserAdmin(adminId)
     return this.core.data.invite.findMany({
       where: { ownerId: input.ownerId ? input.ownerId : undefined },
@@ -35,7 +35,7 @@ export class ApiAdminInviteService {
     })
   }
 
-  async adminInvite(adminId: string, id: string) {
+  async adminGetInvite(adminId: string, id: string) {
     await this.core.ensureUserAdmin(adminId)
     return this.core.data.invite.findUnique({ where: { id }, include: { owner: true, users: true } })
   }

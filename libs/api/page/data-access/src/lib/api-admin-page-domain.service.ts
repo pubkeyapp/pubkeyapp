@@ -6,7 +6,7 @@ import { AdminAddPageDomainInput } from './dto/admin-add-page-domain.input'
 export class ApiAdminPageDomainService {
   constructor(private readonly core: ApiCoreService) {}
 
-  async adminPageDomain(adminId: string, domainId: string, path: string) {
+  async adminGetPageDomain(adminId: string, domainId: string, path: string) {
     await this.core.ensureUserAdmin(adminId)
 
     return this.core.data.pageDomain.findUnique({
@@ -16,7 +16,7 @@ export class ApiAdminPageDomainService {
   }
 
   async adminAddPageDomain(adminId: string, pageId: string, input: AdminAddPageDomainInput) {
-    const found = await this.adminPageDomain(adminId, input.domainId, input.path)
+    const found = await this.adminGetPageDomain(adminId, input.domainId, input.path)
     if (found) {
       throw new Error('PageDomain already exists')
     }

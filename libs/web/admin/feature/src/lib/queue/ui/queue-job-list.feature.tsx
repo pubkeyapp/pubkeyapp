@@ -1,16 +1,22 @@
 import { Alert, Box, Button, Code, Group, Stack, Text } from '@mantine/core'
 import { UiDebugModal, UiLoader } from '@pubkeyapp/web/ui/core'
-import { Job, JobStatus, QueueType, useQueueDeleteJobMutation, useQueueJobsQuery } from '@pubkeyapp/web/util/sdk'
+import {
+  Job,
+  JobStatus,
+  QueueType,
+  useAdminDeleteQueueJobMutation,
+  useAdminGetQueueJobsQuery,
+} from '@pubkeyapp/web/util/sdk'
 import { IconTrash } from '@tabler//icons-react'
 
 import { useState } from 'react'
 
 export function QueueJobListFeature({ type }: { type: QueueType }) {
   const [status, setStatus] = useState<JobStatus>(JobStatus.Active)
-  const [{ data, fetching }, refresh] = useQueueJobsQuery({
+  const [{ data, fetching }, refresh] = useAdminGetQueueJobsQuery({
     variables: { type, statuses: [status.toLowerCase() as JobStatus] },
   })
-  const [, deleteJob] = useQueueDeleteJobMutation()
+  const [, deleteJob] = useAdminDeleteQueueJobMutation()
 
   return (
     <Stack spacing={24}>

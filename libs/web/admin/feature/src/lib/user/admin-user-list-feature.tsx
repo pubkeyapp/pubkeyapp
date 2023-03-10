@@ -2,13 +2,13 @@ import { Button } from '@mantine/core'
 import { showNotificationError, showNotificationSuccess, UiError, UiFullPage, UiLoader } from '@pubkeyapp/web/ui/core'
 import { UiPage } from '@pubkeyapp/web/ui/page'
 import { UserTable } from '@pubkeyapp/web/user/ui'
-import { AdminDeleteUserDocument, useAdminUsersQuery, User } from '@pubkeyapp/web/util/sdk'
+import { AdminDeleteUserDocument, useAdminGetUsersQuery, User } from '@pubkeyapp/web/util/sdk'
 import { IconUserPlus, IconUsers } from '@tabler//icons-react'
 import { Link } from 'react-router-dom'
 import { useClient } from 'urql'
 
 export function AdminUserListFeature() {
-  const [{ data, error, fetching }] = useAdminUsersQuery()
+  const [{ data, error, fetching }] = useAdminGetUsersQuery()
   const client = useClient()
 
   const deleteUser = async (user: User) => {

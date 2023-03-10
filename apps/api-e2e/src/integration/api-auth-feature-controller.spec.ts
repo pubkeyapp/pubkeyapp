@@ -3,7 +3,7 @@ import { Keypair } from '@solana/web3.js'
 import * as base58 from 'bs58'
 import { apiUrl, expectEndpoint, initializeE2eApp, postEndpoint, signMessage } from './helpers'
 
-describe('ApiAuthFeatureController (e2e)', () => {
+describe('ApiAuthController (e2e)', () => {
   let app: INestApplication
 
   beforeEach(async () => {

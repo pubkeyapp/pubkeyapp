@@ -30,7 +30,7 @@ export class ApiUserPageService {
     return this.core.data.page.delete({ where: { id: pageId } })
   }
 
-  userPage(userId: string, pageId: string) {
+  userGetPage(userId: string, pageId: string) {
     return this.ensurePageOwner(userId, pageId)
   }
 

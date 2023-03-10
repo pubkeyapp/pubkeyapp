@@ -1,12 +1,12 @@
-import { Box, Card, CardSection, SimpleGrid, Stack, Text } from '@mantine/core'
+import { Box, Card, SimpleGrid, Stack, Text } from '@mantine/core'
 import { UiLoader } from '@pubkeyapp/web/ui/core'
 import { UiPage } from '@pubkeyapp/web/ui/page'
-import { useQueuesQuery } from '@pubkeyapp/web/util/sdk'
+import { useAdminGetQueuesQuery } from '@pubkeyapp/web/util/sdk'
 import { Link } from 'react-router-dom'
 import { QueueCountStats } from '../ui/queue-count.stats'
 
 export function QueueListFeature() {
-  const [{ data, fetching }] = useQueuesQuery()
+  const [{ data, fetching }] = useAdminGetQueuesQuery()
 
   return (
     <UiPage title="Queues">

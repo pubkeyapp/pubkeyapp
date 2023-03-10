@@ -14,8 +14,8 @@ fragment InviteDetails on Invite {
   }
 }
 
-query AdminInvite($inviteId: String!) {
-  item: adminInvite(inviteId: $inviteId) {
+query AdminGetInvite($inviteId: String!) {
+  item: adminGetInvite(inviteId: $inviteId) {
     ...InviteDetails
     users {
       ...UserDetails
@@ -23,8 +23,8 @@ query AdminInvite($inviteId: String!) {
   }
 }
 
-query AdminInvites($input: AdminListInviteInput) {
-  items: adminInvites(input: $input) {
+query AdminGetInvites($input: AdminGetInvitesInput) {
+  items: adminGetInvites(input: $input) {
     ...InviteDetails
   }
 }
@@ -47,8 +47,8 @@ mutation AdminDeleteInvite($inviteId: String!) {
   }
 }
 
-query PublicInvite($code: String!) {
-  item: publicInvite(code: $code) {
+query AnonGetInvite($code: String!) {
+  item: anonGetInvite(code: $code) {
     ...InviteDetails
     users {
       ...UserDetails
@@ -56,14 +56,14 @@ query PublicInvite($code: String!) {
   }
 }
 
-query UserInvites {
-  items: userInvites {
+query UserGetInvites {
+  items: userGetInvites {
     ...InviteDetails
   }
 }
 
-query UserInvite {
-  item: userInvite {
+query UserGetInvite {
+  item: userGetInvite {
     ...InviteDetails
     users {
       ...UserDetails

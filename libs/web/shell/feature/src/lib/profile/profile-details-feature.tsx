@@ -1,23 +1,15 @@
-import { Box, Container, Group, Stack } from '@mantine/core'
-import { Page } from '@pubkeyapp/sdk'
-import { PageUserProfile, PageWrapper } from '@pubkeyapp/web/page/ui'
+import { Container, Group, Stack } from '@mantine/core'
+import { PageUserProfile } from '@pubkeyapp/web/page/ui'
 import { ProfileTypeIcon } from '@pubkeyapp/web/profile/ui'
-import { UiError, UiErrorLoader, UiLoader, UiTabRoutes } from '@pubkeyapp/web/ui/core'
-import {
-  ProfileType,
-  usePublicUserPagesQuery,
-  usePublicUserQuery,
-  useUserProfilePageQuery,
-} from '@pubkeyapp/web/util/sdk'
+import { UiError, UiErrorLoader, UiTabRoutes } from '@pubkeyapp/web/ui/core'
+import { ProfileType, useAnonGetUserQuery } from '@pubkeyapp/web/util/sdk'
 import React, { useMemo } from 'react'
 import { useParams } from 'react-router-dom'
+import { ProfilePage } from './profile.page'
 
 export function ProfileDetailsFeature() {
   const { username } = useParams<{ username: string }>()
-  const [{ data, fetching, error }] = usePublicUserQuery({ variables: { username: `${username}` } })
-  const [{ data: pagesData, fetching: pagesFetching, error: pagesError }] = usePublicUserPagesQuery({
-    variables: { username: '' + username },
-  })
+  const [{ data, fetching, error }] = useAnonGetUserQuery({ variables: { username: `${username}` } })
   const types = [ProfileType.Personal, ProfileType.Professional, ProfileType.Gaming, ProfileType.Degen]
 
   const profiles = useMemo(() => {
@@ -29,7 +21,7 @@ export function ProfileDetailsFeature() {
   }, [profiles])
 
   return (
-    <UiErrorLoader error={error ?? pagesError} loading={fetching ?? pagesFetching}>
+    <UiErrorLoader error={error} loading={fetching}>
       {data?.item ? (
         <Container size="md" mt={48}>
           <Stack>
@@ -60,25 +52,5 @@ export function ProfileDetailsFeature() {
         <UiError error="User not found..." />
       )}
     </UiErrorLoader>
-  )
-}
-
-export function ProfilePage({ profileId }: { profileId: string }) {
-  const [{ data, fetching }] = useUserProfilePageQuery({ variables: { profileId } })
-  return (
-    <Box>
-      {fetching ? (
-        <UiLoader />
-      ) : data?.item ? (
-        <Group position="center">
-          <PageWrapper hideShareButton page={data.item as Page} />
-        </Group>
-      ) : (
-        <UiError error="Page not found..." />
-      )}
-      <Stack>
-        {/*{profile.page ? <PageWrapper page={profile.page as Page} /> : <UiError error="Page not found..." />}*/}
-      </Stack>
-    </Box>
   )
 }

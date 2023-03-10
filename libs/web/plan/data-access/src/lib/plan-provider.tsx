@@ -1,12 +1,12 @@
 import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/core'
 import {
   AdminCreatePlanInput,
-  AdminListPlanInput,
+  AdminGetPlansInput,
   AdminUpdatePlanInput,
   Plan,
   useAdminCreatePlanMutation,
   useAdminDeletePlanMutation,
-  useAdminPlansQuery,
+  useAdminGetPlansQuery,
   useAdminUpdatePlanMutation,
 } from '@pubkeyapp/web/util/sdk'
 import { createContext, ReactNode, useContext, useState } from 'react'
@@ -25,8 +25,8 @@ export interface AdminPlanProviderContext {
 const AdminPlanContext = createContext<AdminPlanProviderContext>({} as AdminPlanProviderContext)
 
 function AdminPlanProvider({ children, ownerId }: { children: ReactNode; ownerId?: string | null }) {
-  const [input] = useState<AdminListPlanInput>({})
-  const [{ data, error, fetching }, refresh] = useAdminPlansQuery({ variables: { input } })
+  const [input] = useState<AdminGetPlansInput>({})
+  const [{ data, error, fetching }, refresh] = useAdminGetPlansQuery({ variables: { input } })
   const [, createItemMutation] = useAdminCreatePlanMutation()
   const [, deletePlanMutation] = useAdminDeletePlanMutation()
   const [, updatePlanMutation] = useAdminUpdatePlanMutation()

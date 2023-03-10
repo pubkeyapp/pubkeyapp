@@ -24,8 +24,8 @@ fragment AccountDetails on Account {
   }
 }
 
-query AdminAccounts($input: AdminListAccountInput!) {
-  items: adminAccounts(input: $input) {
+query AdminGetAccounts($input: AdminGetAccountsInput!) {
+  items: adminGetAccounts(input: $input) {
     ...AccountDetails
     owner {
       ...AccountDetails
@@ -33,8 +33,8 @@ query AdminAccounts($input: AdminListAccountInput!) {
   }
 }
 
-query AdminAccount($accountId: String!) {
-  item: adminAccount(accountId: $accountId) {
+query AdminGetAccount($accountId: String!) {
+  item: adminGetAccount(accountId: $accountId) {
     ...AccountDetails
     owner {
       ...AccountDetails
@@ -44,8 +44,8 @@ query AdminAccount($accountId: String!) {
     }
   }
 }
-query UserAccount($network: NetworkType!, $address: String!) {
-  item: userAccount(network: $network, address: $address) {
+query UserGetAccount($network: NetworkType!, $address: String!) {
+  item: userGetAccount(network: $network, address: $address) {
     ...AccountDetails
     owner {
       ...AccountDetails
@@ -56,6 +56,6 @@ query UserAccount($network: NetworkType!, $address: String!) {
   }
 }
 
-query UserAccountHistory($network: NetworkType!, $address: String!) {
-  items: userAccountHistory(network: $network, address: $address)
+query UserGetAccountHistory($network: NetworkType!, $address: String!) {
+  items: userGetAccountHistory(network: $network, address: $address)
 }

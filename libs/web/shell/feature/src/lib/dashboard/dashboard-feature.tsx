@@ -1,7 +1,7 @@
 import { Box, Button, Container, Group, Stack } from '@mantine/core'
 import { useAuth } from '@pubkeyapp/web/auth/data-access'
 import { UiLoader, UiTabRoutes } from '@pubkeyapp/web/ui/core'
-import { usePublicUserQuery, useUserProfilesQuery } from '@pubkeyapp/web/util/sdk'
+import { useUserGetProfilesQuery } from '@pubkeyapp/web/util/sdk'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { UserManageIdentities } from '../settings/user-manage.identities'
@@ -9,8 +9,7 @@ import { UserManageProfiles } from './user-manage.profiles'
 
 export function DashboardFeature() {
   const { user } = useAuth()
-  const [{ data: userData }] = usePublicUserQuery({ variables: { username: `${user?.username}` } })
-  const [{ data: profiles, fetching }] = useUserProfilesQuery()
+  const [{ data: profiles, fetching }] = useUserGetProfilesQuery()
 
   return (
     <Box py={32}>

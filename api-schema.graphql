@@ -346,48 +346,47 @@ type Plan {
 type Query {
   uptime: Float!
   adminGetSettings: [Setting!]
-  adminAccount(accountId: String!): Account
-  adminAccounts(input: AdminListAccountInput!): [Account!]
-  userAccount(network: NetworkType!, address: String!): Account
-  userAccountHistory(network: NetworkType!, address: String!): JSON
-  me: User
-  requestChallenge(publicKey: String!): AuthChallengeRequest
+  adminGetAccount(accountId: String!): Account
+  adminGetAccounts(input: AdminGetAccountsInput!): [Account!]
+  userGetAccount(network: NetworkType!, address: String!): Account
+  userGetAccountHistory(network: NetworkType!, address: String!): JSON
+  getMe: User
+  anonRequestChallenge(publicKey: String!): AuthChallengeRequest
   config: Config
-  adminDomains(input: AdminListDomainInput): [Domain!]
-  adminDomain(domainId: String!): Domain
-  adminInvites(input: AdminListInviteInput): [Invite!]
-  adminInvite(inviteId: String!): Invite
-  publicInvite(code: String!): Invite
-  userInvite: Invite
-  userInvites: [Invite!]
-  publicPage(pageId: String!): Page
-  adminPages(input: AdminListPageInput): [Page!]
-  adminPage(pageId: String!): Page
-  userPage(pageId: String!): Page
-  adminPageBlock(pageBlockId: String!): PageBlock
-  adminPageDomain(domainId: String!, path: String!): PageDomain
-  publicPlans: [Plan!]
-  adminPlans(input: AdminListPlanInput): [Plan!]
-  adminPlan(planId: String!): Plan
-  adminProfiles(input: AdminListProfileInput): [Profile!]
-  adminProfile(profileId: String!): Profile
-  userProfile(profileId: String!): Profile
-  userProfilePage(profileId: String!): Page
-  userProfiles: [Profile!]
-  queue(type: QueueType!): Queue
-  queueJobs(type: QueueType!, statuses: [JobStatus!]!): [Job!]
-  queues: [Queue!]
-  publicUser(username: String!): User
-  publicUserFollowers(username: String!): [User!]
-  publicUserFollowing(username: String!): [User!]
-  publicUserInvites(username: String!): [Invite!]
-  publicUserPages(username: String!): [Page!]
-  publicUserProfiles(username: String!): JSON
-  adminUser(userId: String!): User
-  adminUsers: [User!]
+  adminGetDomains(input: AdminGetDomainsInput): [Domain!]
+  adminGetDomain(domainId: String!): Domain
+  adminGetInvites(input: AdminGetInvitesInput): [Invite!]
+  adminGetInvite(inviteId: String!): Invite
+  anonGetInvite(code: String!): Invite
+  userGetInvite: Invite
+  userGetInvites: [Invite!]
+  adminGetPageDomain(domainId: String!, path: String!): PageDomain
+  adminGetPages(input: AdminGetPagesInput): [Page!]
+  adminGetPage(pageId: String!): Page
+  anonGetPage(pageId: String!): Page
+  userGetPage(pageId: String!): Page
+  anonGetPlans: [Plan!]
+  adminGetPlans(input: AdminGetPlansInput): [Plan!]
+  adminGetPlan(planId: String!): Plan
+  adminGetProfile(profileId: String!): Profile
+  adminGetProfiles(input: AdminGetProfilesInput): [Profile!]
+  userGetProfile(profileId: String!): Profile
+  userGetProfilePage(profileId: String!): Page
+  userGetProfiles: [Profile!]
+  adminGetQueue(type: QueueType!): Queue
+  adminGetQueueJobs(type: QueueType!, statuses: [JobStatus!]!): [Job!]
+  adminGetQueues: [Queue!]
+  anonGetUser(username: String!): User
+  anonGetUserFollowers(username: String!): [User!]
+  anonGetUserFollowing(username: String!): [User!]
+  anonGetUserInvites(username: String!): [Invite!]
+  anonGetUserPages(username: String!): [Page!]
+  anonGetUserProfiles(username: String!): JSON
+  adminGetUser(userId: String!): User
+  adminGetUsers: [User!]
 }
 
-input AdminListAccountInput {
+input AdminGetAccountsInput {
   network: NetworkType
   type: AccountType
   address: String
@@ -395,23 +394,23 @@ input AdminListAccountInput {
   name: String
 }
 
-input AdminListDomainInput {
+input AdminGetDomainsInput {
   ownerId: String
 }
 
-input AdminListInviteInput {
+input AdminGetInvitesInput {
   ownerId: String
 }
 
-input AdminListPageInput {
+input AdminGetPagesInput {
   ownerId: String
 }
 
-input AdminListPlanInput {
+input AdminGetPlansInput {
   id: String
 }
 
-input AdminListProfileInput {
+input AdminGetProfilesInput {
   ownerId: String
 }
 
@@ -426,8 +425,8 @@ enum JobStatus {
 
 type Mutation {
   adminSetSetting(key: String!, value: String!): Setting
-  logout: Boolean
-  respondChallenge(challenge: String!, publicKey: String!, signature: String!): User
+  userLogout: Boolean
+  anonRespondChallenge(challenge: String!, publicKey: String!, signature: String!): User
   adminCreateDomain(input: AdminCreateDomainInput!): Domain
   adminDeleteDomain(domainId: String!): Domain
   adminUpdateDomain(domainId: String!, input: AdminUpdateDomainInput!): Domain
@@ -436,20 +435,20 @@ type Mutation {
   adminDeleteInvite(inviteId: String!): Invite
   adminUpdateInvite(inviteId: String!, input: AdminUpdateInviteInput!): Invite
   userAcceptInvite(code: String!): Invite
-  adminCreatePage(input: AdminCreatePageInput!): Page
-  adminDeletePage(pageId: String!): Page
-  adminUpdatePage(pageId: String!, input: AdminUpdatePageInput!): Page
-  userCreatePage(input: UserCreatePageInput!): Page
-  userDeletePage(pageId: String!): Page
-  userUpdatePage(pageId: String!, input: UserUpdatePageInput!): Page
   adminAddPageBlock(pageId: String!, input: AdminAddPageBlockInput!): PageBlock
   adminRemovePageBlock(pageId: String!, pageBlockId: String!): PageBlock
   adminUpdatePageBlock(pageId: String!, pageBlockId: String!, input: AdminUpdatePageBlockInput!): PageBlock
+  adminAddPageDomain(pageId: String!, input: AdminAddPageDomainInput!): PageDomain
+  adminRemovePageDomain(pageId: String!, pageDomainId: String!): PageDomain
+  adminCreatePage(input: AdminCreatePageInput!): Page
+  adminDeletePage(pageId: String!): Page
+  adminUpdatePage(pageId: String!, input: AdminUpdatePageInput!): Page
   userAddPageBlock(pageId: String!, input: UserAddPageBlockInput!): PageBlock
   userRemovePageBlock(pageId: String!, pageBlockId: String!): PageBlock
   userUpdatePageBlock(pageId: String!, pageBlockId: String!, input: UserUpdatePageBlockInput!): PageBlock
-  adminAddPageDomain(pageId: String!, input: AdminAddPageDomainInput!): PageDomain
-  adminRemovePageDomain(pageId: String!, pageDomainId: String!): PageDomain
+  userCreatePage(input: UserCreatePageInput!): Page
+  userDeletePage(pageId: String!): Page
+  userUpdatePage(pageId: String!, input: UserUpdatePageInput!): Page
   adminCreatePlan(input: AdminCreatePlanInput!): Plan
   adminDeletePlan(planId: String!): Plan
   adminUpdatePlan(planId: String!, input: AdminUpdatePlanInput!): Plan
@@ -461,17 +460,16 @@ type Mutation {
   userUpdateProfile(profileId: String!, input: UserUpdateProfileInput!): Profile
   userLinkProfileIdentity(profileId: String!, identityId: String!): Profile
   userUnlinkProfileIdentity(profileId: String!, identityId: String!): Profile
-  queueLoad(input: QueueLoadInput!): Queue
-  queueClean(type: QueueType!): Boolean
-  queueDeleteJob(type: QueueType!, jobId: String!): Boolean
-  queuePause(type: QueueType!): Boolean
-  queueResume(type: QueueType!): Boolean
+  adminCleanQueue(type: QueueType!): Boolean
+  adminDeleteQueueJob(type: QueueType!, jobId: String!): Boolean
+  adminPauseQueue(type: QueueType!): Boolean
+  adminResumeQueue(type: QueueType!): Boolean
   userFollowUser(username: String!): User
   userUnfollowUser(username: String!): User
   userUpdateUser(input: UserUpdateUserInput!): User
   adminCreateUser(input: AdminCreateUserInput!): User
-  adminUpdateUser(userId: String!, input: AdminUpdateUserInput!): User
   adminDeleteUser(userId: String!): User
+  adminUpdateUser(userId: String!, input: AdminUpdateUserInput!): User
 }
 
 input AdminCreateDomainInput {
@@ -500,6 +498,23 @@ input AdminUpdateInviteInput {
   maxUses: Int
 }
 
+input AdminAddPageBlockInput {
+  order: Int
+  data: JSON
+  type: PageBlockType
+}
+
+input AdminUpdatePageBlockInput {
+  order: Int
+  data: JSON
+  type: PageBlockType
+}
+
+input AdminAddPageDomainInput {
+  domainId: String!
+  path: String!
+}
+
 input AdminCreatePageInput {
   title: String!
   description: String!
@@ -514,28 +529,6 @@ input AdminUpdatePageInput {
   color: String
 }
 
-input UserCreatePageInput {
-  profileId: String
-}
-
-input UserUpdatePageInput {
-  title: String
-  description: String
-  color: String
-}
-
-input AdminAddPageBlockInput {
-  order: Int
-  data: JSON
-  type: PageBlockType
-}
-
-input AdminUpdatePageBlockInput {
-  order: Int
-  data: JSON
-  type: PageBlockType
-}
-
 input UserAddPageBlockInput {
   order: Int
   data: JSON
@@ -548,9 +541,14 @@ input UserUpdatePageBlockInput {
   type: PageBlockType
 }
 
-input AdminAddPageDomainInput {
-  domainId: String!
-  path: String!
+input UserCreatePageInput {
+  profileId: String
+}
+
+input UserUpdatePageInput {
+  title: String
+  description: String
+  color: String
 }
 
 input AdminCreatePlanInput {
@@ -592,12 +590,6 @@ input UserUpdateProfileInput {
   avatar: String
   metaUrl: String
   color: String
-}
-
-input QueueLoadInput {
-  serverAppId: String!
-  payload: JSON!
-  type: QueueType!
 }
 
 input UserUpdateUserInput {

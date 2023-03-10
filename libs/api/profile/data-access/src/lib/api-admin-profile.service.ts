@@ -1,10 +1,11 @@
-import { Injectable, OnModuleInit } from '@nestjs/common'
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common'
 import { ApiCoreService } from '@pubkeyapp/api/core/data-access'
-import { AdminListProfileInput } from './dto/admin-list-profile.input'
+import { AdminGetProfilesInput } from './dto/admin-get-profiles.input'
 import { AdminUpdateProfileInput } from './dto/admin-update-profile.input'
 
 @Injectable()
 export class ApiAdminProfileService implements OnModuleInit {
+  private readonly logger = new Logger(ApiAdminProfileService.name)
   constructor(private readonly core: ApiCoreService) {}
 
   async adminDeleteProfile(adminId: string, id: string) {
@@ -12,7 +13,7 @@ export class ApiAdminProfileService implements OnModuleInit {
     return this.core.data.profile.delete({ where: { id } })
   }
 
-  async adminProfiles(adminId: string, input: AdminListProfileInput) {
+  async adminGetProfiles(adminId: string, input: AdminGetProfilesInput) {
     await this.core.ensureUserAdmin(adminId)
     return this.core.data.profile.findMany({
       where: { ownerId: input.ownerId ? input.ownerId : undefined },
@@ -20,7 +21,7 @@ export class ApiAdminProfileService implements OnModuleInit {
     })
   }
 
-  async adminProfile(adminId: string, id: string) {
+  async adminGetProfile(adminId: string, id: string) {
     await this.core.ensureUserAdmin(adminId)
     return this.core.data.profile.findUnique({ where: { id }, include: { owner: true, page: true, user: true } })
   }
@@ -40,9 +41,8 @@ export class ApiAdminProfileService implements OnModuleInit {
         where: { profile: { is: null } },
         include: { owner: true },
       })
-      console.log('pagesWithProfile', pagesWithProfile.length)
       for (const page of pagesWithProfile) {
-        console.log('page', page.id, page.type, page.ownerId)
+        this.logger.log('Creating profile for Page => ', page.id, page.type, page.ownerId)
         const created = await this.core.data.profile.create({
           data: {
             ownerId: page.ownerId,
@@ -59,7 +59,7 @@ export class ApiAdminProfileService implements OnModuleInit {
         })
         const owner = await this.core.getUserById(page.ownerId)
         if (!owner.profile) {
-          console.log('Setting profileId', created.id)
+          this.logger.log('Setting default profile for user -> ', created.id)
           await this.core.data.user.update({
             where: { id: page.ownerId },
             data: { profileId: created.id },

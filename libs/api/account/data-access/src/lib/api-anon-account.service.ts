@@ -24,7 +24,7 @@ export class ApiAnonAccountService implements OnModuleInit {
 
   async onModuleInit() {}
 
-  async getAccount(userId: string, network: NetworkType, address: string, sync = false) {
+  async userGetAccount(userId: string, network: NetworkType, address: string, sync = false) {
     if (sync) {
       await this.queue.processAccountDiscover({
         userId,
@@ -190,7 +190,7 @@ export class ApiAnonAccountService implements OnModuleInit {
     }
   }
 
-  async getAccountHistory(userId: string, network: NetworkType, address: string) {
+  async userGetAccountHistory(userId: string, network: NetworkType, address: string) {
     await this.core.ensureUserActive(userId)
     return this.solana.getHeliusTransactions(network, address)
   }

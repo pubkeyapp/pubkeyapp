@@ -20,16 +20,16 @@ import { ApiQueueFeatureModule } from '@pubkeyapp/api/queue/feature'
 import { ApiSolanaFeatureModule } from '@pubkeyapp/api/solana/feature'
 import { ApiUserFeatureModule } from '@pubkeyapp/api/user/feature'
 import { join } from 'path'
-import { ApiAdminCoreResolver } from './api-admin-core.resolver'
+import { ApiAdminSettingsResolver } from './api-admin-settings.resolver'
 
 import { ApiCoreFeatureOgmaConfig } from './api-core-feature-ogma-config'
-import { ApiCoreFeatureController } from './api-core-feature.controller'
-import { ApiCoreFeatureResolver } from './api-core-feature.resolver'
+import { ApiCoreController } from './api-core.controller'
+import { ApiCoreResolver } from './api-core.resolver'
 import { serveStaticFactory } from './serve-static.factory'
 
 @Module({
-  controllers: [ApiCoreFeatureController],
-  providers: [ApiCoreFeatureResolver, ApiAdminCoreResolver],
+  controllers: [ApiCoreController],
+  providers: [ApiCoreResolver, ApiAdminSettingsResolver],
   exports: [],
   imports: [
     ApiAccountFeatureModule,

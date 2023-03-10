@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common'
-import { ApiDiscordDataAccessService } from '@pubkeyapp/api/discord/data-access'
+import { ApiDiscordService } from '@pubkeyapp/api/discord/data-access'
 import { ActivityType } from 'discord.js'
 import { Context, ContextOf, Ctx, Once, UserCommand, UserCommandContext } from 'necord'
 
@@ -7,7 +7,7 @@ import { Context, ContextOf, Ctx, Once, UserCommand, UserCommandContext } from '
 export class ApiDiscordCoreSetupService {
   private readonly logger = new Logger(ApiDiscordCoreSetupService.name)
 
-  constructor(private readonly service: ApiDiscordDataAccessService) {}
+  constructor(private readonly service: ApiDiscordService) {}
 
   @Once('ready')
   onReady(@Context() [client]: ContextOf<'ready'>) {

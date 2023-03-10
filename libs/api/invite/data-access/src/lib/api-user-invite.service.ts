@@ -8,7 +8,7 @@ export class ApiUserInviteService {
   private readonly logger = new Logger(ApiUserInviteService.name)
   constructor(private readonly core: ApiCoreService) {}
 
-  async userInvite(userId: string) {
+  async userGetInvite(userId: string) {
     await this.core.ensureUser(userId)
 
     return this.core.data.user
@@ -26,7 +26,7 @@ export class ApiUserInviteService {
       )
   }
 
-  async userInvites(userId: string) {
+  async userGetInvites(userId: string) {
     await this.core.ensureUserActive(userId)
     return this.core.data.invite.findMany({
       where: { ownerId: userId },
@@ -46,7 +46,7 @@ export class ApiUserInviteService {
       throw new Error('User is inactive')
     }
     if (user.status === UserStatus.Active) {
-      const existing = await this.userInvite(userId)
+      const existing = await this.userGetInvite(userId)
       if (existing) {
         throw new Error('User already accepted an invite')
       }
@@ -77,6 +77,6 @@ export class ApiUserInviteService {
       data: { status: UserStatus.Active },
     })
     this.logger.verbose(`User ${userId} accepted invite ${invite.id}`)
-    return this.userInvite(userId)
+    return this.userGetInvite(userId)
   }
 }

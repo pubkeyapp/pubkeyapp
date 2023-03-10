@@ -1,18 +1,17 @@
-import { createContext, ReactNode, useContext, useState } from 'react'
+import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/core'
 import {
   AdminAddPageDomainInput,
   AdminCreatePageInput,
-  AdminListPageInput,
+  AdminGetPagesInput,
   AdminUpdatePageInput,
   Page,
-  PageBlockType,
   useAdminAddPageDomainMutation,
   useAdminCreatePageMutation,
   useAdminDeletePageMutation,
-  useAdminPagesQuery,
+  useAdminGetPagesQuery,
   useAdminUpdatePageMutation,
 } from '@pubkeyapp/web/util/sdk'
-import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/core'
+import { createContext, ReactNode, useContext, useState } from 'react'
 
 export interface AdminPageProviderContext {
   pages: Page[]
@@ -30,8 +29,8 @@ export interface AdminPageProviderContext {
 const AdminPageContext = createContext<AdminPageProviderContext>({} as AdminPageProviderContext)
 
 function AdminPageProvider({ children, ownerId }: { children: ReactNode; ownerId?: string | null }) {
-  const [input] = useState<AdminListPageInput>({ ownerId })
-  const [{ data, error, fetching }, refresh] = useAdminPagesQuery({ variables: { input } })
+  const [input] = useState<AdminGetPagesInput>({ ownerId })
+  const [{ data, error, fetching }, refresh] = useAdminGetPagesQuery({ variables: { input } })
   const [, addPageDomainMutation] = useAdminAddPageDomainMutation()
   const [, createItemMutation] = useAdminCreatePageMutation()
   const [, deletePageMutation] = useAdminDeletePageMutation()

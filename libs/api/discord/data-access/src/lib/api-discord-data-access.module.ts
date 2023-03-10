@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common'
 import { IntentsBitField } from 'discord.js'
 import { NecordModule } from 'necord'
-import { ApiDiscordDataAccessService } from './api-discord-data-access.service'
+import { ApiDiscordService } from './api-discord.service'
 import { ApiCoreDataAccessModule } from '@pubkeyapp/api/core/data-access'
 
 import { ACCOUNT_SERVICES } from './account'
@@ -14,8 +14,8 @@ function getFromEnvironment(key: string, separator = '|'): string[] {
 }
 
 @Module({
-  providers: [ApiDiscordDataAccessService, ...ACCOUNT_SERVICES, ...CORE_SERVICES, ...SOLANA_SERVICES],
-  exports: [ApiDiscordDataAccessService],
+  providers: [ApiDiscordService, ...ACCOUNT_SERVICES, ...CORE_SERVICES, ...SOLANA_SERVICES],
+  exports: [ApiDiscordService],
   imports: [
     ApiCoreDataAccessModule,
     ApiSolanaDataAccessModule,

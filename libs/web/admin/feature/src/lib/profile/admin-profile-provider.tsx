@@ -1,13 +1,13 @@
-import { createContext, ReactNode, useContext, useState } from 'react'
+import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/core'
 import {
-  AdminListProfileInput,
+  AdminGetProfilesInput,
   AdminUpdateProfileInput,
   Profile,
   useAdminDeleteProfileMutation,
-  useAdminProfilesQuery,
+  useAdminGetProfilesQuery,
   useAdminUpdateProfileMutation,
 } from '@pubkeyapp/web/util/sdk'
-import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/core'
+import { createContext, ReactNode, useContext, useState } from 'react'
 
 export interface AdminProfileProviderContext {
   profiles: Profile[]
@@ -22,8 +22,8 @@ export interface AdminProfileProviderContext {
 const AdminProfileContext = createContext<AdminProfileProviderContext>({} as AdminProfileProviderContext)
 
 function AdminProfileProvider({ children, ownerId }: { children: ReactNode; ownerId?: string | null }) {
-  const [input] = useState<AdminListProfileInput>({ ownerId })
-  const [{ data, error, fetching }, refresh] = useAdminProfilesQuery({ variables: { input } })
+  const [input] = useState<AdminGetProfilesInput>({ ownerId })
+  const [{ data, error, fetching }, refresh] = useAdminGetProfilesQuery({ variables: { input } })
   const [, deleteProfileMutation] = useAdminDeleteProfileMutation()
   const [, updateProfileMutation] = useAdminUpdateProfileMutation()
 

@@ -99,7 +99,7 @@ export type AdminCreateUserInput = {
   role?: InputMaybe<UserRole>
 }
 
-export type AdminListAccountInput = {
+export type AdminGetAccountsInput = {
   address?: InputMaybe<Scalars['String']>
   name?: InputMaybe<Scalars['String']>
   network?: InputMaybe<NetworkType>
@@ -107,23 +107,23 @@ export type AdminListAccountInput = {
   type?: InputMaybe<AccountType>
 }
 
-export type AdminListDomainInput = {
+export type AdminGetDomainsInput = {
   ownerId?: InputMaybe<Scalars['String']>
 }
 
-export type AdminListInviteInput = {
+export type AdminGetInvitesInput = {
   ownerId?: InputMaybe<Scalars['String']>
 }
 
-export type AdminListPageInput = {
+export type AdminGetPagesInput = {
   ownerId?: InputMaybe<Scalars['String']>
 }
 
-export type AdminListPlanInput = {
+export type AdminGetPlansInput = {
   id?: InputMaybe<Scalars['String']>
 }
 
-export type AdminListProfileInput = {
+export type AdminGetProfilesInput = {
   ownerId?: InputMaybe<Scalars['String']>
 }
 
@@ -315,6 +315,7 @@ export type Mutation = {
   __typename?: 'Mutation'
   adminAddPageBlock?: Maybe<PageBlock>
   adminAddPageDomain?: Maybe<PageDomain>
+  adminCleanQueue?: Maybe<Scalars['Boolean']>
   adminCreateDomain?: Maybe<Domain>
   adminCreateInvite?: Maybe<Invite>
   adminCreatePage?: Maybe<Page>
@@ -325,9 +326,12 @@ export type Mutation = {
   adminDeletePage?: Maybe<Page>
   adminDeletePlan?: Maybe<Plan>
   adminDeleteProfile?: Maybe<Profile>
+  adminDeleteQueueJob?: Maybe<Scalars['Boolean']>
   adminDeleteUser?: Maybe<User>
+  adminPauseQueue?: Maybe<Scalars['Boolean']>
   adminRemovePageBlock?: Maybe<PageBlock>
   adminRemovePageDomain?: Maybe<PageDomain>
+  adminResumeQueue?: Maybe<Scalars['Boolean']>
   adminSetSetting?: Maybe<Setting>
   adminUpdateDomain?: Maybe<Domain>
   adminUpdateInvite?: Maybe<Invite>
@@ -336,13 +340,7 @@ export type Mutation = {
   adminUpdatePlan?: Maybe<Plan>
   adminUpdateProfile?: Maybe<Profile>
   adminUpdateUser?: Maybe<User>
-  logout?: Maybe<Scalars['Boolean']>
-  queueClean?: Maybe<Scalars['Boolean']>
-  queueDeleteJob?: Maybe<Scalars['Boolean']>
-  queueLoad?: Maybe<Queue>
-  queuePause?: Maybe<Scalars['Boolean']>
-  queueResume?: Maybe<Scalars['Boolean']>
-  respondChallenge?: Maybe<User>
+  anonRespondChallenge?: Maybe<User>
   userAcceptInvite?: Maybe<Invite>
   userAddPageBlock?: Maybe<PageBlock>
   userCreatePage?: Maybe<Page>
@@ -352,6 +350,7 @@ export type Mutation = {
   userDeleteProfile?: Maybe<Profile>
   userFollowUser?: Maybe<User>
   userLinkProfileIdentity?: Maybe<Profile>
+  userLogout?: Maybe<Scalars['Boolean']>
   userRemovePageBlock?: Maybe<PageBlock>
   userSyncProfile?: Maybe<Profile>
   userUnfollowUser?: Maybe<User>
@@ -370,6 +369,10 @@ export type MutationAdminAddPageBlockArgs = {
 export type MutationAdminAddPageDomainArgs = {
   input: AdminAddPageDomainInput
   pageId: Scalars['String']
+}
+
+export type MutationAdminCleanQueueArgs = {
+  type: QueueType
 }
 
 export type MutationAdminCreateDomainArgs = {
@@ -412,8 +415,17 @@ export type MutationAdminDeleteProfileArgs = {
   profileId: Scalars['String']
 }
 
+export type MutationAdminDeleteQueueJobArgs = {
+  jobId: Scalars['String']
+  type: QueueType
+}
+
 export type MutationAdminDeleteUserArgs = {
   userId: Scalars['String']
+}
+
+export type MutationAdminPauseQueueArgs = {
+  type: QueueType
 }
 
 export type MutationAdminRemovePageBlockArgs = {
@@ -424,6 +436,10 @@ export type MutationAdminRemovePageBlockArgs = {
 export type MutationAdminRemovePageDomainArgs = {
   pageDomainId: Scalars['String']
   pageId: Scalars['String']
+}
+
+export type MutationAdminResumeQueueArgs = {
+  type: QueueType
 }
 
 export type MutationAdminSetSettingArgs = {
@@ -467,28 +483,7 @@ export type MutationAdminUpdateUserArgs = {
   userId: Scalars['String']
 }
 
-export type MutationQueueCleanArgs = {
-  type: QueueType
-}
-
-export type MutationQueueDeleteJobArgs = {
-  jobId: Scalars['String']
-  type: QueueType
-}
-
-export type MutationQueueLoadArgs = {
-  input: QueueLoadInput
-}
-
-export type MutationQueuePauseArgs = {
-  type: QueueType
-}
-
-export type MutationQueueResumeArgs = {
-  type: QueueType
-}
-
-export type MutationRespondChallengeArgs = {
+export type MutationAnonRespondChallengeArgs = {
   challenge: Scalars['String']
   publicKey: Scalars['String']
   signature: Scalars['String']
@@ -695,174 +690,169 @@ export enum ProfileType {
 
 export type Query = {
   __typename?: 'Query'
-  adminAccount?: Maybe<Account>
-  adminAccounts?: Maybe<Array<Account>>
-  adminDomain?: Maybe<Domain>
-  adminDomains?: Maybe<Array<Domain>>
+  adminGetAccount?: Maybe<Account>
+  adminGetAccounts?: Maybe<Array<Account>>
+  adminGetDomain?: Maybe<Domain>
+  adminGetDomains?: Maybe<Array<Domain>>
+  adminGetInvite?: Maybe<Invite>
+  adminGetInvites?: Maybe<Array<Invite>>
+  adminGetPage?: Maybe<Page>
+  adminGetPageDomain?: Maybe<PageDomain>
+  adminGetPages?: Maybe<Array<Page>>
+  adminGetPlan?: Maybe<Plan>
+  adminGetPlans?: Maybe<Array<Plan>>
+  adminGetProfile?: Maybe<Profile>
+  adminGetProfiles?: Maybe<Array<Profile>>
+  adminGetQueue?: Maybe<Queue>
+  adminGetQueueJobs?: Maybe<Array<Job>>
+  adminGetQueues?: Maybe<Array<Queue>>
   adminGetSettings?: Maybe<Array<Setting>>
-  adminInvite?: Maybe<Invite>
-  adminInvites?: Maybe<Array<Invite>>
-  adminPage?: Maybe<Page>
-  adminPageBlock?: Maybe<PageBlock>
-  adminPageDomain?: Maybe<PageDomain>
-  adminPages?: Maybe<Array<Page>>
-  adminPlan?: Maybe<Plan>
-  adminPlans?: Maybe<Array<Plan>>
-  adminProfile?: Maybe<Profile>
-  adminProfiles?: Maybe<Array<Profile>>
-  adminUser?: Maybe<User>
-  adminUsers?: Maybe<Array<User>>
+  adminGetUser?: Maybe<User>
+  adminGetUsers?: Maybe<Array<User>>
+  anonGetInvite?: Maybe<Invite>
+  anonGetPage?: Maybe<Page>
+  anonGetPlans?: Maybe<Array<Plan>>
+  anonGetUser?: Maybe<User>
+  anonGetUserFollowers?: Maybe<Array<User>>
+  anonGetUserFollowing?: Maybe<Array<User>>
+  anonGetUserInvites?: Maybe<Array<Invite>>
+  anonGetUserPages?: Maybe<Array<Page>>
+  anonGetUserProfiles?: Maybe<Scalars['JSON']>
+  anonRequestChallenge?: Maybe<AuthChallengeRequest>
   config?: Maybe<Config>
-  me?: Maybe<User>
-  publicInvite?: Maybe<Invite>
-  publicPage?: Maybe<Page>
-  publicPlans?: Maybe<Array<Plan>>
-  publicUser?: Maybe<User>
-  publicUserFollowers?: Maybe<Array<User>>
-  publicUserFollowing?: Maybe<Array<User>>
-  publicUserInvites?: Maybe<Array<Invite>>
-  publicUserPages?: Maybe<Array<Page>>
-  publicUserProfiles?: Maybe<Scalars['JSON']>
-  queue?: Maybe<Queue>
-  queueJobs?: Maybe<Array<Job>>
-  queues?: Maybe<Array<Queue>>
-  requestChallenge?: Maybe<AuthChallengeRequest>
+  getMe?: Maybe<User>
   uptime: Scalars['Float']
-  userAccount?: Maybe<Account>
-  userAccountHistory?: Maybe<Scalars['JSON']>
-  userInvite?: Maybe<Invite>
-  userInvites?: Maybe<Array<Invite>>
-  userPage?: Maybe<Page>
-  userProfile?: Maybe<Profile>
-  userProfilePage?: Maybe<Page>
-  userProfiles?: Maybe<Array<Profile>>
+  userGetAccount?: Maybe<Account>
+  userGetAccountHistory?: Maybe<Scalars['JSON']>
+  userGetInvite?: Maybe<Invite>
+  userGetInvites?: Maybe<Array<Invite>>
+  userGetPage?: Maybe<Page>
+  userGetProfile?: Maybe<Profile>
+  userGetProfilePage?: Maybe<Page>
+  userGetProfiles?: Maybe<Array<Profile>>
 }
 
-export type QueryAdminAccountArgs = {
+export type QueryAdminGetAccountArgs = {
   accountId: Scalars['String']
 }
 
-export type QueryAdminAccountsArgs = {
-  input: AdminListAccountInput
+export type QueryAdminGetAccountsArgs = {
+  input: AdminGetAccountsInput
 }
 
-export type QueryAdminDomainArgs = {
+export type QueryAdminGetDomainArgs = {
   domainId: Scalars['String']
 }
 
-export type QueryAdminDomainsArgs = {
-  input?: InputMaybe<AdminListDomainInput>
+export type QueryAdminGetDomainsArgs = {
+  input?: InputMaybe<AdminGetDomainsInput>
 }
 
-export type QueryAdminInviteArgs = {
+export type QueryAdminGetInviteArgs = {
   inviteId: Scalars['String']
 }
 
-export type QueryAdminInvitesArgs = {
-  input?: InputMaybe<AdminListInviteInput>
+export type QueryAdminGetInvitesArgs = {
+  input?: InputMaybe<AdminGetInvitesInput>
 }
 
-export type QueryAdminPageArgs = {
+export type QueryAdminGetPageArgs = {
   pageId: Scalars['String']
 }
 
-export type QueryAdminPageBlockArgs = {
-  pageBlockId: Scalars['String']
-}
-
-export type QueryAdminPageDomainArgs = {
+export type QueryAdminGetPageDomainArgs = {
   domainId: Scalars['String']
   path: Scalars['String']
 }
 
-export type QueryAdminPagesArgs = {
-  input?: InputMaybe<AdminListPageInput>
+export type QueryAdminGetPagesArgs = {
+  input?: InputMaybe<AdminGetPagesInput>
 }
 
-export type QueryAdminPlanArgs = {
+export type QueryAdminGetPlanArgs = {
   planId: Scalars['String']
 }
 
-export type QueryAdminPlansArgs = {
-  input?: InputMaybe<AdminListPlanInput>
+export type QueryAdminGetPlansArgs = {
+  input?: InputMaybe<AdminGetPlansInput>
 }
 
-export type QueryAdminProfileArgs = {
+export type QueryAdminGetProfileArgs = {
   profileId: Scalars['String']
 }
 
-export type QueryAdminProfilesArgs = {
-  input?: InputMaybe<AdminListProfileInput>
+export type QueryAdminGetProfilesArgs = {
+  input?: InputMaybe<AdminGetProfilesInput>
 }
 
-export type QueryAdminUserArgs = {
-  userId: Scalars['String']
-}
-
-export type QueryPublicInviteArgs = {
-  code: Scalars['String']
-}
-
-export type QueryPublicPageArgs = {
-  pageId: Scalars['String']
-}
-
-export type QueryPublicUserArgs = {
-  username: Scalars['String']
-}
-
-export type QueryPublicUserFollowersArgs = {
-  username: Scalars['String']
-}
-
-export type QueryPublicUserFollowingArgs = {
-  username: Scalars['String']
-}
-
-export type QueryPublicUserInvitesArgs = {
-  username: Scalars['String']
-}
-
-export type QueryPublicUserPagesArgs = {
-  username: Scalars['String']
-}
-
-export type QueryPublicUserProfilesArgs = {
-  username: Scalars['String']
-}
-
-export type QueryQueueArgs = {
+export type QueryAdminGetQueueArgs = {
   type: QueueType
 }
 
-export type QueryQueueJobsArgs = {
+export type QueryAdminGetQueueJobsArgs = {
   statuses: Array<JobStatus>
   type: QueueType
 }
 
-export type QueryRequestChallengeArgs = {
-  publicKey: Scalars['String']
+export type QueryAdminGetUserArgs = {
+  userId: Scalars['String']
 }
 
-export type QueryUserAccountArgs = {
-  address: Scalars['String']
-  network: NetworkType
+export type QueryAnonGetInviteArgs = {
+  code: Scalars['String']
 }
 
-export type QueryUserAccountHistoryArgs = {
-  address: Scalars['String']
-  network: NetworkType
-}
-
-export type QueryUserPageArgs = {
+export type QueryAnonGetPageArgs = {
   pageId: Scalars['String']
 }
 
-export type QueryUserProfileArgs = {
+export type QueryAnonGetUserArgs = {
+  username: Scalars['String']
+}
+
+export type QueryAnonGetUserFollowersArgs = {
+  username: Scalars['String']
+}
+
+export type QueryAnonGetUserFollowingArgs = {
+  username: Scalars['String']
+}
+
+export type QueryAnonGetUserInvitesArgs = {
+  username: Scalars['String']
+}
+
+export type QueryAnonGetUserPagesArgs = {
+  username: Scalars['String']
+}
+
+export type QueryAnonGetUserProfilesArgs = {
+  username: Scalars['String']
+}
+
+export type QueryAnonRequestChallengeArgs = {
+  publicKey: Scalars['String']
+}
+
+export type QueryUserGetAccountArgs = {
+  address: Scalars['String']
+  network: NetworkType
+}
+
+export type QueryUserGetAccountHistoryArgs = {
+  address: Scalars['String']
+  network: NetworkType
+}
+
+export type QueryUserGetPageArgs = {
+  pageId: Scalars['String']
+}
+
+export type QueryUserGetProfileArgs = {
   profileId: Scalars['String']
 }
 
-export type QueryUserProfilePageArgs = {
+export type QueryUserGetProfilePageArgs = {
   profileId: Scalars['String']
 }
 
@@ -883,12 +873,6 @@ export type QueueCount = {
   failed?: Maybe<Scalars['Int']>
   paused?: Maybe<Scalars['Int']>
   waiting?: Maybe<Scalars['Int']>
-}
-
-export type QueueLoadInput = {
-  payload: Scalars['JSON']
-  serverAppId: Scalars['String']
-  type: QueueType
 }
 
 export enum QueueType {
@@ -1054,11 +1038,11 @@ export type AccountDetailsFragment = {
   } | null
 }
 
-export type AdminAccountsQueryVariables = Exact<{
-  input: AdminListAccountInput
+export type AdminGetAccountsQueryVariables = Exact<{
+  input: AdminGetAccountsInput
 }>
 
-export type AdminAccountsQuery = {
+export type AdminGetAccountsQuery = {
   __typename?: 'Query'
   items?: Array<{
     __typename?: 'Account'
@@ -1200,11 +1184,11 @@ export type AdminAccountsQuery = {
   }> | null
 }
 
-export type AdminAccountQueryVariables = Exact<{
+export type AdminGetAccountQueryVariables = Exact<{
   accountId: Scalars['String']
 }>
 
-export type AdminAccountQuery = {
+export type AdminGetAccountQuery = {
   __typename?: 'Query'
   item?: {
     __typename?: 'Account'
@@ -1415,12 +1399,12 @@ export type AdminAccountQuery = {
   } | null
 }
 
-export type UserAccountQueryVariables = Exact<{
+export type UserGetAccountQueryVariables = Exact<{
   network: NetworkType
   address: Scalars['String']
 }>
 
-export type UserAccountQuery = {
+export type UserGetAccountQuery = {
   __typename?: 'Query'
   item?: {
     __typename?: 'Account'
@@ -1631,12 +1615,12 @@ export type UserAccountQuery = {
   } | null
 }
 
-export type UserAccountHistoryQueryVariables = Exact<{
+export type UserGetAccountHistoryQueryVariables = Exact<{
   network: NetworkType
   address: Scalars['String']
 }>
 
-export type UserAccountHistoryQuery = { __typename?: 'Query'; items?: any | null }
+export type UserGetAccountHistoryQuery = { __typename?: 'Query'; items?: any | null }
 
 export type AuthChallengeRequestDetailsFragment = {
   __typename?: 'AuthChallengeRequest'
@@ -1644,9 +1628,9 @@ export type AuthChallengeRequestDetailsFragment = {
   expiresAt: string
 }
 
-export type MeQueryVariables = Exact<{ [key: string]: never }>
+export type GetMeQueryVariables = Exact<{ [key: string]: never }>
 
-export type MeQuery = {
+export type GetMeQuery = {
   __typename?: 'Query'
   me?: {
     __typename?: 'User'
@@ -1694,26 +1678,26 @@ export type MeQuery = {
   } | null
 }
 
-export type RequestChallengeQueryVariables = Exact<{
+export type AnonRequestChallengeQueryVariables = Exact<{
   publicKey: Scalars['String']
 }>
 
-export type RequestChallengeQuery = {
+export type AnonRequestChallengeQuery = {
   __typename?: 'Query'
   result?: { __typename?: 'AuthChallengeRequest'; challenge: string; expiresAt: string } | null
 }
 
-export type LogoutMutationVariables = Exact<{ [key: string]: never }>
+export type UserLogoutMutationVariables = Exact<{ [key: string]: never }>
 
-export type LogoutMutation = { __typename?: 'Mutation'; logout?: boolean | null }
+export type UserLogoutMutation = { __typename?: 'Mutation'; userLogout?: boolean | null }
 
-export type RespondChallengeMutationVariables = Exact<{
+export type AnonRespondChallengeMutationVariables = Exact<{
   challenge: Scalars['String']
   publicKey: Scalars['String']
   signature: Scalars['String']
 }>
 
-export type RespondChallengeMutation = {
+export type AnonRespondChallengeMutation = {
   __typename?: 'Mutation'
   result?: {
     __typename?: 'User'
@@ -1867,11 +1851,11 @@ export type DomainDetailsFragment = {
   } | null
 }
 
-export type AdminDomainQueryVariables = Exact<{
+export type AdminGetDomainQueryVariables = Exact<{
   domainId: Scalars['String']
 }>
 
-export type AdminDomainQuery = {
+export type AdminGetDomainQuery = {
   __typename?: 'Query'
   item?: {
     __typename?: 'Domain'
@@ -1930,11 +1914,11 @@ export type AdminDomainQuery = {
   } | null
 }
 
-export type AdminDomainsQueryVariables = Exact<{
-  input?: InputMaybe<AdminListDomainInput>
+export type AdminGetDomainsQueryVariables = Exact<{
+  input?: InputMaybe<AdminGetDomainsInput>
 }>
 
-export type AdminDomainsQuery = {
+export type AdminGetDomainsQuery = {
   __typename?: 'Query'
   items?: Array<{
     __typename?: 'Domain'
@@ -2106,11 +2090,11 @@ export type InviteDetailsFragment = {
   } | null
 }
 
-export type AdminInviteQueryVariables = Exact<{
+export type AdminGetInviteQueryVariables = Exact<{
   inviteId: Scalars['String']
 }>
 
-export type AdminInviteQuery = {
+export type AdminGetInviteQuery = {
   __typename?: 'Query'
   item?: {
     __typename?: 'Invite'
@@ -2175,11 +2159,11 @@ export type AdminInviteQuery = {
   } | null
 }
 
-export type AdminInvitesQueryVariables = Exact<{
-  input?: InputMaybe<AdminListInviteInput>
+export type AdminGetInvitesQueryVariables = Exact<{
+  input?: InputMaybe<AdminGetInvitesInput>
 }>
 
-export type AdminInvitesQuery = {
+export type AdminGetInvitesQuery = {
   __typename?: 'Query'
   items?: Array<{
     __typename?: 'Invite'
@@ -2356,11 +2340,11 @@ export type AdminDeleteInviteMutation = {
   } | null
 }
 
-export type PublicInviteQueryVariables = Exact<{
+export type AnonGetInviteQueryVariables = Exact<{
   code: Scalars['String']
 }>
 
-export type PublicInviteQuery = {
+export type AnonGetInviteQuery = {
   __typename?: 'Query'
   item?: {
     __typename?: 'Invite'
@@ -2425,9 +2409,9 @@ export type PublicInviteQuery = {
   } | null
 }
 
-export type UserInvitesQueryVariables = Exact<{ [key: string]: never }>
+export type UserGetInvitesQueryVariables = Exact<{ [key: string]: never }>
 
-export type UserInvitesQuery = {
+export type UserGetInvitesQuery = {
   __typename?: 'Query'
   items?: Array<{
     __typename?: 'Invite'
@@ -2468,9 +2452,9 @@ export type UserInvitesQuery = {
   }> | null
 }
 
-export type UserInviteQueryVariables = Exact<{ [key: string]: never }>
+export type UserGetInviteQueryVariables = Exact<{ [key: string]: never }>
 
-export type UserInviteQuery = {
+export type UserGetInviteQuery = {
   __typename?: 'Query'
   item?: {
     __typename?: 'Invite'
@@ -2588,23 +2572,6 @@ export type PageBlockDetailsFragment = {
   type?: PageBlockType | null
   data?: any | null
   order?: number | null
-}
-
-export type AdminPageBlockQueryVariables = Exact<{
-  pageBlockId: Scalars['String']
-}>
-
-export type AdminPageBlockQuery = {
-  __typename?: 'Query'
-  item?: {
-    __typename?: 'PageBlock'
-    id?: string | null
-    createdAt?: string | null
-    updatedAt?: string | null
-    type?: PageBlockType | null
-    data?: any | null
-    order?: number | null
-  } | null
 }
 
 export type AdminAddPageBlockMutationVariables = Exact<{
@@ -2758,12 +2725,12 @@ export type PageDomainDetailsFragment = {
   page?: { __typename?: 'Page'; id?: string | null; title?: string | null } | null
 }
 
-export type AdminPageDomainQueryVariables = Exact<{
+export type AdminGetPageDomainQueryVariables = Exact<{
   domainId: Scalars['String']
   path: Scalars['String']
 }>
 
-export type AdminPageDomainQuery = {
+export type AdminGetPageDomainQuery = {
   __typename?: 'Query'
   item?: {
     __typename?: 'PageDomain'
@@ -2874,11 +2841,11 @@ export type PageDetailsFragment = {
   } | null
 }
 
-export type AdminPageQueryVariables = Exact<{
+export type AdminGetPageQueryVariables = Exact<{
   pageId: Scalars['String']
 }>
 
-export type AdminPageQuery = {
+export type AdminGetPageQuery = {
   __typename?: 'Query'
   item?: {
     __typename?: 'Page'
@@ -2938,11 +2905,11 @@ export type AdminPageQuery = {
   } | null
 }
 
-export type AdminPagesQueryVariables = Exact<{
-  input?: InputMaybe<AdminListPageInput>
+export type AdminGetPagesQueryVariables = Exact<{
+  input?: InputMaybe<AdminGetPagesInput>
 }>
 
-export type AdminPagesQuery = {
+export type AdminGetPagesQuery = {
   __typename?: 'Query'
   items?: Array<{
     __typename?: 'Page'
@@ -3144,11 +3111,11 @@ export type AdminDeletePageMutation = {
   } | null
 }
 
-export type PublicPageQueryVariables = Exact<{
+export type AnonGetPageQueryVariables = Exact<{
   pageId: Scalars['String']
 }>
 
-export type PublicPageQuery = {
+export type AnonGetPageQuery = {
   __typename?: 'Query'
   item?: {
     __typename?: 'Page'
@@ -3223,11 +3190,11 @@ export type PublicPageQuery = {
   } | null
 }
 
-export type UserPageQueryVariables = Exact<{
+export type UserGetPageQueryVariables = Exact<{
   pageId: Scalars['String']
 }>
 
-export type UserPageQuery = {
+export type UserGetPageQuery = {
   __typename?: 'Query'
   item?: {
     __typename?: 'Page'
@@ -3438,11 +3405,11 @@ export type PlanDetailsFragment = {
   features?: Array<{ __typename?: 'PlanFeature'; id?: string | null; name?: string | null }> | null
 }
 
-export type AdminPlanQueryVariables = Exact<{
+export type AdminGetPlanQueryVariables = Exact<{
   planId: Scalars['String']
 }>
 
-export type AdminPlanQuery = {
+export type AdminGetPlanQuery = {
   __typename?: 'Query'
   item?: {
     __typename?: 'Plan'
@@ -3460,11 +3427,11 @@ export type AdminPlanQuery = {
   } | null
 }
 
-export type AdminPlansQueryVariables = Exact<{
-  input?: InputMaybe<AdminListPlanInput>
+export type AdminGetPlansQueryVariables = Exact<{
+  input?: InputMaybe<AdminGetPlansInput>
 }>
 
-export type AdminPlansQuery = {
+export type AdminGetPlansQuery = {
   __typename?: 'Query'
   items?: Array<{
     __typename?: 'Plan'
@@ -3549,9 +3516,9 @@ export type AdminDeletePlanMutation = {
   } | null
 }
 
-export type PublicPlansQueryVariables = Exact<{ [key: string]: never }>
+export type AnonGetPlansQueryVariables = Exact<{ [key: string]: never }>
 
-export type PublicPlansQuery = {
+export type AnonGetPlansQuery = {
   __typename?: 'Query'
   items?: Array<{
     __typename?: 'Plan'
@@ -3585,11 +3552,11 @@ export type ProfileDetailsFragment = {
   type?: ProfileType | null
 }
 
-export type AdminProfileQueryVariables = Exact<{
+export type AdminGetProfileQueryVariables = Exact<{
   profileId: Scalars['String']
 }>
 
-export type AdminProfileQuery = {
+export type AdminGetProfileQuery = {
   __typename?: 'Query'
   item?: {
     __typename?: 'Profile'
@@ -3623,11 +3590,11 @@ export type AdminProfileQuery = {
   } | null
 }
 
-export type AdminProfilesQueryVariables = Exact<{
-  input?: InputMaybe<AdminListProfileInput>
+export type AdminGetProfilesQueryVariables = Exact<{
+  input?: InputMaybe<AdminGetProfilesInput>
 }>
 
-export type AdminProfilesQuery = {
+export type AdminGetProfilesQuery = {
   __typename?: 'Query'
   items?: Array<{
     __typename?: 'Profile'
@@ -3766,11 +3733,11 @@ export type UserUnlinkProfileIdentityMutation = {
   } | null
 }
 
-export type UserProfileQueryVariables = Exact<{
+export type UserGetProfileQueryVariables = Exact<{
   profileId: Scalars['String']
 }>
 
-export type UserProfileQuery = {
+export type UserGetProfileQuery = {
   __typename?: 'Query'
   item?: {
     __typename?: 'Profile'
@@ -3789,11 +3756,11 @@ export type UserProfileQuery = {
   } | null
 }
 
-export type UserProfilePageQueryVariables = Exact<{
+export type UserGetProfilePageQueryVariables = Exact<{
   profileId: Scalars['String']
 }>
 
-export type UserProfilePageQuery = {
+export type UserGetProfilePageQuery = {
   __typename?: 'Query'
   item?: {
     __typename?: 'Page'
@@ -3853,9 +3820,9 @@ export type UserProfilePageQuery = {
   } | null
 }
 
-export type UserProfilesQueryVariables = Exact<{ [key: string]: never }>
+export type UserGetProfilesQueryVariables = Exact<{ [key: string]: never }>
 
-export type UserProfilesQuery = {
+export type UserGetProfilesQuery = {
   __typename?: 'Query'
   items?: Array<{
     __typename?: 'Profile'
@@ -4059,9 +4026,9 @@ export type JobDetailsFragment = {
   failedReason?: string | null
 }
 
-export type QueuesQueryVariables = Exact<{ [key: string]: never }>
+export type AdminGetQueuesQueryVariables = Exact<{ [key: string]: never }>
 
-export type QueuesQuery = {
+export type AdminGetQueuesQuery = {
   __typename?: 'Query'
   items?: Array<{
     __typename?: 'Queue'
@@ -4081,11 +4048,11 @@ export type QueuesQuery = {
   }> | null
 }
 
-export type QueueQueryVariables = Exact<{
+export type AdminGetQueueQueryVariables = Exact<{
   type: QueueType
 }>
 
-export type QueueQuery = {
+export type AdminGetQueueQuery = {
   __typename?: 'Query'
   item?: {
     __typename?: 'Queue'
@@ -4105,12 +4072,12 @@ export type QueueQuery = {
   } | null
 }
 
-export type QueueJobsQueryVariables = Exact<{
+export type AdminGetQueueJobsQueryVariables = Exact<{
   type: QueueType
   statuses: Array<JobStatus> | JobStatus
 }>
 
-export type QueueJobsQuery = {
+export type AdminGetQueueJobsQuery = {
   __typename?: 'Query'
   items?: Array<{
     __typename?: 'Job'
@@ -4128,54 +4095,30 @@ export type QueueJobsQuery = {
   }> | null
 }
 
-export type QueueLoadMutationVariables = Exact<{
-  input: QueueLoadInput
-}>
-
-export type QueueLoadMutation = {
-  __typename?: 'Mutation'
-  loaded?: {
-    __typename?: 'Queue'
-    type: QueueType
-    name: string
-    info?: any | null
-    isPaused?: boolean | null
-    count?: {
-      __typename?: 'QueueCount'
-      active?: number | null
-      completed?: number | null
-      delayed?: number | null
-      failed?: number | null
-      paused?: number | null
-      waiting?: number | null
-    } | null
-  } | null
-}
-
-export type QueueCleanMutationVariables = Exact<{
+export type AdminCleanQueueMutationVariables = Exact<{
   type: QueueType
 }>
 
-export type QueueCleanMutation = { __typename?: 'Mutation'; paused?: boolean | null }
+export type AdminCleanQueueMutation = { __typename?: 'Mutation'; paused?: boolean | null }
 
-export type QueueDeleteJobMutationVariables = Exact<{
+export type AdminDeleteQueueJobMutationVariables = Exact<{
   type: QueueType
   jobId: Scalars['String']
 }>
 
-export type QueueDeleteJobMutation = { __typename?: 'Mutation'; paused?: boolean | null }
+export type AdminDeleteQueueJobMutation = { __typename?: 'Mutation'; paused?: boolean | null }
 
-export type QueuePauseMutationVariables = Exact<{
+export type AdminPauseQueueMutationVariables = Exact<{
   type: QueueType
 }>
 
-export type QueuePauseMutation = { __typename?: 'Mutation'; paused?: boolean | null }
+export type AdminPauseQueueMutation = { __typename?: 'Mutation'; paused?: boolean | null }
 
-export type QueueResumeMutationVariables = Exact<{
+export type AdminResumeQueueMutationVariables = Exact<{
   type: QueueType
 }>
 
-export type QueueResumeMutation = { __typename?: 'Mutation'; resumed?: boolean | null }
+export type AdminResumeQueueMutation = { __typename?: 'Mutation'; resumed?: boolean | null }
 
 export type UserRelationDetailsFragment = {
   __typename?: 'UserRelation'
@@ -4220,11 +4163,11 @@ export type UserDetailsFragment = {
   relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
 }
 
-export type AdminUserQueryVariables = Exact<{
+export type AdminGetUserQueryVariables = Exact<{
   userId: Scalars['String']
 }>
 
-export type AdminUserQuery = {
+export type AdminGetUserQuery = {
   __typename?: 'Query'
   item?: {
     __typename?: 'User'
@@ -4257,9 +4200,9 @@ export type AdminUserQuery = {
   } | null
 }
 
-export type AdminUsersQueryVariables = Exact<{ [key: string]: never }>
+export type AdminGetUsersQueryVariables = Exact<{ [key: string]: never }>
 
-export type AdminUsersQuery = {
+export type AdminGetUsersQuery = {
   __typename?: 'Query'
   items?: Array<{
     __typename?: 'User'
@@ -4364,11 +4307,11 @@ export type AdminDeleteUserMutation = {
   } | null
 }
 
-export type PublicUserQueryVariables = Exact<{
+export type AnonGetUserQueryVariables = Exact<{
   username: Scalars['String']
 }>
 
-export type PublicUserQuery = {
+export type AnonGetUserQuery = {
   __typename?: 'Query'
   item?: {
     __typename?: 'User'
@@ -4431,11 +4374,11 @@ export type PublicUserQuery = {
   } | null
 }
 
-export type PublicUserFollowersQueryVariables = Exact<{
+export type AnonGetUserFollowersQueryVariables = Exact<{
   username: Scalars['String']
 }>
 
-export type PublicUserFollowersQuery = {
+export type AnonGetUserFollowersQuery = {
   __typename?: 'Query'
   item?: Array<{
     __typename?: 'User'
@@ -4468,11 +4411,11 @@ export type PublicUserFollowersQuery = {
   }> | null
 }
 
-export type PublicFollowingQueryVariables = Exact<{
+export type AnonGetUserFollowingQueryVariables = Exact<{
   username: Scalars['String']
 }>
 
-export type PublicFollowingQuery = {
+export type AnonGetUserFollowingQuery = {
   __typename?: 'Query'
   item?: Array<{
     __typename?: 'User'
@@ -4505,11 +4448,11 @@ export type PublicFollowingQuery = {
   }> | null
 }
 
-export type PublicUserPagesQueryVariables = Exact<{
+export type AnonGetUserPagesQueryVariables = Exact<{
   username: Scalars['String']
 }>
 
-export type PublicUserPagesQuery = {
+export type AnonGetUserPagesQuery = {
   __typename?: 'Query'
   items?: Array<{
     __typename?: 'Page'
@@ -4565,11 +4508,11 @@ export type PublicUserPagesQuery = {
   }> | null
 }
 
-export type PublicUserProfilesQueryVariables = Exact<{
+export type AnonGetUserProfilesQueryVariables = Exact<{
   username: Scalars['String']
 }>
 
-export type PublicUserProfilesQuery = { __typename?: 'Query'; item?: any | null }
+export type AnonGetUserProfilesQuery = { __typename?: 'Query'; item?: any | null }
 
 export type UserUpdateUserMutationVariables = Exact<{
   input: UserUpdateUserInput
@@ -4957,9 +4900,9 @@ export const UserSummaryFragmentDoc = gql`
     publicKey
   }
 `
-export const AdminAccountsDocument = gql`
-  query AdminAccounts($input: AdminListAccountInput!) {
-    items: adminAccounts(input: $input) {
+export const AdminGetAccountsDocument = gql`
+  query AdminGetAccounts($input: AdminGetAccountsInput!) {
+    items: adminGetAccounts(input: $input) {
       ...AccountDetails
       owner {
         ...AccountDetails
@@ -4969,62 +4912,68 @@ export const AdminAccountsDocument = gql`
   ${AccountDetailsFragmentDoc}
 `
 
-export function useAdminAccountsQuery(options: Omit<Urql.UseQueryArgs<AdminAccountsQueryVariables>, 'query'>) {
-  return Urql.useQuery<AdminAccountsQuery, AdminAccountsQueryVariables>({ query: AdminAccountsDocument, ...options })
-}
-export const AdminAccountDocument = gql`
-  query AdminAccount($accountId: String!) {
-    item: adminAccount(accountId: $accountId) {
-      ...AccountDetails
-      owner {
-        ...AccountDetails
-      }
-      tokens {
-        ...AccountDetails
-      }
-    }
-  }
-  ${AccountDetailsFragmentDoc}
-`
-
-export function useAdminAccountQuery(options: Omit<Urql.UseQueryArgs<AdminAccountQueryVariables>, 'query'>) {
-  return Urql.useQuery<AdminAccountQuery, AdminAccountQueryVariables>({ query: AdminAccountDocument, ...options })
-}
-export const UserAccountDocument = gql`
-  query UserAccount($network: NetworkType!, $address: String!) {
-    item: userAccount(network: $network, address: $address) {
-      ...AccountDetails
-      owner {
-        ...AccountDetails
-      }
-      tokens {
-        ...AccountDetails
-      }
-    }
-  }
-  ${AccountDetailsFragmentDoc}
-`
-
-export function useUserAccountQuery(options: Omit<Urql.UseQueryArgs<UserAccountQueryVariables>, 'query'>) {
-  return Urql.useQuery<UserAccountQuery, UserAccountQueryVariables>({ query: UserAccountDocument, ...options })
-}
-export const UserAccountHistoryDocument = gql`
-  query UserAccountHistory($network: NetworkType!, $address: String!) {
-    items: userAccountHistory(network: $network, address: $address)
-  }
-`
-
-export function useUserAccountHistoryQuery(
-  options: Omit<Urql.UseQueryArgs<UserAccountHistoryQueryVariables>, 'query'>,
-) {
-  return Urql.useQuery<UserAccountHistoryQuery, UserAccountHistoryQueryVariables>({
-    query: UserAccountHistoryDocument,
+export function useAdminGetAccountsQuery(options: Omit<Urql.UseQueryArgs<AdminGetAccountsQueryVariables>, 'query'>) {
+  return Urql.useQuery<AdminGetAccountsQuery, AdminGetAccountsQueryVariables>({
+    query: AdminGetAccountsDocument,
     ...options,
   })
 }
-export const MeDocument = gql`
-  query me {
-    me {
+export const AdminGetAccountDocument = gql`
+  query AdminGetAccount($accountId: String!) {
+    item: adminGetAccount(accountId: $accountId) {
+      ...AccountDetails
+      owner {
+        ...AccountDetails
+      }
+      tokens {
+        ...AccountDetails
+      }
+    }
+  }
+  ${AccountDetailsFragmentDoc}
+`
+
+export function useAdminGetAccountQuery(options: Omit<Urql.UseQueryArgs<AdminGetAccountQueryVariables>, 'query'>) {
+  return Urql.useQuery<AdminGetAccountQuery, AdminGetAccountQueryVariables>({
+    query: AdminGetAccountDocument,
+    ...options,
+  })
+}
+export const UserGetAccountDocument = gql`
+  query UserGetAccount($network: NetworkType!, $address: String!) {
+    item: userGetAccount(network: $network, address: $address) {
+      ...AccountDetails
+      owner {
+        ...AccountDetails
+      }
+      tokens {
+        ...AccountDetails
+      }
+    }
+  }
+  ${AccountDetailsFragmentDoc}
+`
+
+export function useUserGetAccountQuery(options: Omit<Urql.UseQueryArgs<UserGetAccountQueryVariables>, 'query'>) {
+  return Urql.useQuery<UserGetAccountQuery, UserGetAccountQueryVariables>({ query: UserGetAccountDocument, ...options })
+}
+export const UserGetAccountHistoryDocument = gql`
+  query UserGetAccountHistory($network: NetworkType!, $address: String!) {
+    items: userGetAccountHistory(network: $network, address: $address)
+  }
+`
+
+export function useUserGetAccountHistoryQuery(
+  options: Omit<Urql.UseQueryArgs<UserGetAccountHistoryQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<UserGetAccountHistoryQuery, UserGetAccountHistoryQueryVariables>({
+    query: UserGetAccountHistoryDocument,
+    ...options,
+  })
+}
+export const GetMeDocument = gql`
+  query GetMe {
+    me: getMe {
       ...UserDetails
       identities {
         ...IdentityDetails
@@ -5039,44 +4988,48 @@ export const MeDocument = gql`
   ${ProfileDetailsFragmentDoc}
 `
 
-export function useMeQuery(options?: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'>) {
-  return Urql.useQuery<MeQuery, MeQueryVariables>({ query: MeDocument, ...options })
+export function useGetMeQuery(options?: Omit<Urql.UseQueryArgs<GetMeQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetMeQuery, GetMeQueryVariables>({ query: GetMeDocument, ...options })
 }
-export const RequestChallengeDocument = gql`
-  query RequestChallenge($publicKey: String!) {
-    result: requestChallenge(publicKey: $publicKey) {
+export const AnonRequestChallengeDocument = gql`
+  query AnonRequestChallenge($publicKey: String!) {
+    result: anonRequestChallenge(publicKey: $publicKey) {
       ...AuthChallengeRequestDetails
     }
   }
   ${AuthChallengeRequestDetailsFragmentDoc}
 `
 
-export function useRequestChallengeQuery(options: Omit<Urql.UseQueryArgs<RequestChallengeQueryVariables>, 'query'>) {
-  return Urql.useQuery<RequestChallengeQuery, RequestChallengeQueryVariables>({
-    query: RequestChallengeDocument,
+export function useAnonRequestChallengeQuery(
+  options: Omit<Urql.UseQueryArgs<AnonRequestChallengeQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<AnonRequestChallengeQuery, AnonRequestChallengeQueryVariables>({
+    query: AnonRequestChallengeDocument,
     ...options,
   })
 }
-export const LogoutDocument = gql`
-  mutation Logout {
-    logout
+export const UserLogoutDocument = gql`
+  mutation UserLogout {
+    userLogout
   }
 `
 
-export function useLogoutMutation() {
-  return Urql.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument)
+export function useUserLogoutMutation() {
+  return Urql.useMutation<UserLogoutMutation, UserLogoutMutationVariables>(UserLogoutDocument)
 }
-export const RespondChallengeDocument = gql`
-  mutation RespondChallenge($challenge: String!, $publicKey: String!, $signature: String!) {
-    result: respondChallenge(challenge: $challenge, publicKey: $publicKey, signature: $signature) {
+export const AnonRespondChallengeDocument = gql`
+  mutation AnonRespondChallenge($challenge: String!, $publicKey: String!, $signature: String!) {
+    result: anonRespondChallenge(challenge: $challenge, publicKey: $publicKey, signature: $signature) {
       ...UserDetails
     }
   }
   ${UserDetailsFragmentDoc}
 `
 
-export function useRespondChallengeMutation() {
-  return Urql.useMutation<RespondChallengeMutation, RespondChallengeMutationVariables>(RespondChallengeDocument)
+export function useAnonRespondChallengeMutation() {
+  return Urql.useMutation<AnonRespondChallengeMutation, AnonRespondChallengeMutationVariables>(
+    AnonRespondChallengeDocument,
+  )
 }
 export const ConfigDocument = gql`
   query Config {
@@ -5126,9 +5079,9 @@ export const AdminSetSettingDocument = gql`
 export function useAdminSetSettingMutation() {
   return Urql.useMutation<AdminSetSettingMutation, AdminSetSettingMutationVariables>(AdminSetSettingDocument)
 }
-export const AdminDomainDocument = gql`
-  query AdminDomain($domainId: String!) {
-    item: adminDomain(domainId: $domainId) {
+export const AdminGetDomainDocument = gql`
+  query AdminGetDomain($domainId: String!) {
+    item: adminGetDomain(domainId: $domainId) {
       ...DomainDetails
       pages {
         ...PageDetails
@@ -5139,20 +5092,23 @@ export const AdminDomainDocument = gql`
   ${PageDetailsFragmentDoc}
 `
 
-export function useAdminDomainQuery(options: Omit<Urql.UseQueryArgs<AdminDomainQueryVariables>, 'query'>) {
-  return Urql.useQuery<AdminDomainQuery, AdminDomainQueryVariables>({ query: AdminDomainDocument, ...options })
+export function useAdminGetDomainQuery(options: Omit<Urql.UseQueryArgs<AdminGetDomainQueryVariables>, 'query'>) {
+  return Urql.useQuery<AdminGetDomainQuery, AdminGetDomainQueryVariables>({ query: AdminGetDomainDocument, ...options })
 }
-export const AdminDomainsDocument = gql`
-  query AdminDomains($input: AdminListDomainInput) {
-    items: adminDomains(input: $input) {
+export const AdminGetDomainsDocument = gql`
+  query AdminGetDomains($input: AdminGetDomainsInput) {
+    items: adminGetDomains(input: $input) {
       ...DomainDetails
     }
   }
   ${DomainDetailsFragmentDoc}
 `
 
-export function useAdminDomainsQuery(options?: Omit<Urql.UseQueryArgs<AdminDomainsQueryVariables>, 'query'>) {
-  return Urql.useQuery<AdminDomainsQuery, AdminDomainsQueryVariables>({ query: AdminDomainsDocument, ...options })
+export function useAdminGetDomainsQuery(options?: Omit<Urql.UseQueryArgs<AdminGetDomainsQueryVariables>, 'query'>) {
+  return Urql.useQuery<AdminGetDomainsQuery, AdminGetDomainsQueryVariables>({
+    query: AdminGetDomainsDocument,
+    ...options,
+  })
 }
 export const AdminCreateDomainDocument = gql`
   mutation AdminCreateDomain($input: AdminCreateDomainInput!) {
@@ -5202,9 +5158,9 @@ export const UserDeleteIdentityDocument = gql`
 export function useUserDeleteIdentityMutation() {
   return Urql.useMutation<UserDeleteIdentityMutation, UserDeleteIdentityMutationVariables>(UserDeleteIdentityDocument)
 }
-export const AdminInviteDocument = gql`
-  query AdminInvite($inviteId: String!) {
-    item: adminInvite(inviteId: $inviteId) {
+export const AdminGetInviteDocument = gql`
+  query AdminGetInvite($inviteId: String!) {
+    item: adminGetInvite(inviteId: $inviteId) {
       ...InviteDetails
       users {
         ...UserDetails
@@ -5215,20 +5171,23 @@ export const AdminInviteDocument = gql`
   ${UserDetailsFragmentDoc}
 `
 
-export function useAdminInviteQuery(options: Omit<Urql.UseQueryArgs<AdminInviteQueryVariables>, 'query'>) {
-  return Urql.useQuery<AdminInviteQuery, AdminInviteQueryVariables>({ query: AdminInviteDocument, ...options })
+export function useAdminGetInviteQuery(options: Omit<Urql.UseQueryArgs<AdminGetInviteQueryVariables>, 'query'>) {
+  return Urql.useQuery<AdminGetInviteQuery, AdminGetInviteQueryVariables>({ query: AdminGetInviteDocument, ...options })
 }
-export const AdminInvitesDocument = gql`
-  query AdminInvites($input: AdminListInviteInput) {
-    items: adminInvites(input: $input) {
+export const AdminGetInvitesDocument = gql`
+  query AdminGetInvites($input: AdminGetInvitesInput) {
+    items: adminGetInvites(input: $input) {
       ...InviteDetails
     }
   }
   ${InviteDetailsFragmentDoc}
 `
 
-export function useAdminInvitesQuery(options?: Omit<Urql.UseQueryArgs<AdminInvitesQueryVariables>, 'query'>) {
-  return Urql.useQuery<AdminInvitesQuery, AdminInvitesQueryVariables>({ query: AdminInvitesDocument, ...options })
+export function useAdminGetInvitesQuery(options?: Omit<Urql.UseQueryArgs<AdminGetInvitesQueryVariables>, 'query'>) {
+  return Urql.useQuery<AdminGetInvitesQuery, AdminGetInvitesQueryVariables>({
+    query: AdminGetInvitesDocument,
+    ...options,
+  })
 }
 export const AdminCreateInviteDocument = gql`
   mutation AdminCreateInvite($input: AdminCreateInviteInput!) {
@@ -5266,9 +5225,9 @@ export const AdminDeleteInviteDocument = gql`
 export function useAdminDeleteInviteMutation() {
   return Urql.useMutation<AdminDeleteInviteMutation, AdminDeleteInviteMutationVariables>(AdminDeleteInviteDocument)
 }
-export const PublicInviteDocument = gql`
-  query PublicInvite($code: String!) {
-    item: publicInvite(code: $code) {
+export const AnonGetInviteDocument = gql`
+  query AnonGetInvite($code: String!) {
+    item: anonGetInvite(code: $code) {
       ...InviteDetails
       users {
         ...UserDetails
@@ -5279,24 +5238,24 @@ export const PublicInviteDocument = gql`
   ${UserDetailsFragmentDoc}
 `
 
-export function usePublicInviteQuery(options: Omit<Urql.UseQueryArgs<PublicInviteQueryVariables>, 'query'>) {
-  return Urql.useQuery<PublicInviteQuery, PublicInviteQueryVariables>({ query: PublicInviteDocument, ...options })
+export function useAnonGetInviteQuery(options: Omit<Urql.UseQueryArgs<AnonGetInviteQueryVariables>, 'query'>) {
+  return Urql.useQuery<AnonGetInviteQuery, AnonGetInviteQueryVariables>({ query: AnonGetInviteDocument, ...options })
 }
-export const UserInvitesDocument = gql`
-  query UserInvites {
-    items: userInvites {
+export const UserGetInvitesDocument = gql`
+  query UserGetInvites {
+    items: userGetInvites {
       ...InviteDetails
     }
   }
   ${InviteDetailsFragmentDoc}
 `
 
-export function useUserInvitesQuery(options?: Omit<Urql.UseQueryArgs<UserInvitesQueryVariables>, 'query'>) {
-  return Urql.useQuery<UserInvitesQuery, UserInvitesQueryVariables>({ query: UserInvitesDocument, ...options })
+export function useUserGetInvitesQuery(options?: Omit<Urql.UseQueryArgs<UserGetInvitesQueryVariables>, 'query'>) {
+  return Urql.useQuery<UserGetInvitesQuery, UserGetInvitesQueryVariables>({ query: UserGetInvitesDocument, ...options })
 }
-export const UserInviteDocument = gql`
-  query UserInvite {
-    item: userInvite {
+export const UserGetInviteDocument = gql`
+  query UserGetInvite {
+    item: userGetInvite {
       ...InviteDetails
       users {
         ...UserDetails
@@ -5307,8 +5266,8 @@ export const UserInviteDocument = gql`
   ${UserDetailsFragmentDoc}
 `
 
-export function useUserInviteQuery(options?: Omit<Urql.UseQueryArgs<UserInviteQueryVariables>, 'query'>) {
-  return Urql.useQuery<UserInviteQuery, UserInviteQueryVariables>({ query: UserInviteDocument, ...options })
+export function useUserGetInviteQuery(options?: Omit<Urql.UseQueryArgs<UserGetInviteQueryVariables>, 'query'>) {
+  return Urql.useQuery<UserGetInviteQuery, UserGetInviteQueryVariables>({ query: UserGetInviteDocument, ...options })
 }
 export const UserAcceptInviteDocument = gql`
   mutation UserAcceptInvite($code: String!) {
@@ -5321,18 +5280,6 @@ export const UserAcceptInviteDocument = gql`
 
 export function useUserAcceptInviteMutation() {
   return Urql.useMutation<UserAcceptInviteMutation, UserAcceptInviteMutationVariables>(UserAcceptInviteDocument)
-}
-export const AdminPageBlockDocument = gql`
-  query AdminPageBlock($pageBlockId: String!) {
-    item: adminPageBlock(pageBlockId: $pageBlockId) {
-      ...PageBlockDetails
-    }
-  }
-  ${PageBlockDetailsFragmentDoc}
-`
-
-export function useAdminPageBlockQuery(options: Omit<Urql.UseQueryArgs<AdminPageBlockQueryVariables>, 'query'>) {
-  return Urql.useQuery<AdminPageBlockQuery, AdminPageBlockQueryVariables>({ query: AdminPageBlockDocument, ...options })
 }
 export const AdminAddPageBlockDocument = gql`
   mutation AdminAddPageBlock($pageId: String!, $input: AdminAddPageBlockInput!) {
@@ -5450,9 +5397,9 @@ export function useUserUpdatePageBlockMutation() {
     UserUpdatePageBlockDocument,
   )
 }
-export const AdminPageDomainDocument = gql`
-  query AdminPageDomain($domainId: String!, $path: String!) {
-    item: adminPageDomain(domainId: $domainId, path: $path) {
+export const AdminGetPageDomainDocument = gql`
+  query AdminGetPageDomain($domainId: String!, $path: String!) {
+    item: adminGetPageDomain(domainId: $domainId, path: $path) {
       ...PageDomainDetails
       page {
         id
@@ -5465,9 +5412,11 @@ export const AdminPageDomainDocument = gql`
   ${PageDomainDetailsFragmentDoc}
 `
 
-export function useAdminPageDomainQuery(options: Omit<Urql.UseQueryArgs<AdminPageDomainQueryVariables>, 'query'>) {
-  return Urql.useQuery<AdminPageDomainQuery, AdminPageDomainQueryVariables>({
-    query: AdminPageDomainDocument,
+export function useAdminGetPageDomainQuery(
+  options: Omit<Urql.UseQueryArgs<AdminGetPageDomainQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<AdminGetPageDomainQuery, AdminGetPageDomainQueryVariables>({
+    query: AdminGetPageDomainDocument,
     ...options,
   })
 }
@@ -5509,9 +5458,9 @@ export function useAdminRemovePageDomainMutation() {
     AdminRemovePageDomainDocument,
   )
 }
-export const AdminPageDocument = gql`
-  query AdminPage($pageId: String!) {
-    item: adminPage(pageId: $pageId) {
+export const AdminGetPageDocument = gql`
+  query AdminGetPage($pageId: String!) {
+    item: adminGetPage(pageId: $pageId) {
       ...PageDetails
       blocks {
         ...PageBlockDetails
@@ -5526,12 +5475,12 @@ export const AdminPageDocument = gql`
   ${PageDomainDetailsFragmentDoc}
 `
 
-export function useAdminPageQuery(options: Omit<Urql.UseQueryArgs<AdminPageQueryVariables>, 'query'>) {
-  return Urql.useQuery<AdminPageQuery, AdminPageQueryVariables>({ query: AdminPageDocument, ...options })
+export function useAdminGetPageQuery(options: Omit<Urql.UseQueryArgs<AdminGetPageQueryVariables>, 'query'>) {
+  return Urql.useQuery<AdminGetPageQuery, AdminGetPageQueryVariables>({ query: AdminGetPageDocument, ...options })
 }
-export const AdminPagesDocument = gql`
-  query AdminPages($input: AdminListPageInput) {
-    items: adminPages(input: $input) {
+export const AdminGetPagesDocument = gql`
+  query AdminGetPages($input: AdminGetPagesInput) {
+    items: adminGetPages(input: $input) {
       ...PageDetails
       domains {
         ...PageDomainDetails
@@ -5546,8 +5495,8 @@ export const AdminPagesDocument = gql`
   ${ProfileDetailsFragmentDoc}
 `
 
-export function useAdminPagesQuery(options?: Omit<Urql.UseQueryArgs<AdminPagesQueryVariables>, 'query'>) {
-  return Urql.useQuery<AdminPagesQuery, AdminPagesQueryVariables>({ query: AdminPagesDocument, ...options })
+export function useAdminGetPagesQuery(options?: Omit<Urql.UseQueryArgs<AdminGetPagesQueryVariables>, 'query'>) {
+  return Urql.useQuery<AdminGetPagesQuery, AdminGetPagesQueryVariables>({ query: AdminGetPagesDocument, ...options })
 }
 export const AdminCreatePageDocument = gql`
   mutation AdminCreatePage($input: AdminCreatePageInput!) {
@@ -5585,9 +5534,9 @@ export const AdminDeletePageDocument = gql`
 export function useAdminDeletePageMutation() {
   return Urql.useMutation<AdminDeletePageMutation, AdminDeletePageMutationVariables>(AdminDeletePageDocument)
 }
-export const PublicPageDocument = gql`
-  query PublicPage($pageId: String!) {
-    item: publicPage(pageId: $pageId) {
+export const AnonGetPageDocument = gql`
+  query AnonGetPage($pageId: String!) {
+    item: anonGetPage(pageId: $pageId) {
       ...PageDetails
       blocks {
         ...PageBlockDetails
@@ -5606,12 +5555,12 @@ export const PublicPageDocument = gql`
   ${ProfileDetailsFragmentDoc}
 `
 
-export function usePublicPageQuery(options: Omit<Urql.UseQueryArgs<PublicPageQueryVariables>, 'query'>) {
-  return Urql.useQuery<PublicPageQuery, PublicPageQueryVariables>({ query: PublicPageDocument, ...options })
+export function useAnonGetPageQuery(options: Omit<Urql.UseQueryArgs<AnonGetPageQueryVariables>, 'query'>) {
+  return Urql.useQuery<AnonGetPageQuery, AnonGetPageQueryVariables>({ query: AnonGetPageDocument, ...options })
 }
-export const UserPageDocument = gql`
-  query UserPage($pageId: String!) {
-    item: userPage(pageId: $pageId) {
+export const UserGetPageDocument = gql`
+  query UserGetPage($pageId: String!) {
+    item: userGetPage(pageId: $pageId) {
       ...PageDetails
       blocks {
         ...PageBlockDetails
@@ -5626,8 +5575,8 @@ export const UserPageDocument = gql`
   ${PageDomainDetailsFragmentDoc}
 `
 
-export function useUserPageQuery(options: Omit<Urql.UseQueryArgs<UserPageQueryVariables>, 'query'>) {
-  return Urql.useQuery<UserPageQuery, UserPageQueryVariables>({ query: UserPageDocument, ...options })
+export function useUserGetPageQuery(options: Omit<Urql.UseQueryArgs<UserGetPageQueryVariables>, 'query'>) {
+  return Urql.useQuery<UserGetPageQuery, UserGetPageQueryVariables>({ query: UserGetPageDocument, ...options })
 }
 export const UserUpdatePageDocument = gql`
   mutation UserUpdatePage($pageId: String!, $input: UserUpdatePageInput!) {
@@ -5665,29 +5614,29 @@ export const UserCreatePageDocument = gql`
 export function useUserCreatePageMutation() {
   return Urql.useMutation<UserCreatePageMutation, UserCreatePageMutationVariables>(UserCreatePageDocument)
 }
-export const AdminPlanDocument = gql`
-  query AdminPlan($planId: String!) {
-    item: adminPlan(planId: $planId) {
+export const AdminGetPlanDocument = gql`
+  query AdminGetPlan($planId: String!) {
+    item: adminGetPlan(planId: $planId) {
       ...PlanDetails
     }
   }
   ${PlanDetailsFragmentDoc}
 `
 
-export function useAdminPlanQuery(options: Omit<Urql.UseQueryArgs<AdminPlanQueryVariables>, 'query'>) {
-  return Urql.useQuery<AdminPlanQuery, AdminPlanQueryVariables>({ query: AdminPlanDocument, ...options })
+export function useAdminGetPlanQuery(options: Omit<Urql.UseQueryArgs<AdminGetPlanQueryVariables>, 'query'>) {
+  return Urql.useQuery<AdminGetPlanQuery, AdminGetPlanQueryVariables>({ query: AdminGetPlanDocument, ...options })
 }
-export const AdminPlansDocument = gql`
-  query AdminPlans($input: AdminListPlanInput) {
-    items: adminPlans(input: $input) {
+export const AdminGetPlansDocument = gql`
+  query AdminGetPlans($input: AdminGetPlansInput) {
+    items: adminGetPlans(input: $input) {
       ...PlanDetails
     }
   }
   ${PlanDetailsFragmentDoc}
 `
 
-export function useAdminPlansQuery(options?: Omit<Urql.UseQueryArgs<AdminPlansQueryVariables>, 'query'>) {
-  return Urql.useQuery<AdminPlansQuery, AdminPlansQueryVariables>({ query: AdminPlansDocument, ...options })
+export function useAdminGetPlansQuery(options?: Omit<Urql.UseQueryArgs<AdminGetPlansQueryVariables>, 'query'>) {
+  return Urql.useQuery<AdminGetPlansQuery, AdminGetPlansQueryVariables>({ query: AdminGetPlansDocument, ...options })
 }
 export const AdminCreatePlanDocument = gql`
   mutation AdminCreatePlan($input: AdminCreatePlanInput!) {
@@ -5725,21 +5674,21 @@ export const AdminDeletePlanDocument = gql`
 export function useAdminDeletePlanMutation() {
   return Urql.useMutation<AdminDeletePlanMutation, AdminDeletePlanMutationVariables>(AdminDeletePlanDocument)
 }
-export const PublicPlansDocument = gql`
-  query PublicPlans {
-    items: publicPlans {
+export const AnonGetPlansDocument = gql`
+  query AnonGetPlans {
+    items: anonGetPlans {
       ...PlanDetails
     }
   }
   ${PlanDetailsFragmentDoc}
 `
 
-export function usePublicPlansQuery(options?: Omit<Urql.UseQueryArgs<PublicPlansQueryVariables>, 'query'>) {
-  return Urql.useQuery<PublicPlansQuery, PublicPlansQueryVariables>({ query: PublicPlansDocument, ...options })
+export function useAnonGetPlansQuery(options?: Omit<Urql.UseQueryArgs<AnonGetPlansQueryVariables>, 'query'>) {
+  return Urql.useQuery<AnonGetPlansQuery, AnonGetPlansQueryVariables>({ query: AnonGetPlansDocument, ...options })
 }
-export const AdminProfileDocument = gql`
-  query AdminProfile($profileId: String!) {
-    item: adminProfile(profileId: $profileId) {
+export const AdminGetProfileDocument = gql`
+  query AdminGetProfile($profileId: String!) {
+    item: adminGetProfile(profileId: $profileId) {
       ...ProfileDetails
       owner {
         ...UserSummary
@@ -5750,12 +5699,15 @@ export const AdminProfileDocument = gql`
   ${UserSummaryFragmentDoc}
 `
 
-export function useAdminProfileQuery(options: Omit<Urql.UseQueryArgs<AdminProfileQueryVariables>, 'query'>) {
-  return Urql.useQuery<AdminProfileQuery, AdminProfileQueryVariables>({ query: AdminProfileDocument, ...options })
+export function useAdminGetProfileQuery(options: Omit<Urql.UseQueryArgs<AdminGetProfileQueryVariables>, 'query'>) {
+  return Urql.useQuery<AdminGetProfileQuery, AdminGetProfileQueryVariables>({
+    query: AdminGetProfileDocument,
+    ...options,
+  })
 }
-export const AdminProfilesDocument = gql`
-  query AdminProfiles($input: AdminListProfileInput) {
-    items: adminProfiles(input: $input) {
+export const AdminGetProfilesDocument = gql`
+  query AdminGetProfiles($input: AdminGetProfilesInput) {
+    items: adminGetProfiles(input: $input) {
       ...ProfileDetails
       owner {
         ...UserSummary
@@ -5770,8 +5722,11 @@ export const AdminProfilesDocument = gql`
   ${PageSummaryFragmentDoc}
 `
 
-export function useAdminProfilesQuery(options?: Omit<Urql.UseQueryArgs<AdminProfilesQueryVariables>, 'query'>) {
-  return Urql.useQuery<AdminProfilesQuery, AdminProfilesQueryVariables>({ query: AdminProfilesDocument, ...options })
+export function useAdminGetProfilesQuery(options?: Omit<Urql.UseQueryArgs<AdminGetProfilesQueryVariables>, 'query'>) {
+  return Urql.useQuery<AdminGetProfilesQuery, AdminGetProfilesQueryVariables>({
+    query: AdminGetProfilesDocument,
+    ...options,
+  })
 }
 export const AdminUpdateProfileDocument = gql`
   mutation AdminUpdateProfile($profileId: String!, $input: AdminUpdateProfileInput!) {
@@ -5825,21 +5780,21 @@ export function useUserUnlinkProfileIdentityMutation() {
     UserUnlinkProfileIdentityDocument,
   )
 }
-export const UserProfileDocument = gql`
-  query UserProfile($profileId: String!) {
-    item: userProfile(profileId: $profileId) {
+export const UserGetProfileDocument = gql`
+  query UserGetProfile($profileId: String!) {
+    item: userGetProfile(profileId: $profileId) {
       ...ProfileDetails
     }
   }
   ${ProfileDetailsFragmentDoc}
 `
 
-export function useUserProfileQuery(options: Omit<Urql.UseQueryArgs<UserProfileQueryVariables>, 'query'>) {
-  return Urql.useQuery<UserProfileQuery, UserProfileQueryVariables>({ query: UserProfileDocument, ...options })
+export function useUserGetProfileQuery(options: Omit<Urql.UseQueryArgs<UserGetProfileQueryVariables>, 'query'>) {
+  return Urql.useQuery<UserGetProfileQuery, UserGetProfileQueryVariables>({ query: UserGetProfileDocument, ...options })
 }
-export const UserProfilePageDocument = gql`
-  query UserProfilePage($profileId: String!) {
-    item: userProfilePage(profileId: $profileId) {
+export const UserGetProfilePageDocument = gql`
+  query UserGetProfilePage($profileId: String!) {
+    item: userGetProfilePage(profileId: $profileId) {
       ...PageDetails
       blocks {
         ...PageBlockDetails
@@ -5854,15 +5809,17 @@ export const UserProfilePageDocument = gql`
   ${PageDomainDetailsFragmentDoc}
 `
 
-export function useUserProfilePageQuery(options: Omit<Urql.UseQueryArgs<UserProfilePageQueryVariables>, 'query'>) {
-  return Urql.useQuery<UserProfilePageQuery, UserProfilePageQueryVariables>({
-    query: UserProfilePageDocument,
+export function useUserGetProfilePageQuery(
+  options: Omit<Urql.UseQueryArgs<UserGetProfilePageQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<UserGetProfilePageQuery, UserGetProfilePageQueryVariables>({
+    query: UserGetProfilePageDocument,
     ...options,
   })
 }
-export const UserProfilesDocument = gql`
-  query UserProfiles {
-    items: userProfiles {
+export const UserGetProfilesDocument = gql`
+  query UserGetProfiles {
+    items: userGetProfiles {
       ...ProfileDetails
       owner {
         ...UserSummary
@@ -5884,8 +5841,11 @@ export const UserProfilesDocument = gql`
   ${IdentityDetailsFragmentDoc}
 `
 
-export function useUserProfilesQuery(options?: Omit<Urql.UseQueryArgs<UserProfilesQueryVariables>, 'query'>) {
-  return Urql.useQuery<UserProfilesQuery, UserProfilesQueryVariables>({ query: UserProfilesDocument, ...options })
+export function useUserGetProfilesQuery(options?: Omit<Urql.UseQueryArgs<UserGetProfilesQueryVariables>, 'query'>) {
+  return Urql.useQuery<UserGetProfilesQuery, UserGetProfilesQueryVariables>({
+    query: UserGetProfilesDocument,
+    ...options,
+  })
 }
 export const UserUpdateProfileDocument = gql`
   mutation UserUpdateProfile($profileId: String!, $input: UserUpdateProfileInput!) {
@@ -5935,93 +5895,86 @@ export const UserCreateProfileDocument = gql`
 export function useUserCreateProfileMutation() {
   return Urql.useMutation<UserCreateProfileMutation, UserCreateProfileMutationVariables>(UserCreateProfileDocument)
 }
-export const QueuesDocument = gql`
-  query Queues {
-    items: queues {
+export const AdminGetQueuesDocument = gql`
+  query AdminGetQueues {
+    items: adminGetQueues {
       ...QueueDetails
     }
   }
   ${QueueDetailsFragmentDoc}
 `
 
-export function useQueuesQuery(options?: Omit<Urql.UseQueryArgs<QueuesQueryVariables>, 'query'>) {
-  return Urql.useQuery<QueuesQuery, QueuesQueryVariables>({ query: QueuesDocument, ...options })
+export function useAdminGetQueuesQuery(options?: Omit<Urql.UseQueryArgs<AdminGetQueuesQueryVariables>, 'query'>) {
+  return Urql.useQuery<AdminGetQueuesQuery, AdminGetQueuesQueryVariables>({ query: AdminGetQueuesDocument, ...options })
 }
-export const QueueDocument = gql`
-  query Queue($type: QueueType!) {
-    item: queue(type: $type) {
+export const AdminGetQueueDocument = gql`
+  query AdminGetQueue($type: QueueType!) {
+    item: adminGetQueue(type: $type) {
       ...QueueDetails
     }
   }
   ${QueueDetailsFragmentDoc}
 `
 
-export function useQueueQuery(options: Omit<Urql.UseQueryArgs<QueueQueryVariables>, 'query'>) {
-  return Urql.useQuery<QueueQuery, QueueQueryVariables>({ query: QueueDocument, ...options })
+export function useAdminGetQueueQuery(options: Omit<Urql.UseQueryArgs<AdminGetQueueQueryVariables>, 'query'>) {
+  return Urql.useQuery<AdminGetQueueQuery, AdminGetQueueQueryVariables>({ query: AdminGetQueueDocument, ...options })
 }
-export const QueueJobsDocument = gql`
-  query QueueJobs($type: QueueType!, $statuses: [JobStatus!]!) {
-    items: queueJobs(type: $type, statuses: $statuses) {
+export const AdminGetQueueJobsDocument = gql`
+  query AdminGetQueueJobs($type: QueueType!, $statuses: [JobStatus!]!) {
+    items: adminGetQueueJobs(type: $type, statuses: $statuses) {
       ...JobDetails
     }
   }
   ${JobDetailsFragmentDoc}
 `
 
-export function useQueueJobsQuery(options: Omit<Urql.UseQueryArgs<QueueJobsQueryVariables>, 'query'>) {
-  return Urql.useQuery<QueueJobsQuery, QueueJobsQueryVariables>({ query: QueueJobsDocument, ...options })
+export function useAdminGetQueueJobsQuery(options: Omit<Urql.UseQueryArgs<AdminGetQueueJobsQueryVariables>, 'query'>) {
+  return Urql.useQuery<AdminGetQueueJobsQuery, AdminGetQueueJobsQueryVariables>({
+    query: AdminGetQueueJobsDocument,
+    ...options,
+  })
 }
-export const QueueLoadDocument = gql`
-  mutation QueueLoad($input: QueueLoadInput!) {
-    loaded: queueLoad(input: $input) {
-      ...QueueDetails
-    }
-  }
-  ${QueueDetailsFragmentDoc}
-`
-
-export function useQueueLoadMutation() {
-  return Urql.useMutation<QueueLoadMutation, QueueLoadMutationVariables>(QueueLoadDocument)
-}
-export const QueueCleanDocument = gql`
-  mutation QueueClean($type: QueueType!) {
-    paused: queueClean(type: $type)
+export const AdminCleanQueueDocument = gql`
+  mutation AdminCleanQueue($type: QueueType!) {
+    paused: adminCleanQueue(type: $type)
   }
 `
 
-export function useQueueCleanMutation() {
-  return Urql.useMutation<QueueCleanMutation, QueueCleanMutationVariables>(QueueCleanDocument)
+export function useAdminCleanQueueMutation() {
+  return Urql.useMutation<AdminCleanQueueMutation, AdminCleanQueueMutationVariables>(AdminCleanQueueDocument)
 }
-export const QueueDeleteJobDocument = gql`
-  mutation QueueDeleteJob($type: QueueType!, $jobId: String!) {
-    paused: queueDeleteJob(type: $type, jobId: $jobId)
+export const AdminDeleteQueueJobDocument = gql`
+  mutation AdminDeleteQueueJob($type: QueueType!, $jobId: String!) {
+    paused: adminDeleteQueueJob(type: $type, jobId: $jobId)
   }
 `
 
-export function useQueueDeleteJobMutation() {
-  return Urql.useMutation<QueueDeleteJobMutation, QueueDeleteJobMutationVariables>(QueueDeleteJobDocument)
+export function useAdminDeleteQueueJobMutation() {
+  return Urql.useMutation<AdminDeleteQueueJobMutation, AdminDeleteQueueJobMutationVariables>(
+    AdminDeleteQueueJobDocument,
+  )
 }
-export const QueuePauseDocument = gql`
-  mutation QueuePause($type: QueueType!) {
-    paused: queuePause(type: $type)
+export const AdminPauseQueueDocument = gql`
+  mutation AdminPauseQueue($type: QueueType!) {
+    paused: adminPauseQueue(type: $type)
   }
 `
 
-export function useQueuePauseMutation() {
-  return Urql.useMutation<QueuePauseMutation, QueuePauseMutationVariables>(QueuePauseDocument)
+export function useAdminPauseQueueMutation() {
+  return Urql.useMutation<AdminPauseQueueMutation, AdminPauseQueueMutationVariables>(AdminPauseQueueDocument)
 }
-export const QueueResumeDocument = gql`
-  mutation queueResume($type: QueueType!) {
-    resumed: queueResume(type: $type)
+export const AdminResumeQueueDocument = gql`
+  mutation AdminResumeQueue($type: QueueType!) {
+    resumed: adminResumeQueue(type: $type)
   }
 `
 
-export function useQueueResumeMutation() {
-  return Urql.useMutation<QueueResumeMutation, QueueResumeMutationVariables>(QueueResumeDocument)
+export function useAdminResumeQueueMutation() {
+  return Urql.useMutation<AdminResumeQueueMutation, AdminResumeQueueMutationVariables>(AdminResumeQueueDocument)
 }
-export const AdminUserDocument = gql`
-  query AdminUser($userId: String!) {
-    item: adminUser(userId: $userId) {
+export const AdminGetUserDocument = gql`
+  query AdminGetUser($userId: String!) {
+    item: adminGetUser(userId: $userId) {
       ...UserDetails
       identities {
         ...IdentityDetails
@@ -6032,20 +5985,20 @@ export const AdminUserDocument = gql`
   ${IdentityDetailsFragmentDoc}
 `
 
-export function useAdminUserQuery(options: Omit<Urql.UseQueryArgs<AdminUserQueryVariables>, 'query'>) {
-  return Urql.useQuery<AdminUserQuery, AdminUserQueryVariables>({ query: AdminUserDocument, ...options })
+export function useAdminGetUserQuery(options: Omit<Urql.UseQueryArgs<AdminGetUserQueryVariables>, 'query'>) {
+  return Urql.useQuery<AdminGetUserQuery, AdminGetUserQueryVariables>({ query: AdminGetUserDocument, ...options })
 }
-export const AdminUsersDocument = gql`
-  query AdminUsers {
-    items: adminUsers {
+export const AdminGetUsersDocument = gql`
+  query AdminGetUsers {
+    items: adminGetUsers {
       ...UserDetails
     }
   }
   ${UserDetailsFragmentDoc}
 `
 
-export function useAdminUsersQuery(options?: Omit<Urql.UseQueryArgs<AdminUsersQueryVariables>, 'query'>) {
-  return Urql.useQuery<AdminUsersQuery, AdminUsersQueryVariables>({ query: AdminUsersDocument, ...options })
+export function useAdminGetUsersQuery(options?: Omit<Urql.UseQueryArgs<AdminGetUsersQueryVariables>, 'query'>) {
+  return Urql.useQuery<AdminGetUsersQuery, AdminGetUsersQueryVariables>({ query: AdminGetUsersDocument, ...options })
 }
 export const AdminCreateUserDocument = gql`
   mutation AdminCreateUser($input: AdminCreateUserInput!) {
@@ -6083,9 +6036,9 @@ export const AdminDeleteUserDocument = gql`
 export function useAdminDeleteUserMutation() {
   return Urql.useMutation<AdminDeleteUserMutation, AdminDeleteUserMutationVariables>(AdminDeleteUserDocument)
 }
-export const PublicUserDocument = gql`
-  query PublicUser($username: String!) {
-    item: publicUser(username: $username) {
+export const AnonGetUserDocument = gql`
+  query AnonGetUser($username: String!) {
+    item: anonGetUser(username: $username) {
       ...UserDetails
       identities {
         ...IdentityDetails
@@ -6103,12 +6056,12 @@ export const PublicUserDocument = gql`
   ${ProfileDetailsFragmentDoc}
 `
 
-export function usePublicUserQuery(options: Omit<Urql.UseQueryArgs<PublicUserQueryVariables>, 'query'>) {
-  return Urql.useQuery<PublicUserQuery, PublicUserQueryVariables>({ query: PublicUserDocument, ...options })
+export function useAnonGetUserQuery(options: Omit<Urql.UseQueryArgs<AnonGetUserQueryVariables>, 'query'>) {
+  return Urql.useQuery<AnonGetUserQuery, AnonGetUserQueryVariables>({ query: AnonGetUserDocument, ...options })
 }
-export const PublicUserFollowersDocument = gql`
-  query PublicUserFollowers($username: String!) {
-    item: publicUserFollowers(username: $username) {
+export const AnonGetUserFollowersDocument = gql`
+  query AnonGetUserFollowers($username: String!) {
+    item: anonGetUserFollowers(username: $username) {
       ...UserDetails
       identities {
         ...IdentityDetails
@@ -6119,17 +6072,17 @@ export const PublicUserFollowersDocument = gql`
   ${IdentityDetailsFragmentDoc}
 `
 
-export function usePublicUserFollowersQuery(
-  options: Omit<Urql.UseQueryArgs<PublicUserFollowersQueryVariables>, 'query'>,
+export function useAnonGetUserFollowersQuery(
+  options: Omit<Urql.UseQueryArgs<AnonGetUserFollowersQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<PublicUserFollowersQuery, PublicUserFollowersQueryVariables>({
-    query: PublicUserFollowersDocument,
+  return Urql.useQuery<AnonGetUserFollowersQuery, AnonGetUserFollowersQueryVariables>({
+    query: AnonGetUserFollowersDocument,
     ...options,
   })
 }
-export const PublicFollowingDocument = gql`
-  query PublicFollowing($username: String!) {
-    item: publicUserFollowing(username: $username) {
+export const AnonGetUserFollowingDocument = gql`
+  query AnonGetUserFollowing($username: String!) {
+    item: anonGetUserFollowing(username: $username) {
       ...UserDetails
       identities {
         ...IdentityDetails
@@ -6140,15 +6093,17 @@ export const PublicFollowingDocument = gql`
   ${IdentityDetailsFragmentDoc}
 `
 
-export function usePublicFollowingQuery(options: Omit<Urql.UseQueryArgs<PublicFollowingQueryVariables>, 'query'>) {
-  return Urql.useQuery<PublicFollowingQuery, PublicFollowingQueryVariables>({
-    query: PublicFollowingDocument,
+export function useAnonGetUserFollowingQuery(
+  options: Omit<Urql.UseQueryArgs<AnonGetUserFollowingQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<AnonGetUserFollowingQuery, AnonGetUserFollowingQueryVariables>({
+    query: AnonGetUserFollowingDocument,
     ...options,
   })
 }
-export const PublicUserPagesDocument = gql`
-  query PublicUserPages($username: String!) {
-    items: publicUserPages(username: $username) {
+export const AnonGetUserPagesDocument = gql`
+  query AnonGetUserPages($username: String!) {
+    items: anonGetUserPages(username: $username) {
       ...PageDetails
       profile {
         ...ProfileDetails
@@ -6159,23 +6114,23 @@ export const PublicUserPagesDocument = gql`
   ${ProfileDetailsFragmentDoc}
 `
 
-export function usePublicUserPagesQuery(options: Omit<Urql.UseQueryArgs<PublicUserPagesQueryVariables>, 'query'>) {
-  return Urql.useQuery<PublicUserPagesQuery, PublicUserPagesQueryVariables>({
-    query: PublicUserPagesDocument,
+export function useAnonGetUserPagesQuery(options: Omit<Urql.UseQueryArgs<AnonGetUserPagesQueryVariables>, 'query'>) {
+  return Urql.useQuery<AnonGetUserPagesQuery, AnonGetUserPagesQueryVariables>({
+    query: AnonGetUserPagesDocument,
     ...options,
   })
 }
-export const PublicUserProfilesDocument = gql`
-  query PublicUserProfiles($username: String!) {
-    item: publicUserProfiles(username: $username)
+export const AnonGetUserProfilesDocument = gql`
+  query AnonGetUserProfiles($username: String!) {
+    item: anonGetUserProfiles(username: $username)
   }
 `
 
-export function usePublicUserProfilesQuery(
-  options: Omit<Urql.UseQueryArgs<PublicUserProfilesQueryVariables>, 'query'>,
+export function useAnonGetUserProfilesQuery(
+  options: Omit<Urql.UseQueryArgs<AnonGetUserProfilesQueryVariables>, 'query'>,
 ) {
-  return Urql.useQuery<PublicUserProfilesQuery, PublicUserProfilesQueryVariables>({
-    query: PublicUserProfilesDocument,
+  return Urql.useQuery<AnonGetUserProfilesQuery, AnonGetUserProfilesQueryVariables>({
+    query: AnonGetUserProfilesDocument,
     ...options,
   })
 }

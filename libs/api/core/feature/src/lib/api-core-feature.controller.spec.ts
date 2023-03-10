@@ -1,16 +1,16 @@
 import { Test } from '@nestjs/testing'
-import { ApiCoreFeatureController } from './api-core-feature.controller'
+import { ApiCoreController } from './api-core.controller'
 
 describe('ApiCoreFeatureController', () => {
-  let controller: ApiCoreFeatureController
+  let controller: ApiCoreController
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
       providers: [],
-      controllers: [ApiCoreFeatureController],
+      controllers: [ApiCoreController],
     }).compile()
 
-    controller = module.get(ApiCoreFeatureController)
+    controller = module.get(ApiCoreController)
   })
 
   it('should be defined', () => {

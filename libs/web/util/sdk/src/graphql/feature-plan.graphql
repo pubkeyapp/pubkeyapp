@@ -15,14 +15,14 @@ fragment PlanDetails on Plan {
   }
 }
 
-query AdminPlan($planId: String!) {
-  item: adminPlan(planId: $planId) {
+query AdminGetPlan($planId: String!) {
+  item: adminGetPlan(planId: $planId) {
     ...PlanDetails
   }
 }
 
-query AdminPlans($input: AdminListPlanInput) {
-  items: adminPlans(input: $input) {
+query AdminGetPlans($input: AdminGetPlansInput) {
+  items: adminGetPlans(input: $input) {
     ...PlanDetails
   }
 }
@@ -45,8 +45,8 @@ mutation AdminDeletePlan($planId: String!) {
   }
 }
 
-query PublicPlans {
-  items: publicPlans {
+query AnonGetPlans {
+  items: anonGetPlans {
     ...PlanDetails
   }
 }

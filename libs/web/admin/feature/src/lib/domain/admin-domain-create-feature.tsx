@@ -3,7 +3,7 @@ import { useAdminDomain } from '@pubkeyapp/web/admin/data-access'
 import { UiBackButton } from '@pubkeyapp/web/ui/core'
 import { formFieldCheckbox, formFieldSelect, formFieldText, UiForm, UiFormField } from '@pubkeyapp/web/ui/form'
 import { UiPage } from '@pubkeyapp/web/ui/page'
-import { AdminCreateDomainInput, useAdminUsersQuery } from '@pubkeyapp/web/util/sdk'
+import { AdminCreateDomainInput, useAdminGetUsersQuery } from '@pubkeyapp/web/util/sdk'
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -11,7 +11,7 @@ export function AdminDomainCreateFeature() {
   const theme = useMantineTheme()
   const navigate = useNavigate()
   const { createItem } = useAdminDomain()
-  const [{ data: userData }] = useAdminUsersQuery()
+  const [{ data: userData }] = useAdminGetUsersQuery()
 
   const createDomain = async (domain: Partial<AdminCreateDomainInput>): Promise<boolean> => {
     return createItem(domain as AdminCreateDomainInput).then((res) => {

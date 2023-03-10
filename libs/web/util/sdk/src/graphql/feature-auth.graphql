@@ -3,8 +3,8 @@ fragment AuthChallengeRequestDetails on AuthChallengeRequest {
   expiresAt
 }
 
-query me {
-  me {
+query GetMe {
+  me: getMe {
     ...UserDetails
     identities {
       ...IdentityDetails
@@ -15,18 +15,18 @@ query me {
   }
 }
 
-query RequestChallenge($publicKey: String!) {
-  result: requestChallenge(publicKey: $publicKey) {
+query AnonRequestChallenge($publicKey: String!) {
+  result: anonRequestChallenge(publicKey: $publicKey) {
     ...AuthChallengeRequestDetails
   }
 }
 
-mutation Logout {
-  logout
+mutation UserLogout {
+  userLogout
 }
 
-mutation RespondChallenge($challenge: String!, $publicKey: String!, $signature: String!) {
-  result: respondChallenge(challenge: $challenge, publicKey: $publicKey, signature: $signature) {
+mutation AnonRespondChallenge($challenge: String!, $publicKey: String!, $signature: String!) {
+  result: anonRespondChallenge(challenge: $challenge, publicKey: $publicKey, signature: $signature) {
     ...UserDetails
   }
 }

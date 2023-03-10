@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { ApiDiscordDataAccessService } from '@pubkeyapp/api/discord/data-access'
+import { ApiDiscordService } from '@pubkeyapp/api/discord/data-access'
 import { formatUserEmbed, unknownUser } from '@pubkeyapp/api/discord/util'
 import { User } from 'discord.js'
 import { Ctx, Options, SlashCommand, SlashCommandContext, UserOption } from 'necord'
@@ -15,21 +15,20 @@ export class Whois {
 
 @Injectable()
 export class ApiDiscordAccountWhoisService {
-  constructor(private readonly core: ApiDiscordDataAccessService) {}
+  constructor(private readonly core: ApiDiscordService) {}
 
   @SlashCommand({ name: 'whois', description: 'whois command.' })
   async whois(@Ctx() [interaction]: SlashCommandContext, @Options() { user }: Whois) {
+    if (this.core.client.user.id === user.id) {
+      return interaction.reply({ content: `${user}, I guess that's me. I'm a bot.` })
+    }
+
     const found = await this.core.getDiscordIdentityUser(user.id)
 
     if (found) {
-      return interaction.reply({
-        embeds: [formatUserEmbed(found)],
-        ephemeral: true,
-      })
+      return interaction.reply({ embeds: [formatUserEmbed(found)] })
     }
-    return interaction.reply({
-      content: unknownUser(user),
-      ephemeral: false,
-    })
+
+    return interaction.reply({ content: unknownUser(interaction.user, user) })
   }
 }

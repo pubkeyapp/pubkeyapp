@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common'
 import { ApiProfileDataAccessModule } from '@pubkeyapp/api/profile/data-access'
-import { ApiAdminProfileFeatureResolver } from './api-admin-profile-feature.resolver'
-import { ApiProfileFeatureController } from './api-profile-feature.controller'
-import { ApiPublicProfileFeatureResolver } from './api-public-profile-feature.resolver'
-import { ApiUserProfileFeatureResolver } from './api-user-profile-feature.resolver'
+import { ApiAdminProfileResolver } from './api-admin-profile.resolver'
+import { ApiProfileController } from './api-profile.controller'
+import { ApiProfileFieldResolver } from './api-profile-field.resolver'
+import { ApiUserProfileResolver } from './api-user-profile.resolver'
 
 @Module({
-  controllers: [ApiProfileFeatureController],
+  controllers: [ApiProfileController],
   imports: [ApiProfileDataAccessModule],
-  providers: [ApiAdminProfileFeatureResolver, ApiPublicProfileFeatureResolver, ApiUserProfileFeatureResolver],
+  providers: [ApiAdminProfileResolver, ApiProfileFieldResolver, ApiUserProfileResolver],
 })
 export class ApiProfileFeatureModule {}

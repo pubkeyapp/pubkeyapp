@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { PageBlockType, PageStatus, PageType } from '@prisma/client'
 import { ApiCoreService } from '@pubkeyapp/api/core/data-access'
 import { AdminCreatePageInput } from './dto/admin-create-page.input'
-import { AdminListPageInput } from './dto/admin-list-page.input'
+import { AdminGetPagesInput } from './dto/admin-get-pages.input'
 import { AdminUpdatePageInput } from './dto/admin-update-page.input'
 
 @Injectable()
@@ -29,7 +29,7 @@ export class ApiAdminPageService {
     return this.core.data.page.delete({ where: { id: pageId } })
   }
 
-  async adminPages(adminId: string, input: AdminListPageInput) {
+  async adminGetPagesInput(adminId: string, input: AdminGetPagesInput) {
     await this.core.ensureUserAdmin(adminId)
     return this.core.data.page.findMany({
       where: { ownerId: input.ownerId ? input.ownerId : undefined },
@@ -37,7 +37,7 @@ export class ApiAdminPageService {
     })
   }
 
-  async adminPage(adminId: string, pageId: string) {
+  async adminGetPage(adminId: string, pageId: string) {
     await this.core.ensureUserAdmin(adminId)
     return this.core.data.page.findUnique({
       where: { id: pageId },

@@ -10,7 +10,6 @@ import {
   SimpleGrid,
   Skeleton,
   Stack,
-  Text,
   Tooltip,
 } from '@mantine/core'
 import { PageBlock as PageBlockSDK } from '@pubkeyapp/sdk'
@@ -38,7 +37,7 @@ import {
   PageBlock,
   PageStatus,
   PageType,
-  usePublicPageQuery,
+  useAnonGetPageQuery,
   UserAddPageBlockInput,
   useUserAddPageBlockMutation,
   useUserDeletePageMutation,
@@ -53,7 +52,7 @@ import { WebPageEditorPublishTab } from './web-page-editor-publish-tab'
 
 export function WebPageEditorDetailFeature() {
   const { pageId } = useParams<{ pageId: string }>()
-  const [{ data: page }] = usePublicPageQuery({ variables: { pageId: `${pageId}` } })
+  const [{ data: page }] = useAnonGetPageQuery({ variables: { pageId: `${pageId}` } })
   const [, addPageBlockMutation] = useUserAddPageBlockMutation()
   const [, deletePageMutation] = useUserDeletePageMutation()
   const [, updatePageMutation] = useUserUpdatePageMutation()

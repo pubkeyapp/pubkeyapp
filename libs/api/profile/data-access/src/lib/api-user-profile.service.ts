@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common'
 import { NetworkType } from '@prisma/client'
 import { ApiAnonAccountService } from '@pubkeyapp/api/account/data-access'
 import { ApiCoreService } from '@pubkeyapp/api/core/data-access'
-import { getProfileTypeColor } from './api-profile-helper'
+import { getProfileTypeColor } from './api-profile-helpers'
 import { UserUpdateProfileInput } from './dto/user-update-profile.input'
 import { ProfileType } from './entity/profile-type.enum'
 
@@ -11,17 +11,17 @@ export class ApiUserProfileService {
   private readonly logger = new Logger(ApiUserProfileService.name)
   constructor(private readonly core: ApiCoreService, private readonly account: ApiAnonAccountService) {}
 
-  async userProfile(userId: string, profileId: string) {
+  async userGetProfile(userId: string, profileId: string) {
     return this.ensureProfileOwner(userId, profileId)
   }
 
-  async userProfilePage(userId: string, profileId: string) {
+  async userGetProfilePage(userId: string, profileId: string) {
     const profile = await this.ensureProfileOwner(userId, profileId)
 
     return profile.page
   }
 
-  async userProfiles(userId: string) {
+  async userGetProfiles(userId: string) {
     await this.core.ensureUserActive(userId)
     return this.core.data.profile.findMany({
       where: { ownerId: userId },
@@ -127,7 +127,7 @@ export class ApiUserProfileService {
 
     for (const account of accounts) {
       // console.log(' ==>> account', account)
-      const accountInfo = await this.account.getAccount(userId, NetworkType.SolanaDevnet, account, true)
+      const accountInfo = await this.account.userGetAccount(userId, NetworkType.SolanaDevnet, account, true)
       console.log('accountInfo', accountInfo)
     }
   }

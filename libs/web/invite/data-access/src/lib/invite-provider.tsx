@@ -1,15 +1,15 @@
-import { createContext, ReactNode, useContext, useState } from 'react'
+import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/core'
 import {
   AdminCreateInviteInput,
-  AdminListInviteInput,
+  AdminGetInvitesInput,
   AdminUpdateInviteInput,
   Invite,
   useAdminCreateInviteMutation,
   useAdminDeleteInviteMutation,
-  useAdminInvitesQuery,
+  useAdminGetInvitesQuery,
   useAdminUpdateInviteMutation,
 } from '@pubkeyapp/web/util/sdk'
-import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/core'
+import { createContext, ReactNode, useContext, useState } from 'react'
 
 export interface AdminInviteProviderContext {
   invites: Invite[]
@@ -25,8 +25,8 @@ export interface AdminInviteProviderContext {
 const AdminInviteContext = createContext<AdminInviteProviderContext>({} as AdminInviteProviderContext)
 
 function AdminInviteProvider({ children, ownerId }: { children: ReactNode; ownerId?: string | null }) {
-  const [input] = useState<AdminListInviteInput>({ ownerId })
-  const [{ data, error, fetching }, refresh] = useAdminInvitesQuery({ variables: { input } })
+  const [input] = useState<AdminGetInvitesInput>({ ownerId })
+  const [{ data, error, fetching }, refresh] = useAdminGetInvitesQuery({ variables: { input } })
   const [, createItemMutation] = useAdminCreateInviteMutation()
   const [, deleteInviteMutation] = useAdminDeleteInviteMutation()
   const [, updateInviteMutation] = useAdminUpdateInviteMutation()

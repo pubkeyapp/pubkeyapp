@@ -1,11 +1,11 @@
 import { ApiAuthDataAccessModule } from '@pubkeyapp/api/auth/data-access'
 import { Module } from '@nestjs/common'
-import { ApiAuthFeatureController } from './api-auth-feature.controller'
-import { ApiAuthFeatureResolver } from './api-auth-feature.resolver'
+import { ApiAuthController } from './api-auth.controller'
+import { ApiAuthResolver } from './api-auth.resolver'
 
 @Module({
-  controllers: [ApiAuthFeatureController],
-  providers: [ApiAuthFeatureResolver],
+  controllers: [ApiAuthController],
+  providers: [ApiAuthResolver],
   imports: [ApiAuthDataAccessModule],
 })
 export class ApiAuthFeatureModule {}

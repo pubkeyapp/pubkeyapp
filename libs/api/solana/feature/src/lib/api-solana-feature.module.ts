@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common'
 import { ApiSolanaDataAccessModule } from '@pubkeyapp/api/solana/data-access'
-import { ApiSolanaFeatureController } from './api-solana-feature.controller'
+import { ApiSolanaController } from './api-solana.controller'
 
 @Module({
-  controllers: [ApiSolanaFeatureController],
+  controllers: [ApiSolanaController],
   imports: [ApiSolanaDataAccessModule],
 })
 export class ApiSolanaFeatureModule {}

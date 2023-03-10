@@ -4,7 +4,7 @@ import { ApiAuthGraphqlGuard, CtxUser } from '@pubkeyapp/api/auth/data-access'
 import { ApiPublicIdentityService, Identity } from '@pubkeyapp/api/identity/data-access'
 import { User } from '@pubkeyapp/api/user/data-access'
 
-@Resolver(() => Identity)
+@Resolver()
 @UseGuards(ApiAuthGraphqlGuard)
 export class ApiUserIdentityResolver {
   constructor(private readonly service: ApiPublicIdentityService) {}

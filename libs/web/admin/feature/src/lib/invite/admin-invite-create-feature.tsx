@@ -3,7 +3,7 @@ import { useAdminInvite } from '@pubkeyapp/web/invite/data-access'
 import { UiBackButton } from '@pubkeyapp/web/ui/core'
 import { formFieldDate, formFieldNumber, formFieldSelect, UiForm, UiFormField } from '@pubkeyapp/web/ui/form'
 import { UiPage } from '@pubkeyapp/web/ui/page'
-import { AdminCreateInviteInput, useAdminUsersQuery } from '@pubkeyapp/web/util/sdk'
+import { AdminCreateInviteInput, useAdminGetUsersQuery } from '@pubkeyapp/web/util/sdk'
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -11,7 +11,7 @@ export function AdminInviteCreateFeature() {
   const theme = useMantineTheme()
   const navigate = useNavigate()
   const { createItem } = useAdminInvite()
-  const [{ data: userData }] = useAdminUsersQuery()
+  const [{ data: userData }] = useAdminGetUsersQuery()
 
   const createInvite = async (invite: AdminCreateInviteInput): Promise<boolean> => {
     return createItem(invite).then((res) => {

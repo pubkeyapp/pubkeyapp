@@ -2,7 +2,7 @@ import { Alert } from '@mantine/core'
 
 import { UiBackButton, UiErrorLoader, UiTabRoutes } from '@pubkeyapp/web/ui/core'
 import { UiPage } from '@pubkeyapp/web/ui/page'
-import { Profile, useAdminProfileQuery } from '@pubkeyapp/web/util/sdk'
+import { Profile, useAdminGetProfileQuery } from '@pubkeyapp/web/util/sdk'
 import { useParams } from 'react-router-dom'
 
 import { AdminProfileOverviewTab } from './admin-profile-overview.tab'
@@ -12,7 +12,7 @@ import { AdminProfileSettingsTab } from './admin-profile-settings.tab'
 export function AdminProfileDetailFeature() {
   const { profileId } = useParams<{ profileId: string }>()
   const { updateProfile } = useAdminProfile()
-  const [{ data, error, fetching }] = useAdminProfileQuery({ variables: { profileId: profileId as string } })
+  const [{ data, error, fetching }] = useAdminGetProfileQuery({ variables: { profileId: profileId as string } })
 
   return (
     <UiErrorLoader error={error} loading={fetching}>

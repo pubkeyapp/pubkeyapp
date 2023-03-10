@@ -1,15 +1,15 @@
-import { createContext, ReactNode, useContext, useMemo, useState } from 'react'
+import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/core'
 import {
   AdminCreateDomainInput,
-  AdminListDomainInput,
+  AdminGetDomainsInput,
   AdminUpdateDomainInput,
   Domain,
   useAdminCreateDomainMutation,
   useAdminDeleteDomainMutation,
-  useAdminDomainsQuery,
+  useAdminGetDomainsQuery,
   useAdminUpdateDomainMutation,
 } from '@pubkeyapp/web/util/sdk'
-import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/core'
+import { createContext, ReactNode, useContext, useMemo, useState } from 'react'
 
 export interface DomainOption {
   label: string
@@ -31,8 +31,8 @@ export interface AdminDomainProviderContext {
 const AdminDomainContext = createContext<AdminDomainProviderContext>({} as AdminDomainProviderContext)
 
 function AdminDomainProvider({ children, ownerId }: { children: ReactNode; ownerId?: string | null }) {
-  const [input] = useState<AdminListDomainInput>({ ownerId })
-  const [{ data, error, fetching }, refresh] = useAdminDomainsQuery({ variables: { input } })
+  const [input] = useState<AdminGetDomainsInput>({ ownerId })
+  const [{ data, error, fetching }, refresh] = useAdminGetDomainsQuery({ variables: { input } })
   const [, createItemMutation] = useAdminCreateDomainMutation()
   const [, deleteDomainMutation] = useAdminDeleteDomainMutation()
   const [, updateDomainMutation] = useAdminUpdateDomainMutation()

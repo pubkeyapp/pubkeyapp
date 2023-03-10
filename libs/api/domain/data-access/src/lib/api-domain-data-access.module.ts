@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common'
-import { ApiDomainAdminService } from './api-domain-admin.service'
+import { ApiAdminDomainService } from './api-admin-domain.service'
 import { ApiCoreDataAccessModule } from '@pubkeyapp/api/core/data-access'
 
 @Module({
   controllers: [],
-  providers: [ApiDomainAdminService],
-  exports: [ApiDomainAdminService],
+  providers: [ApiAdminDomainService],
+  exports: [ApiAdminDomainService],
   imports: [ApiCoreDataAccessModule],
 })
 export class ApiDomainDataAccessModule {}

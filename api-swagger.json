@@ -216,7 +216,7 @@
     },
     "/api/solana/bonfida/lookup/{publicKey}": {
       "get": {
-        "operationId": "ApiSolanaFeatureController_bonfidaLookup",
+        "operationId": "ApiSolanaController_bonfidaLookup",
         "parameters": [
           {
             "name": "publicKey",

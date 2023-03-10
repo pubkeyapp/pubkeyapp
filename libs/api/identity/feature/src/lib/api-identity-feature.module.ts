@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common'
 import { ApiIdentityDataAccessModule } from '@pubkeyapp/api/identity/data-access'
-import { ApiIdentityFeatureController } from './api-identity-feature.controller'
-import { ApiPublicIdentityResolver } from './api-public-identity.resolver'
+import { ApiIdentityController } from './api-identity.controller'
+import { ApiIdentityFieldResolver } from './api-identity-field.resolver'
 import { ApiUserIdentityResolver } from './api-user-identity.resolver'
 
 @Module({
-  controllers: [ApiIdentityFeatureController],
-  providers: [ApiPublicIdentityResolver, ApiUserIdentityResolver],
+  controllers: [ApiIdentityController],
+  providers: [ApiIdentityFieldResolver, ApiUserIdentityResolver],
   exports: [],
   imports: [ApiIdentityDataAccessModule],
 })

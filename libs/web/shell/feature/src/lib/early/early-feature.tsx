@@ -1,12 +1,11 @@
-import { Button, Code, Container, createStyles, Group, Paper, rem, Stack, Text, Title, Tooltip } from '@mantine/core'
+import { Button, Code, Container, createStyles, Group, rem, Stack, Text, Title, Tooltip } from '@mantine/core'
 import { useAuth } from '@pubkeyapp/web/auth/data-access'
-import { showNotificationError, showNotificationSuccess, UiDebug, UiUserLink } from '@pubkeyapp/web/ui/core'
+import { showNotificationError, showNotificationSuccess, UiUserLink } from '@pubkeyapp/web/ui/core'
 import {
-  useMeQuery,
   UserStatus,
   useUserAcceptInviteMutation,
-  useUserInviteQuery,
-  useUserInvitesQuery,
+  useUserGetInviteQuery,
+  useUserGetInvitesQuery,
 } from '@pubkeyapp/web/util/sdk'
 import {
   IconBrandDiscord,
@@ -87,7 +86,7 @@ export function EarlyFeature() {
 export function EarlyFeatureActions() {
   const { user, refresh } = useAuth()
   const [, acceptInviteMutation] = useUserAcceptInviteMutation()
-  const [{ data }, refreshInvite] = useUserInviteQuery()
+  const [{ data }, refreshInvite] = useUserGetInviteQuery()
   const text = [
     'gm @PubKeyApp... wen invite code?',
     `My %23PID is ${user?.pid} 🚀`,
@@ -171,7 +170,7 @@ export function EarlyFeatureActions() {
 }
 
 export function EarlyInviteList() {
-  const [{ data }] = useUserInvitesQuery()
+  const [{ data }] = useUserGetInvitesQuery()
 
   return (
     <Stack>

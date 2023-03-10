@@ -24,8 +24,8 @@ fragment PageDetails on Page {
   viewUrl
 }
 
-query AdminPage($pageId: String!) {
-  item: adminPage(pageId: $pageId) {
+query AdminGetPage($pageId: String!) {
+  item: adminGetPage(pageId: $pageId) {
     ...PageDetails
     blocks {
       ...PageBlockDetails
@@ -36,8 +36,8 @@ query AdminPage($pageId: String!) {
   }
 }
 
-query AdminPages($input: AdminListPageInput) {
-  items: adminPages(input: $input) {
+query AdminGetPages($input: AdminGetPagesInput) {
+  items: adminGetPages(input: $input) {
     ...PageDetails
     domains {
       ...PageDomainDetails
@@ -66,8 +66,8 @@ mutation AdminDeletePage($pageId: String!) {
   }
 }
 
-query PublicPage($pageId: String!) {
-  item: publicPage(pageId: $pageId) {
+query AnonGetPage($pageId: String!) {
+  item: anonGetPage(pageId: $pageId) {
     ...PageDetails
     blocks {
       ...PageBlockDetails
@@ -81,8 +81,8 @@ query PublicPage($pageId: String!) {
   }
 }
 
-query UserPage($pageId: String!) {
-  item: userPage(pageId: $pageId) {
+query UserGetPage($pageId: String!) {
+  item: userGetPage(pageId: $pageId) {
     ...PageDetails
     blocks {
       ...PageBlockDetails

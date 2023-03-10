@@ -10,7 +10,7 @@ export class ApiPublicInviteService {
     return `${this.core.config.webUrl}/invite/${invite.code}`
   }
 
-  async publicInvite(code: string) {
+  async anonGetInvite(code: string) {
     const found = await this.core.data.invite.findUnique({
       where: { code },
       include: { owner: true, users: true },

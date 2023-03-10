@@ -31,42 +31,36 @@ fragment JobDetails on Job {
   failedReason
 }
 
-query Queues {
-  items: queues {
+query AdminGetQueues {
+  items: adminGetQueues {
     ...QueueDetails
   }
 }
 
-query Queue($type: QueueType!) {
-  item: queue(type: $type) {
+query AdminGetQueue($type: QueueType!) {
+  item: adminGetQueue(type: $type) {
     ...QueueDetails
   }
 }
 
-query QueueJobs($type: QueueType!, $statuses: [JobStatus!]!) {
-  items: queueJobs(type: $type, statuses: $statuses) {
+query AdminGetQueueJobs($type: QueueType!, $statuses: [JobStatus!]!) {
+  items: adminGetQueueJobs(type: $type, statuses: $statuses) {
     ...JobDetails
   }
 }
 
-mutation QueueLoad($input: QueueLoadInput!) {
-  loaded: queueLoad(input: $input) {
-    ...QueueDetails
-  }
+mutation AdminCleanQueue($type: QueueType!) {
+  paused: adminCleanQueue(type: $type)
 }
 
-mutation QueueClean($type: QueueType!) {
-  paused: queueClean(type: $type)
+mutation AdminDeleteQueueJob($type: QueueType!, $jobId: String!) {
+  paused: adminDeleteQueueJob(type: $type, jobId: $jobId)
 }
 
-mutation QueueDeleteJob($type: QueueType!, $jobId: String!) {
-  paused: queueDeleteJob(type: $type, jobId: $jobId)
+mutation AdminPauseQueue($type: QueueType!) {
+  paused: adminPauseQueue(type: $type)
 }
 
-mutation QueuePause($type: QueueType!) {
-  paused: queuePause(type: $type)
-}
-
-mutation queueResume($type: QueueType!) {
-  resumed: queueResume(type: $type)
+mutation AdminResumeQueue($type: QueueType!) {
+  resumed: adminResumeQueue(type: $type)
 }

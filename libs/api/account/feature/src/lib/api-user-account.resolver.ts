@@ -5,26 +5,26 @@ import { ApiAuthGraphqlGuard, CtxUser } from '@pubkeyapp/api/auth/data-access'
 import { User } from '@pubkeyapp/api/user/data-access'
 import { GraphQLJSON } from 'graphql-scalars'
 
-@Resolver(() => Account)
+@Resolver()
 @UseGuards(ApiAuthGraphqlGuard)
 export class ApiUserAccountResolver {
   constructor(private readonly service: ApiAnonAccountService) {}
 
   @Query(() => Account, { nullable: true })
-  userAccount(
+  userGetAccount(
     @CtxUser() user: User,
     @Args({ name: 'network', type: () => NetworkType }) network: NetworkType,
     @Args('address') address: string,
   ) {
-    return this.service.getAccount(user.id, network, address)
+    return this.service.userGetAccount(user.id, network, address)
   }
 
   @Query(() => GraphQLJSON, { nullable: true })
-  userAccountHistory(
+  userGetAccountHistory(
     @CtxUser() user: User,
     @Args({ name: 'network', type: () => NetworkType }) network: NetworkType,
     @Args('address') address: string,
   ) {
-    return this.service.getAccountHistory(user.id, network, address)
+    return this.service.userGetAccountHistory(user.id, network, address)
   }
 }

@@ -40,8 +40,8 @@ fragment UserDetails on User {
   }
 }
 
-query AdminUser($userId: String!) {
-  item: adminUser(userId: $userId) {
+query AdminGetUser($userId: String!) {
+  item: adminGetUser(userId: $userId) {
     ...UserDetails
     identities {
       ...IdentityDetails
@@ -49,8 +49,8 @@ query AdminUser($userId: String!) {
   }
 }
 
-query AdminUsers {
-  items: adminUsers {
+query AdminGetUsers {
+  items: adminGetUsers {
     ...UserDetails
   }
 }
@@ -73,8 +73,8 @@ mutation AdminDeleteUser($userId: String!) {
   }
 }
 
-query PublicUser($username: String!) {
-  item: publicUser(username: $username) {
+query AnonGetUser($username: String!) {
+  item: anonGetUser(username: $username) {
     ...UserDetails
     identities {
       ...IdentityDetails
@@ -88,8 +88,8 @@ query PublicUser($username: String!) {
   }
 }
 
-query PublicUserFollowers($username: String!) {
-  item: publicUserFollowers(username: $username) {
+query AnonGetUserFollowers($username: String!) {
+  item: anonGetUserFollowers(username: $username) {
     ...UserDetails
     identities {
       ...IdentityDetails
@@ -97,8 +97,8 @@ query PublicUserFollowers($username: String!) {
   }
 }
 
-query PublicFollowing($username: String!) {
-  item: publicUserFollowing(username: $username) {
+query AnonGetUserFollowing($username: String!) {
+  item: anonGetUserFollowing(username: $username) {
     ...UserDetails
     identities {
       ...IdentityDetails
@@ -106,8 +106,8 @@ query PublicFollowing($username: String!) {
   }
 }
 
-query PublicUserPages($username: String!) {
-  items: publicUserPages(username: $username) {
+query AnonGetUserPages($username: String!) {
+  items: anonGetUserPages(username: $username) {
     ...PageDetails
     profile {
       ...ProfileDetails
@@ -115,8 +115,8 @@ query PublicUserPages($username: String!) {
   }
 }
 
-query PublicUserProfiles($username: String!) {
-  item: publicUserProfiles(username: $username)
+query AnonGetUserProfiles($username: String!) {
+  item: anonGetUserProfiles(username: $username)
 }
 
 mutation UserUpdateUser($input: UserUpdateUserInput!) {
