@@ -5,7 +5,7 @@
 # - set global configuration
 # - set default work dir
 ################################################################################
-FROM node:16.14-alpine as base
+FROM node:16.15-alpine as base
 
 RUN apk add --update --no-cache git python3 make g++
 
