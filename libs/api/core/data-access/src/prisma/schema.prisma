@@ -60,6 +60,7 @@ model User {
   username  String     @unique
   name      String?
   avatarUrl String?
+  publicKey String?
   bio       String?
 
   domains            Domain[]
@@ -164,7 +165,8 @@ model Page {
   domains     PageDomain[]
   owner       User         @relation(fields: [ownerId], references: [id])
   ownerId     String
-  profile     Profile?
+  profile     Profile?     @relation(fields: [profileId], references: [id])
+  profileId   String?      @unique
 }
 
 enum PageStatus {
@@ -226,8 +228,7 @@ model Profile {
   identities Identity[]
   owner      User          @relation(fields: [ownerId], references: [id])
   ownerId    String
-  page       Page?         @relation(fields: [pageId], references: [id])
-  pageId     String?       @unique
+  page       Page?
   user       User?         @relation("UserProfile")
 }
 

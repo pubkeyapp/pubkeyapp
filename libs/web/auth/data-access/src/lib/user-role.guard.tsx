@@ -6,5 +6,5 @@ import { useAuth } from './auth-provider'
 
 export function UserRoleGuard({ element, role }: { element?: ReactElement; role: UserRole }) {
   const { user } = useAuth()
-  return user?.role === role || false ? <Outlet /> : element ?? <UiErrorFull error={`You need the ${role} role`} />
+  return user?.role === role ? <Outlet /> : element ?? <UiErrorFull error={`You need the ${role} role`} />
 }

@@ -19,11 +19,11 @@ export class Account {
   updatedAt: Date
 
   @Field({ nullable: true })
-  discoveredAt: Date
+  discoveredAt?: Date
 
   @ApiProperty({ type: () => User, nullable: true })
   @Field(() => User, { nullable: true })
-  discoveredBy: User
+  discoveredBy?: User
 
   @ApiProperty({ type: () => Identity, nullable: true })
   @Field(() => Identity, { nullable: true })

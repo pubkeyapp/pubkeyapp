@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { PageBlockType, PageStatus, PageType } from '@prisma/client'
+import { PageBlockType, PageStatus } from '@prisma/client'
 import { ApiCoreService } from '@pubkeyapp/api/core/data-access'
 import { AdminCreatePageInput } from './dto/admin-create-page.input'
 import { AdminGetPagesInput } from './dto/admin-get-pages.input'

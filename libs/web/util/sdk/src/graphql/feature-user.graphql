@@ -7,7 +7,7 @@ fragment UserRelationDetails on UserRelation {
 fragment UserSummary on User {
   id
   pid
-  createdAt
+  #  createdAt
   updatedAt
   role
   status

@@ -13,10 +13,10 @@ export class Page {
   id: string
 
   @Field({ nullable: true })
-  createdAt: string
+  createdAt: Date
 
   @Field({ nullable: true })
-  updatedAt: string
+  updatedAt: Date
   @ApiProperty({ enum: PageStatus, enumName: 'PageStatus' })
   @Field(() => PageStatus, { nullable: true })
   status: PageStatus

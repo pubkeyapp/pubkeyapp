@@ -1,7 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common'
-import { NetworkType } from '@prisma/client'
+import { NetworkType, PageBlockType, PageStatus } from '@prisma/client'
 import { ApiAnonAccountService } from '@pubkeyapp/api/account/data-access'
 import { ApiCoreService } from '@pubkeyapp/api/core/data-access'
+import { createNewPage } from '../../../../page/data-access/src/lib/api-page.helpers'
 import { getProfileTypeColor } from './api-profile-helpers'
 import { UserUpdateProfileInput } from './dto/user-update-profile.input'
 import { ProfileType } from './entity/profile-type.enum'
@@ -36,7 +37,7 @@ export class ApiUserProfileService {
   async userCreateProfile(userId: string, type: ProfileType) {
     const user = await this.core.ensureUserActive(userId)
 
-    return this.core.data.profile.create({
+    const created = await this.core.data.profile.create({
       data: {
         type,
         ownerId: userId,
@@ -47,6 +48,23 @@ export class ApiUserProfileService {
         avatar: user.profile?.avatar ?? user.avatarUrl,
       },
     })
+    await this.core.data.page.create({
+      data: createNewPage({
+        ownerId: userId,
+        profileId: created.id,
+      }),
+    })
+    // aw
+    // page: {
+    //           create: {
+    //             owner: { connect: { id: userId } },
+    //             status: PageStatus.Draft,
+    //             blocks: {
+    //               create: [{ type: PageBlockType.Header, data: { text: '## Hello, World!' } }],
+    //             },
+    //           },
+    //         },
+    return this.userGetProfile(userId, created.id)
   }
 
   async userDeleteProfile(userId: string, profileId: string) {

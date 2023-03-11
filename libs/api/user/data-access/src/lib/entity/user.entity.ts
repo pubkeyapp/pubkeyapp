@@ -1,3 +1,4 @@
+import { GraphQLDateTime } from 'graphql-scalars'
 import { Field, HideField, Int, ObjectType } from '@nestjs/graphql'
 import { ApiProperty } from '@nestjs/swagger'
 import { Identity } from '@pubkeyapp/api/identity/data-access'
@@ -15,11 +16,11 @@ export class User {
   @Field(() => Int, { nullable: true })
   pid: number
 
-  @Field({ nullable: true })
-  createdAt: string
+  @Field(() => GraphQLDateTime, { nullable: true })
+  createdAt: Date
 
-  @Field({ nullable: true })
-  updatedAt: string
+  @Field(() => GraphQLDateTime, { nullable: true })
+  updatedAt: Date
 
   @ApiProperty()
   @Field({ nullable: true })
@@ -38,15 +39,15 @@ export class User {
 
   @ApiProperty({ nullable: true, required: false })
   @Field({ nullable: true })
-  metaUrl: string
+  metaUrl?: string
 
   @ApiProperty({ nullable: true, required: false })
   @Field({ nullable: true })
-  profileUrl: string
+  profileUrl?: string
 
   @ApiProperty({ nullable: true, required: false })
   @Field({ nullable: true })
-  publicKey: string
+  publicKey?: string
 
   @ApiProperty({ enum: UserRole, enumName: 'UserRole', nullable: true, required: false })
   @Field(() => UserRole, { nullable: true })
@@ -56,24 +57,24 @@ export class User {
   status: UserStatus
   @HideField()
   @ApiProperty({ type: [Identity], nullable: true, required: false })
-  identities: Identity[]
+  identities?: Identity[]
 
   @Field(() => [Follow], { nullable: true })
-  followers: Follow[]
+  followers?: Follow[]
   @ApiProperty({ type: 'integer', nullable: true, required: false })
   @Field(() => Int, { nullable: true })
-  followersCount: number
+  followersCount?: number
 
   @Field(() => [Follow], { nullable: true })
-  following: Follow[]
+  following?: Follow[]
 
   @ApiProperty({ type: 'integer', nullable: true, required: false })
   @Field(() => Int, { nullable: true })
-  followingCount: number
+  followingCount?: number
 
   @HideField()
   profile: unknown
 
   @HideField()
-  profiles: unknown[]
+  profiles?: unknown[]
 }

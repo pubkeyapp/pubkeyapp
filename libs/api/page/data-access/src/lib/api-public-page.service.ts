@@ -13,6 +13,7 @@ export class ApiPublicPageService {
       .findUnique({
         where: { id: pageId },
         include: {
+          profile: true,
           blocks: {
             orderBy: { order: 'asc' },
           },

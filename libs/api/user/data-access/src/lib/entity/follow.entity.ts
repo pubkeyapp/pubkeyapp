@@ -7,10 +7,10 @@ export class Follow {
   id: string
 
   @Field({ nullable: true })
-  createdAt: string
+  createdAt: Date
 
   @Field({ nullable: true })
-  updatedAt: string
+  updatedAt: Date
 
   @Field({ nullable: true })
   followerId: string

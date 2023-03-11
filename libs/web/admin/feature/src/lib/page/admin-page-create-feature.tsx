@@ -3,7 +3,7 @@ import { useAdminPage } from '@pubkeyapp/web/admin/data-access'
 import { UiBackButton } from '@pubkeyapp/web/ui/core'
 import { formFieldSelect, formFieldText, formFieldTextarea, UiForm, UiFormField } from '@pubkeyapp/web/ui/form'
 import { UiPage } from '@pubkeyapp/web/ui/page'
-import { AdminCreatePageInput, useAdminGetUsersQuery } from '@pubkeyapp/web/util/sdk'
+import { AdminCreatePageInput, useAdminGetProfilesQuery, useAdminGetUsersQuery } from '@pubkeyapp/web/util/sdk'
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -12,6 +12,7 @@ export function AdminPageCreateFeature() {
   const navigate = useNavigate()
   const { createItem } = useAdminPage()
   const [{ data: userData }] = useAdminGetUsersQuery()
+  const [{ data: profileData }] = useAdminGetProfilesQuery()
 
   const createPage = async (page: Partial<AdminCreatePageInput>): Promise<boolean> => {
     return createItem(page as AdminCreatePageInput).then((res) => {
@@ -21,6 +22,14 @@ export function AdminPageCreateFeature() {
       return !!res
     })
   }
+
+  const profileOptions: { label: string; value: string }[] = useMemo(() => {
+    return (
+      profileData?.items?.map((profile) => {
+        return { label: `${profile.name} - ${profile.type}`, value: profile.id ?? '' }
+      }) ?? []
+    )
+  }, [profileData])
 
   const userOptions: { label: string; value: string }[] = useMemo(() => {
     return (
@@ -46,6 +55,11 @@ export function AdminPageCreateFeature() {
       description: 'Set the owner of this page. Leave blank to make you the owner.',
       options: [...userOptions],
     }),
+    formFieldSelect('profileId', {
+      label: 'Profile Id',
+      description: 'Set the owner of this profile.',
+      options: [...profileOptions],
+    }),
   ]
 
   return (
@@ -53,7 +67,7 @@ export function AdminPageCreateFeature() {
       <Paper>
         <UiForm<AdminCreatePageInput>
           fields={fields}
-          model={{ title: '', description: '', ownerId: '' }}
+          model={{ title: '', description: '', ownerId: '', profileId: '' }}
           submit={createPage}
         >
           <Button type="submit">Create</Button>

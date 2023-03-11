@@ -11,15 +11,15 @@ export class ApiUserPageService {
   async userCreatePage(userId: string, input: UserCreatePageInput) {
     await this.core.ensureUserActive(userId)
     const { profileId } = input
-    const profile = await this.core.data.profile.findUnique({ where: { id: profileId } })
-    if (profile.pageId) {
+    const profile = await this.core.data.profile.findUnique({ where: { id: profileId }, include: { page: true } })
+    if (profile.page) {
       throw new Error('Profile already has a page')
     }
 
     return this.core.data.page.create({
       data: createNewPage({
         ownerId: userId,
-        profile: { connect: { id: profileId } },
+        profileId,
       }),
     })
   }

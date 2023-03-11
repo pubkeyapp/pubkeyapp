@@ -12,10 +12,10 @@ export class Profile {
   id: string
 
   @Field({ nullable: true })
-  createdAt: string
+  createdAt: Date
 
   @Field({ nullable: true })
-  updatedAt: string
+  updatedAt: Date
 
   @ApiProperty()
   @Field({ nullable: true })

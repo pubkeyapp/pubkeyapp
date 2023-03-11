@@ -28,6 +28,12 @@ export function AccountDetailsTab({ address, network }: { address: string; netwo
             <Paper>
               <Stack>
                 <Group spacing="xs">
+                  <Text>Name</Text>
+                  <Anchor component={Link} to={`${data?.item?.explorerUrl}`}>
+                    {data?.item?.name}
+                  </Anchor>
+                </Group>
+                <Group spacing="xs">
                   <Text>Account</Text>
                   <Anchor component={Link} to={`${data?.item?.explorerUrl}`}>
                     {data?.item?.address}

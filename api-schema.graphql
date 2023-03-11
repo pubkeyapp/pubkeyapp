@@ -46,9 +46,9 @@ type Job {
 
 type Account {
   id: String
-  createdAt: DateTime
-  updatedAt: DateTime
-  discoveredAt: DateTime
+  createdAt: Timestamp
+  updatedAt: Timestamp
+  discoveredAt: Timestamp
   discoveredBy: User
   identity: Identity
   owner: Account
@@ -63,9 +63,9 @@ type Account {
 }
 
 """
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+`Date` type as integer. Type represents date and time as number of milliseconds from start of UNIX epoch.
 """
-scalar DateTime
+scalar Timestamp
 
 enum NetworkType {
   SolanaDevnet
@@ -89,8 +89,8 @@ enum AccountType {
 
 type Identity {
   id: String
-  createdAt: String
-  updatedAt: String
+  createdAt: Timestamp
+  updatedAt: Timestamp
   provider: IdentityProvider
   providerId: String!
   profile: JSON
@@ -110,8 +110,8 @@ enum IdentityProvider {
 type User {
   id: String
   pid: Int
-  createdAt: String
-  updatedAt: String
+  createdAt: DateTime
+  updatedAt: DateTime
   name: String
   username: String
   bio: String
@@ -131,6 +131,11 @@ type User {
   relation: UserRelation
 }
 
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar DateTime
+
 enum UserRole {
   Admin
   User
@@ -144,8 +149,8 @@ enum UserStatus {
 
 type Follow {
   id: String
-  createdAt: String
-  updatedAt: String
+  createdAt: Timestamp
+  updatedAt: Timestamp
   followerId: String
   follower: User
   ownerId: String
@@ -194,8 +199,8 @@ type Config {
 
 type Setting {
   id: String
-  createdAt: DateTime
-  updatedAt: DateTime
+  createdAt: Timestamp
+  updatedAt: Timestamp
   default: String
   description: String
   key: String
@@ -209,8 +214,8 @@ type AuthChallengeRequest {
 
 type Domain {
   id: String
-  createdAt: String
-  updatedAt: String
+  createdAt: Timestamp
+  updatedAt: Timestamp
   name: String
   order: Int
   private: Boolean
@@ -222,8 +227,8 @@ type Domain {
 
 type PageDomain {
   id: String
-  createdAt: String
-  updatedAt: String
+  createdAt: Timestamp
+  updatedAt: Timestamp
   path: String
   domain: Domain
   page: Page
@@ -232,8 +237,8 @@ type PageDomain {
 
 type Page {
   id: String
-  createdAt: String
-  updatedAt: String
+  createdAt: Timestamp
+  updatedAt: Timestamp
   status: PageStatus
   type: PageType
   title: String
@@ -263,8 +268,8 @@ enum PageType {
 
 type PageBlock {
   id: String
-  createdAt: String
-  updatedAt: String
+  createdAt: Timestamp
+  updatedAt: Timestamp
   name: String
   order: Int
   data: JSON
@@ -279,9 +284,9 @@ enum PageBlockType {
 
 type Invite {
   id: String
-  createdAt: DateTime
-  updatedAt: DateTime
-  expiresAt: DateTime
+  createdAt: Timestamp
+  updatedAt: Timestamp
+  expiresAt: Timestamp
   code: String
   maxUses: Int
   useCount: Int
@@ -294,8 +299,8 @@ type Invite {
 
 type Profile {
   id: String
-  createdAt: String
-  updatedAt: String
+  createdAt: Timestamp
+  updatedAt: Timestamp
   name: String
   username: String
   bio: String
@@ -326,16 +331,16 @@ enum ProfileStatus {
 
 type PlanFeature {
   id: String
-  createdAt: DateTime
-  updatedAt: DateTime
+  createdAt: Timestamp
+  updatedAt: Timestamp
   name: String
   order: Int
 }
 
 type Plan {
   id: String
-  createdAt: DateTime
-  updatedAt: DateTime
+  createdAt: Timestamp
+  updatedAt: Timestamp
   name: String
   description: String
   priceMonth: Int
@@ -344,6 +349,11 @@ type Plan {
   recommended: Boolean
   available: Boolean
   features: [PlanFeature!]
+}
+
+type SearchResult {
+  accounts: [Account!]
+  users: [User!]
 }
 
 type Query {
@@ -471,6 +481,7 @@ type Mutation {
   adminDeleteQueueJob(type: QueueType!, jobId: String!): Boolean
   adminPauseQueue(type: QueueType!): Boolean
   adminResumeQueue(type: QueueType!): Boolean
+  userSearch(input: UserSearchInput!): SearchResult
   userFollowUser(username: String!): User
   userUnfollowUser(username: String!): User
   userUpdateUser(input: UserUpdateUserInput!): User
@@ -501,7 +512,7 @@ input AdminCreateInviteInput {
 }
 
 input AdminUpdateInviteInput {
-  expiresAt: DateTime
+  expiresAt: Timestamp
   maxUses: Int
 }
 
@@ -526,6 +537,7 @@ input AdminCreatePageInput {
   title: String!
   description: String!
   ownerId: String
+  profileId: String!
   color: String
   type: PageType
 }
@@ -597,6 +609,10 @@ input UserUpdateProfileInput {
   avatar: String
   metaUrl: String
   color: String
+}
+
+input UserSearchInput {
+  query: String!
 }
 
 input UserUpdateUserInput {

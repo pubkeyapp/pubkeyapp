@@ -1,7 +1,8 @@
 import { Box, Button, Container, Group, Stack } from '@mantine/core'
 import { useAuth } from '@pubkeyapp/web/auth/data-access'
-import { UiLoader, UiTabRoutes } from '@pubkeyapp/web/ui/core'
-import { useUserGetProfilesQuery } from '@pubkeyapp/web/util/sdk'
+import { UserProfilesProvider } from '@pubkeyapp/web/profile/data-access'
+import { SearchBox } from '@pubkeyapp/web/search/ui'
+import { UiTabRoutes } from '@pubkeyapp/web/ui/core'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { UserIdentitiesProvider } from '../settings/user-identities.provider'
@@ -11,11 +12,12 @@ import { UserManageProfiles } from './user-manage.profiles'
 
 export function DashboardFeature() {
   const { user } = useAuth()
-  const [{ data: profiles, fetching }] = useUserGetProfilesQuery()
 
   return (
     <Stack py={32} spacing={64}>
-      {user ? <UserDashboardProfileCard user={user as any} /> : null}
+      <Group position="center">
+        <SearchBox />
+      </Group>
       <Box>
         <Container size="sm">
           <UiTabRoutes
@@ -25,7 +27,10 @@ export function DashboardFeature() {
                 value: 'profile',
                 component: (
                   <Stack mt={64}>
-                    {fetching ? <UiLoader /> : <UserManageProfiles profiles={profiles?.items ?? []} />}
+                    {user ? <UserDashboardProfileCard user={user as any} /> : null}
+                    <UserProfilesProvider>
+                      <UserManageProfiles />
+                    </UserProfilesProvider>
                   </Stack>
                 ),
               },

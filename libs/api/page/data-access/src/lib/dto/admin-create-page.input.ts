@@ -10,6 +10,8 @@ export class AdminCreatePageInput {
   description: string
   @Field({ nullable: true })
   ownerId?: string
+  @Field()
+  profileId: string
   @Field({ nullable: true })
   color?: string
   @ApiProperty({ enum: PageType, enumName: 'PageType' })

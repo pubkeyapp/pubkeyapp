@@ -96,5 +96,6 @@ export class ApiUserIdentityService {
         verified: false,
       },
     })
+    return this.core.getUserById(userId, true)
   }
 }

@@ -1,28 +1,42 @@
-import { ActionIcon, Anchor, Avatar, Badge, Button, Group, Menu, Stack, Text, ThemeIcon, Tooltip } from '@mantine/core'
+import { ActionIcon, Anchor, Badge, Button, Group, Menu, Stack, Text, ThemeIcon, Tooltip } from '@mantine/core'
 import { useAuth } from '@pubkeyapp/web/auth/data-access'
 import { IdentityBadge } from '@pubkeyapp/web/identity/ui'
+import { useUserProfiles } from '@pubkeyapp/web/profile/data-access'
 import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/core'
 import {
   Profile,
   UserUpdateProfileInput,
-  useUserGetIdentitiesQuery,
-  useUserGetProfileQuery,
+  useUserCreatePageMutation,
   useUserLinkProfileIdentityMutation,
-  useUserSyncProfileMutation,
   useUserUnlinkProfileIdentityMutation,
   useUserUpdateProfileMutation,
 } from '@pubkeyapp/web/util/sdk'
-import { IconTrash, IconUser, IconUserExclamation, IconUserPlus } from '@tabler/icons-react'
+import { IconTrash, IconUser } from '@tabler/icons-react'
 import React, { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { UserSelectAvatarModal } from './user-select-avatar-modal'
 
 export function UserManageProfileDetails({ profile }: { profile: Profile }) {
   const { user } = useAuth()
+  const { refresh } = useUserProfiles()
+  const [{ fetching: creatingPage }, createPageMutation] = useUserCreatePageMutation()
   const [, updateProfileMutation] = useUserUpdateProfileMutation()
   const [, linkIdentityMutation] = useUserLinkProfileIdentityMutation()
   const [, unlinkIdentityMutation] = useUserUnlinkProfileIdentityMutation()
 
+  const createPage = () => {
+    createPageMutation({ input: { profileId: profile.id } })
+      .then((res) => {
+        refresh()
+        if (res.error) return showNotificationError(res.error.message)
+        if (!res.error && res.data?.item) {
+          showNotificationSuccess('Page created! ')
+          return res.data.item
+        }
+        return false
+      })
+      .catch((err) => showNotificationError(err.message))
+  }
   const addIdentity = (id: string) => {
     linkIdentityMutation({ profileId: `${profile.id}`, identityId: id })
       .then((res) => {
@@ -35,6 +49,7 @@ export function UserManageProfileDetails({ profile }: { profile: Profile }) {
       })
       .catch((err) => showNotificationError(err.message))
   }
+
   const removeIdentity = (id: string) => {
     unlinkIdentityMutation({ profileId: `${profile.id}`, identityId: id })
       .then((res) => {
@@ -70,7 +85,7 @@ export function UserManageProfileDetails({ profile }: { profile: Profile }) {
   return (
     <Stack>
       <Stack>
-        <Group position="apart" align="start">
+        <Group position="apart" align="center">
           <Group align="center">
             {user ? (
               <UserSelectAvatarModal
@@ -92,15 +107,14 @@ export function UserManageProfileDetails({ profile }: { profile: Profile }) {
             </Stack>
           </Group>
           {profile.page ? (
-            <Group>
-              <Button variant="outline" size="sm" component={Link} to={`/pages/${profile.page?.id}`}>
-                Edit Page
-              </Button>
-              <Button variant="outline" size="sm" component={'a'} href={`${profile.page.viewUrl}`}>
-                View Page
-              </Button>
-            </Group>
-          ) : null}
+            <Button variant="outline" size="sm" component={Link} to={`/pages/${profile.page?.id}`}>
+              Manage Page
+            </Button>
+          ) : (
+            <Button loading={creatingPage} variant="outline" size="sm" onClick={() => createPage()}>
+              Create Page
+            </Button>
+          )}
         </Group>
       </Stack>
       <Stack spacing="xl" my={16}>

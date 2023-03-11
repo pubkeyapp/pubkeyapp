@@ -17,6 +17,7 @@ import { ApiPageFeatureModule } from '@pubkeyapp/api/page/feature'
 import { ApiPlanFeatureModule } from '@pubkeyapp/api/plan/feature'
 import { ApiProfileFeatureModule } from '@pubkeyapp/api/profile/feature'
 import { ApiQueueFeatureModule } from '@pubkeyapp/api/queue/feature'
+import { ApiSearchFeatureModule } from '@pubkeyapp/api/search/feature'
 import { ApiSolanaFeatureModule } from '@pubkeyapp/api/solana/feature'
 import { ApiUserFeatureModule } from '@pubkeyapp/api/user/feature'
 import { join } from 'path'
@@ -44,6 +45,7 @@ import { serveStaticFactory } from './serve-static.factory'
     ApiPlanFeatureModule,
     ApiProfileFeatureModule,
     ApiQueueFeatureModule,
+    ApiSearchFeatureModule,
     ApiSolanaFeatureModule,
     ApiUserFeatureModule,
     EventEmitterModule.forRoot({ global: true, delimiter: ':' }),
@@ -53,6 +55,7 @@ import { serveStaticFactory } from './serve-static.factory'
       installSubscriptionHandlers: true,
       autoSchemaFile: join(process.cwd(), 'api-schema.graphql'),
       context: ({ req, res }) => ({ req, res }),
+      buildSchemaOptions: { dateScalarMode: 'timestamp' },
     }),
     OgmaModule.forRootAsync({
       useClass: ApiCoreFeatureOgmaConfig,

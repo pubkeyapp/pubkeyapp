@@ -13,6 +13,7 @@ import { HomepageContentFeature, HomepageFeature } from './homepage/homepage-fea
 import { LoginFeature } from './login/login-feature'
 import { PidRoutes } from './pid/pid.routes'
 import { ProfileRoutes } from './profile/profile-routes'
+import { SearchFeature } from './search/search-feature'
 import { SettingsFeature } from './settings/settings-feature'
 
 const AdminFeature = lazy(() => import('@pubkeyapp/web/admin/feature'))
@@ -50,18 +51,17 @@ export function WebShellFeature() {
             <Route path="/login" element={<LoginFeature />} />
             <Route element={<AuthGuard redirectTo="/login" />}>
               <Route element={<UserStatusGuard status={UserStatus.Active} element={<EarlyFeature />} />}>
+                <Route path="/account/*" element={<AccountFeature />} />
                 <Route path="/dashboard/*" element={<DashboardFeature />} />
                 <Route path="/pages/*" element={<PageEditorFeature />} />
+                <Route path="/search/*" element={<SearchFeature />} />
                 <Route element={<UserRoleGuard role={UserRole.Admin} />}>
-                  <Route path="/account/*" element={<AccountFeature />} />
                   <Route path="/admin/*" element={<AdminFeature />} />
                   <Route path="/dev/*" element={<DevFeature />} />
                 </Route>
               </Route>
               <Route path="/early" element={<EarlyFeature />} />
-              <Route path="/intent/connect/*" element={<div>TBD: Connect Identity Page</div>} />
               <Route path="/pid" element={<PidRoutes />} />
-              <Route path="/profile/identities/*" element={<div>TBD: Profile Identities Page</div>} />
               <Route path="/settings/*" element={<SettingsFeature />} />
               <Route path="/u/*" element={<ProfileRoutes />} />
             </Route>

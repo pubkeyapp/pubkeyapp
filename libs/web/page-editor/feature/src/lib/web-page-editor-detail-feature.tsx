@@ -23,6 +23,7 @@ import {
   PageEditorPreview,
   PageTypeIcon,
 } from '@pubkeyapp/web/page/ui'
+import { ProfileTypeIcon } from '@pubkeyapp/web/profile/ui'
 import {
   showNotificationError,
   showNotificationSuccess,
@@ -37,6 +38,7 @@ import {
   PageBlock,
   PageStatus,
   PageType,
+  ProfileType,
   useAnonGetPageQuery,
   UserAddPageBlockInput,
   useUserAddPageBlockMutation,
@@ -113,14 +115,14 @@ export function WebPageEditorDetailFeature() {
           return showNotificationError(result.error.message)
         }
         if (result.data?.item) {
-          return showNotificationSuccess(`Page Block ${result.data?.item?.type} update`)
+          return showNotificationSuccess(`Page Block ${result.data?.item?.type} updated`)
         }
         return false
       })
       .catch((err) => showNotificationError(err.message))
 
   const deletePage = () => {
-    if (!confirm(`Do you really want to delete the page ${page?.item?.type}?`)) {
+    if (!confirm(`Do you really want to delete the page ${page?.item?.profile?.type}?`)) {
       return false
     }
     return deletePageMutation({ pageId: pageId! })
@@ -130,7 +132,7 @@ export function WebPageEditorDetailFeature() {
         }
         if (result.data?.item) {
           navigate('/dashboard')
-          return showNotificationSuccess(`Page ${page?.item?.type} deleted`)
+          return showNotificationSuccess(`Page ${page?.item?.profile?.type} deleted`)
         }
         return false
       })
@@ -143,10 +145,10 @@ export function WebPageEditorDetailFeature() {
         <UiPageHeader
           title={
             <Group>
-              <PageTypeIcon type={page?.item?.type as PageType} size={36} />
-              <Tooltip label={`Edit the ${page?.item?.type} page`}>
+              <ProfileTypeIcon type={page?.item?.profile?.type as ProfileType} size={36} />
+              <Tooltip label={`Edit the ${page?.item?.profile?.type} page`}>
                 <Anchor component={Link} to={`/pages/${page?.item?.id}`} size="xl">
-                  {page?.item?.type}
+                  {page?.item?.profile?.type}
                 </Anchor>
               </Tooltip>
             </Group>

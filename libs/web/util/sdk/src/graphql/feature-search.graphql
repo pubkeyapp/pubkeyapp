@@ -1,0 +1,20 @@
+mutation UserSearch($input: UserSearchInput!) {
+  result: userSearch(input: $input) {
+    accounts {
+      ...AccountDetails
+      id
+      createdAt
+      explorerUrl
+      identity {
+        ...IdentityDetails
+      }
+      name
+      network
+      type
+      program
+    }
+    users {
+      ...UserDetails
+    }
+  }
+}
