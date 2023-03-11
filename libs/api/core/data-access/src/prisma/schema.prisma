@@ -230,6 +230,7 @@ model Profile {
   owner      User          @relation(fields: [ownerId], references: [id])
   ownerId    String
   page       Page?
+  // FIXME: Check if this is the right name. Could be 'default', 'primary', 'main', etc?
   user       User?         @relation("UserProfile")
 
   @@unique([ownerId, type])

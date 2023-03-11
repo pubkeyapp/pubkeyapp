@@ -54,22 +54,17 @@ export class ApiUserProfileService {
         avatarUrl: user.profile?.avatarUrl,
       },
     })
+
+    if (!user.profile) {
+      await this.userSetDefaultProfile(userId, created.id)
+    }
+
     await this.core.data.page.create({
       data: createNewPage({
         ownerId: userId,
         profileId: created.id,
       }),
     })
-    // aw
-    // page: {
-    //           create: {
-    //             owner: { connect: { id: userId } },
-    //             status: PageStatus.Draft,
-    //             blocks: {
-    //               create: [{ type: PageBlockType.Header, data: { text: '## Hello, World!' } }],
-    //             },
-    //           },
-    //         },
     return this.userGetProfile(userId, created.id)
   }
 

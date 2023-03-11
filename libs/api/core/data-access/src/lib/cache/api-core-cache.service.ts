@@ -34,7 +34,7 @@ export class ApiCoreCacheService {
       if (typeof result !== 'undefined') {
         await this.set<T>(namespace, key, result, ttl)
         this.logger.verbose(`${style.bYellow.apply('[CACHE MISS]')} ${cacheKey} ttl=${ttl} seconds`)
-        this.logger.debug(`[CACHE MISS] ${cacheKey} value=${JSON.stringify(result)}`)
+        this.logger.debug(`[CACHE MISS] ${cacheKey}`)
         return result
       }
       this.logger.verbose(`${style.bYellow.apply('[CACHE PASS]')} ${cacheKey}, result is falsy`)

@@ -32,6 +32,9 @@ export function UserTable({ deleteUser, users }: AdminUserTableProps) {
                     <Text component={Link} to={link} size="sm" weight={500} color="brand">
                       {item.username}
                     </Text>
+                    <Text component={Link} to={'/account/' + item.publicKey} size="xs" color="dimmed">
+                      {item.publicKey ?? 'No public key'}
+                    </Text>
                   </Stack>
                 </Group>
               )

@@ -25,7 +25,10 @@ export class ApiCoreService implements OnApplicationBootstrap {
   async onApplicationBootstrap(): Promise<void> {
     this.logger.verbose('  => BOOTSTRAPPING CORE')
     await this.provisionSettings()
-    setTimeout(() => this.reload(), 1000)
+    setTimeout(() => {
+      this.reload()
+      this.ensureUserHasPublicKey()
+    }, 1000)
   }
 
   async ensureUser(userId: string): Promise<CoreUser> {
@@ -186,5 +189,25 @@ export class ApiCoreService implements OnApplicationBootstrap {
       this.reload()
       return res
     })
+  }
+
+  private async ensureUserHasPublicKey() {
+    const users = await this.data.user.findMany({
+      where: { publicKey: null },
+      include: { identities: { where: { provider: IdentityProvider.Solana } } },
+    })
+    for (const user of users) {
+      if (!user.identities.length) {
+        this.logger.warn(`User ${user.id} has no public key and no identities`)
+        continue
+      }
+      const publicKey = user.identities[0].providerId
+      const updated = await this.data.user.update({
+        where: { id: user.id },
+        data: { publicKey },
+      })
+      this.logger.verbose(` => Updated user ${user.username} with public key ${publicKey}`)
+      await this.getUserById(user.id, true)
+    }
   }
 }
