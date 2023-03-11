@@ -6,6 +6,9 @@ fragment PageSummary on Page {
   type
   siteUrl
   viewUrl
+  domains {
+    ...PageDomainDetails
+  }
 }
 
 fragment PageDetails on Page {

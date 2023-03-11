@@ -26,7 +26,7 @@ export class ApiAdminAccountService {
         createdAt: 'desc',
       },
       include: {
-        discoveredBy: true,
+        discoveredBy: { include: { profile: true } },
         owner: true,
         tokens: true,
         identity: {
@@ -46,7 +46,7 @@ export class ApiAdminAccountService {
         id,
       },
       include: {
-        discoveredBy: true,
+        discoveredBy: { include: { profile: true } },,
         owner: true,
         tokens: true,
         identity: {

@@ -1,8 +1,7 @@
 import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common'
 import { IdentityProvider, Prisma, PrismaClient, UserRole, UserStatus } from '@prisma/client'
 import { ApiConfigService } from '@pubkeyapp/api/config/data-access'
-import { getSolanaName } from 'sol-namor/src'
-import { convertCoreDbUser, CoreUser } from '../api-core.helpers'
+import { convertCoreDbUser, CoreDbUser, CoreUser, getUsername } from '../api-core.helpers'
 
 @Injectable()
 export class ApiCoreDataService extends PrismaClient implements OnModuleDestroy, OnModuleInit {
@@ -22,10 +21,12 @@ export class ApiCoreDataService extends PrismaClient implements OnModuleDestroy,
   }
 
   findUserByUsername(username: string) {
-    // FIXME: Add caching
     return this.user
-      .findUnique({ where: { username }, include: { profile: true, profiles: true, identities: true } })
-      .then((user) => (user ? convertCoreDbUser(user, this.config.apiUrl) : null))
+      .findFirst({
+        where: { username: { equals: username, mode: 'insensitive' } },
+        include: { profile: true, profiles: true, identities: true },
+      })
+      .then((user: CoreDbUser) => (user ? convertCoreDbUser(user, this.config.apiUrl) : undefined))
   }
 
   async findUserByIdentity({
@@ -115,16 +116,4 @@ export class ApiCoreDataService extends PrismaClient implements OnModuleDestroy,
       },
     })
   }
-}
-
-export function getUsername(name: string) {
-  if (name.length > 30) {
-    const newName = getSolanaName(name)
-    // slugify the name
-    return newName
-      .replace(/[^a-z0-9]/gi, '-')
-      .replace(/-+/g, '-')
-      .toLowerCase()
-  }
-  return name
 }

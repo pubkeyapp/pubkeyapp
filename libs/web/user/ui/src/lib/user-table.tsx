@@ -22,17 +22,14 @@ export function UserTable({ deleteUser, users }: AdminUserTableProps) {
         shadow="xs"
         columns={[
           {
-            accessor: 'name',
+            accessor: 'username',
             render: (item) => {
               const link = `/admin/users/${item.id}`
               return (
                 <Group spacing="sm" p={4}>
-                  <Avatar component={Link} to={link} size={40} src={item.avatarUrl} radius={50} />
+                  <Avatar component={Link} to={link} size={40} src={item?.profile?.avatarUrl} radius={50} />
                   <Stack spacing={1}>
                     <Text component={Link} to={link} size="sm" weight={500} color="brand">
-                      {item.name}
-                    </Text>
-                    <Text size="xs" color="dimmed">
                       {item.username}
                     </Text>
                   </Stack>

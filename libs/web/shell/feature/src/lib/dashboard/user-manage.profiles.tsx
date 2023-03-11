@@ -1,4 +1,4 @@
-import { Accordion, Box, Group, Stack } from '@mantine/core'
+import { Accordion, Badge, Box, Button, Group, Stack, Tooltip } from '@mantine/core'
 import { useUserProfiles } from '@pubkeyapp/web/profile/data-access'
 import { ProfileCreateButton, ProfileTypeBadge } from '@pubkeyapp/web/profile/ui'
 import { UiLoader, useAccordionStyles } from '@pubkeyapp/web/ui/core'
@@ -32,6 +32,11 @@ export function UserManageProfiles() {
                   <Accordion.Control>
                     <Group align="center">
                       <ProfileTypeBadge profileType={type} />
+                      {found?.owner?.profile?.type === type ? (
+                        <Tooltip label="Your default profile is your main identity on PubKey">
+                          <Badge>Default Profile</Badge>
+                        </Tooltip>
+                      ) : null}
                     </Group>
                   </Accordion.Control>
                   <Accordion.Panel>

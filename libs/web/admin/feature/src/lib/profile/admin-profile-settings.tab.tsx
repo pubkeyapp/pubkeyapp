@@ -12,7 +12,7 @@ export function AdminProfileSettingsTab({
   const fields: UiFormField<AdminUpdateProfileInput>[] = [
     formFieldText('name', { label: 'name' }),
     formFieldText('username', { label: 'username' }),
-    formFieldText('avatar', { label: 'avatar' }),
+    formFieldText('avatarUrl', { label: 'avatarUrl' }),
     formFieldTextarea('bio', { label: 'bio' }),
   ]
 

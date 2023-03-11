@@ -5,7 +5,7 @@ fragment ProfileDetails on Profile {
   name
   username
   bio
-  avatar
+  avatarUrl
   metaUrl
   color
   followers
@@ -17,7 +17,7 @@ query AdminGetProfile($profileId: String!) {
   item: adminGetProfile(profileId: $profileId) {
     ...ProfileDetails
     owner {
-      ...UserSummary
+      ...UserDetails
     }
   }
 }
@@ -26,7 +26,7 @@ query AdminGetProfiles($input: AdminGetProfilesInput) {
   items: adminGetProfiles(input: $input) {
     ...ProfileDetails
     owner {
-      ...UserSummary
+      ...UserDetails
     }
     page {
       ...PageSummary
@@ -80,7 +80,7 @@ query UserGetProfiles {
   items: userGetProfiles {
     ...ProfileDetails
     owner {
-      ...UserSummary
+      ...UserDetails
       profile {
         ...ProfileDetails
       }
@@ -107,6 +107,12 @@ mutation UserDeleteProfile($profileId: String!) {
 
 mutation UserSyncProfile($profileId: String!) {
   item: userSyncProfile(profileId: $profileId) {
+    ...ProfileDetails
+  }
+}
+
+mutation UserSetDefaultProfile($profileId: String!) {
+  item: userSetDefaultProfile(profileId: $profileId) {
     ...ProfileDetails
   }
 }

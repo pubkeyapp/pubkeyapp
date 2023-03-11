@@ -56,7 +56,7 @@ export class ApiCoreService implements OnApplicationBootstrap {
   }
 
   async ensureUsername(username: string) {
-    const user = await this.data.findUserByUsername(username)
+    const user = await this.getUserByUsername(username)
 
     if (!user) {
       throw new NotFoundException(`User ${username} not found`)
@@ -113,13 +113,7 @@ export class ApiCoreService implements OnApplicationBootstrap {
     return this.cache.wrap<CoreUser>(
       'user',
       `get-by-username:${username}`,
-      () =>
-        this.data.user
-          .findUnique({
-            where: { username },
-            include: { profile: true, profiles: true, identities: true },
-          })
-          .then((user: CoreDbUser) => (user ? convertCoreDbUser(user, this.config.apiUrl) : undefined)),
+      () => this.data.findUserByUsername(username),
       10,
     )
   }

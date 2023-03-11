@@ -295,7 +295,12 @@ export class ApiAnonAccountService implements OnModuleInit {
       where: {
         address_network: { address, network },
       },
-      include: { discoveredBy: true, owner: true, tokens: true, identity: { include: { owner: true } } },
+      include: {
+        discoveredBy: { include: { profile: true } },
+        owner: true,
+        tokens: true,
+        identity: { include: { owner: true } },
+      },
     })
   }
 }

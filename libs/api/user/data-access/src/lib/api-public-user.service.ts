@@ -15,7 +15,7 @@ export class ApiPublicUserService {
     const user = await this.core.ensureUsername(username)
     return this.core.data.page.findMany({
       where: { owner: { id: user.id } },
-      include: { owner: true, domains: { include: { domain: true } }, blocks: true },
+      include: { owner: { include: { profile: true } }, domains: { include: { domain: true } }, blocks: true },
     })
   }
 

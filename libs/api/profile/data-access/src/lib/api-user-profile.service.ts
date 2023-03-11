@@ -1,8 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common'
-import { NetworkType, PageBlockType, PageStatus } from '@prisma/client'
+import { NetworkType } from '@prisma/client'
 import { ApiAnonAccountService } from '@pubkeyapp/api/account/data-access'
-import { ApiCoreService } from '@pubkeyapp/api/core/data-access'
-import { createNewPage } from '../../../../page/data-access/src/lib/api-page.helpers'
+import { ApiCoreService, getProfileUsername } from '@pubkeyapp/api/core/data-access'
+import { createNewPage } from '@pubkeyapp/api/page/data-access'
 import { getProfileTypeColor } from './api-profile-helpers'
 import { UserUpdateProfileInput } from './dto/user-update-profile.input'
 import { ProfileType } from './entity/profile-type.enum'
@@ -17,9 +17,15 @@ export class ApiUserProfileService {
   }
 
   async userGetProfilePage(userId: string, profileId: string) {
-    const profile = await this.ensureProfileOwner(userId, profileId)
-
-    return profile.page
+    await this.core.ensureUserActive(userId)
+    return this.core.data.page.findFirst({
+      where: { profileId },
+      include: {
+        profile: { include: { owner: true } },
+        blocks: true,
+        domains: { include: { domain: true } },
+      },
+    })
   }
 
   async userGetProfiles(userId: string) {
@@ -42,10 +48,10 @@ export class ApiUserProfileService {
         type,
         ownerId: userId,
         color: getProfileTypeColor(type),
-        bio: user.profile?.bio ?? user.bio,
-        name: user.profile?.name ?? user.name,
+        bio: user.profile?.bio,
+        name: user.profile?.name,
         username: user.profile?.username ?? user.username,
-        avatar: user.profile?.avatar ?? user.avatarUrl,
+        avatarUrl: user.profile?.avatarUrl,
       },
     })
     await this.core.data.page.create({
@@ -74,10 +80,12 @@ export class ApiUserProfileService {
 
   async userUpdateProfile(userId: string, profileId: string, input: UserUpdateProfileInput) {
     await this.ensureProfileOwner(userId, profileId)
-    return this.core.data.profile.update({
+    const updated = await this.core.data.profile.update({
       where: { id: profileId },
-      data: { ...input },
+      data: { ...input, username: input.username ? getProfileUsername(input.username) : undefined },
     })
+    await this.core.getUserById(userId, true)
+    return updated
   }
 
   async userLinkProfileIdentity(userId: string, profileId: string, identityId: string) {
@@ -96,19 +104,27 @@ export class ApiUserProfileService {
     })
   }
 
+  async userSetDefaultProfile(userId: string, profileId: string) {
+    await this.ensureProfileOwner(userId, profileId)
+    await this.core.data.user.update({
+      where: { id: userId },
+      data: { profileId },
+    })
+    return this.core.getUserById(userId, true)
+  }
+
   async ensureProfileOwner(userId: string, profileId: string) {
     await this.core.ensureUserActive(userId)
     const profile = await this.core.data.profile.findUnique({
       where: { id: profileId },
       include: {
-        owner: true,
+        owner: { include: { profile: true } },
         page: {
           include: {
             blocks: true,
             domains: { include: { domain: true } },
           },
         },
-        user: true,
       },
     })
     if (!profile) {

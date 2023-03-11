@@ -12,7 +12,6 @@ const UserIdentitiesContext = createContext<UserIdentitiesProviderContext>({} as
 
 export function UserIdentitiesProvider({ children }: { children: ReactNode }) {
   const [{ data, fetching, error }, refresh] = useUserGetIdentitiesQuery()
-  console.log(JSON.stringify(data, null, 2))
   const value: UserIdentitiesProviderContext = {
     error,
     loading: fetching,

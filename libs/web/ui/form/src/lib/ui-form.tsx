@@ -102,6 +102,7 @@ export function UiForm<T>({
             case UiFormFieldType.Text:
               return (
                 <TextInput
+                  variant="filled"
                   size="lg"
                   radius="xl"
                   styles={{ input: { marginTop: 16 } }}
@@ -128,9 +129,9 @@ export function UiForm<T>({
                 />
               )
             case UiFormFieldType.Select:
-              console.log('form.getInputProps(field.key)', form.getInputProps(field.key))
               return (
                 <Select
+                  variant="filled"
                   size="lg"
                   radius="xl"
                   key={field.key?.toString()}
@@ -145,6 +146,7 @@ export function UiForm<T>({
             case UiFormFieldType.Textarea:
               return (
                 <Textarea
+                  variant="filled"
                   size="lg"
                   radius="xl"
                   key={field.key?.toString()}

@@ -1,7 +1,8 @@
-import { GraphQLDateTime } from 'graphql-scalars'
 import { Field, HideField, Int, ObjectType } from '@nestjs/graphql'
 import { ApiProperty } from '@nestjs/swagger'
 import { Identity } from '@pubkeyapp/api/identity/data-access'
+import { Profile } from '@pubkeyapp/api/profile/data-access'
+import { GraphQLDateTime } from 'graphql-scalars'
 import { Follow } from './follow.entity'
 import { UserRole } from './user-role.enum'
 import { UserStatus } from './user-status.enum'
@@ -22,24 +23,9 @@ export class User {
   @Field(() => GraphQLDateTime, { nullable: true })
   updatedAt: Date
 
-  @ApiProperty()
-  @Field({ nullable: true })
-  name: string
-
   @ApiProperty({ nullable: true, required: false })
   @Field({ nullable: true })
   username: string
-  @ApiProperty()
-  @Field({ nullable: true })
-  bio: string
-
-  @ApiProperty()
-  @Field({ nullable: true })
-  avatarUrl: string
-
-  @ApiProperty({ nullable: true, required: false })
-  @Field({ nullable: true })
-  metaUrl?: string
 
   @ApiProperty({ nullable: true, required: false })
   @Field({ nullable: true })
@@ -52,15 +38,18 @@ export class User {
   @ApiProperty({ enum: UserRole, enumName: 'UserRole', nullable: true, required: false })
   @Field(() => UserRole, { nullable: true })
   role: UserRole
+
   @ApiProperty({ enum: UserStatus, enumName: 'UserStatus', nullable: true, required: false })
   @Field(() => UserStatus, { nullable: true })
   status: UserStatus
-  @HideField()
+
   @ApiProperty({ type: [Identity], nullable: true, required: false })
+  @Field(() => [Identity], { nullable: true })
   identities?: Identity[]
 
   @Field(() => [Follow], { nullable: true })
   followers?: Follow[]
+
   @ApiProperty({ type: 'integer', nullable: true, required: false })
   @Field(() => Int, { nullable: true })
   followersCount?: number
@@ -72,9 +61,11 @@ export class User {
   @Field(() => Int, { nullable: true })
   followingCount?: number
 
-  @HideField()
-  profile: unknown
+  @ApiProperty({ type: Profile, nullable: true, required: false })
+  @Field(() => Profile, { nullable: true })
+  profile?: Profile
 
-  @HideField()
-  profiles?: unknown[]
+  @ApiProperty({ type: [Profile], nullable: true, required: false })
+  @Field(() => [Profile], { nullable: true })
+  profiles?: Profile[]
 }

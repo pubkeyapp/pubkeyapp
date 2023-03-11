@@ -1,6 +1,7 @@
 import { Field, HideField, ObjectType } from '@nestjs/graphql'
 import { ApiProperty } from '@nestjs/swagger'
 import { User } from '@pubkeyapp/api/user/data-access'
+import { GraphQLDateTime } from 'graphql-scalars'
 import { PageBlock } from './page-block.entity'
 import { PageDomain } from './page-domain.entity'
 import { PageStatus } from './page-status.enum'
@@ -12,10 +13,10 @@ export class Page {
   @Field({ nullable: true })
   id: string
 
-  @Field({ nullable: true })
+  @Field(() => GraphQLDateTime, { nullable: true })
   createdAt: Date
 
-  @Field({ nullable: true })
+  @Field(() => GraphQLDateTime, { nullable: true })
   updatedAt: Date
   @ApiProperty({ enum: PageStatus, enumName: 'PageStatus' })
   @Field(() => PageStatus, { nullable: true })

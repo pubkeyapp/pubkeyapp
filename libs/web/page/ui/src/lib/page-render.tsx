@@ -1,8 +1,7 @@
-import { Anchor, Badge, Box, Center, Code, Container, Flex, Group, Stack, Tooltip } from '@mantine/core'
+import { Anchor, Badge, Box, Center, Container, Flex, Group, Stack, Tooltip } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
 import { PubKeyLogo } from '@pubkeyapp/logo'
-import { Page } from '@pubkeyapp/sdk'
-import React from 'react'
+import { Page, User } from '@pubkeyapp/sdk'
 import { PageBlockRender } from './blocks/page-block-render'
 import { PageShareModal } from './page-share-modal'
 import { PageUserProfile } from './page-user-profile'
@@ -16,6 +15,7 @@ export function PageUiRender({
   page: Page
   width?: number
 }) {
+  const owner = page?.owner as User
   const mobileScreen = useMediaQuery('(max-width: 600px)')
   return (
     <Container size="sm" miw={width ? width : mobileScreen ? 400 : 600} sx={{}} px={10} m={0}>
@@ -26,7 +26,7 @@ export function PageUiRender({
           </Flex>
         </Box>
       )}
-      {page?.owner ? <PageUserProfile user={page?.owner} /> : null}
+      {page?.owner ? <PageUserProfile user={owner} /> : null}
       <Box mt={24}>
         <Stack spacing={width ? 32 : mobileScreen ? 32 : 64} sx={{}}>
           {page?.blocks?.map((block) => (
@@ -41,6 +41,7 @@ export function PageUiRender({
 }
 
 export function PageWrapper({ hideShareButton, page }: { hideShareButton?: boolean; page: Page }) {
+  const owner = page?.owner as User
   return (
     <Flex direction="column" justify="space-between" h={'100%'}>
       <Stack spacing={64} sx={{ overflow: 'auto' }} mb="xl" pb="xl">
@@ -52,7 +53,7 @@ export function PageWrapper({ hideShareButton, page }: { hideShareButton?: boole
             <Badge>{page.status}</Badge>
           </Tooltip>
           <Tooltip label="PubKey ID">
-            <Badge>PID#{page?.owner?.pid}</Badge>
+            <Badge>PID#{owner?.pid}</Badge>
           </Tooltip>
         </Group>
         <Center>

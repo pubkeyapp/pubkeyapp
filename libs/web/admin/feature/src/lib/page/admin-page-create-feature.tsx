@@ -36,7 +36,7 @@ export function AdminPageCreateFeature() {
   const userOptions: { label: string; value: string }[] = useMemo(() => {
     return (
       userData?.items?.map((user) => {
-        return { label: `${user.name} - ${user.username}`, value: user.id ?? '' }
+        return { label: `${user.username}`, value: user.id ?? '' }
       }) ?? []
     )
   }, [userData])

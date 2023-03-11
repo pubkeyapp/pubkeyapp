@@ -25,8 +25,8 @@ export type Scalars = {
 export type Account = {
   __typename?: 'Account'
   address?: Maybe<Scalars['String']>
-  createdAt?: Maybe<Scalars['Timestamp']>
-  discoveredAt?: Maybe<Scalars['Timestamp']>
+  createdAt?: Maybe<Scalars['DateTime']>
+  discoveredAt?: Maybe<Scalars['DateTime']>
   discoveredBy?: Maybe<User>
   explorerUrl?: Maybe<Scalars['String']>
   id?: Maybe<Scalars['String']>
@@ -38,7 +38,7 @@ export type Account = {
   program?: Maybe<Scalars['String']>
   tokens?: Maybe<Array<Account>>
   type?: Maybe<AccountType>
-  updatedAt?: Maybe<Scalars['Timestamp']>
+  updatedAt?: Maybe<Scalars['DateTime']>
 }
 
 export enum AccountType {
@@ -168,7 +168,7 @@ export type AdminUpdatePlanInput = {
 }
 
 export type AdminUpdateProfileInput = {
-  avatar?: InputMaybe<Scalars['String']>
+  avatarUrl?: InputMaybe<Scalars['String']>
   bio?: InputMaybe<Scalars['String']>
   color?: InputMaybe<Scalars['String']>
   followers?: InputMaybe<Scalars['Int']>
@@ -180,9 +180,6 @@ export type AdminUpdateProfileInput = {
 }
 
 export type AdminUpdateUserInput = {
-  avatarUrl?: InputMaybe<Scalars['String']>
-  bio?: InputMaybe<Scalars['String']>
-  name?: InputMaybe<Scalars['String']>
   role?: InputMaybe<UserRole>
   status?: InputMaybe<UserStatus>
   username?: InputMaybe<Scalars['String']>
@@ -234,7 +231,7 @@ export type ConfigApp = {
 
 export type Domain = {
   __typename?: 'Domain'
-  createdAt?: Maybe<Scalars['Timestamp']>
+  createdAt?: Maybe<Scalars['DateTime']>
   id?: Maybe<Scalars['String']>
   name?: Maybe<Scalars['String']>
   order?: Maybe<Scalars['Int']>
@@ -243,30 +240,30 @@ export type Domain = {
   premium?: Maybe<Scalars['Boolean']>
   private?: Maybe<Scalars['Boolean']>
   secure?: Maybe<Scalars['Boolean']>
-  updatedAt?: Maybe<Scalars['Timestamp']>
+  updatedAt?: Maybe<Scalars['DateTime']>
 }
 
 export type Follow = {
   __typename?: 'Follow'
-  createdAt?: Maybe<Scalars['Timestamp']>
+  createdAt?: Maybe<Scalars['DateTime']>
   follower?: Maybe<User>
   followerId?: Maybe<Scalars['String']>
   id?: Maybe<Scalars['String']>
   owner?: Maybe<User>
   ownerId?: Maybe<Scalars['String']>
-  updatedAt?: Maybe<Scalars['Timestamp']>
+  updatedAt?: Maybe<Scalars['DateTime']>
 }
 
 export type Identity = {
   __typename?: 'Identity'
   accounts?: Maybe<Array<Account>>
-  createdAt?: Maybe<Scalars['Timestamp']>
+  createdAt?: Maybe<Scalars['DateTime']>
   id?: Maybe<Scalars['String']>
   owner?: Maybe<User>
   profile?: Maybe<Scalars['JSON']>
   provider?: Maybe<IdentityProvider>
   providerId: Scalars['String']
-  updatedAt?: Maybe<Scalars['Timestamp']>
+  updatedAt?: Maybe<Scalars['DateTime']>
   verified: Scalars['Boolean']
 }
 
@@ -281,7 +278,7 @@ export enum IdentityProvider {
 export type Invite = {
   __typename?: 'Invite'
   code?: Maybe<Scalars['String']>
-  createdAt?: Maybe<Scalars['Timestamp']>
+  createdAt?: Maybe<Scalars['DateTime']>
   expiresAt?: Maybe<Scalars['Timestamp']>
   id?: Maybe<Scalars['String']>
   inviteUrl?: Maybe<Scalars['String']>
@@ -289,7 +286,7 @@ export type Invite = {
   isUsedUp?: Maybe<Scalars['Boolean']>
   maxUses?: Maybe<Scalars['Int']>
   owner?: Maybe<User>
-  updatedAt?: Maybe<Scalars['Timestamp']>
+  updatedAt?: Maybe<Scalars['DateTime']>
   useCount?: Maybe<Scalars['Int']>
   users?: Maybe<Array<User>>
 }
@@ -361,6 +358,7 @@ export type Mutation = {
   userLogout?: Maybe<Scalars['Boolean']>
   userRemovePageBlock?: Maybe<PageBlock>
   userSearch?: Maybe<SearchResult>
+  userSetDefaultProfile?: Maybe<Profile>
   userSyncIdentity?: Maybe<Identity>
   userSyncProfile?: Maybe<Profile>
   userUnfollowUser?: Maybe<User>
@@ -551,6 +549,10 @@ export type MutationUserSearchArgs = {
   input: UserSearchInput
 }
 
+export type MutationUserSetDefaultProfileArgs = {
+  profileId: Scalars['String']
+}
+
 export type MutationUserSyncIdentityArgs = {
   identityId: Scalars['String']
 }
@@ -598,7 +600,7 @@ export type Page = {
   __typename?: 'Page'
   blocks?: Maybe<Array<PageBlock>>
   color?: Maybe<Scalars['String']>
-  createdAt?: Maybe<Scalars['Timestamp']>
+  createdAt?: Maybe<Scalars['DateTime']>
   description?: Maybe<Scalars['String']>
   domains?: Maybe<Array<PageDomain>>
   id?: Maybe<Scalars['String']>
@@ -608,36 +610,41 @@ export type Page = {
   status?: Maybe<PageStatus>
   title?: Maybe<Scalars['String']>
   type?: Maybe<PageType>
-  updatedAt?: Maybe<Scalars['Timestamp']>
+  updatedAt?: Maybe<Scalars['DateTime']>
   urls?: Maybe<Array<Scalars['String']>>
   viewUrl?: Maybe<Scalars['String']>
 }
 
 export type PageBlock = {
   __typename?: 'PageBlock'
-  createdAt?: Maybe<Scalars['Timestamp']>
+  createdAt?: Maybe<Scalars['DateTime']>
   data?: Maybe<Scalars['JSON']>
   id?: Maybe<Scalars['String']>
   name?: Maybe<Scalars['String']>
   order?: Maybe<Scalars['Int']>
   page?: Maybe<Page>
   type?: Maybe<PageBlockType>
-  updatedAt?: Maybe<Scalars['Timestamp']>
+  updatedAt?: Maybe<Scalars['DateTime']>
 }
 
 export enum PageBlockType {
+  Discord = 'Discord',
+  Github = 'Github',
+  Google = 'Google',
   Header = 'Header',
   Link = 'Link',
+  Solana = 'Solana',
+  Twitter = 'Twitter',
 }
 
 export type PageDomain = {
   __typename?: 'PageDomain'
-  createdAt?: Maybe<Scalars['Timestamp']>
+  createdAt?: Maybe<Scalars['DateTime']>
   domain?: Maybe<Domain>
   id?: Maybe<Scalars['String']>
   page?: Maybe<Page>
   path?: Maybe<Scalars['String']>
-  updatedAt?: Maybe<Scalars['Timestamp']>
+  updatedAt?: Maybe<Scalars['DateTime']>
   viewUrl?: Maybe<Scalars['String']>
 }
 
@@ -657,7 +664,7 @@ export enum PageType {
 export type Plan = {
   __typename?: 'Plan'
   available?: Maybe<Scalars['Boolean']>
-  createdAt?: Maybe<Scalars['Timestamp']>
+  createdAt?: Maybe<Scalars['DateTime']>
   currency?: Maybe<Scalars['String']>
   description?: Maybe<Scalars['String']>
   features?: Maybe<Array<PlanFeature>>
@@ -666,24 +673,24 @@ export type Plan = {
   priceMonth?: Maybe<Scalars['Int']>
   priceYear?: Maybe<Scalars['Int']>
   recommended?: Maybe<Scalars['Boolean']>
-  updatedAt?: Maybe<Scalars['Timestamp']>
+  updatedAt?: Maybe<Scalars['DateTime']>
 }
 
 export type PlanFeature = {
   __typename?: 'PlanFeature'
-  createdAt?: Maybe<Scalars['Timestamp']>
+  createdAt?: Maybe<Scalars['DateTime']>
   id?: Maybe<Scalars['String']>
   name?: Maybe<Scalars['String']>
   order?: Maybe<Scalars['Int']>
-  updatedAt?: Maybe<Scalars['Timestamp']>
+  updatedAt?: Maybe<Scalars['DateTime']>
 }
 
 export type Profile = {
   __typename?: 'Profile'
-  avatar?: Maybe<Scalars['String']>
+  avatarUrl?: Maybe<Scalars['String']>
   bio?: Maybe<Scalars['String']>
   color?: Maybe<Scalars['String']>
-  createdAt?: Maybe<Scalars['Timestamp']>
+  createdAt?: Maybe<Scalars['DateTime']>
   followers?: Maybe<Scalars['Int']>
   following?: Maybe<Scalars['Int']>
   id?: Maybe<Scalars['String']>
@@ -694,7 +701,7 @@ export type Profile = {
   page?: Maybe<Page>
   status?: Maybe<ProfileStatus>
   type?: Maybe<ProfileType>
-  updatedAt?: Maybe<Scalars['Timestamp']>
+  updatedAt?: Maybe<Scalars['DateTime']>
   username?: Maybe<Scalars['String']>
 }
 
@@ -918,19 +925,17 @@ export type SearchResult = {
 
 export type Setting = {
   __typename?: 'Setting'
-  createdAt?: Maybe<Scalars['Timestamp']>
+  createdAt?: Maybe<Scalars['DateTime']>
   default?: Maybe<Scalars['String']>
   description?: Maybe<Scalars['String']>
   id?: Maybe<Scalars['String']>
   key?: Maybe<Scalars['String']>
-  updatedAt?: Maybe<Scalars['Timestamp']>
+  updatedAt?: Maybe<Scalars['DateTime']>
   value?: Maybe<Scalars['String']>
 }
 
 export type User = {
   __typename?: 'User'
-  avatarUrl?: Maybe<Scalars['String']>
-  bio?: Maybe<Scalars['String']>
   createdAt?: Maybe<Scalars['DateTime']>
   followers?: Maybe<Array<Follow>>
   followersCount?: Maybe<Scalars['Int']>
@@ -938,8 +943,6 @@ export type User = {
   followingCount?: Maybe<Scalars['Int']>
   id?: Maybe<Scalars['String']>
   identities?: Maybe<Array<Identity>>
-  metaUrl?: Maybe<Scalars['String']>
-  name?: Maybe<Scalars['String']>
   pid?: Maybe<Scalars['Int']>
   profile?: Maybe<Profile>
   profileUrl?: Maybe<Scalars['String']>
@@ -997,7 +1000,7 @@ export type UserUpdatePageInput = {
 }
 
 export type UserUpdateProfileInput = {
-  avatar?: InputMaybe<Scalars['String']>
+  avatarUrl?: InputMaybe<Scalars['String']>
   bio?: InputMaybe<Scalars['String']>
   color?: InputMaybe<Scalars['String']>
   metaUrl?: InputMaybe<Scalars['String']>
@@ -1006,9 +1009,6 @@ export type UserUpdateProfileInput = {
 }
 
 export type UserUpdateUserInput = {
-  avatarUrl?: InputMaybe<Scalars['String']>
-  bio?: InputMaybe<Scalars['String']>
-  name?: InputMaybe<Scalars['String']>
   username?: InputMaybe<Scalars['String']>
 }
 
@@ -1029,20 +1029,31 @@ export type AccountDetailsFragment = {
     __typename?: 'User'
     id?: string | null
     pid?: number | null
-    createdAt?: any | null
-    updatedAt?: any | null
     role?: UserRole | null
     status?: UserStatus | null
-    username?: string | null
-    name?: string | null
-    bio?: string | null
-    avatarUrl?: string | null
-    metaUrl?: string | null
-    profileUrl?: string | null
-    publicKey?: string | null
+    createdAt?: any | null
+    updatedAt?: any | null
     followersCount?: number | null
     followingCount?: number | null
+    profileUrl?: string | null
+    publicKey?: string | null
+    username?: string | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
+    profile?: {
+      __typename?: 'Profile'
+      id?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
+      name?: string | null
+      username?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      color?: string | null
+      followers?: number | null
+      following?: number | null
+      type?: ProfileType | null
+    } | null
   } | null
   identity?: {
     __typename?: 'Identity'
@@ -1055,24 +1066,35 @@ export type AccountDetailsFragment = {
       __typename?: 'User'
       id?: string | null
       pid?: number | null
-      createdAt?: any | null
-      updatedAt?: any | null
       role?: UserRole | null
       status?: UserStatus | null
-      username?: string | null
-      name?: string | null
-      bio?: string | null
-      avatarUrl?: string | null
-      metaUrl?: string | null
-      profileUrl?: string | null
-      publicKey?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
       followersCount?: number | null
       followingCount?: number | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      username?: string | null
       relation?: {
         __typename?: 'UserRelation'
         isYou: boolean
         isFollowedByYou: boolean
         isFollowingYou: boolean
+      } | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        name?: string | null
+        username?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        color?: string | null
+        followers?: number | null
+        following?: number | null
+        type?: ProfileType | null
       } | null
     } | null
   } | null
@@ -1114,24 +1136,35 @@ export type AdminGetAccountsQuery = {
         __typename?: 'User'
         id?: string | null
         pid?: number | null
-        createdAt?: any | null
-        updatedAt?: any | null
         role?: UserRole | null
         status?: UserStatus | null
-        username?: string | null
-        name?: string | null
-        bio?: string | null
-        avatarUrl?: string | null
-        metaUrl?: string | null
-        profileUrl?: string | null
-        publicKey?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
         followersCount?: number | null
         followingCount?: number | null
+        profileUrl?: string | null
+        publicKey?: string | null
+        username?: string | null
         relation?: {
           __typename?: 'UserRelation'
           isYou: boolean
           isFollowedByYou: boolean
           isFollowingYou: boolean
+        } | null
+        profile?: {
+          __typename?: 'Profile'
+          id?: string | null
+          createdAt?: any | null
+          updatedAt?: any | null
+          name?: string | null
+          username?: string | null
+          bio?: string | null
+          avatarUrl?: string | null
+          metaUrl?: string | null
+          color?: string | null
+          followers?: number | null
+          following?: number | null
+          type?: ProfileType | null
         } | null
       } | null
       identity?: {
@@ -1145,24 +1178,35 @@ export type AdminGetAccountsQuery = {
           __typename?: 'User'
           id?: string | null
           pid?: number | null
-          createdAt?: any | null
-          updatedAt?: any | null
           role?: UserRole | null
           status?: UserStatus | null
-          username?: string | null
-          name?: string | null
-          bio?: string | null
-          avatarUrl?: string | null
-          metaUrl?: string | null
-          profileUrl?: string | null
-          publicKey?: string | null
+          createdAt?: any | null
+          updatedAt?: any | null
           followersCount?: number | null
           followingCount?: number | null
+          profileUrl?: string | null
+          publicKey?: string | null
+          username?: string | null
           relation?: {
             __typename?: 'UserRelation'
             isYou: boolean
             isFollowedByYou: boolean
             isFollowingYou: boolean
+          } | null
+          profile?: {
+            __typename?: 'Profile'
+            id?: string | null
+            createdAt?: any | null
+            updatedAt?: any | null
+            name?: string | null
+            username?: string | null
+            bio?: string | null
+            avatarUrl?: string | null
+            metaUrl?: string | null
+            color?: string | null
+            followers?: number | null
+            following?: number | null
+            type?: ProfileType | null
           } | null
         } | null
       } | null
@@ -1171,24 +1215,35 @@ export type AdminGetAccountsQuery = {
       __typename?: 'User'
       id?: string | null
       pid?: number | null
-      createdAt?: any | null
-      updatedAt?: any | null
       role?: UserRole | null
       status?: UserStatus | null
-      username?: string | null
-      name?: string | null
-      bio?: string | null
-      avatarUrl?: string | null
-      metaUrl?: string | null
-      profileUrl?: string | null
-      publicKey?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
       followersCount?: number | null
       followingCount?: number | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      username?: string | null
       relation?: {
         __typename?: 'UserRelation'
         isYou: boolean
         isFollowedByYou: boolean
         isFollowingYou: boolean
+      } | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        name?: string | null
+        username?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        color?: string | null
+        followers?: number | null
+        following?: number | null
+        type?: ProfileType | null
       } | null
     } | null
     identity?: {
@@ -1202,24 +1257,35 @@ export type AdminGetAccountsQuery = {
         __typename?: 'User'
         id?: string | null
         pid?: number | null
-        createdAt?: any | null
-        updatedAt?: any | null
         role?: UserRole | null
         status?: UserStatus | null
-        username?: string | null
-        name?: string | null
-        bio?: string | null
-        avatarUrl?: string | null
-        metaUrl?: string | null
-        profileUrl?: string | null
-        publicKey?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
         followersCount?: number | null
         followingCount?: number | null
+        profileUrl?: string | null
+        publicKey?: string | null
+        username?: string | null
         relation?: {
           __typename?: 'UserRelation'
           isYou: boolean
           isFollowedByYou: boolean
           isFollowingYou: boolean
+        } | null
+        profile?: {
+          __typename?: 'Profile'
+          id?: string | null
+          createdAt?: any | null
+          updatedAt?: any | null
+          name?: string | null
+          username?: string | null
+          bio?: string | null
+          avatarUrl?: string | null
+          metaUrl?: string | null
+          color?: string | null
+          followers?: number | null
+          following?: number | null
+          type?: ProfileType | null
         } | null
       } | null
     } | null
@@ -1262,24 +1328,35 @@ export type AdminGetAccountQuery = {
         __typename?: 'User'
         id?: string | null
         pid?: number | null
-        createdAt?: any | null
-        updatedAt?: any | null
         role?: UserRole | null
         status?: UserStatus | null
-        username?: string | null
-        name?: string | null
-        bio?: string | null
-        avatarUrl?: string | null
-        metaUrl?: string | null
-        profileUrl?: string | null
-        publicKey?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
         followersCount?: number | null
         followingCount?: number | null
+        profileUrl?: string | null
+        publicKey?: string | null
+        username?: string | null
         relation?: {
           __typename?: 'UserRelation'
           isYou: boolean
           isFollowedByYou: boolean
           isFollowingYou: boolean
+        } | null
+        profile?: {
+          __typename?: 'Profile'
+          id?: string | null
+          createdAt?: any | null
+          updatedAt?: any | null
+          name?: string | null
+          username?: string | null
+          bio?: string | null
+          avatarUrl?: string | null
+          metaUrl?: string | null
+          color?: string | null
+          followers?: number | null
+          following?: number | null
+          type?: ProfileType | null
         } | null
       } | null
       identity?: {
@@ -1293,24 +1370,35 @@ export type AdminGetAccountQuery = {
           __typename?: 'User'
           id?: string | null
           pid?: number | null
-          createdAt?: any | null
-          updatedAt?: any | null
           role?: UserRole | null
           status?: UserStatus | null
-          username?: string | null
-          name?: string | null
-          bio?: string | null
-          avatarUrl?: string | null
-          metaUrl?: string | null
-          profileUrl?: string | null
-          publicKey?: string | null
+          createdAt?: any | null
+          updatedAt?: any | null
           followersCount?: number | null
           followingCount?: number | null
+          profileUrl?: string | null
+          publicKey?: string | null
+          username?: string | null
           relation?: {
             __typename?: 'UserRelation'
             isYou: boolean
             isFollowedByYou: boolean
             isFollowingYou: boolean
+          } | null
+          profile?: {
+            __typename?: 'Profile'
+            id?: string | null
+            createdAt?: any | null
+            updatedAt?: any | null
+            name?: string | null
+            username?: string | null
+            bio?: string | null
+            avatarUrl?: string | null
+            metaUrl?: string | null
+            color?: string | null
+            followers?: number | null
+            following?: number | null
+            type?: ProfileType | null
           } | null
         } | null
       } | null
@@ -1332,24 +1420,35 @@ export type AdminGetAccountQuery = {
         __typename?: 'User'
         id?: string | null
         pid?: number | null
-        createdAt?: any | null
-        updatedAt?: any | null
         role?: UserRole | null
         status?: UserStatus | null
-        username?: string | null
-        name?: string | null
-        bio?: string | null
-        avatarUrl?: string | null
-        metaUrl?: string | null
-        profileUrl?: string | null
-        publicKey?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
         followersCount?: number | null
         followingCount?: number | null
+        profileUrl?: string | null
+        publicKey?: string | null
+        username?: string | null
         relation?: {
           __typename?: 'UserRelation'
           isYou: boolean
           isFollowedByYou: boolean
           isFollowingYou: boolean
+        } | null
+        profile?: {
+          __typename?: 'Profile'
+          id?: string | null
+          createdAt?: any | null
+          updatedAt?: any | null
+          name?: string | null
+          username?: string | null
+          bio?: string | null
+          avatarUrl?: string | null
+          metaUrl?: string | null
+          color?: string | null
+          followers?: number | null
+          following?: number | null
+          type?: ProfileType | null
         } | null
       } | null
       identity?: {
@@ -1363,24 +1462,35 @@ export type AdminGetAccountQuery = {
           __typename?: 'User'
           id?: string | null
           pid?: number | null
-          createdAt?: any | null
-          updatedAt?: any | null
           role?: UserRole | null
           status?: UserStatus | null
-          username?: string | null
-          name?: string | null
-          bio?: string | null
-          avatarUrl?: string | null
-          metaUrl?: string | null
-          profileUrl?: string | null
-          publicKey?: string | null
+          createdAt?: any | null
+          updatedAt?: any | null
           followersCount?: number | null
           followingCount?: number | null
+          profileUrl?: string | null
+          publicKey?: string | null
+          username?: string | null
           relation?: {
             __typename?: 'UserRelation'
             isYou: boolean
             isFollowedByYou: boolean
             isFollowingYou: boolean
+          } | null
+          profile?: {
+            __typename?: 'Profile'
+            id?: string | null
+            createdAt?: any | null
+            updatedAt?: any | null
+            name?: string | null
+            username?: string | null
+            bio?: string | null
+            avatarUrl?: string | null
+            metaUrl?: string | null
+            color?: string | null
+            followers?: number | null
+            following?: number | null
+            type?: ProfileType | null
           } | null
         } | null
       } | null
@@ -1389,24 +1499,35 @@ export type AdminGetAccountQuery = {
       __typename?: 'User'
       id?: string | null
       pid?: number | null
-      createdAt?: any | null
-      updatedAt?: any | null
       role?: UserRole | null
       status?: UserStatus | null
-      username?: string | null
-      name?: string | null
-      bio?: string | null
-      avatarUrl?: string | null
-      metaUrl?: string | null
-      profileUrl?: string | null
-      publicKey?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
       followersCount?: number | null
       followingCount?: number | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      username?: string | null
       relation?: {
         __typename?: 'UserRelation'
         isYou: boolean
         isFollowedByYou: boolean
         isFollowingYou: boolean
+      } | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        name?: string | null
+        username?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        color?: string | null
+        followers?: number | null
+        following?: number | null
+        type?: ProfileType | null
       } | null
     } | null
     identity?: {
@@ -1420,24 +1541,35 @@ export type AdminGetAccountQuery = {
         __typename?: 'User'
         id?: string | null
         pid?: number | null
-        createdAt?: any | null
-        updatedAt?: any | null
         role?: UserRole | null
         status?: UserStatus | null
-        username?: string | null
-        name?: string | null
-        bio?: string | null
-        avatarUrl?: string | null
-        metaUrl?: string | null
-        profileUrl?: string | null
-        publicKey?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
         followersCount?: number | null
         followingCount?: number | null
+        profileUrl?: string | null
+        publicKey?: string | null
+        username?: string | null
         relation?: {
           __typename?: 'UserRelation'
           isYou: boolean
           isFollowedByYou: boolean
           isFollowingYou: boolean
+        } | null
+        profile?: {
+          __typename?: 'Profile'
+          id?: string | null
+          createdAt?: any | null
+          updatedAt?: any | null
+          name?: string | null
+          username?: string | null
+          bio?: string | null
+          avatarUrl?: string | null
+          metaUrl?: string | null
+          color?: string | null
+          followers?: number | null
+          following?: number | null
+          type?: ProfileType | null
         } | null
       } | null
     } | null
@@ -1481,24 +1613,35 @@ export type UserGetAccountQuery = {
         __typename?: 'User'
         id?: string | null
         pid?: number | null
-        createdAt?: any | null
-        updatedAt?: any | null
         role?: UserRole | null
         status?: UserStatus | null
-        username?: string | null
-        name?: string | null
-        bio?: string | null
-        avatarUrl?: string | null
-        metaUrl?: string | null
-        profileUrl?: string | null
-        publicKey?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
         followersCount?: number | null
         followingCount?: number | null
+        profileUrl?: string | null
+        publicKey?: string | null
+        username?: string | null
         relation?: {
           __typename?: 'UserRelation'
           isYou: boolean
           isFollowedByYou: boolean
           isFollowingYou: boolean
+        } | null
+        profile?: {
+          __typename?: 'Profile'
+          id?: string | null
+          createdAt?: any | null
+          updatedAt?: any | null
+          name?: string | null
+          username?: string | null
+          bio?: string | null
+          avatarUrl?: string | null
+          metaUrl?: string | null
+          color?: string | null
+          followers?: number | null
+          following?: number | null
+          type?: ProfileType | null
         } | null
       } | null
       identity?: {
@@ -1512,24 +1655,35 @@ export type UserGetAccountQuery = {
           __typename?: 'User'
           id?: string | null
           pid?: number | null
-          createdAt?: any | null
-          updatedAt?: any | null
           role?: UserRole | null
           status?: UserStatus | null
-          username?: string | null
-          name?: string | null
-          bio?: string | null
-          avatarUrl?: string | null
-          metaUrl?: string | null
-          profileUrl?: string | null
-          publicKey?: string | null
+          createdAt?: any | null
+          updatedAt?: any | null
           followersCount?: number | null
           followingCount?: number | null
+          profileUrl?: string | null
+          publicKey?: string | null
+          username?: string | null
           relation?: {
             __typename?: 'UserRelation'
             isYou: boolean
             isFollowedByYou: boolean
             isFollowingYou: boolean
+          } | null
+          profile?: {
+            __typename?: 'Profile'
+            id?: string | null
+            createdAt?: any | null
+            updatedAt?: any | null
+            name?: string | null
+            username?: string | null
+            bio?: string | null
+            avatarUrl?: string | null
+            metaUrl?: string | null
+            color?: string | null
+            followers?: number | null
+            following?: number | null
+            type?: ProfileType | null
           } | null
         } | null
       } | null
@@ -1551,24 +1705,35 @@ export type UserGetAccountQuery = {
         __typename?: 'User'
         id?: string | null
         pid?: number | null
-        createdAt?: any | null
-        updatedAt?: any | null
         role?: UserRole | null
         status?: UserStatus | null
-        username?: string | null
-        name?: string | null
-        bio?: string | null
-        avatarUrl?: string | null
-        metaUrl?: string | null
-        profileUrl?: string | null
-        publicKey?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
         followersCount?: number | null
         followingCount?: number | null
+        profileUrl?: string | null
+        publicKey?: string | null
+        username?: string | null
         relation?: {
           __typename?: 'UserRelation'
           isYou: boolean
           isFollowedByYou: boolean
           isFollowingYou: boolean
+        } | null
+        profile?: {
+          __typename?: 'Profile'
+          id?: string | null
+          createdAt?: any | null
+          updatedAt?: any | null
+          name?: string | null
+          username?: string | null
+          bio?: string | null
+          avatarUrl?: string | null
+          metaUrl?: string | null
+          color?: string | null
+          followers?: number | null
+          following?: number | null
+          type?: ProfileType | null
         } | null
       } | null
       identity?: {
@@ -1582,24 +1747,35 @@ export type UserGetAccountQuery = {
           __typename?: 'User'
           id?: string | null
           pid?: number | null
-          createdAt?: any | null
-          updatedAt?: any | null
           role?: UserRole | null
           status?: UserStatus | null
-          username?: string | null
-          name?: string | null
-          bio?: string | null
-          avatarUrl?: string | null
-          metaUrl?: string | null
-          profileUrl?: string | null
-          publicKey?: string | null
+          createdAt?: any | null
+          updatedAt?: any | null
           followersCount?: number | null
           followingCount?: number | null
+          profileUrl?: string | null
+          publicKey?: string | null
+          username?: string | null
           relation?: {
             __typename?: 'UserRelation'
             isYou: boolean
             isFollowedByYou: boolean
             isFollowingYou: boolean
+          } | null
+          profile?: {
+            __typename?: 'Profile'
+            id?: string | null
+            createdAt?: any | null
+            updatedAt?: any | null
+            name?: string | null
+            username?: string | null
+            bio?: string | null
+            avatarUrl?: string | null
+            metaUrl?: string | null
+            color?: string | null
+            followers?: number | null
+            following?: number | null
+            type?: ProfileType | null
           } | null
         } | null
       } | null
@@ -1608,24 +1784,35 @@ export type UserGetAccountQuery = {
       __typename?: 'User'
       id?: string | null
       pid?: number | null
-      createdAt?: any | null
-      updatedAt?: any | null
       role?: UserRole | null
       status?: UserStatus | null
-      username?: string | null
-      name?: string | null
-      bio?: string | null
-      avatarUrl?: string | null
-      metaUrl?: string | null
-      profileUrl?: string | null
-      publicKey?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
       followersCount?: number | null
       followingCount?: number | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      username?: string | null
       relation?: {
         __typename?: 'UserRelation'
         isYou: boolean
         isFollowedByYou: boolean
         isFollowingYou: boolean
+      } | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        name?: string | null
+        username?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        color?: string | null
+        followers?: number | null
+        following?: number | null
+        type?: ProfileType | null
       } | null
     } | null
     identity?: {
@@ -1639,24 +1826,35 @@ export type UserGetAccountQuery = {
         __typename?: 'User'
         id?: string | null
         pid?: number | null
-        createdAt?: any | null
-        updatedAt?: any | null
         role?: UserRole | null
         status?: UserStatus | null
-        username?: string | null
-        name?: string | null
-        bio?: string | null
-        avatarUrl?: string | null
-        metaUrl?: string | null
-        profileUrl?: string | null
-        publicKey?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
         followersCount?: number | null
         followingCount?: number | null
+        profileUrl?: string | null
+        publicKey?: string | null
+        username?: string | null
         relation?: {
           __typename?: 'UserRelation'
           isYou: boolean
           isFollowedByYou: boolean
           isFollowingYou: boolean
+        } | null
+        profile?: {
+          __typename?: 'Profile'
+          id?: string | null
+          createdAt?: any | null
+          updatedAt?: any | null
+          name?: string | null
+          username?: string | null
+          bio?: string | null
+          avatarUrl?: string | null
+          metaUrl?: string | null
+          color?: string | null
+          followers?: number | null
+          following?: number | null
+          type?: ProfileType | null
         } | null
       } | null
     } | null
@@ -1684,19 +1882,15 @@ export type GetMeQuery = {
     __typename?: 'User'
     id?: string | null
     pid?: number | null
-    createdAt?: any | null
-    updatedAt?: any | null
     role?: UserRole | null
     status?: UserStatus | null
-    username?: string | null
-    name?: string | null
-    bio?: string | null
-    avatarUrl?: string | null
-    metaUrl?: string | null
-    profileUrl?: string | null
-    publicKey?: string | null
+    createdAt?: any | null
+    updatedAt?: any | null
     followersCount?: number | null
     followingCount?: number | null
+    profileUrl?: string | null
+    publicKey?: string | null
+    username?: string | null
     identities?: Array<{
       __typename?: 'Identity'
       id?: string | null
@@ -1715,7 +1909,7 @@ export type GetMeQuery = {
       name?: string | null
       username?: string | null
       bio?: string | null
-      avatar?: string | null
+      avatarUrl?: string | null
       metaUrl?: string | null
       color?: string | null
       followers?: number | null
@@ -1751,20 +1945,31 @@ export type AnonRespondChallengeMutation = {
     __typename?: 'User'
     id?: string | null
     pid?: number | null
-    createdAt?: any | null
-    updatedAt?: any | null
     role?: UserRole | null
     status?: UserStatus | null
-    username?: string | null
-    name?: string | null
-    bio?: string | null
-    avatarUrl?: string | null
-    metaUrl?: string | null
-    profileUrl?: string | null
-    publicKey?: string | null
+    createdAt?: any | null
+    updatedAt?: any | null
     followersCount?: number | null
     followingCount?: number | null
+    profileUrl?: string | null
+    publicKey?: string | null
+    username?: string | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
+    profile?: {
+      __typename?: 'Profile'
+      id?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
+      name?: string | null
+      username?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      color?: string | null
+      followers?: number | null
+      following?: number | null
+      type?: ProfileType | null
+    } | null
   } | null
 }
 
@@ -1894,8 +2099,14 @@ export type DomainDetailsFragment = {
     __typename?: 'User'
     id?: string | null
     username?: string | null
-    name?: string | null
-    avatarUrl?: string | null
+    profile?: {
+      __typename?: 'Profile'
+      id?: string | null
+      name?: string | null
+      username?: string | null
+      avatarUrl?: string | null
+      bio?: string | null
+    } | null
   } | null
 }
 
@@ -1931,24 +2142,35 @@ export type AdminGetDomainQuery = {
         __typename?: 'User'
         id?: string | null
         pid?: number | null
-        createdAt?: any | null
-        updatedAt?: any | null
         role?: UserRole | null
         status?: UserStatus | null
-        username?: string | null
-        name?: string | null
-        bio?: string | null
-        avatarUrl?: string | null
-        metaUrl?: string | null
-        profileUrl?: string | null
-        publicKey?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
         followersCount?: number | null
         followingCount?: number | null
+        profileUrl?: string | null
+        publicKey?: string | null
+        username?: string | null
         relation?: {
           __typename?: 'UserRelation'
           isYou: boolean
           isFollowedByYou: boolean
           isFollowingYou: boolean
+        } | null
+        profile?: {
+          __typename?: 'Profile'
+          id?: string | null
+          createdAt?: any | null
+          updatedAt?: any | null
+          name?: string | null
+          username?: string | null
+          bio?: string | null
+          avatarUrl?: string | null
+          metaUrl?: string | null
+          color?: string | null
+          followers?: number | null
+          following?: number | null
+          type?: ProfileType | null
         } | null
       } | null
     }> | null
@@ -1956,8 +2178,14 @@ export type AdminGetDomainQuery = {
       __typename?: 'User'
       id?: string | null
       username?: string | null
-      name?: string | null
-      avatarUrl?: string | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        name?: string | null
+        username?: string | null
+        avatarUrl?: string | null
+        bio?: string | null
+      } | null
     } | null
   } | null
 }
@@ -1982,8 +2210,14 @@ export type AdminGetDomainsQuery = {
       __typename?: 'User'
       id?: string | null
       username?: string | null
-      name?: string | null
-      avatarUrl?: string | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        name?: string | null
+        username?: string | null
+        avatarUrl?: string | null
+        bio?: string | null
+      } | null
     } | null
   }> | null
 }
@@ -2008,8 +2242,14 @@ export type AdminCreateDomainMutation = {
       __typename?: 'User'
       id?: string | null
       username?: string | null
-      name?: string | null
-      avatarUrl?: string | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        name?: string | null
+        username?: string | null
+        avatarUrl?: string | null
+        bio?: string | null
+      } | null
     } | null
   } | null
 }
@@ -2035,8 +2275,14 @@ export type AdminUpdateDomainMutation = {
       __typename?: 'User'
       id?: string | null
       username?: string | null
-      name?: string | null
-      avatarUrl?: string | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        name?: string | null
+        username?: string | null
+        avatarUrl?: string | null
+        bio?: string | null
+      } | null
     } | null
   } | null
 }
@@ -2061,8 +2307,14 @@ export type AdminDeleteDomainMutation = {
       __typename?: 'User'
       id?: string | null
       username?: string | null
-      name?: string | null
-      avatarUrl?: string | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        name?: string | null
+        username?: string | null
+        avatarUrl?: string | null
+        bio?: string | null
+      } | null
     } | null
   } | null
 }
@@ -2088,20 +2340,31 @@ export type UserDeleteIdentityMutation = {
     __typename?: 'User'
     id?: string | null
     pid?: number | null
-    createdAt?: any | null
-    updatedAt?: any | null
     role?: UserRole | null
     status?: UserStatus | null
-    username?: string | null
-    name?: string | null
-    bio?: string | null
-    avatarUrl?: string | null
-    metaUrl?: string | null
-    profileUrl?: string | null
-    publicKey?: string | null
+    createdAt?: any | null
+    updatedAt?: any | null
     followersCount?: number | null
     followingCount?: number | null
+    profileUrl?: string | null
+    publicKey?: string | null
+    username?: string | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
+    profile?: {
+      __typename?: 'Profile'
+      id?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
+      name?: string | null
+      username?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      color?: string | null
+      followers?: number | null
+      following?: number | null
+      type?: ProfileType | null
+    } | null
   } | null
 }
 
@@ -2135,24 +2398,35 @@ export type UserGetIdentitiesQuery = {
         __typename?: 'User'
         id?: string | null
         pid?: number | null
-        createdAt?: any | null
-        updatedAt?: any | null
         role?: UserRole | null
         status?: UserStatus | null
-        username?: string | null
-        name?: string | null
-        bio?: string | null
-        avatarUrl?: string | null
-        metaUrl?: string | null
-        profileUrl?: string | null
-        publicKey?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
         followersCount?: number | null
         followingCount?: number | null
+        profileUrl?: string | null
+        publicKey?: string | null
+        username?: string | null
         relation?: {
           __typename?: 'UserRelation'
           isYou: boolean
           isFollowedByYou: boolean
           isFollowingYou: boolean
+        } | null
+        profile?: {
+          __typename?: 'Profile'
+          id?: string | null
+          createdAt?: any | null
+          updatedAt?: any | null
+          name?: string | null
+          username?: string | null
+          bio?: string | null
+          avatarUrl?: string | null
+          metaUrl?: string | null
+          color?: string | null
+          followers?: number | null
+          following?: number | null
+          type?: ProfileType | null
         } | null
       } | null
       identity?: {
@@ -2166,24 +2440,35 @@ export type UserGetIdentitiesQuery = {
           __typename?: 'User'
           id?: string | null
           pid?: number | null
-          createdAt?: any | null
-          updatedAt?: any | null
           role?: UserRole | null
           status?: UserStatus | null
-          username?: string | null
-          name?: string | null
-          bio?: string | null
-          avatarUrl?: string | null
-          metaUrl?: string | null
-          profileUrl?: string | null
-          publicKey?: string | null
+          createdAt?: any | null
+          updatedAt?: any | null
           followersCount?: number | null
           followingCount?: number | null
+          profileUrl?: string | null
+          publicKey?: string | null
+          username?: string | null
           relation?: {
             __typename?: 'UserRelation'
             isYou: boolean
             isFollowedByYou: boolean
             isFollowingYou: boolean
+          } | null
+          profile?: {
+            __typename?: 'Profile'
+            id?: string | null
+            createdAt?: any | null
+            updatedAt?: any | null
+            name?: string | null
+            username?: string | null
+            bio?: string | null
+            avatarUrl?: string | null
+            metaUrl?: string | null
+            color?: string | null
+            followers?: number | null
+            following?: number | null
+            type?: ProfileType | null
           } | null
         } | null
       } | null
@@ -2220,20 +2505,31 @@ export type UserLinkIdentityMutation = {
     __typename?: 'User'
     id?: string | null
     pid?: number | null
-    createdAt?: any | null
-    updatedAt?: any | null
     role?: UserRole | null
     status?: UserStatus | null
-    username?: string | null
-    name?: string | null
-    bio?: string | null
-    avatarUrl?: string | null
-    metaUrl?: string | null
-    profileUrl?: string | null
-    publicKey?: string | null
+    createdAt?: any | null
+    updatedAt?: any | null
     followersCount?: number | null
     followingCount?: number | null
+    profileUrl?: string | null
+    publicKey?: string | null
+    username?: string | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
+    profile?: {
+      __typename?: 'Profile'
+      id?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
+      name?: string | null
+      username?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      color?: string | null
+      followers?: number | null
+      following?: number | null
+      type?: ProfileType | null
+    } | null
   } | null
 }
 
@@ -2271,20 +2567,31 @@ export type InviteDetailsFragment = {
     __typename?: 'User'
     id?: string | null
     pid?: number | null
-    createdAt?: any | null
-    updatedAt?: any | null
     role?: UserRole | null
     status?: UserStatus | null
-    username?: string | null
-    name?: string | null
-    bio?: string | null
-    avatarUrl?: string | null
-    metaUrl?: string | null
-    profileUrl?: string | null
-    publicKey?: string | null
+    createdAt?: any | null
+    updatedAt?: any | null
     followersCount?: number | null
     followingCount?: number | null
+    profileUrl?: string | null
+    publicKey?: string | null
+    username?: string | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
+    profile?: {
+      __typename?: 'Profile'
+      id?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
+      name?: string | null
+      username?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      color?: string | null
+      followers?: number | null
+      following?: number | null
+      type?: ProfileType | null
+    } | null
   } | null
 }
 
@@ -2310,48 +2617,70 @@ export type AdminGetInviteQuery = {
       __typename?: 'User'
       id?: string | null
       pid?: number | null
-      createdAt?: any | null
-      updatedAt?: any | null
       role?: UserRole | null
       status?: UserStatus | null
-      username?: string | null
-      name?: string | null
-      bio?: string | null
-      avatarUrl?: string | null
-      metaUrl?: string | null
-      profileUrl?: string | null
-      publicKey?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
       followersCount?: number | null
       followingCount?: number | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      username?: string | null
       relation?: {
         __typename?: 'UserRelation'
         isYou: boolean
         isFollowedByYou: boolean
         isFollowingYou: boolean
       } | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        name?: string | null
+        username?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        color?: string | null
+        followers?: number | null
+        following?: number | null
+        type?: ProfileType | null
+      } | null
     }> | null
     owner?: {
       __typename?: 'User'
       id?: string | null
       pid?: number | null
-      createdAt?: any | null
-      updatedAt?: any | null
       role?: UserRole | null
       status?: UserStatus | null
-      username?: string | null
-      name?: string | null
-      bio?: string | null
-      avatarUrl?: string | null
-      metaUrl?: string | null
-      profileUrl?: string | null
-      publicKey?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
       followersCount?: number | null
       followingCount?: number | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      username?: string | null
       relation?: {
         __typename?: 'UserRelation'
         isYou: boolean
         isFollowedByYou: boolean
         isFollowingYou: boolean
+      } | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        name?: string | null
+        username?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        color?: string | null
+        followers?: number | null
+        following?: number | null
+        type?: ProfileType | null
       } | null
     } | null
   } | null
@@ -2379,24 +2708,35 @@ export type AdminGetInvitesQuery = {
       __typename?: 'User'
       id?: string | null
       pid?: number | null
-      createdAt?: any | null
-      updatedAt?: any | null
       role?: UserRole | null
       status?: UserStatus | null
-      username?: string | null
-      name?: string | null
-      bio?: string | null
-      avatarUrl?: string | null
-      metaUrl?: string | null
-      profileUrl?: string | null
-      publicKey?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
       followersCount?: number | null
       followingCount?: number | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      username?: string | null
       relation?: {
         __typename?: 'UserRelation'
         isYou: boolean
         isFollowedByYou: boolean
         isFollowingYou: boolean
+      } | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        name?: string | null
+        username?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        color?: string | null
+        followers?: number | null
+        following?: number | null
+        type?: ProfileType | null
       } | null
     } | null
   }> | null
@@ -2424,24 +2764,35 @@ export type AdminCreateInviteMutation = {
       __typename?: 'User'
       id?: string | null
       pid?: number | null
-      createdAt?: any | null
-      updatedAt?: any | null
       role?: UserRole | null
       status?: UserStatus | null
-      username?: string | null
-      name?: string | null
-      bio?: string | null
-      avatarUrl?: string | null
-      metaUrl?: string | null
-      profileUrl?: string | null
-      publicKey?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
       followersCount?: number | null
       followingCount?: number | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      username?: string | null
       relation?: {
         __typename?: 'UserRelation'
         isYou: boolean
         isFollowedByYou: boolean
         isFollowingYou: boolean
+      } | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        name?: string | null
+        username?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        color?: string | null
+        followers?: number | null
+        following?: number | null
+        type?: ProfileType | null
       } | null
     } | null
   } | null
@@ -2470,24 +2821,35 @@ export type AdminUpdateInviteMutation = {
       __typename?: 'User'
       id?: string | null
       pid?: number | null
-      createdAt?: any | null
-      updatedAt?: any | null
       role?: UserRole | null
       status?: UserStatus | null
-      username?: string | null
-      name?: string | null
-      bio?: string | null
-      avatarUrl?: string | null
-      metaUrl?: string | null
-      profileUrl?: string | null
-      publicKey?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
       followersCount?: number | null
       followingCount?: number | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      username?: string | null
       relation?: {
         __typename?: 'UserRelation'
         isYou: boolean
         isFollowedByYou: boolean
         isFollowingYou: boolean
+      } | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        name?: string | null
+        username?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        color?: string | null
+        followers?: number | null
+        following?: number | null
+        type?: ProfileType | null
       } | null
     } | null
   } | null
@@ -2515,24 +2877,35 @@ export type AdminDeleteInviteMutation = {
       __typename?: 'User'
       id?: string | null
       pid?: number | null
-      createdAt?: any | null
-      updatedAt?: any | null
       role?: UserRole | null
       status?: UserStatus | null
-      username?: string | null
-      name?: string | null
-      bio?: string | null
-      avatarUrl?: string | null
-      metaUrl?: string | null
-      profileUrl?: string | null
-      publicKey?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
       followersCount?: number | null
       followingCount?: number | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      username?: string | null
       relation?: {
         __typename?: 'UserRelation'
         isYou: boolean
         isFollowedByYou: boolean
         isFollowingYou: boolean
+      } | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        name?: string | null
+        username?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        color?: string | null
+        followers?: number | null
+        following?: number | null
+        type?: ProfileType | null
       } | null
     } | null
   } | null
@@ -2560,48 +2933,70 @@ export type AnonGetInviteQuery = {
       __typename?: 'User'
       id?: string | null
       pid?: number | null
-      createdAt?: any | null
-      updatedAt?: any | null
       role?: UserRole | null
       status?: UserStatus | null
-      username?: string | null
-      name?: string | null
-      bio?: string | null
-      avatarUrl?: string | null
-      metaUrl?: string | null
-      profileUrl?: string | null
-      publicKey?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
       followersCount?: number | null
       followingCount?: number | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      username?: string | null
       relation?: {
         __typename?: 'UserRelation'
         isYou: boolean
         isFollowedByYou: boolean
         isFollowingYou: boolean
       } | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        name?: string | null
+        username?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        color?: string | null
+        followers?: number | null
+        following?: number | null
+        type?: ProfileType | null
+      } | null
     }> | null
     owner?: {
       __typename?: 'User'
       id?: string | null
       pid?: number | null
-      createdAt?: any | null
-      updatedAt?: any | null
       role?: UserRole | null
       status?: UserStatus | null
-      username?: string | null
-      name?: string | null
-      bio?: string | null
-      avatarUrl?: string | null
-      metaUrl?: string | null
-      profileUrl?: string | null
-      publicKey?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
       followersCount?: number | null
       followingCount?: number | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      username?: string | null
       relation?: {
         __typename?: 'UserRelation'
         isYou: boolean
         isFollowedByYou: boolean
         isFollowingYou: boolean
+      } | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        name?: string | null
+        username?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        color?: string | null
+        followers?: number | null
+        following?: number | null
+        type?: ProfileType | null
       } | null
     } | null
   } | null
@@ -2627,24 +3022,35 @@ export type UserGetInvitesQuery = {
       __typename?: 'User'
       id?: string | null
       pid?: number | null
-      createdAt?: any | null
-      updatedAt?: any | null
       role?: UserRole | null
       status?: UserStatus | null
-      username?: string | null
-      name?: string | null
-      bio?: string | null
-      avatarUrl?: string | null
-      metaUrl?: string | null
-      profileUrl?: string | null
-      publicKey?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
       followersCount?: number | null
       followingCount?: number | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      username?: string | null
       relation?: {
         __typename?: 'UserRelation'
         isYou: boolean
         isFollowedByYou: boolean
         isFollowingYou: boolean
+      } | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        name?: string | null
+        username?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        color?: string | null
+        followers?: number | null
+        following?: number | null
+        type?: ProfileType | null
       } | null
     } | null
   }> | null
@@ -2670,48 +3076,70 @@ export type UserGetInviteQuery = {
       __typename?: 'User'
       id?: string | null
       pid?: number | null
-      createdAt?: any | null
-      updatedAt?: any | null
       role?: UserRole | null
       status?: UserStatus | null
-      username?: string | null
-      name?: string | null
-      bio?: string | null
-      avatarUrl?: string | null
-      metaUrl?: string | null
-      profileUrl?: string | null
-      publicKey?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
       followersCount?: number | null
       followingCount?: number | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      username?: string | null
       relation?: {
         __typename?: 'UserRelation'
         isYou: boolean
         isFollowedByYou: boolean
         isFollowingYou: boolean
       } | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        name?: string | null
+        username?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        color?: string | null
+        followers?: number | null
+        following?: number | null
+        type?: ProfileType | null
+      } | null
     }> | null
     owner?: {
       __typename?: 'User'
       id?: string | null
       pid?: number | null
-      createdAt?: any | null
-      updatedAt?: any | null
       role?: UserRole | null
       status?: UserStatus | null
-      username?: string | null
-      name?: string | null
-      bio?: string | null
-      avatarUrl?: string | null
-      metaUrl?: string | null
-      profileUrl?: string | null
-      publicKey?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
       followersCount?: number | null
       followingCount?: number | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      username?: string | null
       relation?: {
         __typename?: 'UserRelation'
         isYou: boolean
         isFollowedByYou: boolean
         isFollowingYou: boolean
+      } | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        name?: string | null
+        username?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        color?: string | null
+        followers?: number | null
+        following?: number | null
+        type?: ProfileType | null
       } | null
     } | null
   } | null
@@ -2739,24 +3167,35 @@ export type UserAcceptInviteMutation = {
       __typename?: 'User'
       id?: string | null
       pid?: number | null
-      createdAt?: any | null
-      updatedAt?: any | null
       role?: UserRole | null
       status?: UserStatus | null
-      username?: string | null
-      name?: string | null
-      bio?: string | null
-      avatarUrl?: string | null
-      metaUrl?: string | null
-      profileUrl?: string | null
-      publicKey?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
       followersCount?: number | null
       followingCount?: number | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      username?: string | null
       relation?: {
         __typename?: 'UserRelation'
         isYou: boolean
         isFollowedByYou: boolean
         isFollowingYou: boolean
+      } | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        name?: string | null
+        username?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        color?: string | null
+        followers?: number | null
+        following?: number | null
+        type?: ProfileType | null
       } | null
     } | null
   } | null
@@ -3004,6 +3443,16 @@ export type PageSummaryFragment = {
   type?: PageType | null
   siteUrl?: string | null
   viewUrl?: string | null
+  domains?: Array<{
+    __typename?: 'PageDomain'
+    id?: string | null
+    createdAt?: any | null
+    updatedAt?: any | null
+    path?: string | null
+    viewUrl?: string | null
+    domain?: { __typename?: 'Domain'; id?: string | null; name?: string | null } | null
+    page?: { __typename?: 'Page'; id?: string | null; title?: string | null } | null
+  }> | null
 }
 
 export type PageDetailsFragment = {
@@ -3022,20 +3471,31 @@ export type PageDetailsFragment = {
     __typename?: 'User'
     id?: string | null
     pid?: number | null
-    createdAt?: any | null
-    updatedAt?: any | null
     role?: UserRole | null
     status?: UserStatus | null
-    username?: string | null
-    name?: string | null
-    bio?: string | null
-    avatarUrl?: string | null
-    metaUrl?: string | null
-    profileUrl?: string | null
-    publicKey?: string | null
+    createdAt?: any | null
+    updatedAt?: any | null
     followersCount?: number | null
     followingCount?: number | null
+    profileUrl?: string | null
+    publicKey?: string | null
+    username?: string | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
+    profile?: {
+      __typename?: 'Profile'
+      id?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
+      name?: string | null
+      username?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      color?: string | null
+      followers?: number | null
+      following?: number | null
+      type?: ProfileType | null
+    } | null
   } | null
 }
 
@@ -3081,24 +3541,35 @@ export type AdminGetPageQuery = {
       __typename?: 'User'
       id?: string | null
       pid?: number | null
-      createdAt?: any | null
-      updatedAt?: any | null
       role?: UserRole | null
       status?: UserStatus | null
-      username?: string | null
-      name?: string | null
-      bio?: string | null
-      avatarUrl?: string | null
-      metaUrl?: string | null
-      profileUrl?: string | null
-      publicKey?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
       followersCount?: number | null
       followingCount?: number | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      username?: string | null
       relation?: {
         __typename?: 'UserRelation'
         isYou: boolean
         isFollowedByYou: boolean
         isFollowingYou: boolean
+      } | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        name?: string | null
+        username?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        color?: string | null
+        followers?: number | null
+        following?: number | null
+        type?: ProfileType | null
       } | null
     } | null
   } | null
@@ -3140,7 +3611,7 @@ export type AdminGetPagesQuery = {
       name?: string | null
       username?: string | null
       bio?: string | null
-      avatar?: string | null
+      avatarUrl?: string | null
       metaUrl?: string | null
       color?: string | null
       followers?: number | null
@@ -3151,24 +3622,35 @@ export type AdminGetPagesQuery = {
       __typename?: 'User'
       id?: string | null
       pid?: number | null
-      createdAt?: any | null
-      updatedAt?: any | null
       role?: UserRole | null
       status?: UserStatus | null
-      username?: string | null
-      name?: string | null
-      bio?: string | null
-      avatarUrl?: string | null
-      metaUrl?: string | null
-      profileUrl?: string | null
-      publicKey?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
       followersCount?: number | null
       followingCount?: number | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      username?: string | null
       relation?: {
         __typename?: 'UserRelation'
         isYou: boolean
         isFollowedByYou: boolean
         isFollowingYou: boolean
+      } | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        name?: string | null
+        username?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        color?: string | null
+        followers?: number | null
+        following?: number | null
+        type?: ProfileType | null
       } | null
     } | null
   }> | null
@@ -3196,24 +3678,35 @@ export type AdminCreatePageMutation = {
       __typename?: 'User'
       id?: string | null
       pid?: number | null
-      createdAt?: any | null
-      updatedAt?: any | null
       role?: UserRole | null
       status?: UserStatus | null
-      username?: string | null
-      name?: string | null
-      bio?: string | null
-      avatarUrl?: string | null
-      metaUrl?: string | null
-      profileUrl?: string | null
-      publicKey?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
       followersCount?: number | null
       followingCount?: number | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      username?: string | null
       relation?: {
         __typename?: 'UserRelation'
         isYou: boolean
         isFollowedByYou: boolean
         isFollowingYou: boolean
+      } | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        name?: string | null
+        username?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        color?: string | null
+        followers?: number | null
+        following?: number | null
+        type?: ProfileType | null
       } | null
     } | null
   } | null
@@ -3242,24 +3735,35 @@ export type AdminUpdatePageMutation = {
       __typename?: 'User'
       id?: string | null
       pid?: number | null
-      createdAt?: any | null
-      updatedAt?: any | null
       role?: UserRole | null
       status?: UserStatus | null
-      username?: string | null
-      name?: string | null
-      bio?: string | null
-      avatarUrl?: string | null
-      metaUrl?: string | null
-      profileUrl?: string | null
-      publicKey?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
       followersCount?: number | null
       followingCount?: number | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      username?: string | null
       relation?: {
         __typename?: 'UserRelation'
         isYou: boolean
         isFollowedByYou: boolean
         isFollowingYou: boolean
+      } | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        name?: string | null
+        username?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        color?: string | null
+        followers?: number | null
+        following?: number | null
+        type?: ProfileType | null
       } | null
     } | null
   } | null
@@ -3287,24 +3791,35 @@ export type AdminDeletePageMutation = {
       __typename?: 'User'
       id?: string | null
       pid?: number | null
-      createdAt?: any | null
-      updatedAt?: any | null
       role?: UserRole | null
       status?: UserStatus | null
-      username?: string | null
-      name?: string | null
-      bio?: string | null
-      avatarUrl?: string | null
-      metaUrl?: string | null
-      profileUrl?: string | null
-      publicKey?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
       followersCount?: number | null
       followingCount?: number | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      username?: string | null
       relation?: {
         __typename?: 'UserRelation'
         isYou: boolean
         isFollowedByYou: boolean
         isFollowingYou: boolean
+      } | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        name?: string | null
+        username?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        color?: string | null
+        followers?: number | null
+        following?: number | null
+        type?: ProfileType | null
       } | null
     } | null
   } | null
@@ -3355,7 +3870,7 @@ export type AnonGetPageQuery = {
       name?: string | null
       username?: string | null
       bio?: string | null
-      avatar?: string | null
+      avatarUrl?: string | null
       metaUrl?: string | null
       color?: string | null
       followers?: number | null
@@ -3366,24 +3881,35 @@ export type AnonGetPageQuery = {
       __typename?: 'User'
       id?: string | null
       pid?: number | null
-      createdAt?: any | null
-      updatedAt?: any | null
       role?: UserRole | null
       status?: UserStatus | null
-      username?: string | null
-      name?: string | null
-      bio?: string | null
-      avatarUrl?: string | null
-      metaUrl?: string | null
-      profileUrl?: string | null
-      publicKey?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
       followersCount?: number | null
       followingCount?: number | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      username?: string | null
       relation?: {
         __typename?: 'UserRelation'
         isYou: boolean
         isFollowedByYou: boolean
         isFollowingYou: boolean
+      } | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        name?: string | null
+        username?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        color?: string | null
+        followers?: number | null
+        following?: number | null
+        type?: ProfileType | null
       } | null
     } | null
   } | null
@@ -3430,24 +3956,35 @@ export type UserGetPageQuery = {
       __typename?: 'User'
       id?: string | null
       pid?: number | null
-      createdAt?: any | null
-      updatedAt?: any | null
       role?: UserRole | null
       status?: UserStatus | null
-      username?: string | null
-      name?: string | null
-      bio?: string | null
-      avatarUrl?: string | null
-      metaUrl?: string | null
-      profileUrl?: string | null
-      publicKey?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
       followersCount?: number | null
       followingCount?: number | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      username?: string | null
       relation?: {
         __typename?: 'UserRelation'
         isYou: boolean
         isFollowedByYou: boolean
         isFollowingYou: boolean
+      } | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        name?: string | null
+        username?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        color?: string | null
+        followers?: number | null
+        following?: number | null
+        type?: ProfileType | null
       } | null
     } | null
   } | null
@@ -3476,24 +4013,35 @@ export type UserUpdatePageMutation = {
       __typename?: 'User'
       id?: string | null
       pid?: number | null
-      createdAt?: any | null
-      updatedAt?: any | null
       role?: UserRole | null
       status?: UserStatus | null
-      username?: string | null
-      name?: string | null
-      bio?: string | null
-      avatarUrl?: string | null
-      metaUrl?: string | null
-      profileUrl?: string | null
-      publicKey?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
       followersCount?: number | null
       followingCount?: number | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      username?: string | null
       relation?: {
         __typename?: 'UserRelation'
         isYou: boolean
         isFollowedByYou: boolean
         isFollowingYou: boolean
+      } | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        name?: string | null
+        username?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        color?: string | null
+        followers?: number | null
+        following?: number | null
+        type?: ProfileType | null
       } | null
     } | null
   } | null
@@ -3521,24 +4069,35 @@ export type UserDeletePageMutation = {
       __typename?: 'User'
       id?: string | null
       pid?: number | null
-      createdAt?: any | null
-      updatedAt?: any | null
       role?: UserRole | null
       status?: UserStatus | null
-      username?: string | null
-      name?: string | null
-      bio?: string | null
-      avatarUrl?: string | null
-      metaUrl?: string | null
-      profileUrl?: string | null
-      publicKey?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
       followersCount?: number | null
       followingCount?: number | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      username?: string | null
       relation?: {
         __typename?: 'UserRelation'
         isYou: boolean
         isFollowedByYou: boolean
         isFollowingYou: boolean
+      } | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        name?: string | null
+        username?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        color?: string | null
+        followers?: number | null
+        following?: number | null
+        type?: ProfileType | null
       } | null
     } | null
   } | null
@@ -3566,24 +4125,35 @@ export type UserCreatePageMutation = {
       __typename?: 'User'
       id?: string | null
       pid?: number | null
-      createdAt?: any | null
-      updatedAt?: any | null
       role?: UserRole | null
       status?: UserStatus | null
-      username?: string | null
-      name?: string | null
-      bio?: string | null
-      avatarUrl?: string | null
-      metaUrl?: string | null
-      profileUrl?: string | null
-      publicKey?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
       followersCount?: number | null
       followingCount?: number | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      username?: string | null
       relation?: {
         __typename?: 'UserRelation'
         isYou: boolean
         isFollowedByYou: boolean
         isFollowingYou: boolean
+      } | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        name?: string | null
+        username?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        color?: string | null
+        followers?: number | null
+        following?: number | null
+        type?: ProfileType | null
       } | null
     } | null
   } | null
@@ -3743,7 +4313,7 @@ export type ProfileDetailsFragment = {
   name?: string | null
   username?: string | null
   bio?: string | null
-  avatar?: string | null
+  avatarUrl?: string | null
   metaUrl?: string | null
   color?: string | null
   followers?: number | null
@@ -3765,7 +4335,7 @@ export type AdminGetProfileQuery = {
     name?: string | null
     username?: string | null
     bio?: string | null
-    avatar?: string | null
+    avatarUrl?: string | null
     metaUrl?: string | null
     color?: string | null
     followers?: number | null
@@ -3775,15 +4345,36 @@ export type AdminGetProfileQuery = {
       __typename?: 'User'
       id?: string | null
       pid?: number | null
-      updatedAt?: any | null
       role?: UserRole | null
       status?: UserStatus | null
-      username?: string | null
-      name?: string | null
-      bio?: string | null
-      avatarUrl?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
+      followersCount?: number | null
+      followingCount?: number | null
       profileUrl?: string | null
       publicKey?: string | null
+      username?: string | null
+      relation?: {
+        __typename?: 'UserRelation'
+        isYou: boolean
+        isFollowedByYou: boolean
+        isFollowingYou: boolean
+      } | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        name?: string | null
+        username?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        color?: string | null
+        followers?: number | null
+        following?: number | null
+        type?: ProfileType | null
+      } | null
     } | null
   } | null
 }
@@ -3802,7 +4393,7 @@ export type AdminGetProfilesQuery = {
     name?: string | null
     username?: string | null
     bio?: string | null
-    avatar?: string | null
+    avatarUrl?: string | null
     metaUrl?: string | null
     color?: string | null
     followers?: number | null
@@ -3812,15 +4403,36 @@ export type AdminGetProfilesQuery = {
       __typename?: 'User'
       id?: string | null
       pid?: number | null
-      updatedAt?: any | null
       role?: UserRole | null
       status?: UserStatus | null
-      username?: string | null
-      name?: string | null
-      bio?: string | null
-      avatarUrl?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
+      followersCount?: number | null
+      followingCount?: number | null
       profileUrl?: string | null
       publicKey?: string | null
+      username?: string | null
+      relation?: {
+        __typename?: 'UserRelation'
+        isYou: boolean
+        isFollowedByYou: boolean
+        isFollowingYou: boolean
+      } | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        name?: string | null
+        username?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        color?: string | null
+        followers?: number | null
+        following?: number | null
+        type?: ProfileType | null
+      } | null
     } | null
     page?: {
       __typename?: 'Page'
@@ -3831,6 +4443,16 @@ export type AdminGetProfilesQuery = {
       type?: PageType | null
       siteUrl?: string | null
       viewUrl?: string | null
+      domains?: Array<{
+        __typename?: 'PageDomain'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        path?: string | null
+        viewUrl?: string | null
+        domain?: { __typename?: 'Domain'; id?: string | null; name?: string | null } | null
+        page?: { __typename?: 'Page'; id?: string | null; title?: string | null } | null
+      }> | null
     } | null
   }> | null
 }
@@ -3850,7 +4472,7 @@ export type AdminUpdateProfileMutation = {
     name?: string | null
     username?: string | null
     bio?: string | null
-    avatar?: string | null
+    avatarUrl?: string | null
     metaUrl?: string | null
     color?: string | null
     followers?: number | null
@@ -3873,7 +4495,7 @@ export type AdminDeleteProfileMutation = {
     name?: string | null
     username?: string | null
     bio?: string | null
-    avatar?: string | null
+    avatarUrl?: string | null
     metaUrl?: string | null
     color?: string | null
     followers?: number | null
@@ -3897,7 +4519,7 @@ export type UserLinkProfileIdentityMutation = {
     name?: string | null
     username?: string | null
     bio?: string | null
-    avatar?: string | null
+    avatarUrl?: string | null
     metaUrl?: string | null
     color?: string | null
     followers?: number | null
@@ -3921,7 +4543,7 @@ export type UserUnlinkProfileIdentityMutation = {
     name?: string | null
     username?: string | null
     bio?: string | null
-    avatar?: string | null
+    avatarUrl?: string | null
     metaUrl?: string | null
     color?: string | null
     followers?: number | null
@@ -3944,7 +4566,7 @@ export type UserGetProfileQuery = {
     name?: string | null
     username?: string | null
     bio?: string | null
-    avatar?: string | null
+    avatarUrl?: string | null
     metaUrl?: string | null
     color?: string | null
     followers?: number | null
@@ -3994,24 +4616,35 @@ export type UserGetProfilePageQuery = {
       __typename?: 'User'
       id?: string | null
       pid?: number | null
-      createdAt?: any | null
-      updatedAt?: any | null
       role?: UserRole | null
       status?: UserStatus | null
-      username?: string | null
-      name?: string | null
-      bio?: string | null
-      avatarUrl?: string | null
-      metaUrl?: string | null
-      profileUrl?: string | null
-      publicKey?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
       followersCount?: number | null
       followingCount?: number | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      username?: string | null
       relation?: {
         __typename?: 'UserRelation'
         isYou: boolean
         isFollowedByYou: boolean
         isFollowingYou: boolean
+      } | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        name?: string | null
+        username?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        color?: string | null
+        followers?: number | null
+        following?: number | null
+        type?: ProfileType | null
       } | null
     } | null
   } | null
@@ -4029,7 +4662,7 @@ export type UserGetProfilesQuery = {
     name?: string | null
     username?: string | null
     bio?: string | null
-    avatar?: string | null
+    avatarUrl?: string | null
     metaUrl?: string | null
     color?: string | null
     followers?: number | null
@@ -4039,15 +4672,15 @@ export type UserGetProfilesQuery = {
       __typename?: 'User'
       id?: string | null
       pid?: number | null
-      updatedAt?: any | null
       role?: UserRole | null
       status?: UserStatus | null
-      username?: string | null
-      name?: string | null
-      bio?: string | null
-      avatarUrl?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
+      followersCount?: number | null
+      followingCount?: number | null
       profileUrl?: string | null
       publicKey?: string | null
+      username?: string | null
       profile?: {
         __typename?: 'Profile'
         id?: string | null
@@ -4056,12 +4689,18 @@ export type UserGetProfilesQuery = {
         name?: string | null
         username?: string | null
         bio?: string | null
-        avatar?: string | null
+        avatarUrl?: string | null
         metaUrl?: string | null
         color?: string | null
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+      } | null
+      relation?: {
+        __typename?: 'UserRelation'
+        isYou: boolean
+        isFollowedByYou: boolean
+        isFollowingYou: boolean
       } | null
     } | null
     page?: {
@@ -4073,6 +4712,16 @@ export type UserGetProfilesQuery = {
       type?: PageType | null
       siteUrl?: string | null
       viewUrl?: string | null
+      domains?: Array<{
+        __typename?: 'PageDomain'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        path?: string | null
+        viewUrl?: string | null
+        domain?: { __typename?: 'Domain'; id?: string | null; name?: string | null } | null
+        page?: { __typename?: 'Page'; id?: string | null; title?: string | null } | null
+      }> | null
     } | null
     identities?: Array<{
       __typename?: 'Identity'
@@ -4102,7 +4751,7 @@ export type UserUpdateProfileMutation = {
     name?: string | null
     username?: string | null
     bio?: string | null
-    avatar?: string | null
+    avatarUrl?: string | null
     metaUrl?: string | null
     color?: string | null
     followers?: number | null
@@ -4125,7 +4774,7 @@ export type UserDeleteProfileMutation = {
     name?: string | null
     username?: string | null
     bio?: string | null
-    avatar?: string | null
+    avatarUrl?: string | null
     metaUrl?: string | null
     color?: string | null
     followers?: number | null
@@ -4148,7 +4797,30 @@ export type UserSyncProfileMutation = {
     name?: string | null
     username?: string | null
     bio?: string | null
-    avatar?: string | null
+    avatarUrl?: string | null
+    metaUrl?: string | null
+    color?: string | null
+    followers?: number | null
+    following?: number | null
+    type?: ProfileType | null
+  } | null
+}
+
+export type UserSetDefaultProfileMutationVariables = Exact<{
+  profileId: Scalars['String']
+}>
+
+export type UserSetDefaultProfileMutation = {
+  __typename?: 'Mutation'
+  item?: {
+    __typename?: 'Profile'
+    id?: string | null
+    createdAt?: any | null
+    updatedAt?: any | null
+    name?: string | null
+    username?: string | null
+    bio?: string | null
+    avatarUrl?: string | null
     metaUrl?: string | null
     color?: string | null
     followers?: number | null
@@ -4171,7 +4843,7 @@ export type UserCreateProfileMutation = {
     name?: string | null
     username?: string | null
     bio?: string | null
-    avatar?: string | null
+    avatarUrl?: string | null
     metaUrl?: string | null
     color?: string | null
     followers?: number | null
@@ -4350,24 +5022,35 @@ export type UserSearchMutation = {
           __typename?: 'User'
           id?: string | null
           pid?: number | null
-          createdAt?: any | null
-          updatedAt?: any | null
           role?: UserRole | null
           status?: UserStatus | null
-          username?: string | null
-          name?: string | null
-          bio?: string | null
-          avatarUrl?: string | null
-          metaUrl?: string | null
-          profileUrl?: string | null
-          publicKey?: string | null
+          createdAt?: any | null
+          updatedAt?: any | null
           followersCount?: number | null
           followingCount?: number | null
+          profileUrl?: string | null
+          publicKey?: string | null
+          username?: string | null
           relation?: {
             __typename?: 'UserRelation'
             isYou: boolean
             isFollowedByYou: boolean
             isFollowingYou: boolean
+          } | null
+          profile?: {
+            __typename?: 'Profile'
+            id?: string | null
+            createdAt?: any | null
+            updatedAt?: any | null
+            name?: string | null
+            username?: string | null
+            bio?: string | null
+            avatarUrl?: string | null
+            metaUrl?: string | null
+            color?: string | null
+            followers?: number | null
+            following?: number | null
+            type?: ProfileType | null
           } | null
         } | null
       } | null
@@ -4375,24 +5058,35 @@ export type UserSearchMutation = {
         __typename?: 'User'
         id?: string | null
         pid?: number | null
-        createdAt?: any | null
-        updatedAt?: any | null
         role?: UserRole | null
         status?: UserStatus | null
-        username?: string | null
-        name?: string | null
-        bio?: string | null
-        avatarUrl?: string | null
-        metaUrl?: string | null
-        profileUrl?: string | null
-        publicKey?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
         followersCount?: number | null
         followingCount?: number | null
+        profileUrl?: string | null
+        publicKey?: string | null
+        username?: string | null
         relation?: {
           __typename?: 'UserRelation'
           isYou: boolean
           isFollowedByYou: boolean
           isFollowingYou: boolean
+        } | null
+        profile?: {
+          __typename?: 'Profile'
+          id?: string | null
+          createdAt?: any | null
+          updatedAt?: any | null
+          name?: string | null
+          username?: string | null
+          bio?: string | null
+          avatarUrl?: string | null
+          metaUrl?: string | null
+          color?: string | null
+          followers?: number | null
+          following?: number | null
+          type?: ProfileType | null
         } | null
       } | null
     }> | null
@@ -4400,24 +5094,35 @@ export type UserSearchMutation = {
       __typename?: 'User'
       id?: string | null
       pid?: number | null
-      createdAt?: any | null
-      updatedAt?: any | null
       role?: UserRole | null
       status?: UserStatus | null
-      username?: string | null
-      name?: string | null
-      bio?: string | null
-      avatarUrl?: string | null
-      metaUrl?: string | null
-      profileUrl?: string | null
-      publicKey?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
       followersCount?: number | null
       followingCount?: number | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      username?: string | null
       relation?: {
         __typename?: 'UserRelation'
         isYou: boolean
         isFollowedByYou: boolean
         isFollowingYou: boolean
+      } | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        name?: string | null
+        username?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        color?: string | null
+        followers?: number | null
+        following?: number | null
+        type?: ProfileType | null
       } | null
     }> | null
   } | null
@@ -4430,39 +5135,35 @@ export type UserRelationDetailsFragment = {
   isFollowingYou: boolean
 }
 
-export type UserSummaryFragment = {
-  __typename?: 'User'
-  id?: string | null
-  pid?: number | null
-  updatedAt?: any | null
-  role?: UserRole | null
-  status?: UserStatus | null
-  username?: string | null
-  name?: string | null
-  bio?: string | null
-  avatarUrl?: string | null
-  profileUrl?: string | null
-  publicKey?: string | null
-}
-
 export type UserDetailsFragment = {
   __typename?: 'User'
   id?: string | null
   pid?: number | null
-  createdAt?: any | null
-  updatedAt?: any | null
   role?: UserRole | null
   status?: UserStatus | null
-  username?: string | null
-  name?: string | null
-  bio?: string | null
-  avatarUrl?: string | null
-  metaUrl?: string | null
-  profileUrl?: string | null
-  publicKey?: string | null
+  createdAt?: any | null
+  updatedAt?: any | null
   followersCount?: number | null
   followingCount?: number | null
+  profileUrl?: string | null
+  publicKey?: string | null
+  username?: string | null
   relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
+  profile?: {
+    __typename?: 'Profile'
+    id?: string | null
+    createdAt?: any | null
+    updatedAt?: any | null
+    name?: string | null
+    username?: string | null
+    bio?: string | null
+    avatarUrl?: string | null
+    metaUrl?: string | null
+    color?: string | null
+    followers?: number | null
+    following?: number | null
+    type?: ProfileType | null
+  } | null
 }
 
 export type AdminGetUserQueryVariables = Exact<{
@@ -4475,19 +5176,15 @@ export type AdminGetUserQuery = {
     __typename?: 'User'
     id?: string | null
     pid?: number | null
-    createdAt?: any | null
-    updatedAt?: any | null
     role?: UserRole | null
     status?: UserStatus | null
-    username?: string | null
-    name?: string | null
-    bio?: string | null
-    avatarUrl?: string | null
-    metaUrl?: string | null
-    profileUrl?: string | null
-    publicKey?: string | null
+    createdAt?: any | null
+    updatedAt?: any | null
     followersCount?: number | null
     followingCount?: number | null
+    profileUrl?: string | null
+    publicKey?: string | null
+    username?: string | null
     identities?: Array<{
       __typename?: 'Identity'
       id?: string | null
@@ -4498,7 +5195,37 @@ export type AdminGetUserQuery = {
       profile?: any | null
       verified: boolean
     }> | null
+    profiles?: Array<{
+      __typename?: 'Profile'
+      id?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
+      name?: string | null
+      username?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      color?: string | null
+      followers?: number | null
+      following?: number | null
+      type?: ProfileType | null
+    }> | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
+    profile?: {
+      __typename?: 'Profile'
+      id?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
+      name?: string | null
+      username?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      color?: string | null
+      followers?: number | null
+      following?: number | null
+      type?: ProfileType | null
+    } | null
   } | null
 }
 
@@ -4510,20 +5237,31 @@ export type AdminGetUsersQuery = {
     __typename?: 'User'
     id?: string | null
     pid?: number | null
-    createdAt?: any | null
-    updatedAt?: any | null
     role?: UserRole | null
     status?: UserStatus | null
-    username?: string | null
-    name?: string | null
-    bio?: string | null
-    avatarUrl?: string | null
-    metaUrl?: string | null
-    profileUrl?: string | null
-    publicKey?: string | null
+    createdAt?: any | null
+    updatedAt?: any | null
     followersCount?: number | null
     followingCount?: number | null
+    profileUrl?: string | null
+    publicKey?: string | null
+    username?: string | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
+    profile?: {
+      __typename?: 'Profile'
+      id?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
+      name?: string | null
+      username?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      color?: string | null
+      followers?: number | null
+      following?: number | null
+      type?: ProfileType | null
+    } | null
   }> | null
 }
 
@@ -4537,20 +5275,31 @@ export type AdminCreateUserMutation = {
     __typename?: 'User'
     id?: string | null
     pid?: number | null
-    createdAt?: any | null
-    updatedAt?: any | null
     role?: UserRole | null
     status?: UserStatus | null
-    username?: string | null
-    name?: string | null
-    bio?: string | null
-    avatarUrl?: string | null
-    metaUrl?: string | null
-    profileUrl?: string | null
-    publicKey?: string | null
+    createdAt?: any | null
+    updatedAt?: any | null
     followersCount?: number | null
     followingCount?: number | null
+    profileUrl?: string | null
+    publicKey?: string | null
+    username?: string | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
+    profile?: {
+      __typename?: 'Profile'
+      id?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
+      name?: string | null
+      username?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      color?: string | null
+      followers?: number | null
+      following?: number | null
+      type?: ProfileType | null
+    } | null
   } | null
 }
 
@@ -4565,20 +5314,31 @@ export type AdminUpdateUserMutation = {
     __typename?: 'User'
     id?: string | null
     pid?: number | null
-    createdAt?: any | null
-    updatedAt?: any | null
     role?: UserRole | null
     status?: UserStatus | null
-    username?: string | null
-    name?: string | null
-    bio?: string | null
-    avatarUrl?: string | null
-    metaUrl?: string | null
-    profileUrl?: string | null
-    publicKey?: string | null
+    createdAt?: any | null
+    updatedAt?: any | null
     followersCount?: number | null
     followingCount?: number | null
+    profileUrl?: string | null
+    publicKey?: string | null
+    username?: string | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
+    profile?: {
+      __typename?: 'Profile'
+      id?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
+      name?: string | null
+      username?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      color?: string | null
+      followers?: number | null
+      following?: number | null
+      type?: ProfileType | null
+    } | null
   } | null
 }
 
@@ -4592,20 +5352,31 @@ export type AdminDeleteUserMutation = {
     __typename?: 'User'
     id?: string | null
     pid?: number | null
-    createdAt?: any | null
-    updatedAt?: any | null
     role?: UserRole | null
     status?: UserStatus | null
-    username?: string | null
-    name?: string | null
-    bio?: string | null
-    avatarUrl?: string | null
-    metaUrl?: string | null
-    profileUrl?: string | null
-    publicKey?: string | null
+    createdAt?: any | null
+    updatedAt?: any | null
     followersCount?: number | null
     followingCount?: number | null
+    profileUrl?: string | null
+    publicKey?: string | null
+    username?: string | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
+    profile?: {
+      __typename?: 'Profile'
+      id?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
+      name?: string | null
+      username?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      color?: string | null
+      followers?: number | null
+      following?: number | null
+      type?: ProfileType | null
+    } | null
   } | null
 }
 
@@ -4619,19 +5390,15 @@ export type AnonGetUserQuery = {
     __typename?: 'User'
     id?: string | null
     pid?: number | null
-    createdAt?: any | null
-    updatedAt?: any | null
     role?: UserRole | null
     status?: UserStatus | null
-    username?: string | null
-    name?: string | null
-    bio?: string | null
-    avatarUrl?: string | null
-    metaUrl?: string | null
-    profileUrl?: string | null
-    publicKey?: string | null
+    createdAt?: any | null
+    updatedAt?: any | null
     followersCount?: number | null
     followingCount?: number | null
+    profileUrl?: string | null
+    publicKey?: string | null
+    username?: string | null
     identities?: Array<{
       __typename?: 'Identity'
       id?: string | null
@@ -4650,7 +5417,7 @@ export type AnonGetUserQuery = {
       name?: string | null
       username?: string | null
       bio?: string | null
-      avatar?: string | null
+      avatarUrl?: string | null
       metaUrl?: string | null
       color?: string | null
       followers?: number | null
@@ -4665,7 +5432,7 @@ export type AnonGetUserQuery = {
       name?: string | null
       username?: string | null
       bio?: string | null
-      avatar?: string | null
+      avatarUrl?: string | null
       metaUrl?: string | null
       color?: string | null
       followers?: number | null
@@ -4686,19 +5453,15 @@ export type AnonGetUserFollowersQuery = {
     __typename?: 'User'
     id?: string | null
     pid?: number | null
-    createdAt?: any | null
-    updatedAt?: any | null
     role?: UserRole | null
     status?: UserStatus | null
-    username?: string | null
-    name?: string | null
-    bio?: string | null
-    avatarUrl?: string | null
-    metaUrl?: string | null
-    profileUrl?: string | null
-    publicKey?: string | null
+    createdAt?: any | null
+    updatedAt?: any | null
     followersCount?: number | null
     followingCount?: number | null
+    profileUrl?: string | null
+    publicKey?: string | null
+    username?: string | null
     identities?: Array<{
       __typename?: 'Identity'
       id?: string | null
@@ -4710,6 +5473,21 @@ export type AnonGetUserFollowersQuery = {
       verified: boolean
     }> | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
+    profile?: {
+      __typename?: 'Profile'
+      id?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
+      name?: string | null
+      username?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      color?: string | null
+      followers?: number | null
+      following?: number | null
+      type?: ProfileType | null
+    } | null
   }> | null
 }
 
@@ -4723,19 +5501,15 @@ export type AnonGetUserFollowingQuery = {
     __typename?: 'User'
     id?: string | null
     pid?: number | null
-    createdAt?: any | null
-    updatedAt?: any | null
     role?: UserRole | null
     status?: UserStatus | null
-    username?: string | null
-    name?: string | null
-    bio?: string | null
-    avatarUrl?: string | null
-    metaUrl?: string | null
-    profileUrl?: string | null
-    publicKey?: string | null
+    createdAt?: any | null
+    updatedAt?: any | null
     followersCount?: number | null
     followingCount?: number | null
+    profileUrl?: string | null
+    publicKey?: string | null
+    username?: string | null
     identities?: Array<{
       __typename?: 'Identity'
       id?: string | null
@@ -4747,6 +5521,21 @@ export type AnonGetUserFollowingQuery = {
       verified: boolean
     }> | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
+    profile?: {
+      __typename?: 'Profile'
+      id?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
+      name?: string | null
+      username?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      color?: string | null
+      followers?: number | null
+      following?: number | null
+      type?: ProfileType | null
+    } | null
   }> | null
 }
 
@@ -4776,7 +5565,7 @@ export type AnonGetUserPagesQuery = {
       name?: string | null
       username?: string | null
       bio?: string | null
-      avatar?: string | null
+      avatarUrl?: string | null
       metaUrl?: string | null
       color?: string | null
       followers?: number | null
@@ -4787,24 +5576,35 @@ export type AnonGetUserPagesQuery = {
       __typename?: 'User'
       id?: string | null
       pid?: number | null
-      createdAt?: any | null
-      updatedAt?: any | null
       role?: UserRole | null
       status?: UserStatus | null
-      username?: string | null
-      name?: string | null
-      bio?: string | null
-      avatarUrl?: string | null
-      metaUrl?: string | null
-      profileUrl?: string | null
-      publicKey?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
       followersCount?: number | null
       followingCount?: number | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      username?: string | null
       relation?: {
         __typename?: 'UserRelation'
         isYou: boolean
         isFollowedByYou: boolean
         isFollowingYou: boolean
+      } | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        name?: string | null
+        username?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        color?: string | null
+        followers?: number | null
+        following?: number | null
+        type?: ProfileType | null
       } | null
     } | null
   }> | null
@@ -4826,20 +5626,31 @@ export type UserUpdateUserMutation = {
     __typename?: 'User'
     id?: string | null
     pid?: number | null
-    createdAt?: any | null
-    updatedAt?: any | null
     role?: UserRole | null
     status?: UserStatus | null
-    username?: string | null
-    name?: string | null
-    bio?: string | null
-    avatarUrl?: string | null
-    metaUrl?: string | null
-    profileUrl?: string | null
-    publicKey?: string | null
+    createdAt?: any | null
+    updatedAt?: any | null
     followersCount?: number | null
     followingCount?: number | null
+    profileUrl?: string | null
+    publicKey?: string | null
+    username?: string | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
+    profile?: {
+      __typename?: 'Profile'
+      id?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
+      name?: string | null
+      username?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      color?: string | null
+      followers?: number | null
+      following?: number | null
+      type?: ProfileType | null
+    } | null
   } | null
 }
 
@@ -4853,20 +5664,31 @@ export type UserFollowUserMutation = {
     __typename?: 'User'
     id?: string | null
     pid?: number | null
-    createdAt?: any | null
-    updatedAt?: any | null
     role?: UserRole | null
     status?: UserStatus | null
-    username?: string | null
-    name?: string | null
-    bio?: string | null
-    avatarUrl?: string | null
-    metaUrl?: string | null
-    profileUrl?: string | null
-    publicKey?: string | null
+    createdAt?: any | null
+    updatedAt?: any | null
     followersCount?: number | null
     followingCount?: number | null
+    profileUrl?: string | null
+    publicKey?: string | null
+    username?: string | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
+    profile?: {
+      __typename?: 'Profile'
+      id?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
+      name?: string | null
+      username?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      color?: string | null
+      followers?: number | null
+      following?: number | null
+      type?: ProfileType | null
+    } | null
   } | null
 }
 
@@ -4880,20 +5702,31 @@ export type UserUnfollowUserMutation = {
     __typename?: 'User'
     id?: string | null
     pid?: number | null
-    createdAt?: any | null
-    updatedAt?: any | null
     role?: UserRole | null
     status?: UserStatus | null
-    username?: string | null
-    name?: string | null
-    bio?: string | null
-    avatarUrl?: string | null
-    metaUrl?: string | null
-    profileUrl?: string | null
-    publicKey?: string | null
+    createdAt?: any | null
+    updatedAt?: any | null
     followersCount?: number | null
     followingCount?: number | null
+    profileUrl?: string | null
+    publicKey?: string | null
+    username?: string | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
+    profile?: {
+      __typename?: 'Profile'
+      id?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
+      name?: string | null
+      username?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      color?: string | null
+      followers?: number | null
+      following?: number | null
+      type?: ProfileType | null
+    } | null
   } | null
 }
 
@@ -4904,28 +5737,44 @@ export const UserRelationDetailsFragmentDoc = gql`
     isFollowingYou
   }
 `
+export const ProfileDetailsFragmentDoc = gql`
+  fragment ProfileDetails on Profile {
+    id
+    createdAt
+    updatedAt
+    name
+    username
+    bio
+    avatarUrl
+    metaUrl
+    color
+    followers
+    following
+    type
+  }
+`
 export const UserDetailsFragmentDoc = gql`
   fragment UserDetails on User {
     id
     pid
-    createdAt
-    updatedAt
     role
     status
-    username
-    name
-    bio
-    avatarUrl
-    metaUrl
-    profileUrl
-    publicKey
+    createdAt
+    updatedAt
     followersCount
     followingCount
+    profileUrl
+    publicKey
+    username
     relation {
       ...UserRelationDetails
     }
+    profile {
+      ...ProfileDetails
+    }
   }
   ${UserRelationDetailsFragmentDoc}
+  ${ProfileDetailsFragmentDoc}
 `
 export const AccountDetailsFragmentDoc = gql`
   fragment AccountDetails on Account {
@@ -5026,8 +5875,13 @@ export const DomainDetailsFragmentDoc = gql`
     owner {
       id
       username
-      name
-      avatarUrl
+      profile {
+        id
+        name
+        username
+        avatarUrl
+        bio
+      }
     }
   }
 `
@@ -5096,7 +5950,11 @@ export const PageSummaryFragmentDoc = gql`
     type
     siteUrl
     viewUrl
+    domains {
+      ...PageDomainDetails
+    }
   }
+  ${PageDomainDetailsFragmentDoc}
 `
 export const PageDetailsFragmentDoc = gql`
   fragment PageDetails on Page {
@@ -5134,22 +5992,6 @@ export const PlanDetailsFragmentDoc = gql`
     }
   }
 `
-export const ProfileDetailsFragmentDoc = gql`
-  fragment ProfileDetails on Profile {
-    id
-    createdAt
-    updatedAt
-    name
-    username
-    bio
-    avatar
-    metaUrl
-    color
-    followers
-    following
-    type
-  }
-`
 export const QueueCountDetailsFragmentDoc = gql`
   fragment QueueCountDetails on QueueCount {
     active
@@ -5185,21 +6027,6 @@ export const JobDetailsFragmentDoc = gql`
     stacktrace
     returnvalue
     failedReason
-  }
-`
-export const UserSummaryFragmentDoc = gql`
-  fragment UserSummary on User {
-    id
-    pid
-    updatedAt
-    role
-    status
-    username
-    name
-    bio
-    avatarUrl
-    profileUrl
-    publicKey
   }
 `
 export const AdminGetAccountsDocument = gql`
@@ -6054,12 +6881,12 @@ export const AdminGetProfileDocument = gql`
     item: adminGetProfile(profileId: $profileId) {
       ...ProfileDetails
       owner {
-        ...UserSummary
+        ...UserDetails
       }
     }
   }
   ${ProfileDetailsFragmentDoc}
-  ${UserSummaryFragmentDoc}
+  ${UserDetailsFragmentDoc}
 `
 
 export function useAdminGetProfileQuery(options: Omit<Urql.UseQueryArgs<AdminGetProfileQueryVariables>, 'query'>) {
@@ -6073,7 +6900,7 @@ export const AdminGetProfilesDocument = gql`
     items: adminGetProfiles(input: $input) {
       ...ProfileDetails
       owner {
-        ...UserSummary
+        ...UserDetails
       }
       page {
         ...PageSummary
@@ -6081,7 +6908,7 @@ export const AdminGetProfilesDocument = gql`
     }
   }
   ${ProfileDetailsFragmentDoc}
-  ${UserSummaryFragmentDoc}
+  ${UserDetailsFragmentDoc}
   ${PageSummaryFragmentDoc}
 `
 
@@ -6185,7 +7012,7 @@ export const UserGetProfilesDocument = gql`
     items: userGetProfiles {
       ...ProfileDetails
       owner {
-        ...UserSummary
+        ...UserDetails
         profile {
           ...ProfileDetails
         }
@@ -6199,7 +7026,7 @@ export const UserGetProfilesDocument = gql`
     }
   }
   ${ProfileDetailsFragmentDoc}
-  ${UserSummaryFragmentDoc}
+  ${UserDetailsFragmentDoc}
   ${PageSummaryFragmentDoc}
   ${IdentityDetailsFragmentDoc}
 `
@@ -6245,6 +7072,20 @@ export const UserSyncProfileDocument = gql`
 
 export function useUserSyncProfileMutation() {
   return Urql.useMutation<UserSyncProfileMutation, UserSyncProfileMutationVariables>(UserSyncProfileDocument)
+}
+export const UserSetDefaultProfileDocument = gql`
+  mutation UserSetDefaultProfile($profileId: String!) {
+    item: userSetDefaultProfile(profileId: $profileId) {
+      ...ProfileDetails
+    }
+  }
+  ${ProfileDetailsFragmentDoc}
+`
+
+export function useUserSetDefaultProfileMutation() {
+  return Urql.useMutation<UserSetDefaultProfileMutation, UserSetDefaultProfileMutationVariables>(
+    UserSetDefaultProfileDocument,
+  )
 }
 export const UserCreateProfileDocument = gql`
   mutation UserCreateProfile($type: ProfileType!) {
@@ -6371,10 +7212,14 @@ export const AdminGetUserDocument = gql`
       identities {
         ...IdentityDetails
       }
+      profiles {
+        ...ProfileDetails
+      }
     }
   }
   ${UserDetailsFragmentDoc}
   ${IdentityDetailsFragmentDoc}
+  ${ProfileDetailsFragmentDoc}
 `
 
 export function useAdminGetUserQuery(options: Omit<Urql.UseQueryArgs<AdminGetUserQueryVariables>, 'query'>) {

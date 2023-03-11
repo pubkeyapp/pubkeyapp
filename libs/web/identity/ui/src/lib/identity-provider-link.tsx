@@ -25,7 +25,7 @@ export function IdentityProviderLink({
       )
     case IdentityProvider.Solana:
       return (
-        <Anchor color="brand" component={'a'} href={`https://solscan.io/account/${providerId}`} target="_blank">
+        <Anchor color="brand" component={'a'} href={`/account/${providerId}`} target="_blank">
           {username ?? providerId}
         </Anchor>
       )

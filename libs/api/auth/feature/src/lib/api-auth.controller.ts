@@ -89,7 +89,6 @@ export class ApiAuthController {
       this.logger.debug(`me: no user`)
       return null
     }
-    this.logger.debug(`me`, { headers: req.headers, username: req.user?.username, id: req.user?.id })
     return this.service.getUserById(req.user?.id)
   }
 
@@ -97,7 +96,6 @@ export class ApiAuthController {
   @ApiOperation({ operationId: 'logout' })
   @ApiResponse({ type: Boolean })
   logout(@Req() req: AuthRequest, @Res() res: Response) {
-    this.logger.debug(`logout`, { headers: req.headers, username: req.user?.username })
     return this.service.logout(req, res)
   }
 

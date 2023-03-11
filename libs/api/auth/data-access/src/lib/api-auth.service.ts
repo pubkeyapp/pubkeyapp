@@ -8,7 +8,7 @@ import { Request, Response } from 'express'
 import { ResponseChallengeOptions } from './dto/auth-challenge-response.dto'
 
 export interface AuthRequest extends Request {
-  user?: { avatarUrl: string; id: string; name: string; username: string; role: UserRole }
+  user?: CoreUser
 }
 
 export class RequestChallenge {

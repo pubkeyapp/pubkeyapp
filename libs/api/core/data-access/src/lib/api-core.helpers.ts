@@ -1,4 +1,5 @@
 import { Identity, IdentityProvider, Profile, User } from '@prisma/client'
+import { getSolanaName } from 'sol-namor/src'
 
 export type CoreDbUser = User & {
   identities: Identity[]
@@ -16,16 +17,12 @@ export type CoreIdentity = {
 
 export type CoreUser = Omit<CoreDbUser, 'identities'> & {
   identities: CoreIdentity[]
-  avatar?: string
   publicKey: string
-  metaUrl: string
   profileUrl: string
 }
 
 export function convertCoreDbUser(user: CoreDbUser, apiUrl: string): CoreUser {
   user.inviteId = undefined
-  user.updatedAt = undefined
-  user.avatarUrl = user.avatarUrl ? user.avatarUrl : getAvatarUrl(user.username)
 
   const identities: CoreIdentity[] = user.identities.map((identity) => {
     return {
@@ -39,12 +36,8 @@ export function convertCoreDbUser(user: CoreDbUser, apiUrl: string): CoreUser {
   const publicKey = identities.find((identity) => identity.provider === IdentityProvider.Solana)?.providerId
   return {
     ...user,
-    name: user.name ? user.name : ellipsify(user.username),
-    avatar: user.avatarUrl,
-    bio: user.bio ? user.bio : 'No bio found :(',
     publicKey,
     identities,
-    metaUrl: `${apiUrl}/user/meta/${user.username}`,
     profileUrl: `/u/${user.username}`,
   }
 }
@@ -58,4 +51,20 @@ export function ellipsify(str = '', len = 4) {
 
 export function getAvatarUrl(name: string) {
   return `https://source.boringavatars.com/pixel/400/${name}?colors=FEED5B,6260FF,29DBD1,C061F7,FF6F5B`
+}
+
+export function getUsername(name: string) {
+  if (name.length > 30) {
+    const newName = getSolanaName(name)
+    return slugify(newName)
+  }
+  return name
+}
+
+export function slugify(name: string) {
+  return name.replace(/[^a-z0-9]/gi, '').replace(/-+/g, '')
+}
+
+export function getProfileUsername(username: string) {
+  return slugify(username).substring(0, 15)
 }

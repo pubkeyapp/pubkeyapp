@@ -1,4 +1,4 @@
-import { Avatar, Center, Paper, Stack, Text } from '@mantine/core'
+import { Center, Paper, Stack, Text } from '@mantine/core'
 import { WalletMultiButton } from '@pubkeyapp/wallet-adapter-mantine-ui'
 import { useAuth } from '@pubkeyapp/web/auth/data-access'
 import { UiError } from '@pubkeyapp/web/ui/core'
@@ -22,8 +22,7 @@ export function LoginFeature() {
             <div>
               <Paper>
                 <Stack align="center">
-                  <Avatar src={user.avatarUrl} size="xl" />
-                  <Text size="xl">Welcome, {user.username}!</Text>
+                  <Text size="xl">gm {user.username}!</Text>
                 </Stack>
               </Paper>
             </div>

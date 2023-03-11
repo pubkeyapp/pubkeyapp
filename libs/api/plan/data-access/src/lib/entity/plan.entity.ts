@@ -1,13 +1,14 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql'
+import { GraphQLDateTime } from 'graphql-scalars'
 import { PlanFeature } from './plan-feature.entity'
 
 @ObjectType()
 export class Plan {
   @Field({ nullable: true })
   id: string
-  @Field({ nullable: true })
+  @Field(() => GraphQLDateTime, { nullable: true })
   createdAt: Date
-  @Field({ nullable: true })
+  @Field(() => GraphQLDateTime, { nullable: true })
   updatedAt: Date
   @Field({ nullable: true })
   name?: string

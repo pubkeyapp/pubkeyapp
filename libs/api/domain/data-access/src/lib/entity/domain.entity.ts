@@ -1,15 +1,16 @@
 import { Field, HideField, Int, ObjectType } from '@nestjs/graphql'
 import { User } from '@pubkeyapp/api/user/data-access'
+import { GraphQLDateTime } from 'graphql-scalars'
 
 @ObjectType()
 export class Domain {
   @Field({ nullable: true })
   id: string
 
-  @Field({ nullable: true })
+  @Field(() => GraphQLDateTime, { nullable: true })
   createdAt: Date
 
-  @Field({ nullable: true })
+  @Field(() => GraphQLDateTime, { nullable: true })
   updatedAt: Date
 
   @Field({ nullable: true })

@@ -1,6 +1,7 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql'
 import { ApiProperty } from '@nestjs/swagger'
 import { Domain } from '@pubkeyapp/api/domain/data-access'
+import { GraphQLDateTime } from 'graphql-scalars'
 import { Page } from './page.entity'
 
 @ObjectType()
@@ -8,9 +9,9 @@ export class PageDomain {
   @ApiProperty()
   @Field({ nullable: true })
   id: string
-  @Field({ nullable: true })
+  @Field(() => GraphQLDateTime, { nullable: true })
   createdAt: Date
-  @Field({ nullable: true })
+  @Field(() => GraphQLDateTime, { nullable: true })
   updatedAt: Date
   @ApiProperty()
   @Field({ nullable: true })

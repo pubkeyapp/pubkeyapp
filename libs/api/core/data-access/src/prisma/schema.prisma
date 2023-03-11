@@ -51,18 +51,14 @@ enum NetworkType {
 }
 
 model User {
-  id        String     @id @default(cuid())
-  pid       Int        @unique @default(autoincrement())
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @default(now()) @updatedAt
-  role      UserRole
-  status    UserStatus @default(Active)
-  username  String     @unique
-  name      String?
-  avatarUrl String?
-  publicKey String?
-  bio       String?
-
+  id                 String     @id @default(cuid())
+  pid                Int        @unique @default(autoincrement())
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @default(now()) @updatedAt
+  role               UserRole
+  status             UserStatus @default(Active)
+  username           String     @unique
+  publicKey          String?
   domains            Domain[]
   identities         Identity[]
   invites            Invite[]
@@ -194,8 +190,13 @@ model PageBlock {
 }
 
 enum PageBlockType {
+  Discord
+  Github
+  Google
   Header
   Link
+  Solana
+  Twitter
 }
 
 model PageDomain {
@@ -221,7 +222,7 @@ model Profile {
   bio        String?
   username   String?
   metaUrl    String?
-  avatar     String?
+  avatarUrl  String?
   following  Int?
   followers  Int?
   color      String?       @default("brand")
@@ -230,6 +231,8 @@ model Profile {
   ownerId    String
   page       Page?
   user       User?         @relation("UserProfile")
+
+  @@unique([ownerId, type])
 }
 
 enum ProfileStatus {

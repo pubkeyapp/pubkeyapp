@@ -2,7 +2,7 @@ import { User, UserRole } from '@prisma/client'
 import { APIEmbedField, EmbedBuilder, User as DiscordUser } from 'discord.js'
 
 export function formatUserEmbed(owner: User) {
-  const name = owner?.name || owner?.username
+  const name = owner?.username
   const role = owner.role
 
   return fieldsMessage(owner.username, [

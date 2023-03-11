@@ -12,7 +12,7 @@ export class UserUpdateProfileInput {
   bio: string
 
   @Field({ nullable: true })
-  avatar: string
+  avatarUrl: string
 
   @Field({ nullable: true })
   metaUrl: string

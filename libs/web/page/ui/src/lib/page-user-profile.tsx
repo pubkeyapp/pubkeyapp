@@ -9,21 +9,21 @@ export function PageUserProfile({ user }: { user: User }) {
     <Box>
       <Flex direction="column" align="center">
         <Stack align="center">
-          <Avatar src={user.avatarUrl} size={120} radius={120} />
+          <Avatar src={user?.profile?.avatarUrl} size={120} radius={120} />
           <Stack>
             <Center>
               <Stack spacing="xs">
                 <Text size="xl" weight="bold">
-                  {user.name}
+                  {user?.profile?.name}
                 </Text>
-                <Text component={Link} to={`${user.profileUrl}`} color="dimmed" ff="monospace">
-                  {user.username}#{user.pid}
+                <Text component={Link} to={`${user?.profileUrl}`} color="dimmed" ff="monospace">
+                  {user.username}#{user?.pid}
                 </Text>
               </Stack>
             </Center>
-            {user?.bio ? (
+            {user?.profile?.bio ? (
               <Text align="center">
-                <ReactMarkdown>{user.bio}</ReactMarkdown>
+                <ReactMarkdown>{user?.profile?.bio}</ReactMarkdown>
               </Text>
             ) : null}
           </Stack>

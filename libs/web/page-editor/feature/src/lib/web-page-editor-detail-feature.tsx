@@ -1,43 +1,14 @@
-import {
-  ActionIcon,
-  Anchor,
-  Box,
-  Button,
-  Card,
-  Container,
-  Group,
-  Paper,
-  SimpleGrid,
-  Skeleton,
-  Stack,
-  Tooltip,
-} from '@mantine/core'
-import { PageBlock as PageBlockSDK } from '@pubkeyapp/sdk'
+import { Anchor, Box, Button, Container, Flex, Group, Paper, Skeleton, Stack, Tooltip } from '@mantine/core'
 
-import {
-  PageBlockAddModal,
-  PageBlockEditIconModal,
-  PageBlockEditModal,
-  PageBlockRender,
-  PageColorSelect,
-  PageEditorPreview,
-  PageTypeIcon,
-} from '@pubkeyapp/web/page/ui'
+import { PageEditorPreview } from '@pubkeyapp/web/page/ui'
 import { ProfileTypeIcon } from '@pubkeyapp/web/profile/ui'
-import {
-  showNotificationError,
-  showNotificationSuccess,
-  UiBackButton,
-  UiDebugModal,
-  UiTabRoutes,
-} from '@pubkeyapp/web/ui/core'
+import { showNotificationError, showNotificationSuccess, UiBackButton, UiTabRoutes } from '@pubkeyapp/web/ui/core'
 import { UiPageHeader } from '@pubkeyapp/web/ui/page'
 import {
   AdminUpdatePageInput,
   Page,
   PageBlock,
   PageStatus,
-  PageType,
   ProfileType,
   useAnonGetPageQuery,
   UserAddPageBlockInput,
@@ -47,9 +18,10 @@ import {
   useUserUpdatePageBlockMutation,
   useUserUpdatePageMutation,
 } from '@pubkeyapp/web/util/sdk'
-import { IconCopy, IconExternalLink, IconListNumbers, IconTrash } from '@tabler/icons-react'
+import { IconExternalLink } from '@tabler/icons-react'
 import React from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
+import { PageEditor } from './page.editor'
 import { WebPageEditorPublishTab } from './web-page-editor-publish-tab'
 
 export function WebPageEditorDetailFeature() {
@@ -183,16 +155,22 @@ export function WebPageEditorDetailFeature() {
             label: 'Editor',
             value: 'editor',
             component: (
-              <SimpleGrid cols={2} spacing="md" breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
-                <PageEditor
-                  page={page?.item as Page}
-                  updatePage={updatePage}
-                  duplicatePageBlock={duplicatePageBlock}
-                  removePageBlock={removePageBlock}
-                  updatePageBlock={updatePageBlock}
-                />
-                <Box>{page?.item ? <PageEditorPreview page={page.item} /> : null}</Box>
-              </SimpleGrid>
+              <Flex px="xl">
+                <Box sx={{ flexGrow: 1 }} py="xl">
+                  <Container size="sm">
+                    <PageEditor
+                      page={page?.item as Page}
+                      updatePage={updatePage}
+                      duplicatePageBlock={duplicatePageBlock}
+                      removePageBlock={removePageBlock}
+                      updatePageBlock={updatePageBlock}
+                    />
+                  </Container>
+                </Box>
+                <Box sx={{ flexGrow: 0 }} py="xl">
+                  {page?.item ? <PageEditorPreview page={page.item} /> : null}
+                </Box>
+              </Flex>
             ),
           },
           {
@@ -223,73 +201,5 @@ export function WebPageEditorDetailFeature() {
       />
       {/*<UiDebugModal data={{ page }} />*/}
     </Stack>
-  )
-}
-
-export function PageEditor({
-  duplicatePageBlock,
-  page,
-  removePageBlock,
-  updatePage,
-  updatePageBlock,
-}: {
-  duplicatePageBlock: (block: PageBlock) => Promise<void>
-  page: Page
-  removePageBlock: (block: PageBlock) => Promise<boolean>
-  updatePage: (page: Page, input: AdminUpdatePageInput) => Promise<boolean>
-  updatePageBlock: (pageBlockId: string, input: UserAddPageBlockInput) => Promise<boolean>
-}) {
-  return (
-    <Paper>
-      <Stack spacing="xl">
-        <Group position="apart">
-          <PageBlockAddModal page={page} />
-          <PageColorSelect selected={page?.color!} selectColor={(color) => updatePage(page, { color })} />
-        </Group>
-
-        <Stack spacing={'md'}>
-          {page?.blocks?.map((block) => (
-            <Card key={block.id} radius="xl" withBorder={false}>
-              <Stack>
-                <PageBlockRender block={block as PageBlockSDK} color={page.color!} />
-                <Group spacing={0} position="right" noWrap>
-                  <PageBlockEditModal
-                    block={block as PageBlockSDK}
-                    submit={(data) => updatePageBlock(block.id!, data)}
-                  />
-                  <PageBlockEditIconModal block={block} submit={(data) => updatePageBlock(block.id!, data)} />
-                  <Tooltip label={`Change block order (${block.order})`}>
-                    <ActionIcon
-                      color="brand"
-                      onClick={() => {
-                        const newOrder = prompt('Update the block order', block.order?.toString())
-
-                        if (newOrder === null || newOrder === block.order?.toString()) {
-                          return false
-                        }
-                        return updatePageBlock(block.id!, { order: parseInt(newOrder) })
-                      }}
-                    >
-                      <IconListNumbers size={16} />
-                    </ActionIcon>
-                  </Tooltip>
-                  <Tooltip label="Duplicate block">
-                    <ActionIcon color="brand" onClick={() => duplicatePageBlock(block)}>
-                      <IconCopy size={16} />
-                    </ActionIcon>
-                  </Tooltip>
-                  <UiDebugModal data={block} title="PageBlock" />
-                  <Tooltip label="Delete block">
-                    <ActionIcon color="red" onClick={() => removePageBlock(block)}>
-                      <IconTrash size={16} />
-                    </ActionIcon>
-                  </Tooltip>
-                </Group>
-              </Stack>
-            </Card>
-          ))}
-        </Stack>
-      </Stack>
-    </Paper>
   )
 }

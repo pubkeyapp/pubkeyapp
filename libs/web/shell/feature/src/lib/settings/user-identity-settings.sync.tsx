@@ -22,6 +22,7 @@ export function UserIdentitySettingsSync({ identity }: { identity: Identity }) {
 
   return (
     <Stack spacing={36}>
+      <UiDebug data={{ identity }} />
       <UiDebug data={{ loading, data, error }} open />
       <UiButton loading={loading} label="Sync Identity" onClick={() => syncIdentity(identity.id!)} icon={IconRefresh} />
     </Stack>

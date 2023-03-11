@@ -8,7 +8,7 @@ export * from './lib/ui-copy.button'
 export * from './lib/ui-dashboard-grid'
 export * from './lib/ui-debug'
 export * from './lib/ui-error'
-export * from './lib/ui-error-loeader'
+export * from './lib/ui-error-loader'
 export * from './lib/ui-full-page'
 export * from './lib/ui-link-explorer'
 export * from './lib/ui-loader'
@@ -19,6 +19,7 @@ export * from './lib/ui-theme-toggle'
 export * from './lib/ui-timestamp'
 export { UiButton } from './lib/ui-button'
 export { UiLinkExplorers } from './lib/ui-link.explorers'
+export { UiUserLink } from './lib/ui-user.link'
 
 export function getAvatarUrl(name: string) {
   return `https://source.boringavatars.com/pixel/400/${name}?colors=FEED5B,6260FF,29DBD1,C061F7,FF6F5B`

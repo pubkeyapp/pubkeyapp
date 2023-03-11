@@ -13,7 +13,7 @@ export class AdminUpdateProfileInput {
   bio: string
 
   @Field({ nullable: true })
-  avatar: string
+  avatarUrl: string
 
   @Field({ nullable: true })
   metaUrl: string

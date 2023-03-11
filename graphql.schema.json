@@ -31,7 +31,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "Timestamp",
+              "name": "DateTime",
               "ofType": null
             },
             "isDeprecated": false,
@@ -43,7 +43,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "Timestamp",
+              "name": "DateTime",
               "ofType": null
             },
             "isDeprecated": false,
@@ -195,7 +195,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "Timestamp",
+              "name": "DateTime",
               "ofType": null
             },
             "isDeprecated": false,
@@ -1213,7 +1213,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "avatar",
+            "name": "avatarUrl",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -1331,42 +1331,6 @@
         "description": null,
         "fields": null,
         "inputFields": [
-          {
-            "name": "avatarUrl",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "bio",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "name",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
           {
             "name": "role",
             "description": null,
@@ -1809,7 +1773,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "Timestamp",
+              "name": "DateTime",
               "ofType": null
             },
             "isDeprecated": false,
@@ -1925,7 +1889,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "Timestamp",
+              "name": "DateTime",
               "ofType": null
             },
             "isDeprecated": false,
@@ -1958,7 +1922,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "Timestamp",
+              "name": "DateTime",
               "ofType": null
             },
             "isDeprecated": false,
@@ -2030,7 +1994,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "Timestamp",
+              "name": "DateTime",
               "ofType": null
             },
             "isDeprecated": false,
@@ -2073,7 +2037,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "Timestamp",
+              "name": "DateTime",
               "ofType": null
             },
             "isDeprecated": false,
@@ -2149,7 +2113,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "Timestamp",
+              "name": "DateTime",
               "ofType": null
             },
             "isDeprecated": false,
@@ -2251,7 +2215,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "Timestamp",
+              "name": "DateTime",
               "ofType": null
             },
             "isDeprecated": false,
@@ -2347,7 +2311,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "Timestamp",
+              "name": "DateTime",
               "ofType": null
             },
             "isDeprecated": false,
@@ -4097,6 +4061,35 @@
             "deprecationReason": null
           },
           {
+            "name": "userSetDefaultProfile",
+            "description": null,
+            "args": [
+              {
+                "name": "profileId",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Profile",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "userSyncIdentity",
             "description": null,
             "args": [
@@ -4486,7 +4479,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "Timestamp",
+              "name": "DateTime",
               "ofType": null
             },
             "isDeprecated": false,
@@ -4614,7 +4607,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "Timestamp",
+              "name": "DateTime",
               "ofType": null
             },
             "isDeprecated": false,
@@ -4669,7 +4662,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "Timestamp",
+              "name": "DateTime",
               "ofType": null
             },
             "isDeprecated": false,
@@ -4753,7 +4746,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "Timestamp",
+              "name": "DateTime",
               "ofType": null
             },
             "isDeprecated": false,
@@ -4774,6 +4767,24 @@
         "interfaces": null,
         "enumValues": [
           {
+            "name": "Discord",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "Github",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "Google",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "Header",
             "description": null,
             "isDeprecated": false,
@@ -4781,6 +4792,18 @@
           },
           {
             "name": "Link",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "Solana",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "Twitter",
             "description": null,
             "isDeprecated": false,
             "deprecationReason": null
@@ -4799,7 +4822,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "Timestamp",
+              "name": "DateTime",
               "ofType": null
             },
             "isDeprecated": false,
@@ -4859,7 +4882,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "Timestamp",
+              "name": "DateTime",
               "ofType": null
             },
             "isDeprecated": false,
@@ -4970,7 +4993,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "Timestamp",
+              "name": "DateTime",
               "ofType": null
             },
             "isDeprecated": false,
@@ -5086,7 +5109,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "Timestamp",
+              "name": "DateTime",
               "ofType": null
             },
             "isDeprecated": false,
@@ -5109,7 +5132,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "Timestamp",
+              "name": "DateTime",
               "ofType": null
             },
             "isDeprecated": false,
@@ -5157,7 +5180,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "Timestamp",
+              "name": "DateTime",
               "ofType": null
             },
             "isDeprecated": false,
@@ -5175,7 +5198,7 @@
         "description": null,
         "fields": [
           {
-            "name": "avatar",
+            "name": "avatarUrl",
             "description": null,
             "args": [],
             "type": {
@@ -5216,7 +5239,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "Timestamp",
+              "name": "DateTime",
               "ofType": null
             },
             "isDeprecated": false,
@@ -5356,7 +5379,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "Timestamp",
+              "name": "DateTime",
               "ofType": null
             },
             "isDeprecated": false,
@@ -6939,7 +6962,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "Timestamp",
+              "name": "DateTime",
               "ofType": null
             },
             "isDeprecated": false,
@@ -6999,7 +7022,7 @@
             "args": [],
             "type": {
               "kind": "SCALAR",
-              "name": "Timestamp",
+              "name": "DateTime",
               "ofType": null
             },
             "isDeprecated": false,
@@ -7048,30 +7071,6 @@
         "name": "User",
         "description": null,
         "fields": [
-          {
-            "name": "avatarUrl",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "bio",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
           {
             "name": "createdAt",
             "description": null,
@@ -7176,30 +7175,6 @@
                   "ofType": null
                 }
               }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "metaUrl",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "name",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -7647,7 +7622,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "avatar",
+            "name": "avatarUrl",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -7729,42 +7704,6 @@
         "description": null,
         "fields": null,
         "inputFields": [
-          {
-            "name": "avatarUrl",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "bio",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "name",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
           {
             "name": "username",
             "description": null,

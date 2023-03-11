@@ -36,8 +36,8 @@ export function UiHeaderProfile() {
       <Menu.Target>
         <UnstyledButton className={cx(classes.button, { [classes.buttonActive]: userMenuOpened })} disabled={!user}>
           <Group spacing={3} pr={4}>
-            {user?.avatarUrl ? (
-              <Avatar src={user?.avatarUrl} alt={`Avatar of ${user?.name}`} radius="xl" size={30} />
+            {user?.profile?.avatarUrl ? (
+              <Avatar src={user?.profile?.avatarUrl} alt={`Avatar of ${user?.username}`} radius="xl" size={30} />
             ) : (
               <IconUser size={28} stroke={1.5} />
             )}
@@ -53,7 +53,7 @@ export function UiHeaderProfile() {
                 <Text truncate>
                   <Group spacing={4} noWrap pb={2}>
                     <Text truncate weight={'bold'} size="sm" sx={{ lineHeight: 1 }} lineClamp={1}>
-                      {user.name}
+                      {user?.username}
                     </Text>
                   </Group>
                 </Text>

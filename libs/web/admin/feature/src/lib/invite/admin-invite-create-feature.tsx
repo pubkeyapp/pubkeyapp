@@ -8,7 +8,6 @@ import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 export function AdminInviteCreateFeature() {
-  const theme = useMantineTheme()
   const navigate = useNavigate()
   const { createItem } = useAdminInvite()
   const [{ data: userData }] = useAdminGetUsersQuery()
@@ -25,7 +24,7 @@ export function AdminInviteCreateFeature() {
   const userOptions: { label: string; value: string }[] = useMemo(() => {
     return (
       userData?.items?.map((user) => {
-        return { label: `${user.name} - ${user.username}`, value: user.id ?? '' }
+        return { label: `${user.username}`, value: user.id ?? '' }
       }) ?? []
     )
   }, [userData])

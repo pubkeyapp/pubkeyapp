@@ -31,7 +31,7 @@ export class ApiAdminInviteService {
     await this.core.ensureUserAdmin(adminId)
     return this.core.data.invite.findMany({
       where: { ownerId: input.ownerId ? input.ownerId : undefined },
-      include: { owner: true },
+      include: { owner: { include: { profile: true } } },
     })
   }
 

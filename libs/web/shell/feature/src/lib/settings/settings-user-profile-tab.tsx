@@ -1,9 +1,8 @@
-import { Alert, Center, Container, Stack } from '@mantine/core'
+import { Container, Stack } from '@mantine/core'
 import { useAuth } from '@pubkeyapp/web/auth/data-access'
 import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/core'
 import { UserUpdateUserInput, useUserUpdateUserMutation } from '@pubkeyapp/web/util/sdk'
 import React from 'react'
-import { UserSelectAvatarModal } from '../dashboard/user-select-avatar-modal'
 import { SettingsUserForm } from './settings-user-profile-form'
 
 export function SettingsUserProfileTab() {
@@ -30,10 +29,6 @@ export function SettingsUserProfileTab() {
   return (
     <Container size="md">
       <Stack>
-        <Center>
-          <Alert>You can update your PubKey profile here.</Alert>
-        </Center>
-        <UserSelectAvatarModal user={user} updateAvatar={(avatarUrl) => updateUser({ avatarUrl })} />
         <SettingsUserForm user={user} updateUser={updateUser} />
       </Stack>
     </Container>

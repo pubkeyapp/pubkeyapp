@@ -27,8 +27,8 @@ export function ProfileTable({ deleteProfile, profiles }: AdminProfileTableProps
             render: (item) => (
               <Anchor component={Link} to={`/admin/users/${item?.owner?.id}`} color={theme.colors.brand[4]}>
                 <Group spacing="xs">
-                  <Avatar size="sm" src={item?.owner?.avatarUrl ?? ''} radius={50} />
-                  <Text>{item.owner?.name}</Text>
+                  <Avatar size="sm" src={item?.owner?.profile?.avatarUrl ?? ''} radius={50} />
+                  <Text>{item.owner?.username}</Text>
                 </Group>
               </Anchor>
             ),

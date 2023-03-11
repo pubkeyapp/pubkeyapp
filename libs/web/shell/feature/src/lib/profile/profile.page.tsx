@@ -6,7 +6,8 @@ import { useUserGetProfilePageQuery } from '@pubkeyapp/web/util/sdk'
 import React from 'react'
 
 export function ProfilePage({ profileId }: { profileId: string }) {
-  const [{ data, fetching }] = useUserGetProfilePageQuery({ variables: { profileId } })
+  const [{ data, fetching, error }] = useUserGetProfilePageQuery({ variables: { profileId } })
+
   return (
     <Box>
       {fetching ? (

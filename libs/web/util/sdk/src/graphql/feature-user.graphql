@@ -4,39 +4,23 @@ fragment UserRelationDetails on UserRelation {
   isFollowingYou
 }
 
-fragment UserSummary on User {
-  id
-  pid
-  #  createdAt
-  updatedAt
-  role
-  status
-  username
-  name
-  bio
-  avatarUrl
-  profileUrl
-  publicKey
-}
-
 fragment UserDetails on User {
   id
   pid
-  createdAt
-  updatedAt
   role
   status
-  username
-  name
-  bio
-  avatarUrl
-  metaUrl
-  profileUrl
-  publicKey
+  createdAt
+  updatedAt
   followersCount
   followingCount
+  profileUrl
+  publicKey
+  username
   relation {
     ...UserRelationDetails
+  }
+  profile {
+    ...ProfileDetails
   }
 }
 
@@ -45,6 +29,9 @@ query AdminGetUser($userId: String!) {
     ...UserDetails
     identities {
       ...IdentityDetails
+    }
+    profiles {
+      ...ProfileDetails
     }
   }
 }

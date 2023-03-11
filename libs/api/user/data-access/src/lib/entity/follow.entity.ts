@@ -1,4 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql'
+import { GraphQLDateTime } from 'graphql-scalars'
 import { User } from './user.entity'
 
 @ObjectType()
@@ -6,10 +7,10 @@ export class Follow {
   @Field({ nullable: true })
   id: string
 
-  @Field({ nullable: true })
+  @Field(() => GraphQLDateTime, { nullable: true })
   createdAt: Date
 
-  @Field({ nullable: true })
+  @Field(() => GraphQLDateTime, { nullable: true })
   updatedAt: Date
 
   @Field({ nullable: true })

@@ -23,7 +23,10 @@ export class ApiAdminProfileService {
 
   async adminGetProfile(adminId: string, id: string) {
     await this.core.ensureUserAdmin(adminId)
-    return this.core.data.profile.findUnique({ where: { id }, include: { owner: true, page: true, user: true } })
+    return this.core.data.profile.findUnique({
+      where: { id },
+      include: { owner: { include: { profile: true } }, page: true, user: true },
+    })
   }
 
   async adminUpdateProfile(adminId: string, id: string, input: AdminUpdateProfileInput) {

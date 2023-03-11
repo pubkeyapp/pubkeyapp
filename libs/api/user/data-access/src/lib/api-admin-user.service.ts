@@ -17,7 +17,14 @@ export class ApiAdminUserService {
 
   async adminGetUsers(adminId: string) {
     await this.core.ensureUserAdmin(adminId)
-    return this.core.data.user.findMany({ include: { identities: true }, orderBy: { updatedAt: 'desc' } })
+    return this.core.data.user.findMany({
+      include: {
+        profile: true,
+        profiles: true,
+        identities: true,
+      },
+      orderBy: { updatedAt: 'desc' },
+    })
   }
 
   constructor(private readonly core: ApiCoreService) {}

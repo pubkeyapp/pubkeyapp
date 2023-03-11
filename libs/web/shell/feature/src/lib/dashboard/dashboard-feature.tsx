@@ -26,8 +26,8 @@ export function DashboardFeature() {
                 label: 'Manage Profiles',
                 value: 'profile',
                 component: (
-                  <Stack mt={64}>
-                    {user ? <UserDashboardProfileCard user={user as any} /> : null}
+                  <Stack mt={64} spacing={32}>
+                    {user ? <UserDashboardProfileCard user={user} /> : null}
                     <UserProfilesProvider>
                       <UserManageProfiles />
                     </UserProfilesProvider>

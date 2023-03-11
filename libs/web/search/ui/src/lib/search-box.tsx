@@ -31,7 +31,7 @@ export function SearchBox() {
                   group: 'Account',
                   item,
                 })) ?? []),
-                ...(res?.data?.result?.users?.map((item) => ({ value: item.name, group: 'User', item })) ?? []),
+                ...(res?.data?.result?.users?.map((item) => ({ value: item.username, group: 'User', item })) ?? []),
               ])
             }
           }
@@ -45,7 +45,6 @@ export function SearchBox() {
       <Autocomplete
         onChange={handleSearch}
         onItemSubmit={({ item }) => {
-          console.log('item', item)
           if (item.__typename === 'Account') {
             navigate(`${item.explorerUrl}`)
           }
@@ -79,7 +78,7 @@ interface SearchItemProps extends SelectItemProps {
 const SearchItem = forwardRef<HTMLDivElement, SearchItemProps>(
   ({ header, value, group, item, ...others }: SearchItemProps, ref) => {
     const avatarUrl =
-      (item as User)?.avatarUrl ??
+      (item as User)?.profile?.avatarUrl ??
       (item as Account).metadata?.fetched?.image ??
       getAvatarUrl(`${(item as Account).address}`)
     return (

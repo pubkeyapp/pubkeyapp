@@ -19,7 +19,7 @@ export class ApiProfileFieldResolver {
   }
 
   @ResolveField(() => String, { nullable: true })
-  avatar(@Parent() profile: Profile) {
-    return profile.avatar ? profile.avatar : getAvatarUrl(profile.username ?? profile.ownerId)
+  avatarUrl(@Parent() profile: Profile) {
+    return profile.avatarUrl ? profile.avatarUrl : getAvatarUrl(profile.username ?? profile.ownerId)
   }
 }

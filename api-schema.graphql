@@ -46,9 +46,9 @@ type Job {
 
 type Account {
   id: String
-  createdAt: Timestamp
-  updatedAt: Timestamp
-  discoveredAt: Timestamp
+  createdAt: DateTime
+  updatedAt: DateTime
+  discoveredAt: DateTime
   discoveredBy: User
   identity: Identity
   owner: Account
@@ -63,9 +63,9 @@ type Account {
 }
 
 """
-`Date` type as integer. Type represents date and time as number of milliseconds from start of UNIX epoch.
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
 """
-scalar Timestamp
+scalar DateTime
 
 enum NetworkType {
   SolanaDevnet
@@ -89,8 +89,8 @@ enum AccountType {
 
 type Identity {
   id: String
-  createdAt: Timestamp
-  updatedAt: Timestamp
+  createdAt: DateTime
+  updatedAt: DateTime
   provider: IdentityProvider
   providerId: String!
   profile: JSON
@@ -107,9 +107,83 @@ enum IdentityProvider {
   Twitter
 }
 
-type User {
+type Domain {
   id: String
-  pid: Int
+  createdAt: DateTime
+  updatedAt: DateTime
+  name: String
+  order: Int
+  private: Boolean
+  premium: Boolean
+  secure: Boolean
+  owner: User
+  pages: [Page!]
+}
+
+type PageDomain {
+  id: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  path: String
+  domain: Domain
+  page: Page
+  viewUrl: String
+}
+
+type Page {
+  id: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  status: PageStatus
+  type: PageType
+  title: String
+  color: String
+  description: String
+  viewUrl: String
+  siteUrl: String
+  urls: [String!]
+  owner: User
+  blocks: [PageBlock!]
+  domains: [PageDomain!]
+  profile: Profile
+}
+
+enum PageStatus {
+  Demo
+  Draft
+  Published
+}
+
+enum PageType {
+  Degen
+  Gaming
+  Personal
+  Professional
+}
+
+type PageBlock {
+  id: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  name: String
+  order: Int
+  data: JSON
+  type: PageBlockType
+  page: Page
+}
+
+enum PageBlockType {
+  Discord
+  Github
+  Google
+  Header
+  Link
+  Solana
+  Twitter
+}
+
+type Profile {
+  id: String
   createdAt: DateTime
   updatedAt: DateTime
   name: String
@@ -117,24 +191,48 @@ type User {
   bio: String
   avatarUrl: String
   metaUrl: String
+  color: String
+  followers: Int
+  following: Int
+  type: ProfileType
+  status: ProfileStatus
+  owner: User
+  page: Page
+  identities: [Identity!]
+}
+
+enum ProfileType {
+  Degen
+  Gaming
+  Personal
+  Professional
+}
+
+enum ProfileStatus {
+  Demo
+  Draft
+  Published
+}
+
+type User {
+  id: String
+  pid: Int
+  createdAt: DateTime
+  updatedAt: DateTime
+  username: String
   profileUrl: String
   publicKey: String
   role: UserRole
   status: UserStatus
+  identities: [Identity!]
   followers: [Follow!]
   followersCount: Int
   following: [Follow!]
   followingCount: Int
-  identities: [Identity!]
   profile: Profile
   profiles: [Profile!]
   relation: UserRelation
 }
-
-"""
-A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
-"""
-scalar DateTime
 
 enum UserRole {
   Admin
@@ -149,8 +247,8 @@ enum UserStatus {
 
 type Follow {
   id: String
-  createdAt: Timestamp
-  updatedAt: Timestamp
+  createdAt: DateTime
+  updatedAt: DateTime
   followerId: String
   follower: User
   ownerId: String
@@ -199,8 +297,8 @@ type Config {
 
 type Setting {
   id: String
-  createdAt: Timestamp
-  updatedAt: Timestamp
+  createdAt: DateTime
+  updatedAt: DateTime
   default: String
   description: String
   key: String
@@ -212,80 +310,10 @@ type AuthChallengeRequest {
   expiresAt: String!
 }
 
-type Domain {
-  id: String
-  createdAt: Timestamp
-  updatedAt: Timestamp
-  name: String
-  order: Int
-  private: Boolean
-  premium: Boolean
-  secure: Boolean
-  owner: User
-  pages: [Page!]
-}
-
-type PageDomain {
-  id: String
-  createdAt: Timestamp
-  updatedAt: Timestamp
-  path: String
-  domain: Domain
-  page: Page
-  viewUrl: String
-}
-
-type Page {
-  id: String
-  createdAt: Timestamp
-  updatedAt: Timestamp
-  status: PageStatus
-  type: PageType
-  title: String
-  color: String
-  description: String
-  viewUrl: String
-  siteUrl: String
-  urls: [String!]
-  owner: User
-  blocks: [PageBlock!]
-  domains: [PageDomain!]
-  profile: Profile
-}
-
-enum PageStatus {
-  Demo
-  Draft
-  Published
-}
-
-enum PageType {
-  Degen
-  Gaming
-  Personal
-  Professional
-}
-
-type PageBlock {
-  id: String
-  createdAt: Timestamp
-  updatedAt: Timestamp
-  name: String
-  order: Int
-  data: JSON
-  type: PageBlockType
-  page: Page
-}
-
-enum PageBlockType {
-  Header
-  Link
-}
-
 type Invite {
   id: String
-  createdAt: Timestamp
-  updatedAt: Timestamp
+  createdAt: DateTime
+  updatedAt: DateTime
   expiresAt: Timestamp
   code: String
   maxUses: Int
@@ -297,50 +325,23 @@ type Invite {
   isUsedUp: Boolean
 }
 
-type Profile {
-  id: String
-  createdAt: Timestamp
-  updatedAt: Timestamp
-  name: String
-  username: String
-  bio: String
-  avatar: String
-  metaUrl: String
-  color: String
-  followers: Int
-  following: Int
-  type: ProfileType
-  status: ProfileStatus
-  owner: User
-  page: Page
-  identities: [Identity!]
-}
-
-enum ProfileType {
-  Degen
-  Gaming
-  Personal
-  Professional
-}
-
-enum ProfileStatus {
-  Demo
-  Draft
-  Published
-}
+"""
+`Date` type as integer. Type represents date and time as number of milliseconds from start of UNIX epoch.
+"""
+scalar Timestamp
 
 type PlanFeature {
   id: String
-  createdAt: Timestamp
-  updatedAt: Timestamp
+  createdAt: DateTime
+  updatedAt: DateTime
   name: String
   order: Int
 }
 
 type Plan {
   id: String
-  createdAt: Timestamp
-  updatedAt: Timestamp
+  createdAt: DateTime
+  updatedAt: DateTime
   name: String
   description: String
   priceMonth: Int
@@ -474,6 +475,7 @@ type Mutation {
   userCreateProfile(type: ProfileType!): Profile
   userDeleteProfile(profileId: String!): Profile
   userSyncProfile(profileId: String!): Profile
+  userSetDefaultProfile(profileId: String!): Profile
   userUpdateProfile(profileId: String!, input: UserUpdateProfileInput!): Profile
   userLinkProfileIdentity(profileId: String!, identityId: String!): Profile
   userUnlinkProfileIdentity(profileId: String!, identityId: String!): Profile
@@ -595,7 +597,7 @@ input AdminUpdateProfileInput {
   name: String
   username: String
   bio: String
-  avatar: String
+  avatarUrl: String
   metaUrl: String
   color: String
   followers: Int
@@ -607,7 +609,7 @@ input UserUpdateProfileInput {
   name: String
   username: String
   bio: String
-  avatar: String
+  avatarUrl: String
   metaUrl: String
   color: String
 }
@@ -617,10 +619,7 @@ input UserSearchInput {
 }
 
 input UserUpdateUserInput {
-  name: String
   username: String
-  avatarUrl: String
-  bio: String
 }
 
 input AdminCreateUserInput {
@@ -629,10 +628,7 @@ input AdminCreateUserInput {
 }
 
 input AdminUpdateUserInput {
-  name: String
-  avatarUrl: String
   username: String
-  bio: String
   role: UserRole
   status: UserStatus
 }

@@ -94,7 +94,6 @@ export function EarlyFeatureActions() {
       .then((res) => {
         refreshInvite()
         refresh()
-        console.log('res', res.data)
         if (res.error) {
           return showNotificationError(res.error.message)
         }

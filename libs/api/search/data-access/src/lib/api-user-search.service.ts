@@ -46,8 +46,8 @@ export class ApiUserSearchService {
           // FIXME: make sure we can search on a number (pid)
           // { pid: { contains: input.query, mode: 'insensitive } },
           { username: { contains: input.query, mode: 'insensitive' } },
-          { name: { contains: input.query, mode: 'insensitive' } },
-          { bio: { contains: input.query, mode: 'insensitive' } },
+          // { name: { contains: input.query, mode: 'insensitive' } },
+          // { bio: { contains: input.query, mode: 'insensitive' } },
           // { address: { contains: input.query, }, }
         ],
       },

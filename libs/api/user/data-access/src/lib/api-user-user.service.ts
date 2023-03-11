@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { User } from '@prisma/client'
-import { ApiCoreService } from '@pubkeyapp/api/core/data-access'
+import { ApiCoreService, getProfileUsername, slugify } from '@pubkeyapp/api/core/data-access'
 import { UserUpdateUserInput } from './dto/user-update-user.input'
 import { UserRelation } from './entity/user.relation'
 
@@ -68,9 +68,9 @@ export class ApiUserUserService {
   }
 
   async userUpdateUser(userId: string, input: UserUpdateUserInput) {
-    const updated = await this.core.data.user.update({
+    await this.core.data.user.update({
       where: { id: userId },
-      data: input,
+      data: { ...input, username: input.username ? getProfileUsername(input.username) : undefined },
       include: { identities: true },
     })
     await this.core.cache.del('user', `get-by-id:${userId}`)
@@ -98,7 +98,7 @@ export class ApiUserUserService {
   }
 
   private async ensureValidUser(username: string) {
-    const user = await this.core.data.findUserByUsername(username)
+    const user = await this.core.getUserByUsername(username)
 
     if (!user) {
       throw new NotFoundException(`User ${username} not found`)

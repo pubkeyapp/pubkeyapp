@@ -13,7 +13,7 @@ export class ApiPublicInviteService {
   async anonGetInvite(code: string) {
     const found = await this.core.data.invite.findUnique({
       where: { code },
-      include: { owner: true, users: true },
+      include: { owner: { include: { profile: true } }, users: true },
     })
     if (!found) {
       throw new NotFoundException(`Invite ${code} not found`)

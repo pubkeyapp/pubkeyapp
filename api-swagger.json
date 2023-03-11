@@ -426,15 +426,107 @@
         },
         "required": ["id", "provider", "providerId", "verified"]
       },
-      "User": {
+      "ProfileType": {
+        "type": "string",
+        "enum": ["Degen", "Gaming", "Personal", "Professional"]
+      },
+      "ProfileStatus": {
+        "type": "string",
+        "enum": ["Demo", "Draft", "Published"]
+      },
+      "PageStatus": {
+        "type": "string",
+        "enum": ["Demo", "Draft", "Published"]
+      },
+      "PageType": {
+        "type": "string",
+        "enum": ["Degen", "Gaming", "Personal", "Professional"]
+      },
+      "PageBlockType": {
+        "type": "string",
+        "enum": ["Discord", "Github", "Google", "Header", "Link", "Solana", "Twitter"]
+      },
+      "PageBlock": {
         "type": "object",
         "properties": {
           "id": {
             "type": "string"
           },
-          "pid": {
-            "type": "integer",
+          "name": {
+            "type": "string"
+          },
+          "order": {
+            "type": "number"
+          },
+          "data": {
+            "type": "object",
             "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/PageBlockType"
+          }
+        },
+        "required": ["id", "name", "order", "type"]
+      },
+      "Page": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/PageStatus"
+          },
+          "type": {
+            "$ref": "#/components/schemas/PageType"
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "color": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "viewUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "siteUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "urls": {
+            "nullable": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "owner": {
+            "type": "object",
+            "nullable": true
+          },
+          "blocks": {
+            "nullable": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PageBlock"
+            }
+          }
+        },
+        "required": ["status", "type"]
+      },
+      "Profile": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
           },
           "name": {
             "type": "string"
@@ -450,6 +542,53 @@
             "type": "string"
           },
           "metaUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "color": {
+            "type": "string",
+            "nullable": true
+          },
+          "followers": {
+            "type": "integer",
+            "nullable": true
+          },
+          "following": {
+            "type": "integer",
+            "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/ProfileType"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ProfileStatus"
+          },
+          "owner": {
+            "type": "object",
+            "nullable": true
+          },
+          "page": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Page"
+              }
+            ]
+          }
+        },
+        "required": ["id", "name", "bio", "avatarUrl", "type", "status"]
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "pid": {
+            "type": "integer",
+            "nullable": true
+          },
+          "username": {
             "type": "string",
             "nullable": true
           },
@@ -483,9 +622,24 @@
           "followingCount": {
             "type": "integer",
             "nullable": true
+          },
+          "profile": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Profile"
+              }
+            ]
+          },
+          "profiles": {
+            "nullable": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Profile"
+            }
           }
         },
-        "required": ["id", "name", "bio", "avatarUrl"]
+        "required": ["id"]
       },
       "AccountType": {
         "type": "string",
@@ -705,98 +859,6 @@
           }
         },
         "required": ["api", "app", "cluster", "clusters", "user"]
-      },
-      "PageStatus": {
-        "type": "string",
-        "enum": ["Demo", "Draft", "Published"]
-      },
-      "PageType": {
-        "type": "string",
-        "enum": ["Degen", "Gaming", "Personal", "Professional"]
-      },
-      "PageBlockType": {
-        "type": "string",
-        "enum": ["Header", "Link"]
-      },
-      "PageBlock": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "order": {
-            "type": "number"
-          },
-          "data": {
-            "type": "object",
-            "nullable": true
-          },
-          "type": {
-            "$ref": "#/components/schemas/PageBlockType"
-          }
-        },
-        "required": ["id", "name", "order", "type"]
-      },
-      "Page": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "nullable": true
-          },
-          "status": {
-            "$ref": "#/components/schemas/PageStatus"
-          },
-          "type": {
-            "$ref": "#/components/schemas/PageType"
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
-          "color": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "viewUrl": {
-            "type": "string",
-            "nullable": true
-          },
-          "siteUrl": {
-            "type": "string",
-            "nullable": true
-          },
-          "urls": {
-            "nullable": true,
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "owner": {
-            "nullable": true,
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/User"
-              }
-            ]
-          },
-          "blocks": {
-            "nullable": true,
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PageBlock"
-            }
-          }
-        },
-        "required": ["status", "type"]
       },
       "IdentityProvider": {
         "type": "string",

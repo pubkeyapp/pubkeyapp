@@ -1,7 +1,7 @@
 import { Field, HideField, ObjectType } from '@nestjs/graphql'
 import { ApiProperty } from '@nestjs/swagger'
 import { Account } from '@pubkeyapp/api/account/data-access'
-import { GraphQLJSON } from 'graphql-scalars'
+import { GraphQLDateTime, GraphQLJSON } from 'graphql-scalars'
 import { IdentityProvider } from './identity-provider.enum'
 
 @ObjectType()
@@ -10,10 +10,10 @@ export class Identity {
   @Field({ nullable: true })
   id: string
 
-  @Field({ nullable: true })
+  @Field(() => GraphQLDateTime, { nullable: true })
   createdAt: Date
 
-  @Field({ nullable: true })
+  @Field(() => GraphQLDateTime, { nullable: true })
   updatedAt: Date
 
   @ApiProperty()

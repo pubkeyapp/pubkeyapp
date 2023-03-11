@@ -8,36 +8,49 @@ import {
   Paper,
   SimpleGrid,
   Stack,
+  Text,
   Tooltip,
   UnstyledButton,
 } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { modals } from '@mantine/modals'
 import { IdentityBadge } from '@pubkeyapp/web/identity/ui'
+import { ProfileTypeBadge } from '@pubkeyapp/web/profile/ui'
 import { getAvatarUrl } from '@pubkeyapp/web/ui/core'
-import { Identity, User } from '@pubkeyapp/web/util/sdk'
+import { Identity, Profile, ProfileType, User } from '@pubkeyapp/web/util/sdk'
 import React from 'react'
 
 export interface UserSelectAvatarModalProps extends AvatarProps {
   avatarUrl?: string
   identities?: Identity[]
-  user: User
+  profile: Profile
   updateAvatar: (avatarUrl: string) => Promise<boolean>
 }
 
 export function UserSelectAvatarModal({
   avatarUrl,
   identities,
-  user,
+  profile,
   updateAvatar,
   ...props
 }: UserSelectAvatarModalProps) {
-  identities = identities ?? user.identities ?? []
+  identities = identities ?? []
   const [opened, { close, open }] = useDisclosure(false)
 
   return (
     <>
-      <Modal opened={opened} onClose={close} size="auto" title="Select Avatar" centered>
+      <Modal
+        opened={opened}
+        onClose={close}
+        size="auto"
+        title={
+          <Group>
+            <ProfileTypeBadge profileType={profile.type as ProfileType} />
+            <Text size="lg">Select Avatar</Text>
+          </Group>
+        }
+        centered
+      >
         {identities.length ? (
           <Box py={16}>
             <SimpleGrid cols={2} spacing="md" breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
@@ -51,9 +64,9 @@ export function UserSelectAvatarModal({
         )}
       </Modal>
       <Group position="center">
-        <Tooltip label="Select your avatar">
+        <Tooltip label={`Select ${profile.type} avatar`}>
           <UnstyledButton onClick={open}>
-            <Avatar src={avatarUrl ?? user.avatarUrl} size={120} radius={120} {...props} />
+            <Avatar src={avatarUrl ?? profile?.avatarUrl} size={120} radius={120} {...props} />
           </UnstyledButton>
         </Tooltip>
       </Group>

@@ -9,7 +9,7 @@ export function ProfileCard({ profile }: { profile: Profile }) {
     <Box>
       <Flex direction="column" align="center">
         <Stack align="center">
-          <Avatar src={profile.avatar} size={120} radius={120} />
+          <Avatar src={profile.avatarUrl} size={120} radius={120} />
           <Stack>
             <Center>
               <Stack spacing="xs">

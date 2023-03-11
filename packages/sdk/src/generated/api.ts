@@ -404,10 +404,10 @@ export interface Page {
   urls?: Array<string> | null
   /**
    *
-   * @type {User}
+   * @type {object}
    * @memberof Page
    */
-  owner?: User | null
+  owner?: object | null
   /**
    *
    * @type {Array<PageBlock>}
@@ -461,8 +461,13 @@ export interface PageBlock {
  */
 
 export const PageBlockType = {
+  Discord: 'Discord',
+  Github: 'Github',
+  Google: 'Google',
   Header: 'Header',
   Link: 'Link',
+  Solana: 'Solana',
+  Twitter: 'Twitter',
 } as const
 
 export type PageBlockType = (typeof PageBlockType)[keyof typeof PageBlockType]
@@ -495,6 +500,121 @@ export const PageType = {
 } as const
 
 export type PageType = (typeof PageType)[keyof typeof PageType]
+
+/**
+ *
+ * @export
+ * @interface Profile
+ */
+export interface Profile {
+  /**
+   *
+   * @type {string}
+   * @memberof Profile
+   */
+  id: string
+  /**
+   *
+   * @type {string}
+   * @memberof Profile
+   */
+  name: string
+  /**
+   *
+   * @type {string}
+   * @memberof Profile
+   */
+  username?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof Profile
+   */
+  bio: string
+  /**
+   *
+   * @type {string}
+   * @memberof Profile
+   */
+  avatarUrl: string
+  /**
+   *
+   * @type {string}
+   * @memberof Profile
+   */
+  metaUrl?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof Profile
+   */
+  color?: string | null
+  /**
+   *
+   * @type {number}
+   * @memberof Profile
+   */
+  followers?: number | null
+  /**
+   *
+   * @type {number}
+   * @memberof Profile
+   */
+  following?: number | null
+  /**
+   *
+   * @type {ProfileType}
+   * @memberof Profile
+   */
+  type: ProfileType
+  /**
+   *
+   * @type {ProfileStatus}
+   * @memberof Profile
+   */
+  status: ProfileStatus
+  /**
+   *
+   * @type {object}
+   * @memberof Profile
+   */
+  owner?: object | null
+  /**
+   *
+   * @type {Page}
+   * @memberof Profile
+   */
+  page?: Page | null
+}
+
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const ProfileStatus = {
+  Demo: 'Demo',
+  Draft: 'Draft',
+  Published: 'Published',
+} as const
+
+export type ProfileStatus = (typeof ProfileStatus)[keyof typeof ProfileStatus]
+
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const ProfileType = {
+  Degen: 'Degen',
+  Gaming: 'Gaming',
+  Personal: 'Personal',
+  Professional: 'Professional',
+} as const
+
+export type ProfileType = (typeof ProfileType)[keyof typeof ProfileType]
 
 /**
  *
@@ -575,31 +695,7 @@ export interface User {
    * @type {string}
    * @memberof User
    */
-  name: string
-  /**
-   *
-   * @type {string}
-   * @memberof User
-   */
   username?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof User
-   */
-  bio: string
-  /**
-   *
-   * @type {string}
-   * @memberof User
-   */
-  avatarUrl: string
-  /**
-   *
-   * @type {string}
-   * @memberof User
-   */
-  metaUrl?: string | null
   /**
    *
    * @type {string}
@@ -642,6 +738,18 @@ export interface User {
    * @memberof User
    */
   followingCount?: number | null
+  /**
+   *
+   * @type {Profile}
+   * @memberof User
+   */
+  profile?: Profile | null
+  /**
+   *
+   * @type {Array<Profile>}
+   * @memberof User
+   */
+  profiles?: Array<Profile> | null
 }
 
 /**

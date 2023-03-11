@@ -46,12 +46,12 @@ function UserListItem({ user, ...others }: UserItemProps) {
   return (
     <UnstyledButton className={classes.user} {...others}>
       <Group>
-        <Avatar src={user.avatarUrl} radius="xl" />
+        <Avatar src={user?.profile?.avatarUrl} radius="xl" />
 
         <div style={{ flex: 1 }}>
           <Anchor component={Link} to={`${user.profileUrl}`}>
             <Text size="sm" weight={500}>
-              {user.name}
+              {user.username}
             </Text>
           </Anchor>
 

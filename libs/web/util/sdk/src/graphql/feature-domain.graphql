@@ -10,8 +10,13 @@ fragment DomainDetails on Domain {
   owner {
     id
     username
-    name
-    avatarUrl
+    profile {
+      id
+      name
+      username
+      avatarUrl
+      bio
+    }
   }
 }
 
