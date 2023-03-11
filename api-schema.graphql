@@ -546,6 +546,7 @@ input AdminUpdatePageInput {
   title: String
   description: String
   color: String
+  profileId: String
 }
 
 input UserAddPageBlockInput {

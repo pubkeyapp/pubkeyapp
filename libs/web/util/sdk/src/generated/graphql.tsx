@@ -153,6 +153,7 @@ export type AdminUpdatePageBlockInput = {
 export type AdminUpdatePageInput = {
   color?: InputMaybe<Scalars['String']>
   description?: InputMaybe<Scalars['String']>
+  profileId?: InputMaybe<Scalars['String']>
   title?: InputMaybe<Scalars['String']>
 }
 
@@ -3075,6 +3076,7 @@ export type AdminGetPageQuery = {
       domain?: { __typename?: 'Domain'; id?: string | null; name?: string | null } | null
       page?: { __typename?: 'Page'; id?: string | null; title?: string | null } | null
     }> | null
+    profile?: { __typename?: 'Profile'; id?: string | null } | null
     owner?: {
       __typename?: 'User'
       id?: string | null
@@ -5825,6 +5827,9 @@ export const AdminGetPageDocument = gql`
       }
       domains {
         ...PageDomainDetails
+      }
+      profile {
+        id
       }
     }
   }

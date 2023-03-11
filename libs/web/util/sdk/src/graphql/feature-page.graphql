@@ -33,6 +33,9 @@ query AdminGetPage($pageId: String!) {
     domains {
       ...PageDomainDetails
     }
+    profile {
+      id
+    }
   }
 }
 

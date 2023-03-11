@@ -8,4 +8,6 @@ export class AdminUpdatePageInput {
   description?: string
   @Field({ nullable: true })
   color?: string
+  @Field({ nullable: true })
+  profileId?: string
 }

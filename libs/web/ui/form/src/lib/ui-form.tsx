@@ -128,8 +128,11 @@ export function UiForm<T>({
                 />
               )
             case UiFormFieldType.Select:
+              console.log('form.getInputProps(field.key)', form.getInputProps(field.key))
               return (
                 <Select
+                  size="lg"
+                  radius="xl"
                   key={field.key?.toString()}
                   description={field.description}
                   label={field.label}

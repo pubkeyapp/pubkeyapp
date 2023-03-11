@@ -23,13 +23,15 @@ export function AdminPageCreateFeature() {
     })
   }
 
-  const profileOptions: { label: string; value: string }[] = useMemo(() => {
-    return (
-      profileData?.items?.map((profile) => {
-        return { label: `${profile.name} - ${profile.type}`, value: profile.id ?? '' }
-      }) ?? []
-    )
-  }, [profileData])
+  const profileOptions: { label: string; value: string; disabled?: boolean }[] = useMemo(
+    () =>
+      (profileData?.items ?? []).map((profile) => ({
+        label: `${profile.name} - ${profile.type}`,
+        value: profile.id ?? '',
+        disabled: !!profile.page,
+      })) ?? [],
+    [profileData],
+  )
 
   const userOptions: { label: string; value: string }[] = useMemo(() => {
     return (
