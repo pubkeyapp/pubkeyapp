@@ -43,7 +43,7 @@ export function AccountTypeCardMetaplexNft({ account }: { account: Account }) {
       <Image src={avatarUrl} alt={title} height={300} fit="contain" />
       <Group position="apart" mt="xl">
         <Text fz="sm" fw={700} className={classes.title}>
-          {account.metadata.name ?? account.metadata.fetched?.name ?? account.address}
+          {account?.metadata?.name ?? account?.metadata?.fetched?.name ?? account.address}
         </Text>
         <Group spacing={5}>
           <Text fz="xs" c="dimmed"></Text>
