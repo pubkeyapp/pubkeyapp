@@ -1,5 +1,5 @@
 import { Alert, Button, Group, Stack, Text } from '@mantine/core'
-import { useAdminDomain, useAdminPage } from '@pubkeyapp/web/admin/data-access'
+import { useAdminDomain } from '@pubkeyapp/web/admin/data-access'
 import { formFieldSelect, formFieldText, UiForm, UiFormField } from '@pubkeyapp/web/ui/form'
 import {
   AdminAddPageDomainDocument,
@@ -16,7 +16,6 @@ export function AdminPageDomainAddForm({ page }: { page: Page }) {
   const client = useClient()
 
   const { domains, domainOptions } = useAdminDomain()
-  const { slugify } = useAdminPage()
 
   const [checked, setChecked] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
@@ -122,4 +121,12 @@ export function AdminPageDomainAddForm({ page }: { page: Page }) {
       ) : null}
     </Stack>
   )
+}
+
+export function slugify(str: string = '') {
+  return (str ?? '')
+    .toLowerCase()
+    .replace(/[^a-z0-9 -]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
 }

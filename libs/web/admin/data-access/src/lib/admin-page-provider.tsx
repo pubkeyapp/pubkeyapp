@@ -23,7 +23,6 @@ export interface AdminPageProviderContext {
   updatePage: (page: Page, input: AdminUpdatePageInput) => Promise<boolean>
 
   refresh: () => void
-  slugify: (title: string) => string
 }
 
 const AdminPageContext = createContext<AdminPageProviderContext>({} as AdminPageProviderContext)
@@ -110,12 +109,6 @@ function AdminPageProvider({ children, ownerId }: { children: ReactNode; ownerId
     deletePage,
     updatePage,
     refresh,
-    slugify: (str: string) =>
-      str
-        .toLowerCase()
-        .replace(/[^a-z0-9 -]/g, '')
-        .replace(/\s+/g, '-')
-        .replace(/-+/g, '-'),
   }
   return <AdminPageContext.Provider value={value}>{children}</AdminPageContext.Provider>
 }
