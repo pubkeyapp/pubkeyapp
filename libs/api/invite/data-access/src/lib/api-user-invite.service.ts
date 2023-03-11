@@ -14,7 +14,7 @@ export class ApiUserInviteService {
     return this.core.data.user
       .findUnique({
         where: { id: userId },
-        include: { invite: { include: { users: true, owner: true } } },
+        include: { invite: { include: { users: true, owner: { include: { profile: true } } } } },
       })
       .then((res) =>
         res.invite
