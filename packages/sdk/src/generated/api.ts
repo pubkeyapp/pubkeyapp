@@ -585,6 +585,18 @@ export interface Profile {
    * @memberof Profile
    */
   page?: Page | null
+  /**
+   *
+   * @type {Account}
+   * @memberof Profile
+   */
+  gumProfile?: Account | null
+  /**
+   *
+   * @type {Account}
+   * @memberof Profile
+   */
+  gumProfileMeta?: Account | null
 }
 
 /**
@@ -738,6 +750,12 @@ export interface User {
    * @memberof User
    */
   followingCount?: number | null
+  /**
+   *
+   * @type {Account}
+   * @memberof User
+   */
+  gumUser?: Account | null
   /**
    *
    * @type {Profile}

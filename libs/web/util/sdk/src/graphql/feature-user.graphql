@@ -22,6 +22,9 @@ fragment UserDetails on User {
   profile {
     ...ProfileDetails
   }
+  gumUser {
+    ...AccountSummary
+  }
 }
 
 query AdminGetUser($userId: String!) {
@@ -120,6 +123,12 @@ mutation UserFollowUser($username: String!) {
 
 mutation UserUnfollowUser($username: String!) {
   item: userUnfollowUser(username: $username) {
+    ...UserDetails
+  }
+}
+
+mutation UserVerifyUser {
+  item: userVerifyUser {
     ...UserDetails
   }
 }

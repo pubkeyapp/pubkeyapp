@@ -1,3 +1,11 @@
+fragment AccountSummary on Account {
+  id
+  name
+  type
+  address
+  network
+  explorerUrl
+}
 fragment AccountDetails on Account {
   id
   updatedAt

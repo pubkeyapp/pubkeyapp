@@ -1,4 +1,5 @@
 import { SDK } from '@gumhq/sdk'
+import { Namespace } from '@gumhq/sdk/src/profile'
 import { Connection, PublicKey } from '@solana/web3.js'
 import { fetch } from 'cross-fetch'
 import { createClient } from '../generated'
@@ -131,26 +132,11 @@ export class GumSdk {
       .then((res) => res.gum_0_1_0_decoded_user.map((item) => convertGumSdkUser(item)))
   }
 
-  async getAll(): Promise<{ gum_0_1_0_decoded_all: any[] }> {
-    return this.client.query({
-      gum_0_1_0_decoded_all: {
-        __args: {
-          // order_by: {
-          //   account_type: 'asc',
-          // },
-          // where: {
-          //   account_type: {
-          //     _eq: 'profile',
-          //   },
-          // },
-        },
-        owner: true,
-        pubkey: true,
-        account_type: true,
-        // account_raw_data: true,
-        account_decoded_data: true,
-        slot: true,
-      },
-    })
+  getUser(owner: string) {
+    return this.sdk.user.getUser(new PublicKey(owner))
+  }
+
+  getProfile(userPublicKey: string, namespace: Namespace) {
+    return this.sdk.profile.getProfilesByUserAndNamespace(new PublicKey(userPublicKey), namespace)
   }
 }

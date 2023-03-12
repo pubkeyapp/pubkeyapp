@@ -1,12 +1,20 @@
-import { Badge, BadgeProps, Button, ButtonProps, ThemeIcon, Tooltip, useMantineTheme } from '@mantine/core'
+import { Badge, BadgeProps, Button, ButtonProps, Text, ThemeIcon, Tooltip, useMantineTheme } from '@mantine/core'
 import { ProfileType } from '@pubkeyapp/web/util/sdk'
-import { IconBuildingBank, IconDeviceGamepad, IconPigMoney, IconQuestionMark, IconUser } from '@tabler/icons-react'
+import {
+  IconBuildingBank,
+  IconDeviceGamepad,
+  IconDice3,
+  IconDiscountCheck,
+  IconDiscountCheckFilled,
+  IconQuestionMark,
+  IconUser,
+} from '@tabler/icons-react'
 import React from 'react'
 
 export function getProfileTypeColor(type: ProfileType | string): string {
   switch (type) {
     case ProfileType.Professional:
-      return 'blue'
+      return 'violet'
     case ProfileType.Personal:
       return 'green'
     case ProfileType.Gaming:
@@ -36,7 +44,7 @@ export function ProfileTypeIcon({
     case ProfileType.Gaming:
       return <IconDeviceGamepad size={size} color={color} />
     case ProfileType.Degen:
-      return <IconPigMoney size={size} color={color} />
+      return <IconDice3 size={size} color={color} />
     default:
       return <IconQuestionMark size={size} color={color} />
   }
@@ -61,28 +69,41 @@ export function ProfileTypeButton({ pageType, component, ...props }: ProfileType
 
 export interface ProfileTypeBadgeProps extends BadgeProps {
   component?: any
+  label?: string
+  verified?: boolean
   profileType: ProfileType | string
   onClick?: () => void
 }
 
-export function ProfileTypeBadge({ profileType, component, ...props }: ProfileTypeBadgeProps) {
+export function ProfileTypeBadge({ profileType, verified, label, component, ...props }: ProfileTypeBadgeProps) {
   const color = getProfileTypeColor(profileType)
 
   return (
-    <Tooltip label={`${profileType} profile`} position="right" withArrow>
+    <Tooltip
+      label={label ?? `${profileType} profile (${verified ? 'verified' : 'not verified'})`}
+      position="right"
+      withArrow
+    >
       <Badge
         {...props}
         onClick={props.onClick}
         color={color}
         size="lg"
-        pl={0}
+        px={0}
         leftSection={
           <ThemeIcon color={color} variant="transparent" size="lg" radius="xl">
             <ProfileTypeIcon type={profileType} />
           </ThemeIcon>
         }
+        rightSection={
+          <ThemeIcon color={color} variant="transparent" size="lg" radius="xl">
+            <Text color={verified ? 'blue' : 'dimmed'} sx={{ display: 'flex' }}>
+              {verified ? <IconDiscountCheckFilled size={16} /> : <IconDiscountCheck size={16} />}
+            </Text>
+          </ThemeIcon>
+        }
       >
-        {profileType}
+        {label ?? profileType}
       </Badge>
     </Tooltip>
   )

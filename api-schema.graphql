@@ -44,6 +44,31 @@ type Job {
   failedReason: String
 }
 
+type Identity {
+  id: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  provider: IdentityProvider
+  providerId: String!
+  profile: JSON
+  accounts: [Account!]
+  verified: Boolean!
+  owner: User
+}
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar DateTime
+
+enum IdentityProvider {
+  Discord
+  Github
+  Google
+  Solana
+  Twitter
+}
+
 type Account {
   id: String
   createdAt: DateTime
@@ -61,11 +86,6 @@ type Account {
   type: AccountType
   explorerUrl: String
 }
-
-"""
-A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
-"""
-scalar DateTime
 
 enum NetworkType {
   SolanaDevnet
@@ -85,26 +105,6 @@ enum AccountType {
   Program
   Token
   System
-}
-
-type Identity {
-  id: String
-  createdAt: DateTime
-  updatedAt: DateTime
-  provider: IdentityProvider
-  providerId: String!
-  profile: JSON
-  accounts: [Account!]
-  verified: Boolean!
-  owner: User
-}
-
-enum IdentityProvider {
-  Discord
-  Github
-  Google
-  Solana
-  Twitter
 }
 
 type Domain {
@@ -198,6 +198,8 @@ type Profile {
   status: ProfileStatus
   owner: User
   page: Page
+  gumProfile: Account
+  gumProfileMeta: Account
   identities: [Identity!]
 }
 
@@ -229,6 +231,7 @@ type User {
   followersCount: Int
   following: [Follow!]
   followingCount: Int
+  gumUser: Account
   profile: Profile
   profiles: [Profile!]
   relation: UserRelation
@@ -362,7 +365,7 @@ type Query {
   adminGetSettings: [Setting!]
   adminGetAccount(accountId: String!): Account
   adminGetAccounts(input: AdminGetAccountsInput!): [Account!]
-  userGetAccount(network: NetworkType!, address: String!): Account
+  userGetAccount(network: NetworkType!, address: String!, refresh: Boolean): Account
   userGetAccountHistory(network: NetworkType!, address: String!): JSON
   getMe: User
   anonRequestChallenge(publicKey: String!): AuthChallengeRequest
@@ -475,6 +478,7 @@ type Mutation {
   userCreateProfile(type: ProfileType!): Profile
   userDeleteProfile(profileId: String!): Profile
   userSyncProfile(profileId: String!): Profile
+  userVerifyProfile(profileId: String!): Profile
   userSetDefaultProfile(profileId: String!): Profile
   userUpdateProfile(profileId: String!, input: UserUpdateProfileInput!): Profile
   userLinkProfileIdentity(profileId: String!, identityId: String!): Profile
@@ -487,6 +491,7 @@ type Mutation {
   userFollowUser(username: String!): User
   userUnfollowUser(username: String!): User
   userUpdateUser(input: UserUpdateUserInput!): User
+  userVerifyUser: User
   adminCreateUser(input: AdminCreateUserInput!): User
   adminDeleteUser(userId: String!): User
   adminUpdateUser(userId: String!, input: AdminUpdateUserInput!): User

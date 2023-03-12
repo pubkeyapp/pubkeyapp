@@ -26,6 +26,9 @@ model Account {
   identity       Identity?   @relation(fields: [identityId], references: [id])
   identityId     String?
   tokens         Account[]   @relation("Token")
+  gumProfile     Profile?    @relation("AccountGumProfile")
+  gumProfileMeta Profile?    @relation("AccountGumProfileMeta")
+  gumUser        User?       @relation("AccountGumUser")
 
   @@unique([address, network])
 }
@@ -58,7 +61,7 @@ model User {
   role               UserRole
   status             UserStatus @default(Active)
   username           String     @unique
-  publicKey          String?
+  publicKey          String     @unique
   domains            Domain[]
   identities         Identity[]
   invites            Invite[]
@@ -73,6 +76,8 @@ model User {
   profileId          String?    @unique
   profiles           Profile[]
   accountsDiscovered Account[]  @relation("AccountsDiscovered")
+  gumUser            Account?   @relation("AccountGumUser", fields: [gumUserId], references: [id])
+  gumUserId          String?    @unique
 }
 
 model Follow {
@@ -213,25 +218,29 @@ model PageDomain {
 }
 
 model Profile {
-  id         String        @id @default(cuid())
-  createdAt  DateTime      @default(now())
-  updatedAt  DateTime      @default(now()) @updatedAt
-  type       ProfileType
-  status     ProfileStatus @default(Draft)
-  name       String?
-  bio        String?
-  username   String?
-  metaUrl    String?
-  avatarUrl  String?
-  following  Int?
-  followers  Int?
-  color      String?       @default("brand")
-  identities Identity[]
-  owner      User          @relation(fields: [ownerId], references: [id])
-  ownerId    String
-  page       Page?
+  id               String        @id @default(cuid())
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @default(now()) @updatedAt
+  type             ProfileType
+  status           ProfileStatus @default(Draft)
+  name             String?
+  bio              String?
+  username         String?
+  metaUrl          String?
+  avatarUrl        String?
+  following        Int?
+  followers        Int?
+  color            String?       @default("brand")
+  identities       Identity[]
+  owner            User          @relation(fields: [ownerId], references: [id])
+  ownerId          String
+  gumProfile       Account?      @relation("AccountGumProfile", fields: [gumProfileId], references: [id])
+  gumProfileId     String?       @unique
+  gumProfileMeta   Account?      @relation("AccountGumProfileMeta", fields: [gumProfileMetaId], references: [id])
+  gumProfileMetaId String?       @unique
+  page             Page?
   // FIXME: Check if this is the right name. Could be 'default', 'primary', 'main', etc?
-  user       User?         @relation("UserProfile")
+  user             User?         @relation("UserProfile")
 
   @@unique([ownerId, type])
 }

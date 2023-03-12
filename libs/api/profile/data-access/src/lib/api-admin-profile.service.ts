@@ -17,7 +17,12 @@ export class ApiAdminProfileService {
     await this.core.ensureUserAdmin(adminId)
     return this.core.data.profile.findMany({
       where: { ownerId: input.ownerId ? input.ownerId : undefined },
-      include: { owner: true, page: true },
+      include: {
+        owner: true,
+        page: true,
+        gumProfile: true,
+        gumProfileMeta: true,
+      },
     })
   }
 
@@ -25,7 +30,13 @@ export class ApiAdminProfileService {
     await this.core.ensureUserAdmin(adminId)
     return this.core.data.profile.findUnique({
       where: { id },
-      include: { owner: { include: { profile: true } }, page: true, user: true },
+      include: {
+        owner: { include: { profile: true, gumUser: true } },
+        page: true,
+        user: true,
+        gumProfile: true,
+        gumProfileMeta: true,
+      },
     })
   }
 

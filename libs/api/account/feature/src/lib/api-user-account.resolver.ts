@@ -15,8 +15,9 @@ export class ApiUserAccountResolver {
     @CtxUser() user: User,
     @Args({ name: 'network', type: () => NetworkType }) network: NetworkType,
     @Args('address') address: string,
+    @Args({ name: 'refresh', type: () => Boolean, nullable: true }) refresh?: boolean,
   ) {
-    return this.service.userGetAccount(user.id, network, address)
+    return this.service.userGetAccount(user.id, network, address, refresh)
   }
 
   @Query(() => GraphQLJSON, { nullable: true })

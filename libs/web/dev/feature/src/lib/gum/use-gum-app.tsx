@@ -3,15 +3,15 @@ import { useMantineTheme } from '@mantine/core'
 import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/core'
 import { AnchorWallet, useAnchorWallet } from '@solana/wallet-adapter-react'
 import { Cluster, ConfirmOptions, Connection, PublicKey } from '@solana/web3.js'
-import { IconBuildingBank, IconDeviceGamepad, IconPigMoney, IconQuestionMark, IconUser } from '@tabler/icons-react'
+import { IconBuildingBank, IconDeviceGamepad, IconDice3, IconQuestionMark, IconUser } from '@tabler/icons-react'
+
+import { GraphQLClient } from 'graphql-request'
 import React, { createContext, ReactNode, useContext, useEffect, useMemo, useState } from 'react'
 
 import { formatOwnerData, gumGetOwnerData } from './gum-helpers'
 import { GumOwnerData, GumUser, Namespace } from './gum-interfaces'
 
-import { GraphQLClient } from 'graphql-request'
-
-const DEVNET_GRAPHQL_ENDPOINT = 'https://aware-earwig-49.hasura.app/v1/graphql'
+const DEVNET_GRAPHQL_ENDPOINT = 'https://light-pelican-32.hasura.app/v1/graphql'
 
 const gqlClient = new GraphQLClient(DEVNET_GRAPHQL_ENDPOINT as string)
 
@@ -215,7 +215,7 @@ export function GumProfileTypeIcon({
     case 'gaming':
       return <IconDeviceGamepad size={size} color={color} />
     case 'degen':
-      return <IconPigMoney size={size} color={color} />
+      return <IconDice3 size={size} color={color} />
     default:
       return <IconQuestionMark size={size} color={color} />
   }

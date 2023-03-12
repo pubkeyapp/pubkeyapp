@@ -1,5 +1,6 @@
 import { Field, HideField, Int, ObjectType } from '@nestjs/graphql'
 import { ApiProperty } from '@nestjs/swagger'
+import { Account } from '@pubkeyapp/api/account/data-access'
 import { Identity } from '@pubkeyapp/api/identity/data-access'
 import { Profile } from '@pubkeyapp/api/profile/data-access'
 import { GraphQLDateTime } from 'graphql-scalars'
@@ -60,6 +61,10 @@ export class User {
   @ApiProperty({ type: 'integer', nullable: true, required: false })
   @Field(() => Int, { nullable: true })
   followingCount?: number
+
+  @ApiProperty({ type: Account, nullable: true, required: false })
+  @Field(() => Account, { nullable: true })
+  gumUser?: Account
 
   @ApiProperty({ type: Profile, nullable: true, required: false })
   @Field(() => Profile, { nullable: true })

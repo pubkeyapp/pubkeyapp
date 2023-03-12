@@ -24,19 +24,18 @@ export class ApiUserIdentityService {
       // FIXME: Support syncing profile data from other providers
       return identity
     }
-    this.logger.verbose(`Syncing identity ${identityId} (user: ${userId})`)
-    console.log('hi', userId, identityId)
-    console.log(JSON.stringify(identity, null, 2))
-
-    console.log('Starting sync')
-    const res = await this.account.userGetAccount(
-      userId,
-      NetworkType.SolanaMainnet,
-      identity.providerId,
-      true,
-      identityId,
-    )
-    console.log('res', res)
+    try {
+      this.logger.verbose(`Syncing identity ${identityId} (user: ${userId}) (mainnet) ${identity.providerId}`)
+      await this.account.userGetAccount(userId, NetworkType.SolanaMainnet, identity.providerId, true, identityId)
+    } catch (e) {
+      console.log('e', e)
+    }
+    try {
+      this.logger.verbose(`Syncing identity ${identityId} (user: ${userId}) (devnet) ${identity.providerId}`)
+      await this.account.userGetAccount(userId, NetworkType.SolanaDevnet, identity.providerId, true, identityId)
+    } catch (e) {
+      console.log('e', e)
+    }
 
     return this.userGetIdentity(userId, identityId)
   }

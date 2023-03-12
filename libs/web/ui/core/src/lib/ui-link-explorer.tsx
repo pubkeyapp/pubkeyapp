@@ -18,6 +18,7 @@ export function LinkAccount(
     address: string | PublicKey
     ellipsis?: boolean
     label?: string
+    prefix?: string
   },
 ) {
   const { ellipsis = true } = props
@@ -26,7 +27,9 @@ export function LinkAccount(
 
   label = label ? label : ellipsis ? ellipsify(address, 8) : address
 
-  return <LinkExplorer value={address} path={`${prefix}/account/${address}`} label={label} />
+  return (
+    <LinkExplorer value={address} path={`${props.prefix ? props.prefix : prefix}/account/${address}`} label={label} />
+  )
 }
 
 export function LinkExplorer({ label, path, value }: { label?: string; path: string; value: string | number }) {

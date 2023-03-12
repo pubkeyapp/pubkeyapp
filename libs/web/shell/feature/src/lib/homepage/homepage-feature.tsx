@@ -17,14 +17,18 @@ export function HomepageFeature() {
         title={
           <>
             <br />
-            A Social Network.
+            Decentralized
+            <br />
+            Identity
+            <br />
+            Provider
+            <br />
             <br />
             Built on Solana.
-            <br />
           </>
         }
         description={
-          'PubKey is a decentralized and censorship-resistant way to connect with others and share your links and identities. Open-source and built on Solana'
+          'PubKey is a decentralized and censorship-resistant way to manage your online identities. Open-source and built on Solana.'
         }
         cta="Get early access"
       />

@@ -367,6 +367,8 @@ export type Mutation = {
   userUpdatePageBlock?: Maybe<PageBlock>
   userUpdateProfile?: Maybe<Profile>
   userUpdateUser?: Maybe<User>
+  userVerifyProfile?: Maybe<Profile>
+  userVerifyUser?: Maybe<User>
 }
 
 export type MutationAdminAddPageBlockArgs = {
@@ -590,6 +592,10 @@ export type MutationUserUpdateUserArgs = {
   input: UserUpdateUserInput
 }
 
+export type MutationUserVerifyProfileArgs = {
+  profileId: Scalars['String']
+}
+
 export enum NetworkType {
   SolanaDevnet = 'SolanaDevnet',
   SolanaMainnet = 'SolanaMainnet',
@@ -693,6 +699,8 @@ export type Profile = {
   createdAt?: Maybe<Scalars['DateTime']>
   followers?: Maybe<Scalars['Int']>
   following?: Maybe<Scalars['Int']>
+  gumProfile?: Maybe<Account>
+  gumProfileMeta?: Maybe<Account>
   id?: Maybe<Scalars['String']>
   identities?: Maybe<Array<Identity>>
   metaUrl?: Maybe<Scalars['String']>
@@ -869,6 +877,7 @@ export type QueryAnonRequestChallengeArgs = {
 export type QueryUserGetAccountArgs = {
   address: Scalars['String']
   network: NetworkType
+  refresh?: InputMaybe<Scalars['Boolean']>
 }
 
 export type QueryUserGetAccountHistoryArgs = {
@@ -941,6 +950,7 @@ export type User = {
   followersCount?: Maybe<Scalars['Int']>
   following?: Maybe<Array<Follow>>
   followingCount?: Maybe<Scalars['Int']>
+  gumUser?: Maybe<Account>
   id?: Maybe<Scalars['String']>
   identities?: Maybe<Array<Identity>>
   pid?: Maybe<Scalars['Int']>
@@ -1012,6 +1022,16 @@ export type UserUpdateUserInput = {
   username?: InputMaybe<Scalars['String']>
 }
 
+export type AccountSummaryFragment = {
+  __typename?: 'Account'
+  id?: string | null
+  name?: string | null
+  type?: AccountType | null
+  address?: string | null
+  network?: NetworkType | null
+  explorerUrl?: string | null
+}
+
 export type AccountDetailsFragment = {
   __typename?: 'Account'
   id?: string | null
@@ -1053,6 +1073,33 @@ export type AccountDetailsFragment = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      gumProfile?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+      gumProfileMeta?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+    } | null
+    gumUser?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
     } | null
   } | null
   identity?: {
@@ -1095,6 +1142,33 @@ export type AccountDetailsFragment = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        gumProfile?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+        gumProfileMeta?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+      } | null
+      gumUser?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
       } | null
     } | null
   } | null
@@ -1165,6 +1239,33 @@ export type AdminGetAccountsQuery = {
           followers?: number | null
           following?: number | null
           type?: ProfileType | null
+          gumProfile?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
+          } | null
+          gumProfileMeta?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
+          } | null
+        } | null
+        gumUser?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
         } | null
       } | null
       identity?: {
@@ -1207,6 +1308,33 @@ export type AdminGetAccountsQuery = {
             followers?: number | null
             following?: number | null
             type?: ProfileType | null
+            gumProfile?: {
+              __typename?: 'Account'
+              id?: string | null
+              name?: string | null
+              type?: AccountType | null
+              address?: string | null
+              network?: NetworkType | null
+              explorerUrl?: string | null
+            } | null
+            gumProfileMeta?: {
+              __typename?: 'Account'
+              id?: string | null
+              name?: string | null
+              type?: AccountType | null
+              address?: string | null
+              network?: NetworkType | null
+              explorerUrl?: string | null
+            } | null
+          } | null
+          gumUser?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
           } | null
         } | null
       } | null
@@ -1244,6 +1372,33 @@ export type AdminGetAccountsQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        gumProfile?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+        gumProfileMeta?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+      } | null
+      gumUser?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
       } | null
     } | null
     identity?: {
@@ -1286,6 +1441,33 @@ export type AdminGetAccountsQuery = {
           followers?: number | null
           following?: number | null
           type?: ProfileType | null
+          gumProfile?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
+          } | null
+          gumProfileMeta?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
+          } | null
+        } | null
+        gumUser?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
         } | null
       } | null
     } | null
@@ -1357,6 +1539,33 @@ export type AdminGetAccountQuery = {
           followers?: number | null
           following?: number | null
           type?: ProfileType | null
+          gumProfile?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
+          } | null
+          gumProfileMeta?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
+          } | null
+        } | null
+        gumUser?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
         } | null
       } | null
       identity?: {
@@ -1399,6 +1608,33 @@ export type AdminGetAccountQuery = {
             followers?: number | null
             following?: number | null
             type?: ProfileType | null
+            gumProfile?: {
+              __typename?: 'Account'
+              id?: string | null
+              name?: string | null
+              type?: AccountType | null
+              address?: string | null
+              network?: NetworkType | null
+              explorerUrl?: string | null
+            } | null
+            gumProfileMeta?: {
+              __typename?: 'Account'
+              id?: string | null
+              name?: string | null
+              type?: AccountType | null
+              address?: string | null
+              network?: NetworkType | null
+              explorerUrl?: string | null
+            } | null
+          } | null
+          gumUser?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
           } | null
         } | null
       } | null
@@ -1449,6 +1685,33 @@ export type AdminGetAccountQuery = {
           followers?: number | null
           following?: number | null
           type?: ProfileType | null
+          gumProfile?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
+          } | null
+          gumProfileMeta?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
+          } | null
+        } | null
+        gumUser?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
         } | null
       } | null
       identity?: {
@@ -1491,6 +1754,33 @@ export type AdminGetAccountQuery = {
             followers?: number | null
             following?: number | null
             type?: ProfileType | null
+            gumProfile?: {
+              __typename?: 'Account'
+              id?: string | null
+              name?: string | null
+              type?: AccountType | null
+              address?: string | null
+              network?: NetworkType | null
+              explorerUrl?: string | null
+            } | null
+            gumProfileMeta?: {
+              __typename?: 'Account'
+              id?: string | null
+              name?: string | null
+              type?: AccountType | null
+              address?: string | null
+              network?: NetworkType | null
+              explorerUrl?: string | null
+            } | null
+          } | null
+          gumUser?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
           } | null
         } | null
       } | null
@@ -1528,6 +1818,33 @@ export type AdminGetAccountQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        gumProfile?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+        gumProfileMeta?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+      } | null
+      gumUser?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
       } | null
     } | null
     identity?: {
@@ -1570,6 +1887,33 @@ export type AdminGetAccountQuery = {
           followers?: number | null
           following?: number | null
           type?: ProfileType | null
+          gumProfile?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
+          } | null
+          gumProfileMeta?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
+          } | null
+        } | null
+        gumUser?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
         } | null
       } | null
     } | null
@@ -1642,6 +1986,33 @@ export type UserGetAccountQuery = {
           followers?: number | null
           following?: number | null
           type?: ProfileType | null
+          gumProfile?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
+          } | null
+          gumProfileMeta?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
+          } | null
+        } | null
+        gumUser?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
         } | null
       } | null
       identity?: {
@@ -1684,6 +2055,33 @@ export type UserGetAccountQuery = {
             followers?: number | null
             following?: number | null
             type?: ProfileType | null
+            gumProfile?: {
+              __typename?: 'Account'
+              id?: string | null
+              name?: string | null
+              type?: AccountType | null
+              address?: string | null
+              network?: NetworkType | null
+              explorerUrl?: string | null
+            } | null
+            gumProfileMeta?: {
+              __typename?: 'Account'
+              id?: string | null
+              name?: string | null
+              type?: AccountType | null
+              address?: string | null
+              network?: NetworkType | null
+              explorerUrl?: string | null
+            } | null
+          } | null
+          gumUser?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
           } | null
         } | null
       } | null
@@ -1734,6 +2132,33 @@ export type UserGetAccountQuery = {
           followers?: number | null
           following?: number | null
           type?: ProfileType | null
+          gumProfile?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
+          } | null
+          gumProfileMeta?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
+          } | null
+        } | null
+        gumUser?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
         } | null
       } | null
       identity?: {
@@ -1776,6 +2201,33 @@ export type UserGetAccountQuery = {
             followers?: number | null
             following?: number | null
             type?: ProfileType | null
+            gumProfile?: {
+              __typename?: 'Account'
+              id?: string | null
+              name?: string | null
+              type?: AccountType | null
+              address?: string | null
+              network?: NetworkType | null
+              explorerUrl?: string | null
+            } | null
+            gumProfileMeta?: {
+              __typename?: 'Account'
+              id?: string | null
+              name?: string | null
+              type?: AccountType | null
+              address?: string | null
+              network?: NetworkType | null
+              explorerUrl?: string | null
+            } | null
+          } | null
+          gumUser?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
           } | null
         } | null
       } | null
@@ -1813,6 +2265,33 @@ export type UserGetAccountQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        gumProfile?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+        gumProfileMeta?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+      } | null
+      gumUser?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
       } | null
     } | null
     identity?: {
@@ -1855,6 +2334,33 @@ export type UserGetAccountQuery = {
           followers?: number | null
           following?: number | null
           type?: ProfileType | null
+          gumProfile?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
+          } | null
+          gumProfileMeta?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
+          } | null
+        } | null
+        gumUser?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
         } | null
       } | null
     } | null
@@ -1915,8 +2421,35 @@ export type GetMeQuery = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      gumProfile?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+      gumProfileMeta?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
     } | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
+    gumUser?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
+    } | null
   } | null
 }
 
@@ -1969,6 +2502,33 @@ export type AnonRespondChallengeMutation = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      gumProfile?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+      gumProfileMeta?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+    } | null
+    gumUser?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
     } | null
   } | null
 }
@@ -2171,6 +2731,33 @@ export type AdminGetDomainQuery = {
           followers?: number | null
           following?: number | null
           type?: ProfileType | null
+          gumProfile?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
+          } | null
+          gumProfileMeta?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
+          } | null
+        } | null
+        gumUser?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
         } | null
       } | null
     }> | null
@@ -2364,6 +2951,33 @@ export type UserDeleteIdentityMutation = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      gumProfile?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+      gumProfileMeta?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+    } | null
+    gumUser?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
     } | null
   } | null
 }
@@ -2427,6 +3041,33 @@ export type UserGetIdentitiesQuery = {
           followers?: number | null
           following?: number | null
           type?: ProfileType | null
+          gumProfile?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
+          } | null
+          gumProfileMeta?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
+          } | null
+        } | null
+        gumUser?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
         } | null
       } | null
       identity?: {
@@ -2469,6 +3110,33 @@ export type UserGetIdentitiesQuery = {
             followers?: number | null
             following?: number | null
             type?: ProfileType | null
+            gumProfile?: {
+              __typename?: 'Account'
+              id?: string | null
+              name?: string | null
+              type?: AccountType | null
+              address?: string | null
+              network?: NetworkType | null
+              explorerUrl?: string | null
+            } | null
+            gumProfileMeta?: {
+              __typename?: 'Account'
+              id?: string | null
+              name?: string | null
+              type?: AccountType | null
+              address?: string | null
+              network?: NetworkType | null
+              explorerUrl?: string | null
+            } | null
+          } | null
+          gumUser?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
           } | null
         } | null
       } | null
@@ -2529,6 +3197,33 @@ export type UserLinkIdentityMutation = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      gumProfile?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+      gumProfileMeta?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+    } | null
+    gumUser?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
     } | null
   } | null
 }
@@ -2591,6 +3286,33 @@ export type InviteDetailsFragment = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      gumProfile?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+      gumProfileMeta?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+    } | null
+    gumUser?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
     } | null
   } | null
 }
@@ -2646,6 +3368,33 @@ export type AdminGetInviteQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        gumProfile?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+        gumProfileMeta?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+      } | null
+      gumUser?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
       } | null
     }> | null
     owner?: {
@@ -2681,6 +3430,33 @@ export type AdminGetInviteQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        gumProfile?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+        gumProfileMeta?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+      } | null
+      gumUser?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
       } | null
     } | null
   } | null
@@ -2737,6 +3513,33 @@ export type AdminGetInvitesQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        gumProfile?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+        gumProfileMeta?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+      } | null
+      gumUser?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
       } | null
     } | null
   }> | null
@@ -2793,6 +3596,33 @@ export type AdminCreateInviteMutation = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        gumProfile?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+        gumProfileMeta?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+      } | null
+      gumUser?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
       } | null
     } | null
   } | null
@@ -2850,6 +3680,33 @@ export type AdminUpdateInviteMutation = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        gumProfile?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+        gumProfileMeta?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+      } | null
+      gumUser?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
       } | null
     } | null
   } | null
@@ -2906,6 +3763,33 @@ export type AdminDeleteInviteMutation = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        gumProfile?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+        gumProfileMeta?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+      } | null
+      gumUser?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
       } | null
     } | null
   } | null
@@ -2962,6 +3846,33 @@ export type AnonGetInviteQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        gumProfile?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+        gumProfileMeta?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+      } | null
+      gumUser?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
       } | null
     }> | null
     owner?: {
@@ -2997,6 +3908,33 @@ export type AnonGetInviteQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        gumProfile?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+        gumProfileMeta?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+      } | null
+      gumUser?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
       } | null
     } | null
   } | null
@@ -3051,6 +3989,33 @@ export type UserGetInvitesQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        gumProfile?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+        gumProfileMeta?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+      } | null
+      gumUser?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
       } | null
     } | null
   }> | null
@@ -3105,6 +4070,33 @@ export type UserGetInviteQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        gumProfile?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+        gumProfileMeta?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+      } | null
+      gumUser?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
       } | null
     }> | null
     owner?: {
@@ -3140,6 +4132,33 @@ export type UserGetInviteQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        gumProfile?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+        gumProfileMeta?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+      } | null
+      gumUser?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
       } | null
     } | null
   } | null
@@ -3196,6 +4215,33 @@ export type UserAcceptInviteMutation = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        gumProfile?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+        gumProfileMeta?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+      } | null
+      gumUser?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
       } | null
     } | null
   } | null
@@ -3495,6 +4541,33 @@ export type PageDetailsFragment = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      gumProfile?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+      gumProfileMeta?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+    } | null
+    gumUser?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
     } | null
   } | null
 }
@@ -3570,6 +4643,33 @@ export type AdminGetPageQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        gumProfile?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+        gumProfileMeta?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+      } | null
+      gumUser?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
       } | null
     } | null
   } | null
@@ -3617,6 +4717,24 @@ export type AdminGetPagesQuery = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      gumProfile?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+      gumProfileMeta?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
     } | null
     owner?: {
       __typename?: 'User'
@@ -3651,6 +4769,33 @@ export type AdminGetPagesQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        gumProfile?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+        gumProfileMeta?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+      } | null
+      gumUser?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
       } | null
     } | null
   }> | null
@@ -3707,6 +4852,33 @@ export type AdminCreatePageMutation = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        gumProfile?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+        gumProfileMeta?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+      } | null
+      gumUser?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
       } | null
     } | null
   } | null
@@ -3764,6 +4936,33 @@ export type AdminUpdatePageMutation = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        gumProfile?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+        gumProfileMeta?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+      } | null
+      gumUser?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
       } | null
     } | null
   } | null
@@ -3820,6 +5019,33 @@ export type AdminDeletePageMutation = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        gumProfile?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+        gumProfileMeta?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+      } | null
+      gumUser?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
       } | null
     } | null
   } | null
@@ -3876,6 +5102,24 @@ export type AnonGetPageQuery = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      gumProfile?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+      gumProfileMeta?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
     } | null
     owner?: {
       __typename?: 'User'
@@ -3910,6 +5154,33 @@ export type AnonGetPageQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        gumProfile?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+        gumProfileMeta?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+      } | null
+      gumUser?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
       } | null
     } | null
   } | null
@@ -3985,6 +5256,33 @@ export type UserGetPageQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        gumProfile?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+        gumProfileMeta?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+      } | null
+      gumUser?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
       } | null
     } | null
   } | null
@@ -4042,6 +5340,33 @@ export type UserUpdatePageMutation = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        gumProfile?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+        gumProfileMeta?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+      } | null
+      gumUser?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
       } | null
     } | null
   } | null
@@ -4098,6 +5423,33 @@ export type UserDeletePageMutation = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        gumProfile?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+        gumProfileMeta?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+      } | null
+      gumUser?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
       } | null
     } | null
   } | null
@@ -4154,6 +5506,33 @@ export type UserCreatePageMutation = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        gumProfile?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+        gumProfileMeta?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+      } | null
+      gumUser?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
       } | null
     } | null
   } | null
@@ -4319,6 +5698,24 @@ export type ProfileDetailsFragment = {
   followers?: number | null
   following?: number | null
   type?: ProfileType | null
+  gumProfile?: {
+    __typename?: 'Account'
+    id?: string | null
+    name?: string | null
+    type?: AccountType | null
+    address?: string | null
+    network?: NetworkType | null
+    explorerUrl?: string | null
+  } | null
+  gumProfileMeta?: {
+    __typename?: 'Account'
+    id?: string | null
+    name?: string | null
+    type?: AccountType | null
+    address?: string | null
+    network?: NetworkType | null
+    explorerUrl?: string | null
+  } | null
 }
 
 export type AdminGetProfileQueryVariables = Exact<{
@@ -4374,7 +5771,52 @@ export type AdminGetProfileQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        gumProfile?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+        gumProfileMeta?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
       } | null
+      gumUser?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+    } | null
+    gumProfile?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
+    } | null
+    gumProfileMeta?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
     } | null
   } | null
 }
@@ -4432,6 +5874,33 @@ export type AdminGetProfilesQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        gumProfile?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+        gumProfileMeta?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+      } | null
+      gumUser?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
       } | null
     } | null
     page?: {
@@ -4453,6 +5922,24 @@ export type AdminGetProfilesQuery = {
         domain?: { __typename?: 'Domain'; id?: string | null; name?: string | null } | null
         page?: { __typename?: 'Page'; id?: string | null; title?: string | null } | null
       }> | null
+    } | null
+    gumProfile?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
+    } | null
+    gumProfileMeta?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
     } | null
   }> | null
 }
@@ -4478,6 +5965,24 @@ export type AdminUpdateProfileMutation = {
     followers?: number | null
     following?: number | null
     type?: ProfileType | null
+    gumProfile?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
+    } | null
+    gumProfileMeta?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
+    } | null
   } | null
 }
 
@@ -4501,6 +6006,24 @@ export type AdminDeleteProfileMutation = {
     followers?: number | null
     following?: number | null
     type?: ProfileType | null
+    gumProfile?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
+    } | null
+    gumProfileMeta?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
+    } | null
   } | null
 }
 
@@ -4525,6 +6048,24 @@ export type UserLinkProfileIdentityMutation = {
     followers?: number | null
     following?: number | null
     type?: ProfileType | null
+    gumProfile?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
+    } | null
+    gumProfileMeta?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
+    } | null
   } | null
 }
 
@@ -4549,6 +6090,24 @@ export type UserUnlinkProfileIdentityMutation = {
     followers?: number | null
     following?: number | null
     type?: ProfileType | null
+    gumProfile?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
+    } | null
+    gumProfileMeta?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
+    } | null
   } | null
 }
 
@@ -4572,6 +6131,24 @@ export type UserGetProfileQuery = {
     followers?: number | null
     following?: number | null
     type?: ProfileType | null
+    gumProfile?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
+    } | null
+    gumProfileMeta?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
+    } | null
   } | null
 }
 
@@ -4645,6 +6222,33 @@ export type UserGetProfilePageQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        gumProfile?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+        gumProfileMeta?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+      } | null
+      gumUser?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
       } | null
     } | null
   } | null
@@ -4695,12 +6299,39 @@ export type UserGetProfilesQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        gumProfile?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+        gumProfileMeta?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
       } | null
       relation?: {
         __typename?: 'UserRelation'
         isYou: boolean
         isFollowedByYou: boolean
         isFollowingYou: boolean
+      } | null
+      gumUser?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
       } | null
     } | null
     page?: {
@@ -4733,6 +6364,24 @@ export type UserGetProfilesQuery = {
       profile?: any | null
       verified: boolean
     }> | null
+    gumProfile?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
+    } | null
+    gumProfileMeta?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
+    } | null
   }> | null
 }
 
@@ -4757,6 +6406,24 @@ export type UserUpdateProfileMutation = {
     followers?: number | null
     following?: number | null
     type?: ProfileType | null
+    gumProfile?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
+    } | null
+    gumProfileMeta?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
+    } | null
   } | null
 }
 
@@ -4780,6 +6447,24 @@ export type UserDeleteProfileMutation = {
     followers?: number | null
     following?: number | null
     type?: ProfileType | null
+    gumProfile?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
+    } | null
+    gumProfileMeta?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
+    } | null
   } | null
 }
 
@@ -4803,6 +6488,65 @@ export type UserSyncProfileMutation = {
     followers?: number | null
     following?: number | null
     type?: ProfileType | null
+    gumProfile?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
+    } | null
+    gumProfileMeta?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
+    } | null
+  } | null
+}
+
+export type UserVerifyProfileMutationVariables = Exact<{
+  profileId: Scalars['String']
+}>
+
+export type UserVerifyProfileMutation = {
+  __typename?: 'Mutation'
+  item?: {
+    __typename?: 'Profile'
+    id?: string | null
+    createdAt?: any | null
+    updatedAt?: any | null
+    name?: string | null
+    username?: string | null
+    bio?: string | null
+    avatarUrl?: string | null
+    metaUrl?: string | null
+    color?: string | null
+    followers?: number | null
+    following?: number | null
+    type?: ProfileType | null
+    gumProfile?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
+    } | null
+    gumProfileMeta?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
+    } | null
   } | null
 }
 
@@ -4826,6 +6570,24 @@ export type UserSetDefaultProfileMutation = {
     followers?: number | null
     following?: number | null
     type?: ProfileType | null
+    gumProfile?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
+    } | null
+    gumProfileMeta?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
+    } | null
   } | null
 }
 
@@ -4849,6 +6611,24 @@ export type UserCreateProfileMutation = {
     followers?: number | null
     following?: number | null
     type?: ProfileType | null
+    gumProfile?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
+    } | null
+    gumProfileMeta?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
+    } | null
   } | null
 }
 
@@ -5051,6 +6831,33 @@ export type UserSearchMutation = {
             followers?: number | null
             following?: number | null
             type?: ProfileType | null
+            gumProfile?: {
+              __typename?: 'Account'
+              id?: string | null
+              name?: string | null
+              type?: AccountType | null
+              address?: string | null
+              network?: NetworkType | null
+              explorerUrl?: string | null
+            } | null
+            gumProfileMeta?: {
+              __typename?: 'Account'
+              id?: string | null
+              name?: string | null
+              type?: AccountType | null
+              address?: string | null
+              network?: NetworkType | null
+              explorerUrl?: string | null
+            } | null
+          } | null
+          gumUser?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
           } | null
         } | null
       } | null
@@ -5087,6 +6894,33 @@ export type UserSearchMutation = {
           followers?: number | null
           following?: number | null
           type?: ProfileType | null
+          gumProfile?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
+          } | null
+          gumProfileMeta?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
+          } | null
+        } | null
+        gumUser?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
         } | null
       } | null
     }> | null
@@ -5123,6 +6957,33 @@ export type UserSearchMutation = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        gumProfile?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+        gumProfileMeta?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+      } | null
+      gumUser?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
       } | null
     }> | null
   } | null
@@ -5163,6 +7024,33 @@ export type UserDetailsFragment = {
     followers?: number | null
     following?: number | null
     type?: ProfileType | null
+    gumProfile?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
+    } | null
+    gumProfileMeta?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
+    } | null
+  } | null
+  gumUser?: {
+    __typename?: 'Account'
+    id?: string | null
+    name?: string | null
+    type?: AccountType | null
+    address?: string | null
+    network?: NetworkType | null
+    explorerUrl?: string | null
   } | null
 }
 
@@ -5209,6 +7097,24 @@ export type AdminGetUserQuery = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      gumProfile?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+      gumProfileMeta?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
     }> | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
     profile?: {
@@ -5225,6 +7131,33 @@ export type AdminGetUserQuery = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      gumProfile?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+      gumProfileMeta?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+    } | null
+    gumUser?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
     } | null
   } | null
 }
@@ -5261,6 +7194,33 @@ export type AdminGetUsersQuery = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      gumProfile?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+      gumProfileMeta?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+    } | null
+    gumUser?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
     } | null
   }> | null
 }
@@ -5299,6 +7259,33 @@ export type AdminCreateUserMutation = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      gumProfile?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+      gumProfileMeta?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+    } | null
+    gumUser?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
     } | null
   } | null
 }
@@ -5338,6 +7325,33 @@ export type AdminUpdateUserMutation = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      gumProfile?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+      gumProfileMeta?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+    } | null
+    gumUser?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
     } | null
   } | null
 }
@@ -5376,6 +7390,33 @@ export type AdminDeleteUserMutation = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      gumProfile?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+      gumProfileMeta?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+    } | null
+    gumUser?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
     } | null
   } | null
 }
@@ -5423,6 +7464,24 @@ export type AnonGetUserQuery = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      gumProfile?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+      gumProfileMeta?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
     } | null
     profiles?: Array<{
       __typename?: 'Profile'
@@ -5438,8 +7497,35 @@ export type AnonGetUserQuery = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      gumProfile?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+      gumProfileMeta?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
     }> | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
+    gumUser?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
+    } | null
   } | null
 }
 
@@ -5487,6 +7573,33 @@ export type AnonGetUserFollowersQuery = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      gumProfile?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+      gumProfileMeta?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+    } | null
+    gumUser?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
     } | null
   }> | null
 }
@@ -5535,6 +7648,33 @@ export type AnonGetUserFollowingQuery = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      gumProfile?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+      gumProfileMeta?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+    } | null
+    gumUser?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
     } | null
   }> | null
 }
@@ -5571,6 +7711,24 @@ export type AnonGetUserPagesQuery = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      gumProfile?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+      gumProfileMeta?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
     } | null
     owner?: {
       __typename?: 'User'
@@ -5605,6 +7763,33 @@ export type AnonGetUserPagesQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        gumProfile?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+        gumProfileMeta?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+      } | null
+      gumUser?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
       } | null
     } | null
   }> | null
@@ -5650,6 +7835,33 @@ export type UserUpdateUserMutation = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      gumProfile?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+      gumProfileMeta?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+    } | null
+    gumUser?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
     } | null
   } | null
 }
@@ -5688,6 +7900,33 @@ export type UserFollowUserMutation = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      gumProfile?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+      gumProfileMeta?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+    } | null
+    gumUser?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
     } | null
   } | null
 }
@@ -5726,6 +7965,96 @@ export type UserUnfollowUserMutation = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      gumProfile?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+      gumProfileMeta?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+    } | null
+    gumUser?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
+    } | null
+  } | null
+}
+
+export type UserVerifyUserMutationVariables = Exact<{ [key: string]: never }>
+
+export type UserVerifyUserMutation = {
+  __typename?: 'Mutation'
+  item?: {
+    __typename?: 'User'
+    id?: string | null
+    pid?: number | null
+    role?: UserRole | null
+    status?: UserStatus | null
+    createdAt?: any | null
+    updatedAt?: any | null
+    followersCount?: number | null
+    followingCount?: number | null
+    profileUrl?: string | null
+    publicKey?: string | null
+    username?: string | null
+    relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
+    profile?: {
+      __typename?: 'Profile'
+      id?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
+      name?: string | null
+      username?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      color?: string | null
+      followers?: number | null
+      following?: number | null
+      type?: ProfileType | null
+      gumProfile?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+      gumProfileMeta?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+    } | null
+    gumUser?: {
+      __typename?: 'Account'
+      id?: string | null
+      name?: string | null
+      type?: AccountType | null
+      address?: string | null
+      network?: NetworkType | null
+      explorerUrl?: string | null
     } | null
   } | null
 }
@@ -5735,6 +8064,16 @@ export const UserRelationDetailsFragmentDoc = gql`
     isYou
     isFollowedByYou
     isFollowingYou
+  }
+`
+export const AccountSummaryFragmentDoc = gql`
+  fragment AccountSummary on Account {
+    id
+    name
+    type
+    address
+    network
+    explorerUrl
   }
 `
 export const ProfileDetailsFragmentDoc = gql`
@@ -5751,7 +8090,14 @@ export const ProfileDetailsFragmentDoc = gql`
     followers
     following
     type
+    gumProfile {
+      ...AccountSummary
+    }
+    gumProfileMeta {
+      ...AccountSummary
+    }
   }
+  ${AccountSummaryFragmentDoc}
 `
 export const UserDetailsFragmentDoc = gql`
   fragment UserDetails on User {
@@ -5772,9 +8118,13 @@ export const UserDetailsFragmentDoc = gql`
     profile {
       ...ProfileDetails
     }
+    gumUser {
+      ...AccountSummary
+    }
   }
   ${UserRelationDetailsFragmentDoc}
   ${ProfileDetailsFragmentDoc}
+  ${AccountSummaryFragmentDoc}
 `
 export const AccountDetailsFragmentDoc = gql`
   fragment AccountDetails on Account {
@@ -7073,6 +9423,18 @@ export const UserSyncProfileDocument = gql`
 export function useUserSyncProfileMutation() {
   return Urql.useMutation<UserSyncProfileMutation, UserSyncProfileMutationVariables>(UserSyncProfileDocument)
 }
+export const UserVerifyProfileDocument = gql`
+  mutation UserVerifyProfile($profileId: String!) {
+    item: userVerifyProfile(profileId: $profileId) {
+      ...ProfileDetails
+    }
+  }
+  ${ProfileDetailsFragmentDoc}
+`
+
+export function useUserVerifyProfileMutation() {
+  return Urql.useMutation<UserVerifyProfileMutation, UserVerifyProfileMutationVariables>(UserVerifyProfileDocument)
+}
 export const UserSetDefaultProfileDocument = gql`
   mutation UserSetDefaultProfile($profileId: String!) {
     item: userSetDefaultProfile(profileId: $profileId) {
@@ -7406,4 +9768,16 @@ export const UserUnfollowUserDocument = gql`
 
 export function useUserUnfollowUserMutation() {
   return Urql.useMutation<UserUnfollowUserMutation, UserUnfollowUserMutationVariables>(UserUnfollowUserDocument)
+}
+export const UserVerifyUserDocument = gql`
+  mutation UserVerifyUser {
+    item: userVerifyUser {
+      ...UserDetails
+    }
+  }
+  ${UserDetailsFragmentDoc}
+`
+
+export function useUserVerifyUserMutation() {
+  return Urql.useMutation<UserVerifyUserMutation, UserVerifyUserMutationVariables>(UserVerifyUserDocument)
 }

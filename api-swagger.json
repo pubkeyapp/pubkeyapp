@@ -426,6 +426,92 @@
         },
         "required": ["id", "provider", "providerId", "verified"]
       },
+      "AccountType": {
+        "type": "string",
+        "enum": [
+          "Account",
+          "BonfidaDomain",
+          "BonfidaTwitter",
+          "GumUser",
+          "GumProfile",
+          "GumProfileMeta",
+          "MetaplexNFT",
+          "Mint",
+          "Program",
+          "Token",
+          "System"
+        ]
+      },
+      "Account": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "discoveredBy": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          },
+          "identity": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Identity"
+              }
+            ]
+          },
+          "owner": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Account"
+              }
+            ]
+          },
+          "tokens": {
+            "nullable": true,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Account"
+            }
+          },
+          "name": {
+            "type": "string"
+          },
+          "program": {
+            "type": "string"
+          },
+          "metadata": {
+            "type": "object",
+            "nullable": true
+          },
+          "address": {
+            "type": "string"
+          },
+          "network": {
+            "$ref": "#/components/schemas/NetworkType"
+          },
+          "type": {
+            "$ref": "#/components/schemas/AccountType"
+          }
+        },
+        "required": [
+          "id",
+          "discoveredBy",
+          "identity",
+          "owner",
+          "tokens",
+          "name",
+          "program",
+          "address",
+          "network",
+          "type"
+        ]
+      },
       "ProfileType": {
         "type": "string",
         "enum": ["Degen", "Gaming", "Personal", "Professional"]
@@ -574,6 +660,22 @@
                 "$ref": "#/components/schemas/Page"
               }
             ]
+          },
+          "gumProfile": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Account"
+              }
+            ]
+          },
+          "gumProfileMeta": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Account"
+              }
+            ]
           }
         },
         "required": ["id", "name", "bio", "avatarUrl", "type", "status"]
@@ -623,6 +725,14 @@
             "type": "integer",
             "nullable": true
           },
+          "gumUser": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Account"
+              }
+            ]
+          },
           "profile": {
             "nullable": true,
             "allOf": [
@@ -640,92 +750,6 @@
           }
         },
         "required": ["id"]
-      },
-      "AccountType": {
-        "type": "string",
-        "enum": [
-          "Account",
-          "BonfidaDomain",
-          "BonfidaTwitter",
-          "GumUser",
-          "GumProfile",
-          "GumProfileMeta",
-          "MetaplexNFT",
-          "Mint",
-          "Program",
-          "Token",
-          "System"
-        ]
-      },
-      "Account": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "discoveredBy": {
-            "nullable": true,
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/User"
-              }
-            ]
-          },
-          "identity": {
-            "nullable": true,
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/Identity"
-              }
-            ]
-          },
-          "owner": {
-            "nullable": true,
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/Account"
-              }
-            ]
-          },
-          "tokens": {
-            "nullable": true,
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Account"
-            }
-          },
-          "name": {
-            "type": "string"
-          },
-          "program": {
-            "type": "string"
-          },
-          "metadata": {
-            "type": "object",
-            "nullable": true
-          },
-          "address": {
-            "type": "string"
-          },
-          "network": {
-            "$ref": "#/components/schemas/NetworkType"
-          },
-          "type": {
-            "$ref": "#/components/schemas/AccountType"
-          }
-        },
-        "required": [
-          "id",
-          "discoveredBy",
-          "identity",
-          "owner",
-          "tokens",
-          "name",
-          "program",
-          "address",
-          "network",
-          "type"
-        ]
       },
       "RequestChallenge": {
         "type": "object",

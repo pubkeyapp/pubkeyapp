@@ -39,7 +39,9 @@ export function UiHeaderProfile() {
             {user?.profile?.avatarUrl ? (
               <Avatar src={user?.profile?.avatarUrl} alt={`Avatar of ${user?.username}`} radius="xl" size={30} />
             ) : (
-              <IconUser size={28} stroke={1.5} />
+              <Box ml={8}>
+                <IconUser size={24} stroke={1.5} />
+              </Box>
             )}
             <IconChevronDown size={rem(16)} stroke={1.5} />
           </Group>
@@ -62,15 +64,11 @@ export function UiHeaderProfile() {
             </Box>
           </Menu.Label>
           <Menu.Divider />
-
-          <Menu.Item component={Link} to="/dashboard/profiles">
-            Manage Profiles
-          </Menu.Item>
-          <Menu.Item component={Link} to="/dashboard/identities">
-            Manage Identities
+          <Menu.Item component={Link} to="/dashboard">
+            Dashboard
           </Menu.Item>
           <Menu.Item component={Link} to={`${user.profileUrl}`}>
-            View Your Profile
+            Your PubKey Profile
           </Menu.Item>
           {user.role === UserRole.Admin ? (
             <>

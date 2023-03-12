@@ -1,11 +1,11 @@
-import { ApiConfigService } from '@pubkeyapp/api/config/data-access'
 import { Logger, ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { OgmaService } from '@ogma/nestjs-module'
+import { ApiConfigService } from '@pubkeyapp/api/config/data-access'
 import { exec } from 'child_process'
 import cookieParser from 'cookie-parser'
-import redirectSSL from 'redirect-ssl'
 import session from 'express-session'
+import redirectSSL from 'redirect-ssl'
 import { AppModule } from './app/app.module'
 
 async function bootstrap() {

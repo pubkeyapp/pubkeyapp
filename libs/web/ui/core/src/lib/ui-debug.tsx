@@ -35,7 +35,7 @@ export function UiDebugModal({ data, title }: { data: string | unknown; title?: 
 
   return (
     <>
-      <Modal opened={opened} onClose={() => setOpened(false)} title={title ?? 'Debug'} centered>
+      <Modal opened={opened} onClose={() => setOpened(false)} title={title ?? 'Debug'} centered size="xl">
         <UiDebug data={data} open={opened} hideButton />
       </Modal>
 

@@ -21,7 +21,7 @@ export interface Client {
 
 export const createClient = function (options?: ClientOptions): Client {
   return createClientOriginal({
-    url: 'https://aware-earwig-49.hasura.app/v1/graphql',
+    url: 'https://light-pelican-32.hasura.app/v1/graphql',
 
     ...options,
     queryRoot: typeMap.Query!,

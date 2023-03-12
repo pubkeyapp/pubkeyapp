@@ -1,12 +1,14 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
-import { User } from '@prisma/client'
+import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common'
+import { NetworkType, User } from '@prisma/client'
+import { ApiAnonAccountService } from '@pubkeyapp/api/account/data-access'
 import { ApiCoreService, getProfileUsername, slugify } from '@pubkeyapp/api/core/data-access'
 import { UserUpdateUserInput } from './dto/user-update-user.input'
 import { UserRelation } from './entity/user.relation'
 
 @Injectable()
 export class ApiUserUserService {
-  constructor(private readonly core: ApiCoreService) {}
+  private readonly logger = new Logger(ApiUserUserService.name)
+  constructor(private readonly account: ApiAnonAccountService, private readonly core: ApiCoreService) {}
 
   async userFollowUser(ownerId: string, username: string): Promise<User> {
     const user = await this.ensureValidUser(username)
@@ -104,5 +106,34 @@ export class ApiUserUserService {
       throw new NotFoundException(`User ${username} not found`)
     }
     return user
+  }
+
+  async userVerifyUser(userId: string) {
+    const owner = await this.core.ensureUserActive(userId)
+    if (!owner.identity) {
+      throw new Error('User does not have an identity')
+    }
+    if (!owner.publicKey) {
+      throw new Error('User does not have a public key')
+    }
+    const gumUserAccount = await this.core.gum.getUser(owner.publicKey)
+    if (gumUserAccount && !owner.gumUser) {
+      await this.connectGumUserAccount(userId, NetworkType.SolanaDevnet, gumUserAccount.cl_pubkey.toString())
+    } else {
+      this.logger.log(`User ${userId} is connected to Gum User ${owner.gumUser?.address}`)
+    }
+
+    return this.core.getUserById(userId, true)
+  }
+
+  private async connectGumUserAccount(userId: string, network: NetworkType, address: string) {
+    await this.account.userGetAccount(userId, network, address)
+    await this.core.data.user.update({
+      where: { id: userId },
+      data: {
+        gumUser: { connect: { address_network: { address, network } } },
+      },
+    })
+    this.logger.log(`User ${userId} connected to Gum User ${address} on ${network}`)
   }
 }

@@ -1,3 +1,4 @@
+import { AppsProvider } from '@pubkeyapp/web/apps/data-access'
 import { AuthGuard, AuthProvider, UserRoleGuard, UserStatusGuard } from '@pubkeyapp/web/auth/data-access'
 import { ConfigProvider, SolanaProvider } from '@pubkeyapp/web/shell/data-access'
 import { UiNotFound } from '@pubkeyapp/web/ui/core'
@@ -15,7 +16,9 @@ import { PidRoutes } from './pid/pid.routes'
 import { ProfileRoutes } from './profile/profile-routes'
 import { SearchFeature } from './search/search-feature'
 import { SettingsFeature } from './settings/settings-feature'
+import { VerifiedFeature } from './verified/verified-feature'
 
+const AppsFeature = lazy(() => import('@pubkeyapp/web/apps/feature'))
 const AdminFeature = lazy(() => import('@pubkeyapp/web/admin/feature'))
 const DevFeature = lazy(() => import('@pubkeyapp/web/dev/feature'))
 const PageFeature = lazy(() => import('@pubkeyapp/web/page/feature'))
@@ -41,6 +44,7 @@ export function WebShellFeature() {
         <Route index element={<Navigate replace to={'/home'} />} />
         <Route element={<UiLayout homepage />}>
           <Route path="/home" element={<HomepageFeature />} />
+          <Route path="/verified" element={<VerifiedFeature />} />
           {/*<Route path="/pricing" element={<PlanFeature />} />*/}
           {pages.map((page) => (
             <Route key={page} path={`${page}`} element={<HomepageContentFeature page={page} />} />
@@ -50,10 +54,16 @@ export function WebShellFeature() {
           <Route element={<UiLayout />}>
             <Route path="/login" element={<LoginFeature />} />
             <Route element={<AuthGuard redirectTo="/login" />}>
-              <Route element={<UserStatusGuard status={UserStatus.Active} element={<EarlyFeature />} />}>
+              <Route
+                element={
+                  <AppsProvider>
+                    <UserStatusGuard status={UserStatus.Active} element={<EarlyFeature />} />
+                  </AppsProvider>
+                }
+              >
                 <Route path="/account/*" element={<AccountFeature />} />
+                <Route path="/apps/*" element={<AppsFeature />} />
                 <Route path="/dashboard/*" element={<DashboardFeature />} />
-                <Route path="/pages/*" element={<PageEditorFeature />} />
                 <Route path="/search/*" element={<SearchFeature />} />
                 <Route element={<UserRoleGuard role={UserRole.Admin} />}>
                   <Route path="/admin/*" element={<AdminFeature />} />

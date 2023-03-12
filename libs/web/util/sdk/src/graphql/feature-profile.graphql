@@ -11,6 +11,12 @@ fragment ProfileDetails on Profile {
   followers
   following
   type
+  gumProfile {
+    ...AccountSummary
+  }
+  gumProfileMeta {
+    ...AccountSummary
+  }
 }
 
 query AdminGetProfile($profileId: String!) {
@@ -107,6 +113,12 @@ mutation UserDeleteProfile($profileId: String!) {
 
 mutation UserSyncProfile($profileId: String!) {
   item: userSyncProfile(profileId: $profileId) {
+    ...ProfileDetails
+  }
+}
+
+mutation UserVerifyProfile($profileId: String!) {
+  item: userVerifyProfile(profileId: $profileId) {
     ...ProfileDetails
   }
 }

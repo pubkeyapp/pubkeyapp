@@ -79,6 +79,7 @@ export class ApiAnonAccountService implements OnModuleInit {
     name,
     identityId,
     metadata,
+    refresh = false,
   }: {
     userId: string
     network: NetworkType
@@ -87,6 +88,7 @@ export class ApiAnonAccountService implements OnModuleInit {
     name?: string
     identityId?: string
     metadata?: any
+    refresh?: boolean
   }) {
     if (BLOCKED_ACCOUNTS.includes(address)) {
       this.logger.warn(`Account ${address} not index on ${network} (Blocked)`)
@@ -103,6 +105,11 @@ export class ApiAnonAccountService implements OnModuleInit {
 
     const cacheKey = `discover-account:${network}:${address}`
     const cacheTtlSeconds = 60
+
+    if (refresh) {
+      this.logger.verbose(`Refreshing account ${address} on ${network}`)
+      await this.core.cache.del('solana', cacheKey)
+    }
     return this.core.cache.wrap(
       'solana',
       cacheKey,
@@ -188,6 +195,7 @@ export class ApiAnonAccountService implements OnModuleInit {
         return this.findAccount(network, address)
       },
       cacheTtlSeconds,
+      refresh,
     )
   }
 
@@ -224,6 +232,8 @@ export class ApiAnonAccountService implements OnModuleInit {
         type: AccountType.GumUser,
         name: gumUser?.user?.cl_pubkey,
         identityId,
+        metadata: JSON.parse(JSON.stringify(gumUser?.user)),
+        refresh: true,
       })
     }
     for (const gumProfile of gumUser?.profiles) {
@@ -234,6 +244,8 @@ export class ApiAnonAccountService implements OnModuleInit {
         type: AccountType.GumProfile,
         name: gumProfile?.cl_pubkey,
         identityId,
+        metadata: JSON.parse(JSON.stringify(gumUser?.user)),
+        refresh: true,
       })
     }
     for (const gumProfileMeta of gumUser?.meta) {
@@ -244,6 +256,8 @@ export class ApiAnonAccountService implements OnModuleInit {
         type: AccountType.GumProfileMeta,
         name: gumProfileMeta?.cl_pubkey,
         identityId,
+        metadata: JSON.parse(JSON.stringify(gumUser?.user)),
+        refresh: true,
       })
     }
 
@@ -260,12 +274,6 @@ export class ApiAnonAccountService implements OnModuleInit {
     )
 
     for (const item of metaplex) {
-      if (!item.address) {
-        this.logger.warn(`Metaplex item ${item.name} has no address`)
-        console.log('item', item)
-        continue
-      }
-
       let fetched
       try {
         fetched = await fetch(item.uri).then((data) => data.json())
@@ -276,7 +284,7 @@ export class ApiAnonAccountService implements OnModuleInit {
       await this.discoverAccount({
         userId,
         network: NetworkType.SolanaMainnet,
-        address: item.address?.toBase58(),
+        address: item.address.toString(),
         type: AccountType.MetaplexNFT,
         name: item.name,
         identityId,

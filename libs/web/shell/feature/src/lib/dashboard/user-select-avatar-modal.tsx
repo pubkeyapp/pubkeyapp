@@ -45,8 +45,11 @@ export function UserSelectAvatarModal({
         size="auto"
         title={
           <Group>
-            <ProfileTypeBadge profileType={profile.type as ProfileType} />
-            <Text size="lg">Select Avatar</Text>
+            <ProfileTypeBadge
+              label={`Select ${profile.type} Avatar`}
+              profileType={profile.type as ProfileType}
+              verified={!!profile.gumProfile}
+            />
           </Group>
         }
         centered

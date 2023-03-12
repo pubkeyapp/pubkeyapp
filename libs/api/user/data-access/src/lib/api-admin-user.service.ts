@@ -8,7 +8,7 @@ import { AdminUpdateUserInput } from './dto/admin-update-user.input'
 export class ApiAdminUserService {
   async adminGetUser(adminId: string, userId) {
     await this.core.ensureUserAdmin(adminId)
-    const found = await this.core.data.findUserById(userId)
+    const found = await this.core.getUserById(userId)
     if (!found) {
       throw new NotFoundException()
     }
@@ -43,7 +43,7 @@ export class ApiAdminUserService {
 
   async adminUpdateUser(adminId: string, userId: string, input: AdminUpdateUserInput) {
     await this.core.ensureUserAdmin(adminId)
-    const found = await this.core.data.findUserById(userId)
+    const found = await this.core.getUserById(userId)
     if (!found) {
       throw new NotFoundException()
     }

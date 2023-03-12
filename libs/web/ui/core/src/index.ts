@@ -1,3 +1,4 @@
+export * from './lib/pubkey-profile-badge'
 export * from './lib/solana.logo'
 export * from './lib/ui-accordion'
 export * from './lib/ui-action-icon'

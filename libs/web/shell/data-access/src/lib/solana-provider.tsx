@@ -1,10 +1,11 @@
 import { WalletModalProvider } from '@pubkeyapp/wallet-adapter-mantine-ui'
 import { Cluster } from '@pubkeyapp/web/util/sdk'
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base'
-import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react'
+import { AnchorWallet, ConnectionProvider, useAnchorWallet, WalletProvider } from '@solana/wallet-adapter-react'
 import { PhantomWalletAdapter, SolflareWalletAdapter } from '@solana/wallet-adapter-wallets'
 import { clusterApiUrl } from '@solana/web3.js'
 import { createContext, ReactNode, useContext, useMemo } from 'react'
+import { GumAppProvider } from './gum-app-provider'
 import { useConfig } from './web-config.provider'
 
 export interface SolanaProviderContext {
@@ -49,7 +50,9 @@ export function SolanaProvider({ children }: { children: ReactNode }) {
     <SolanaContext.Provider value={value}>
       <ConnectionProvider endpoint={endpoint}>
         <WalletProvider wallets={wallets} autoConnect>
-          <WalletModalProvider>{children}</WalletModalProvider>
+          <WalletModalProvider>
+            <GumAppProvider>{children}</GumAppProvider>
+          </WalletModalProvider>
         </WalletProvider>
       </ConnectionProvider>
     </SolanaContext.Provider>

@@ -1,4 +1,4 @@
-import { Identity, IdentityProvider, Profile, User } from '@prisma/client'
+import { Account, Identity, IdentityProvider, Profile, User } from '@prisma/client'
 import { getSolanaName } from 'sol-namor/src'
 
 export type CoreDbUser = User & {
@@ -16,12 +16,14 @@ export type CoreIdentity = {
 }
 
 export type CoreUser = Omit<CoreDbUser, 'identities'> & {
+  gumUser?: Account
   identities: CoreIdentity[]
+  identity: CoreIdentity
   publicKey: string
   profileUrl: string
 }
 
-export function convertCoreDbUser(user: CoreDbUser, apiUrl: string): CoreUser {
+export function convertCoreDbUser(user: CoreDbUser): CoreUser {
   user.inviteId = undefined
 
   const identities: CoreIdentity[] = user.identities.map((identity) => {
@@ -38,6 +40,9 @@ export function convertCoreDbUser(user: CoreDbUser, apiUrl: string): CoreUser {
     ...user,
     publicKey,
     identities,
+    identity: identities.find(
+      (identity) => identity.provider === IdentityProvider.Solana && identity.providerId === publicKey,
+    ),
     profileUrl: `/u/${user.username}`,
   }
 }
@@ -55,8 +60,7 @@ export function getAvatarUrl(name: string) {
 
 export function getUsername(name: string) {
   if (name.length > 30) {
-    const newName = getSolanaName(name)
-    return slugify(newName)
+    return getSolanaName(name).split(' ').join('-').toLowerCase()
   }
   return name
 }

@@ -37,7 +37,7 @@ export function ProfileTable({ deleteProfile, profiles }: AdminProfileTableProps
             accessor: 'type',
             render: (item) => (
               <Anchor component={Link} to={`/admin/profiles/${item.id}`}>
-                <ProfileTypeBadge profileType={item.type as ProfileType} />
+                <ProfileTypeBadge profileType={item.type as ProfileType} verified={!!item.gumProfile} />
               </Anchor>
             ),
           },

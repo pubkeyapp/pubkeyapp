@@ -27,7 +27,6 @@ export class ApiCoreService implements OnApplicationBootstrap {
     await this.provisionSettings()
     setTimeout(() => {
       this.reload()
-      this.ensureUserHasPublicKey()
     }, 1000)
   }
 
@@ -82,9 +81,9 @@ export class ApiCoreService implements OnApplicationBootstrap {
         this.data.user
           .findUnique({
             where: { id: userId },
-            include: { profile: true, profiles: true, identities: true },
+            include: { profile: true, profiles: true, identities: true, gumUser: true },
           })
-          .then((user: CoreDbUser) => (user ? convertCoreDbUser(user, this.config.apiUrl) : undefined)),
+          .then((user: CoreDbUser) => (user ? convertCoreDbUser(user) : undefined)),
       10,
     )
   }
@@ -189,25 +188,5 @@ export class ApiCoreService implements OnApplicationBootstrap {
       this.reload()
       return res
     })
-  }
-
-  private async ensureUserHasPublicKey() {
-    const users = await this.data.user.findMany({
-      where: { publicKey: null },
-      include: { identities: { where: { provider: IdentityProvider.Solana } } },
-    })
-    for (const user of users) {
-      if (!user.identities.length) {
-        this.logger.warn(`User ${user.id} has no public key and no identities`)
-        continue
-      }
-      const publicKey = user.identities[0].providerId
-      const updated = await this.data.user.update({
-        where: { id: user.id },
-        data: { publicKey },
-      })
-      this.logger.verbose(` => Updated user ${user.username} with public key ${publicKey}`)
-      await this.getUserById(user.id, true)
-    }
   }
 }

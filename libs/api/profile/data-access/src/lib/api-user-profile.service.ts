@@ -3,14 +3,20 @@ import { NetworkType } from '@prisma/client'
 import { ApiAnonAccountService } from '@pubkeyapp/api/account/data-access'
 import { ApiCoreService, getProfileUsername } from '@pubkeyapp/api/core/data-access'
 import { createNewPage } from '@pubkeyapp/api/page/data-access'
+import { ApiUserUserService } from '@pubkeyapp/api/user/data-access'
 import { getProfileTypeColor } from './api-profile-helpers'
 import { UserUpdateProfileInput } from './dto/user-update-profile.input'
 import { ProfileType } from './entity/profile-type.enum'
+import { ProfileVerification } from './entity/profile-verification.entity'
 
 @Injectable()
 export class ApiUserProfileService {
   private readonly logger = new Logger(ApiUserProfileService.name)
-  constructor(private readonly core: ApiCoreService, private readonly account: ApiAnonAccountService) {}
+  constructor(
+    private readonly core: ApiCoreService,
+    private readonly account: ApiAnonAccountService,
+    private readonly user: ApiUserUserService,
+  ) {}
 
   async userGetProfile(userId: string, profileId: string) {
     return this.ensureProfileOwner(userId, profileId)
@@ -33,6 +39,8 @@ export class ApiUserProfileService {
     return this.core.data.profile.findMany({
       where: { ownerId: userId },
       include: {
+        gumProfile: true,
+        gumProfileMeta: true,
         user: true,
         identities: true,
         page: { include: { domains: { include: { domain: true } } } },
@@ -80,7 +88,7 @@ export class ApiUserProfileService {
       data: { ...input, username: input.username ? getProfileUsername(input.username) : undefined },
     })
     await this.core.getUserById(userId, true)
-    return updated
+    return this.userGetProfile(userId, updated.id)
   }
 
   async userLinkProfileIdentity(userId: string, profileId: string, identityId: string) {
@@ -113,6 +121,8 @@ export class ApiUserProfileService {
     const profile = await this.core.data.profile.findUnique({
       where: { id: profileId },
       include: {
+        gumProfile: true,
+        gumProfileMeta: true,
         owner: { include: { profile: true } },
         page: {
           include: {
@@ -159,5 +169,59 @@ export class ApiUserProfileService {
       const accountInfo = await this.account.userGetAccount(userId, NetworkType.SolanaDevnet, account, true)
       console.log('accountInfo', accountInfo)
     }
+  }
+
+  async userVerifyProfile(userId: string, profileId: string): Promise<ProfileVerification> {
+    const owner = await this.user.userVerifyUser(userId)
+    if (!owner.profile) {
+      throw new Error('User does not have a profile')
+    }
+
+    const profile = await this.ensureProfileOwner(userId, profileId)
+    //
+    // const accounts = await this.core.data.account.findMany({
+    //   where: { network: NetworkType.SolanaDevnet, identityId: owner.identity.id },
+    // })
+
+    // - Does the user have a Gum User?
+    const gumProfile = await this.core.gum.getProfile(owner.publicKey, profile.type)
+    if (gumProfile && !profile.gumProfile) {
+      console.log('I will need to link your Gum Profile to your Profile')
+      console.log('gumProfile', gumProfile, profile.type)
+    }
+    // console.log('gumUser', { gumUserAccount, gumProfile })
+
+    // const gumProfile = await this.core.gum.getGumProfile(owner.publicKey)
+
+    // - Does the user have a Gum Profile of this type?
+    // - Does the user have a Gum Meta of this type?
+
+    // const gumUser = await this.core.data.account.findFirst({
+    //   where: { network: NetworkType.SolanaDevnet, identityId: owner.identity.id, type: AccountType.GumUser },
+    // })
+
+    return {
+      // gumProfile,
+      // gumProfileMeta,
+      // gumUser,
+    }
+  }
+
+  userVerifyGumProfile() {
+    // - Does the user have a Gum Profile of this type?
+    // - Does the user have a Gum Meta of this type?
+  }
+
+  private async connectGumUserAccount(userId: string, network: NetworkType, address: string) {
+    await this.account.userGetAccount(userId, network, address)
+    await this.core.data.user.update({
+      where: { id: userId },
+      data: {
+        gumUser: {
+          connect: { address_network: { address, network } },
+        },
+      },
+    })
+    this.logger.log(`User ${userId} connected to Gum User ${address} on ${network}`)
   }
 }

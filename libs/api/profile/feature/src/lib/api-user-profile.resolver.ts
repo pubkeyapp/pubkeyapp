@@ -41,6 +41,11 @@ export class ApiUserProfileResolver {
   }
 
   @Mutation(() => Profile, { nullable: true })
+  userVerifyProfile(@CtxUser() user: User, @Args('profileId') profileId: string) {
+    return this.service.userVerifyProfile(user.id, profileId)
+  }
+
+  @Mutation(() => Profile, { nullable: true })
   userSetDefaultProfile(@CtxUser() user: User, @Args('profileId') profileId: string) {
     return this.service.userSetDefaultProfile(user.id, profileId)
   }

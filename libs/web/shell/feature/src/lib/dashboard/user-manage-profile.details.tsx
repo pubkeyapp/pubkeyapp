@@ -1,28 +1,28 @@
-import { ActionIcon, Anchor, Badge, Button, Group, Menu, Modal, Stack, Text, ThemeIcon, Tooltip } from '@mantine/core'
-import { useDisclosure } from '@mantine/hooks'
-import { modals } from '@mantine/modals'
+import { ActionIcon, Anchor, Badge, Button, Group, Menu, Stack, Text, ThemeIcon, Tooltip } from '@mantine/core'
+import { AppType, useApps } from '@pubkeyapp/web/apps/data-access'
+import { AppDashboard } from '@pubkeyapp/web/apps/ui'
 import { useAuth } from '@pubkeyapp/web/auth/data-access'
 import { IdentityBadge } from '@pubkeyapp/web/identity/ui'
 import { useUserProfiles } from '@pubkeyapp/web/profile/data-access'
-import { ProfileTypeBadge } from '@pubkeyapp/web/profile/ui'
-import { showNotificationError, showNotificationSuccess, UiDebug } from '@pubkeyapp/web/ui/core'
-import { formFieldText, formFieldTextarea, UiForm, UiFormField } from '@pubkeyapp/web/ui/form'
+import { showNotificationError, showNotificationSuccess, UiDebugModal } from '@pubkeyapp/web/ui/core'
 import {
   Profile,
-  ProfileType,
   UserUpdateProfileInput,
   useUserCreatePageMutation,
   useUserLinkProfileIdentityMutation,
   useUserSetDefaultProfileMutation,
   useUserUnlinkProfileIdentityMutation,
   useUserUpdateProfileMutation,
+  useUserVerifyProfileMutation,
 } from '@pubkeyapp/web/util/sdk'
-import { IconPageBreak, IconTrash, IconUser } from '@tabler/icons-react'
-import React, { useMemo, useState } from 'react'
+import { IconApps, IconTrash, IconUser } from '@tabler/icons-react'
+import React, { useMemo } from 'react'
 import { Link } from 'react-router-dom'
+import { UserEditProfileModal } from './user-edit-profile.modal'
 import { UserSelectAvatarModal } from './user-select-avatar-modal'
 
 export function UserManageProfileDetails({ profile }: { profile: Profile }) {
+  const { apps } = useApps()
   const { user } = useAuth()
   const { refresh } = useUserProfiles()
   const [{ fetching: creatingPage }, createPageMutation] = useUserCreatePageMutation()
@@ -30,6 +30,7 @@ export function UserManageProfileDetails({ profile }: { profile: Profile }) {
   const [, linkIdentityMutation] = useUserLinkProfileIdentityMutation()
   const [, unlinkIdentityMutation] = useUserUnlinkProfileIdentityMutation()
   const [, setDefaultProfileMutation] = useUserSetDefaultProfileMutation()
+  const [, verifyProfileMutation] = useUserVerifyProfileMutation()
 
   const createPage = () => {
     createPageMutation({ input: { profileId: profile.id } })
@@ -83,7 +84,7 @@ export function UserManageProfileDetails({ profile }: { profile: Profile }) {
   }
 
   const setDefaultProfile = async () => {
-    if (!window.confirm(`Are you sure you want to make ${profile.type} your default profile?`)) {
+    if (!window.confirm(`Are you sure you want to use ${profile.type} as your primary profile?`)) {
       return
     }
     return setDefaultProfileMutation({ profileId: `${profile.id}` })
@@ -104,6 +105,28 @@ export function UserManageProfileDetails({ profile }: { profile: Profile }) {
   const identities = useMemo(() => {
     return user?.identities?.filter((identity) => !profile.identities?.find((pId) => pId.id === identity.id))
   }, [user?.identities, profile])
+
+  const verifyProfile = () => {
+    verifyProfileMutation({ profileId: `${profile.id}` })
+      .then((res) => {
+        if (res.error) return showNotificationError(res.error.message)
+        if (!res.error && res.data?.item) {
+          showNotificationSuccess('Profile verified! ')
+          return !!res.data.item
+        }
+        return false
+      })
+      .catch((err) => showNotificationError(err.message))
+  }
+
+  const userApps = apps
+    .map((app) => {
+      if (app.id === AppType.PubKeyPages) {
+        app.itemId = profile.page?.id ?? ''
+      }
+      return app
+    })
+    .filter((app) => app.itemId)
 
   return (
     <Stack>
@@ -129,14 +152,23 @@ export function UserManageProfileDetails({ profile }: { profile: Profile }) {
             </Stack>
           </Group>
           <Group>
+            <UserEditProfileModal profile={profile!} />
+          </Group>
+        </Group>
+        <Group position="right" align="start">
+          <Group>
             {user?.profile?.id === profile.id ? null : (
-              <Tooltip label="Your default profile">
-                <Button variant="subtle" size="sm" onClick={() => setDefaultProfile()}>
-                  Make Default
+              <Tooltip label={`Use ${profile.type} as your primary profile on PubKey`}>
+                <Button variant="outline" size="sm" onClick={() => setDefaultProfile()}>
+                  Use as Primary
                 </Button>
               </Tooltip>
             )}
-            <UserEditProfileModal profile={profile!} />
+            <Tooltip label={`Verify ${profile.type} profile`}>
+              <Button variant="outline" size="sm" onClick={verifyProfile}>
+                Verify Profile
+              </Button>
+            </Tooltip>
           </Group>
         </Group>
       </Stack>
@@ -149,25 +181,23 @@ export function UserManageProfileDetails({ profile }: { profile: Profile }) {
               color="brand"
               leftSection={
                 <ThemeIcon color={'brand'} variant="transparent" size="lg" radius="xl">
-                  <IconPageBreak size={16} />
+                  <IconApps size={16} />
                 </ThemeIcon>
               }
             >
-              Profile Page
+              Apps
             </Badge>
           </Stack>
-          <Group>
-            {profile.page ? (
-              <Button variant="outline" size="sm" component={Link} to={`/pages/${profile.page?.id}`}>
-                Manage Page
-              </Button>
-            ) : (
-              <Button loading={creatingPage} variant="outline" size="sm" onClick={() => createPage()}>
-                Create Page
-              </Button>
-            )}
-          </Group>
         </Group>
+        {!profile.page ? (
+          <Group>
+            <Button loading={creatingPage} variant="outline" size="sm" onClick={() => createPage()}>
+              Create PubKey Page
+            </Button>
+          </Group>
+        ) : null}
+
+        <AppDashboard apps={userApps} />
       </Stack>
       <Stack spacing="xl" my={16}>
         <Group position="apart" align="start">
@@ -190,7 +220,7 @@ export function UserManageProfileDetails({ profile }: { profile: Profile }) {
                   Link Identity
                 </Button>
               </Menu.Target>
-              <Menu.Dropdown>
+              <Menu.Dropdown style={{ zIndex: 9999999 }}>
                 {identities?.map((identity) => (
                   <Menu.Item key={identity.id} onClick={() => addIdentity(identity.id!)}>
                     <Group position="center">
@@ -198,12 +228,6 @@ export function UserManageProfileDetails({ profile }: { profile: Profile }) {
                     </Group>
                   </Menu.Item>
                 ))}
-                <Menu.Divider />
-                <Menu.Item component={Link} to="/dashboard/identities" color="brand">
-                  <Group position="center">
-                    <Badge>Manage Identities</Badge>
-                  </Group>
-                </Menu.Item>
               </Menu.Dropdown>
             </Menu>
           </Group>
@@ -220,81 +244,5 @@ export function UserManageProfileDetails({ profile }: { profile: Profile }) {
         ))}
       </Stack>
     </Stack>
-  )
-}
-
-export function UserEditProfileModal({ profile }: { profile: Profile }) {
-  const [item, setItem] = useState<Profile>(profile)
-  const [opened, { open, close }] = useDisclosure(false)
-  const [, updateProfileMutation] = useUserUpdateProfileMutation()
-  function updateProfile(input: UserUpdateProfileInput) {
-    return updateProfileMutation({ profileId: profile.id!, input })
-      .then((res) => {
-        modals.closeAll()
-        if (res.error) {
-          return showNotificationError(res.error.message)
-        }
-        if (!res.error && res.data?.item) {
-          setItem(res.data.item)
-          return showNotificationSuccess('Success')
-        }
-      })
-      .catch((err) => showNotificationError(err.message))
-  }
-
-  return (
-    <>
-      <Modal
-        opened={opened}
-        onClose={close}
-        title={
-          <Group>
-            <ProfileTypeBadge profileType={profile.type as ProfileType} />
-            <Text size="lg">Edit Profile</Text>
-          </Group>
-        }
-        centered
-        size="lg"
-      >
-        <ProfileForm profile={item} updateProfile={updateProfile} />
-      </Modal>
-
-      <Group position="center">
-        <Tooltip label={`Edit ${profile.type} profile`}>
-          <Button variant="outline" size="sm" onClick={open}>
-            Edit Profile
-          </Button>
-        </Tooltip>
-      </Group>
-    </>
-  )
-}
-
-export function ProfileForm({
-  profile,
-  updateProfile,
-}: {
-  profile: Profile
-  updateProfile: (input: Partial<UserUpdateProfileInput>) => Promise<boolean | undefined>
-}) {
-  const fields: UiFormField<UserUpdateProfileInput>[] = [
-    formFieldText('name', { label: 'Name' }),
-    formFieldText('username', { label: 'Username' }),
-    formFieldTextarea('bio', { label: 'Bio' }),
-  ]
-
-  return (
-    <UiForm<UserUpdateProfileInput>
-      fields={fields}
-      model={{ ...profile }}
-      submit={(input) =>
-        updateProfile(input).then(() => {
-          modals.closeAll()
-          return true
-        })
-      }
-    >
-      <Button type="submit">Save</Button>
-    </UiForm>
   )
 }

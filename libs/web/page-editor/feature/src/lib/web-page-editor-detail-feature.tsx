@@ -119,7 +119,7 @@ export function WebPageEditorDetailFeature() {
             <Group>
               <ProfileTypeIcon type={page?.item?.profile?.type as ProfileType} size={36} />
               <Tooltip label={`Edit the ${page?.item?.profile?.type} page`}>
-                <Anchor component={Link} to={`/pages/${page?.item?.id}`} size="xl">
+                <Anchor component={Link} to={`/apps/pages/${page?.item?.id}`} size="xl">
                   {page?.item?.profile?.type}
                 </Anchor>
               </Tooltip>
@@ -140,7 +140,7 @@ export function WebPageEditorDetailFeature() {
                 >
                   View Page
                 </Button>
-                <Button size="sm" component={Link} to={`/pages/${pageId}/publish`}>
+                <Button size="sm" component={Link} to={`/apps/pages/${pageId}/publish`}>
                   Publish Page
                 </Button>
               </Group>

@@ -24,9 +24,9 @@ export class ApiCoreDataService extends PrismaClient implements OnModuleDestroy,
     return this.user
       .findFirst({
         where: { username: { equals: username, mode: 'insensitive' } },
-        include: { profile: true, profiles: true, identities: true },
+        include: { profile: true, profiles: true, identities: true, gumUser: true },
       })
-      .then((user: CoreDbUser) => (user ? convertCoreDbUser(user, this.config.apiUrl) : undefined))
+      .then((user: CoreDbUser) => (user ? convertCoreDbUser(user) : undefined))
   }
 
   async findUserByIdentity({
@@ -43,16 +43,15 @@ export class ApiCoreDataService extends PrismaClient implements OnModuleDestroy,
       return null
     }
     return this.user
-      .findUnique({ where: { id: found.ownerId }, include: { profile: true, profiles: true, identities: true } })
-      .then((user) => (user ? convertCoreDbUser(user, this.config.apiUrl) : null))
+      .findUnique({
+        where: { id: found.ownerId },
+        include: { profile: true, profiles: true, identities: true, gumUser: true },
+      })
+      .then((user) => (user ? convertCoreDbUser(user) : null))
   }
 
   findUsers() {
     return this.user.findMany()
-  }
-
-  findUserById(userId: string) {
-    return this.user.findUnique({ where: { id: userId }, include: { profile: true, profiles: true, identities: true } })
   }
 
   private async provisionUses() {
@@ -87,7 +86,7 @@ export class ApiCoreDataService extends PrismaClient implements OnModuleDestroy,
       return
     }
 
-    return this.createUserWithIdentity(role, status, getUsername(publicKey), pid, {
+    return this.createUserWithIdentity(role, status, getUsername(publicKey), publicKey, pid, {
       provider: 'Solana',
       providerId: publicKey,
     })
@@ -97,6 +96,7 @@ export class ApiCoreDataService extends PrismaClient implements OnModuleDestroy,
     role: UserRole,
     status: UserStatus,
     username: string,
+    publicKey: string,
     pid?: number,
     identity?: Prisma.IdentityCreateWithoutOwnerInput,
   ) {
@@ -106,6 +106,7 @@ export class ApiCoreDataService extends PrismaClient implements OnModuleDestroy,
     }
     return this.user.create({
       data: {
+        publicKey,
         pid: pid ?? undefined,
         role,
         status,

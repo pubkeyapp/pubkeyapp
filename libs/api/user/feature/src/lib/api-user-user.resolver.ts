@@ -17,8 +17,14 @@ export class ApiUserUserResolver {
   userUnfollowUser(@CtxUser() user: User, @Args('username') username: string) {
     return this.service.userUnfollowUser(user.id, username)
   }
+
   @Mutation(() => User, { nullable: true })
   userUpdateUser(@CtxUser() user: User, @Args('input') input: UserUpdateUserInput) {
     return this.service.userUpdateUser(user.id, input)
+  }
+
+  @Mutation(() => User, { nullable: true })
+  userVerifyUser(@CtxUser() user: User) {
+    return this.service.userVerifyUser(user.id)
   }
 }

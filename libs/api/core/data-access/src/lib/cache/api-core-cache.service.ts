@@ -25,11 +25,11 @@ export class ApiCoreCacheService {
   /**
    * Get a value from the cache, or set it if it doesn't exist.
    */
-  async wrap<T>(namespace: CacheNamespace, key: string, value: Value<T>, ttl?: number): Promise<T> {
+  async wrap<T>(namespace: CacheNamespace, key: string, value: Value<T>, ttl?: number, refresh?: boolean): Promise<T> {
     const fn: ValueFn<T> = (typeof value === 'function' ? value : () => Promise.resolve(value)) as ValueFn<T>
     const cacheKey = getCacheKey(namespace, key)
     const found = await this.get<T>(namespace, key)
-    if (!found) {
+    if (!found || refresh) {
       const result = await fn()
       if (typeof result !== 'undefined') {
         await this.set<T>(namespace, key, result, ttl)
