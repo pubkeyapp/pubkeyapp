@@ -4,6 +4,7 @@ import { AppDashboard } from '@pubkeyapp/web/apps/ui'
 import { useAuth } from '@pubkeyapp/web/auth/data-access'
 import { IdentityBadge } from '@pubkeyapp/web/identity/ui'
 import { useUserProfiles } from '@pubkeyapp/web/profile/data-access'
+import { useGumApp } from '@pubkeyapp/web/shell/data-access'
 import { showNotificationError, showNotificationSuccess, UiDebugModal } from '@pubkeyapp/web/ui/core'
 import {
   Profile,
@@ -24,6 +25,7 @@ import { UserSelectAvatarModal } from './user-select-avatar-modal'
 export function UserManageProfileDetails({ profile }: { profile: Profile }) {
   const { apps } = useApps()
   const { user } = useAuth()
+  const { createProfile } = useGumApp()
   const { refresh } = useUserProfiles()
   const [{ fetching: creatingPage }, createPageMutation] = useUserCreatePageMutation()
   const [, updateProfileMutation] = useUserUpdateProfileMutation()
@@ -113,6 +115,19 @@ export function UserManageProfileDetails({ profile }: { profile: Profile }) {
         if (!res.error && res.data?.item) {
           showNotificationSuccess('Profile verified! ')
           return !!res.data.item
+        }
+        if (!res.data?.item) {
+          showNotificationError('Profile not verified yet! ')
+          return createProfile(profile.type!, user?.publicKey!, user?.gumUser?.address!)
+            .then((res) => {
+              if (!res) return showNotificationError('Profile not verified yet!')
+              if (res) {
+                showNotificationSuccess('Profile verified! ')
+                return true
+              }
+              return false
+            })
+            .catch((err) => showNotificationError(err.message))
         }
         return false
       })

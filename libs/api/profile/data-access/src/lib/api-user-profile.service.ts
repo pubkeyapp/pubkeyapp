@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common'
-import { NetworkType } from '@prisma/client'
+import { AccountType, NetworkType } from '@prisma/client'
 import { ApiAnonAccountService } from '@pubkeyapp/api/account/data-access'
 import { ApiCoreService, getProfileUsername } from '@pubkeyapp/api/core/data-access'
 import { createNewPage } from '@pubkeyapp/api/page/data-access'
@@ -185,10 +185,24 @@ export class ApiUserProfileService {
 
     // - Does the user have a Gum User?
     const gumProfile = await this.core.gum.getProfile(owner.publicKey, profile.type)
-    if (gumProfile && !profile.gumProfile) {
-      console.log('I will need to link your Gum Profile to your Profile')
+
+    if (!gumProfile) {
+      console.log('I will need to create a Gum Profile for you')
       console.log('gumProfile', gumProfile, profile.type)
+      return null
+    } else {
+      if (!profile.gumProfile) {
+        console.log('I will need to link your Gum Profile to your Profile')
+        console.log('gumProfile', gumProfile, profile.type)
+        await this.connectGumProfileAccount(
+          userId,
+          profile.id,
+          NetworkType.SolanaDevnet,
+          gumProfile.cl_pubkey.toString(),
+        )
+      }
     }
+
     // console.log('gumUser', { gumUserAccount, gumProfile })
 
     // const gumProfile = await this.core.gum.getGumProfile(owner.publicKey)
@@ -212,12 +226,21 @@ export class ApiUserProfileService {
     // - Does the user have a Gum Meta of this type?
   }
 
-  private async connectGumUserAccount(userId: string, network: NetworkType, address: string) {
-    await this.account.userGetAccount(userId, network, address)
-    await this.core.data.user.update({
-      where: { id: userId },
+  private async connectGumProfileAccount(userId: string, profileId: string, network: NetworkType, address: string) {
+    const account = await this.account.userGetAccount(userId, network, address)
+    if (!account) {
+      throw new Error('Account not found')
+    }
+    if (account.type !== AccountType.GumProfile) {
+      await this.core.data.account.update({
+        where: { id: account.id },
+        data: { type: AccountType.GumProfile },
+      })
+    }
+    await this.core.data.profile.update({
+      where: { id: profileId },
       data: {
-        gumUser: {
+        gumProfile: {
           connect: { address_network: { address, network } },
         },
       },

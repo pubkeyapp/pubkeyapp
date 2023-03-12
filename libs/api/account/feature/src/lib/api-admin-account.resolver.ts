@@ -1,5 +1,5 @@
 import { UseGuards } from '@nestjs/common'
-import { Args, Query, Resolver } from '@nestjs/graphql'
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { Account, AdminGetAccountsInput, ApiAdminAccountService } from '@pubkeyapp/api/account/data-access'
 import { ApiAuthGraphqlGuard, CtxUser } from '@pubkeyapp/api/auth/data-access'
 import { User } from '@pubkeyapp/api/user/data-access'
@@ -8,6 +8,11 @@ import { User } from '@pubkeyapp/api/user/data-access'
 @UseGuards(ApiAuthGraphqlGuard)
 export class ApiAdminAccountResolver {
   constructor(private readonly service: ApiAdminAccountService) {}
+
+  @Mutation(() => Boolean, { nullable: true })
+  adminDeleteAccount(@CtxUser() user: User, @Args('accountId') accountId: string) {
+    return this.service.adminDeleteAccount(user.id, accountId)
+  }
 
   @Query(() => Account, { nullable: true })
   adminGetAccount(@CtxUser() user: User, @Args('accountId') accountId: string) {

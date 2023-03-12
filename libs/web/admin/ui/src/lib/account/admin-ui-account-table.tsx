@@ -1,5 +1,7 @@
 import { ActionIcon, Code, Group, ScrollArea, Text } from '@mantine/core'
+import { UiActionIcon } from '@pubkeyapp/web/ui/core'
 import { Account } from '@pubkeyapp/web/util/sdk'
+import { IconTrash } from '@tabler//icons-react'
 import { IconNavigation, IconPencil } from '@tabler/icons-react'
 import { DataTable } from 'mantine-datatable'
 import React from 'react'
@@ -9,9 +11,10 @@ import { AdminUiAccountLabel, ellipsify } from './admin-ui-account-label'
 
 interface AdminUiAccountTableProps {
   accounts: Account[]
+  deleteAccount: (accountId: string) => void
 }
 
-export function AdminUiAccountTable({ accounts }: AdminUiAccountTableProps) {
+export function AdminUiAccountTable({ accounts, deleteAccount }: AdminUiAccountTableProps) {
   return (
     <ScrollArea>
       <DataTable
@@ -47,6 +50,7 @@ export function AdminUiAccountTable({ accounts }: AdminUiAccountTableProps) {
             textAlignment: 'right',
             render: (item) => (
               <Group spacing={0} position="right" noWrap>
+                <UiActionIcon label="Delete Account" icon={IconTrash} onClick={() => deleteAccount(item.id!)} />
                 <ActionIcon component={Link} to={item?.explorerUrl + ''}>
                   <IconNavigation size={16} />
                 </ActionIcon>

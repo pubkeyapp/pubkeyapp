@@ -1,6 +1,8 @@
 import { SDK, useCreateUser, useGum } from '@gumhq/react-sdk'
 import { Namespace } from '@gumhq/sdk/lib/profile'
 import { GumDecodedUser } from '@gumhq/sdk/lib/user'
+import { useAuth } from '@pubkeyapp/web/auth/data-access'
+import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/core'
 import { AnchorWallet, useAnchorWallet, useConnection, useWallet } from '@solana/wallet-adapter-react'
 import { PublicKey } from '@solana/web3.js'
 
@@ -15,7 +17,7 @@ export interface GumProviderContext {
   loading: boolean
   error: any
   sdk: SDK
-  createProfile: (namespace: Namespace, userAccount: PublicKey, metadataUri: string) => Promise<void>
+  createProfile: (namespace: Namespace, owner: string, userAccount: string) => Promise<boolean>
   refresh: () => Promise<void>
   user?: GumDecodedUser | undefined
 }
@@ -56,30 +58,14 @@ export function GumAppProvider({ children }: { children: ReactNode }) {
     refresh()
   }, [connection.rpcEndpoint, publicKey])
 
-  async function createProfile(namespace: Namespace, userAccount: PublicKey, metadataUri: string) {
-    console.log('creating profile')
-    // setLoading(true)
-    // const metadataUri = 'https://gist.githubusercontent.com/beeman/27f08d1d772a42e5f75f965faf8bb366/raw/profile.json'
-    // const createProfile = await sdk.profile.create(userAccount, namespace, owner)
-    // const profileMetadata = await sdk.profileMetadata.create(metadataUri, createProfile.profilePDA, userAccount, owner)
-    // const profileMetadataIx = await profileMetadata.instructionMethodBuilder.instruction()
-
-    // const data = {
-    //   instructionMethodBuilder: createProfile.instructionMethodBuilder.postInstructions([profileMetadataIx]),
-    //   profilePDA: createProfile.profilePDA,
-    // }
-
-    // return data.instructionMethodBuilder
-    //   .rpc()
-    //   .then(async () => {
-    //     showNotificationSuccess('Profile Created')
-    //     await refresh()
-    //   })
-    //   .catch((err) => {
-    //     setLoading(false)
-    //     console.log(`err`, err)
-    //     showNotificationError('Profile Creation Failed')
-    //   })
+  async function createProfile(namespace: Namespace, owner: string, userAccount: string) {
+    setLoading(true)
+    const create = await sdk.profile.create(new PublicKey(userAccount), namespace, new PublicKey(owner))
+    return create.instructionMethodBuilder.rpc().then((res) => {
+      console.log('res', res)
+      showNotificationSuccess(`Gum Profile ${namespace} created`)
+      return true
+    })
   }
 
   const value: GumProviderContext = {

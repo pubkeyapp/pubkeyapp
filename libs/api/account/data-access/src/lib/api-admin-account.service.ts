@@ -63,4 +63,16 @@ export class ApiAdminAccountService {
 
     return account
   }
+
+  async adminDeleteAccount(adminId: string, accountId: string) {
+    await this.core.ensureUserAdmin(adminId)
+
+    try {
+      await this.core.data.account.delete({ where: { id: accountId } })
+      return true
+    } catch (e) {
+      this.logger.error(e)
+      return false
+    }
+  }
 }

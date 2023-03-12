@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common'
-import { NetworkType, User } from '@prisma/client'
+import { AccountType, NetworkType, User } from '@prisma/client'
 import { ApiAnonAccountService } from '@pubkeyapp/api/account/data-access'
 import { ApiCoreService, getProfileUsername, slugify } from '@pubkeyapp/api/core/data-access'
 import { UserUpdateUserInput } from './dto/user-update-user.input'
@@ -127,7 +127,16 @@ export class ApiUserUserService {
   }
 
   private async connectGumUserAccount(userId: string, network: NetworkType, address: string) {
-    await this.account.userGetAccount(userId, network, address)
+    const account = await this.account.userGetAccount(userId, network, address)
+    if (!account) {
+      throw new Error('Account not found')
+    }
+    if (account.type !== AccountType.GumUser) {
+      await this.core.data.account.update({
+        where: { id: account.id },
+        data: { type: AccountType.GumUser },
+      })
+    }
     await this.core.data.user.update({
       where: { id: userId },
       data: {

@@ -33,6 +33,10 @@ fragment AccountDetails on Account {
   }
 }
 
+mutation AdminDeleteAccount($accountId: String!) {
+  item: adminDeleteAccount(accountId: $accountId)
+}
+
 query AdminGetAccounts($input: AdminGetAccountsInput!) {
   items: adminGetAccounts(input: $input) {
     ...AccountDetails

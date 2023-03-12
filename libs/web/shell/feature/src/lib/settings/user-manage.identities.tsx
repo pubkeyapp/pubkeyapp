@@ -21,7 +21,7 @@ export function UserManageIdentities() {
     <Stack spacing="xl">
       {items?.length ? (
         <Box>
-          <Accordion mx="auto" variant="filled" classNames={classes} className={classes.root}>
+          <Accordion mx="auto" variant="filled" defaultValue={'link'} classNames={classes} className={classes.root}>
             <Accordion.Item value={'link'} key={'link'}>
               <Accordion.Control>
                 <Group align="center">

@@ -325,6 +325,7 @@ export type Mutation = {
   adminCreatePage?: Maybe<Page>
   adminCreatePlan?: Maybe<Plan>
   adminCreateUser?: Maybe<User>
+  adminDeleteAccount?: Maybe<Scalars['Boolean']>
   adminDeleteDomain?: Maybe<Domain>
   adminDeleteInvite?: Maybe<Invite>
   adminDeletePage?: Maybe<Page>
@@ -403,6 +404,10 @@ export type MutationAdminCreatePlanArgs = {
 
 export type MutationAdminCreateUserArgs = {
   input: AdminCreateUserInput
+}
+
+export type MutationAdminDeleteAccountArgs = {
+  accountId: Scalars['String']
 }
 
 export type MutationAdminDeleteDomainArgs = {
@@ -1173,6 +1178,12 @@ export type AccountDetailsFragment = {
     } | null
   } | null
 }
+
+export type AdminDeleteAccountMutationVariables = Exact<{
+  accountId: Scalars['String']
+}>
+
+export type AdminDeleteAccountMutation = { __typename?: 'Mutation'; item?: boolean | null }
 
 export type AdminGetAccountsQueryVariables = Exact<{
   input: AdminGetAccountsInput
@@ -8379,6 +8390,15 @@ export const JobDetailsFragmentDoc = gql`
     failedReason
   }
 `
+export const AdminDeleteAccountDocument = gql`
+  mutation AdminDeleteAccount($accountId: String!) {
+    item: adminDeleteAccount(accountId: $accountId)
+  }
+`
+
+export function useAdminDeleteAccountMutation() {
+  return Urql.useMutation<AdminDeleteAccountMutation, AdminDeleteAccountMutationVariables>(AdminDeleteAccountDocument)
+}
 export const AdminGetAccountsDocument = gql`
   query AdminGetAccounts($input: AdminGetAccountsInput!) {
     items: adminGetAccounts(input: $input) {

@@ -444,6 +444,7 @@ enum JobStatus {
 
 type Mutation {
   adminSetSetting(key: String!, value: String!): Setting
+  adminDeleteAccount(accountId: String!): Boolean
   userLogout: Boolean
   anonRespondChallenge(challenge: String!, publicKey: String!, signature: String!): User
   adminCreateDomain(input: AdminCreateDomainInput!): Domain

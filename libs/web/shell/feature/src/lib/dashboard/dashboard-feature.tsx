@@ -9,6 +9,7 @@ import { showNotificationError, showNotificationSuccess, UiError } from '@pubkey
 import { AccountType, NetworkType, useUserVerifyUserMutation } from '@pubkeyapp/web/util/sdk'
 import { useWallet } from '@solana/wallet-adapter-react'
 import { PublicKey } from '@solana/web3.js'
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { UserIdentitiesProvider } from '../settings/user-identities.provider'
 import { UserManageIdentities } from '../settings/user-manage.identities'
@@ -18,7 +19,8 @@ import { AccountIsNotVerified } from './user-verify.modal'
 
 export function DashboardFeature() {
   const { user } = useAuth()
-  const { loading, user: gumUser } = useGumApp()
+  const { publicKey } = useWallet()
+  const { loading, user: gumUser, sdk } = useGumApp()
   const [, verifyUserMutation] = useUserVerifyUserMutation()
 
   function verifyUser() {
@@ -34,6 +36,14 @@ export function DashboardFeature() {
       .catch((err) => showNotificationError(err.message))
   }
 
+  useEffect(() => {
+    sdk.user.getUserAccountsByUser(new PublicKey(user?.publicKey!)).then((res) => {
+      console.log('getUserAccountsByUser', res)
+    })
+    // sdk.profile.create()
+    console.log('publicKey', publicKey?.toString())
+  }, [publicKey])
+
   return (
     <Stack py={32} spacing={64}>
       <Group position="center">
@@ -43,25 +53,27 @@ export function DashboardFeature() {
         <Container size="sm">
           {user ? <UserDashboardProfileCard user={user} /> : null}
           <Stack py={64} spacing={64}>
-            {gumUser ? (
-              gumUser.cl_pubkey.toString() === user?.gumUser?.address ? (
-                <Skeleton visible={loading} radius="xl">
-                  <UserProfilesProvider>
-                    <UserManageProfiles />
-                  </UserProfilesProvider>
-                </Skeleton>
-              ) : (
-                <Paper>
-                  <UiError
-                    title={`Gum User ${gumUser.cl_pubkey.toString()} exists, but is different from the one in the database ${
-                      user?.gumUser?.address
-                    }`}
-                  />
-                  <Button onClick={verifyUser}>Verify</Button>
-                </Paper>
-              )
-            ) : (
-              <DashboardGumUser />
+            {user?.gumUser ? (
+              <UserProfilesProvider>
+                <UserManageProfiles />
+              </UserProfilesProvider>
+            ) : loading ? null : (
+              <Stack>
+                {gumUser ? (
+                  gumUser.cl_pubkey.toString() !== user?.gumUser?.address ? (
+                    <Paper>
+                      <UiError
+                        title={`Gum User ${gumUser.cl_pubkey.toString()} exists, but is different from the one in the database ${
+                          user?.gumUser?.address
+                        }`}
+                      />
+                      <Button onClick={verifyUser}>Verify</Button>
+                    </Paper>
+                  ) : null
+                ) : (
+                  <DashboardGumUser />
+                )}
+              </Stack>
             )}
             <UserIdentitiesProvider>
               <UserManageIdentities />
