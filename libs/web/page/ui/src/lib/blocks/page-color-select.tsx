@@ -1,6 +1,5 @@
-import { Button, Menu, useMantineTheme } from '@mantine/core'
+import { Button, CheckIcon, SimpleGrid, Stack, Text, useMantineTheme } from '@mantine/core'
 import React from 'react'
-import { PageColorSelectItem } from './page-color-select-item'
 
 export function PageColorSelect({
   colors,
@@ -17,15 +16,37 @@ export function PageColorSelect({
   colors = colors ?? Object.keys(theme.colors)
 
   return (
-    <Menu styles={{ dropdown: { zIndex: 10000 } }}>
-      <Menu.Target>
-        <Button>{title}</Button>
-      </Menu.Target>
-      <Menu.Dropdown>
+    <Stack>
+      <SimpleGrid cols={3} spacing="md" breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
         {colors.map((color) => (
-          <PageColorSelectItem color={color} selected={selected} selectColor={selectColor} key={color} />
+          <PageColorGridItem color={color} selected={selected} selectColor={selectColor} key={color} />
         ))}
-      </Menu.Dropdown>
-    </Menu>
+      </SimpleGrid>
+    </Stack>
+  )
+}
+export function PageColorGridItem({
+  color,
+  selected,
+  selectColor,
+}: {
+  color: string
+  selected: string
+  selectColor: (color: string) => void
+}) {
+  const theme = useMantineTheme()
+
+  return (
+    <Button
+      size="sm"
+      key={color}
+      color={color}
+      leftIcon={selected === color ? <CheckIcon width={20} /> : null}
+      onClick={() => selectColor?.(color)}
+    >
+      <Text color={theme.colors[color][1]} fw={selected === color ? 'bold' : undefined}>
+        {color}
+      </Text>
+    </Button>
   )
 }

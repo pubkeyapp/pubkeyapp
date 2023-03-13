@@ -22,9 +22,4 @@ export class ApiUserUserResolver {
   userUpdateUser(@CtxUser() user: User, @Args('input') input: UserUpdateUserInput) {
     return this.service.userUpdateUser(user.id, input)
   }
-
-  @Mutation(() => User, { nullable: true })
-  userVerifyUser(@CtxUser() user: User) {
-    return this.service.userVerifyUser(user.id)
-  }
 }

@@ -71,6 +71,12 @@ query AnonGetUser($username: String!) {
     }
     profile {
       ...ProfileDetails
+      owner {
+        ...UserDetails
+        gumUser {
+          ...AccountSummary
+        }
+      }
     }
     profiles {
       ...ProfileDetails

@@ -1,6 +1,6 @@
 import { ActionIcon, Box, Group, ScrollArea, Text } from '@mantine/core'
 import { Page } from '@pubkeyapp/web/util/sdk'
-import { IconExternalLink, IconPencil, IconTrash } from '@tabler//icons-react'
+import { IconExternalLink, IconPencil, IconTrash } from '@tabler/icons-react'
 import { DataTable } from 'mantine-datatable'
 import React from 'react'
 import { Link } from 'react-router-dom'

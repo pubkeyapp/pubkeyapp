@@ -316,6 +316,10 @@ type AuthChallengeRequest {
   expiresAt: String!
 }
 
+type HeliusTransaction {
+  id: String
+}
+
 type Invite {
   id: String
   createdAt: DateTime
@@ -375,6 +379,7 @@ type Query {
   config: Config
   adminGetDomains(input: AdminGetDomainsInput): [Domain!]
   adminGetDomain(domainId: String!): Domain
+  userGetHeliusTransactions(network: NetworkType!, address: String!): [HeliusTransaction!]!
   userGetIdentity(identityId: String!): Identity
   userGetIdentities: [Identity!]
   adminGetInvites(input: AdminGetInvitesInput): [Invite!]
@@ -484,6 +489,7 @@ type Mutation {
   userDeleteProfile(profileId: String!): Profile
   userSyncProfile(profileId: String!): Profile
   userVerifyProfile(profileId: String!): Profile
+  userVerifyUser: User
   userSetDefaultProfile(profileId: String!): Profile
   userUpdateProfile(profileId: String!, input: UserUpdateProfileInput!): Profile
   userLinkProfileIdentity(profileId: String!, identityId: String!): Profile
@@ -496,7 +502,6 @@ type Mutation {
   userFollowUser(username: String!): User
   userUnfollowUser(username: String!): User
   userUpdateUser(input: UserUpdateUserInput!): User
-  userVerifyUser: User
   adminCreateUser(input: AdminCreateUserInput!): User
   adminDeleteUser(userId: String!): User
   adminUpdateUser(userId: String!, input: AdminUpdateUserInput!): User

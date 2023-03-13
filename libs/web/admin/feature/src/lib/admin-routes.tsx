@@ -13,7 +13,7 @@ import {
   IconSunglasses,
   IconUsers,
   IconUserX,
-} from '@tabler//icons-react'
+} from '@tabler/icons-react'
 import { useMemo } from 'react'
 import { Link, Navigate, Outlet, Route, Routes } from 'react-router-dom'
 import { AdminAccountRoutes } from './account/admin-account.routes'

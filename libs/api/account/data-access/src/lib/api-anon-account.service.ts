@@ -379,7 +379,13 @@ export class ApiAnonAccountService implements OnModuleInit {
     }
   }
 
-  async connectGumProfileAccount(userId: string, profileId: string, network: NetworkType, address: string) {
+  async connectGumProfileAccount(
+    userId: string,
+    profileId: string,
+    network: NetworkType,
+    address: string,
+    identityId = undefined,
+  ) {
     const account = await this.userGetAccount(userId, network, address)
     if (!account) {
       throw new Error('Account not found')
@@ -387,7 +393,7 @@ export class ApiAnonAccountService implements OnModuleInit {
     if (account.type !== AccountType.GumProfile) {
       await this.core.data.account.update({
         where: { id: account.id },
-        data: { type: AccountType.GumProfile },
+        data: { type: AccountType.GumProfile, identityId, ownerId: userId },
       })
     }
     await this.core.data.profile.update({
@@ -398,6 +404,6 @@ export class ApiAnonAccountService implements OnModuleInit {
         },
       },
     })
-    this.logger.log(`User ${userId} connected to Gum User ${address} on ${network}`)
+    this.logger.log(`User ${userId} connected to Gum Profile ${address} on ${network}`)
   }
 }

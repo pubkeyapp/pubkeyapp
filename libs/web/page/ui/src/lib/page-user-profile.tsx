@@ -1,29 +1,33 @@
-import { Avatar, Box, Center, Flex, Stack, Text } from '@mantine/core'
-import { User } from '@pubkeyapp/sdk'
+import { Avatar, Box, Center, Flex, Group, Stack, Text } from '@mantine/core'
+import { Profile } from '@pubkeyapp/web/util/sdk'
 import React from 'react'
 import ReactMarkdown from 'react-markdown'
 import { Link } from 'react-router-dom'
+import { PageUserVerifiedModal } from './page-user-verified.modal'
 
-export function PageUserProfile({ user }: { user: User }) {
+export function PageUserProfile({ profile }: { profile: Profile }) {
   return (
     <Box>
       <Flex direction="column" align="center">
         <Stack align="center">
-          <Avatar src={user?.profile?.avatarUrl} size={120} radius={120} />
+          <Avatar src={profile?.avatarUrl} size={120} radius={120} />
           <Stack>
             <Center>
-              <Stack spacing="xs">
+              <Stack spacing="xs" align="center">
                 <Text size="xl" weight="bold">
-                  {user?.profile?.name}
+                  {profile?.name}
                 </Text>
-                <Text component={Link} to={`${user?.profileUrl}`} color="dimmed" ff="monospace">
-                  {user.username}#{user?.pid}
-                </Text>
+                <Group spacing={2}>
+                  <Text component={Link} to={`${profile?.owner?.profileUrl}`} color="dimmed" ff="monospace">
+                    {profile?.username}
+                  </Text>
+                  {profile?.owner ? <PageUserVerifiedModal user={profile.owner} /> : null}
+                </Group>
               </Stack>
             </Center>
-            {user?.profile?.bio ? (
+            {profile?.bio ? (
               <Text align="center">
-                <ReactMarkdown>{user?.profile?.bio}</ReactMarkdown>
+                <ReactMarkdown>{profile?.bio}</ReactMarkdown>
               </Text>
             ) : null}
           </Stack>

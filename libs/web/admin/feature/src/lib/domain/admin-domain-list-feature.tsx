@@ -3,7 +3,7 @@ import { useAdminDomain } from '@pubkeyapp/web/admin/data-access'
 import { AdminUiDomainTable } from '@pubkeyapp/web/admin/ui'
 import { UiActionLink, UiErrorLoader } from '@pubkeyapp/web/ui/core'
 import { UiPage } from '@pubkeyapp/web/ui/page'
-import { IconCards, IconPlus } from '@tabler//icons-react'
+import { IconCards, IconPlus } from '@tabler/icons-react'
 
 export function AdminDomainListFeature() {
   const { deleteDomain, error, domains, loading } = useAdminDomain()

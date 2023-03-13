@@ -13,7 +13,12 @@ export class ApiPublicPageService {
       .findUnique({
         where: { id: pageId },
         include: {
-          profile: true,
+          profile: {
+            include: {
+              gumProfile: true,
+              owner: { include: { gumUser: true } },
+            },
+          },
           blocks: {
             orderBy: { order: 'asc' },
           },

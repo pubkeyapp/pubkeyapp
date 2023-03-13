@@ -1,0 +1,9 @@
+fragment HeliusTransaction on HeliusTransaction {
+  id
+}
+
+query UserGetHeliusTransactions($network: NetworkType!, $address: String!) {
+  items: userGetHeliusTransactions(network: $network, address: $address) {
+    ...HeliusTransaction
+  }
+}

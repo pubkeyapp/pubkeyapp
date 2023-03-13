@@ -4,7 +4,7 @@ import { AdminUiPageLabel } from '@pubkeyapp/web/admin/ui'
 import { UiBackButton, UiErrorLoader, UiTabRoutes } from '@pubkeyapp/web/ui/core'
 import { UiPage } from '@pubkeyapp/web/ui/page'
 import { Page, useAdminGetPageQuery } from '@pubkeyapp/web/util/sdk'
-import { IconExternalLink } from '@tabler//icons-react'
+import { IconExternalLink } from '@tabler/icons-react'
 import { useParams } from 'react-router-dom'
 
 import { AdminPageBlocksTab } from './admin-page-blocks.tab'

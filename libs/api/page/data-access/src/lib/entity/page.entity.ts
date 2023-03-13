@@ -18,12 +18,12 @@ export class Page {
 
   @Field(() => GraphQLDateTime, { nullable: true })
   updatedAt: Date
-  @ApiProperty({ enum: PageStatus, enumName: 'PageStatus' })
+  @ApiProperty({ enum: PageStatus, enumName: 'PageStatus', nullable: true, required: false })
   @Field(() => PageStatus, { nullable: true })
-  status: PageStatus
-  @ApiProperty({ enum: PageType, enumName: 'PageType' })
+  status?: PageStatus
+  @ApiProperty({ enum: PageType, enumName: 'PageType', nullable: true, required: false })
   @Field(() => PageType, { nullable: true })
-  type: PageType
+  type?: PageType
 
   @ApiProperty({ required: false, nullable: true })
   @Field({ nullable: true })

@@ -96,6 +96,15 @@ query UserGetPage($pageId: String!) {
     domains {
       ...PageDomainDetails
     }
+    profile {
+      ...ProfileDetails
+      owner {
+        ...UserDetails
+      }
+      identities {
+        ...IdentityDetails
+      }
+    }
   }
 }
 

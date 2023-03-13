@@ -1,24 +1,33 @@
-import { Anchor, Box, Button, Container, Flex, Group, Paper, Skeleton, Stack, Tooltip } from '@mantine/core'
+import { Anchor, Box, Button, Container, Flex, Group, Modal, Paper, Skeleton, Stack, Tooltip } from '@mantine/core'
+import { useDisclosure } from '@mantine/hooks'
 
 import { PageEditorPreview } from '@pubkeyapp/web/page/ui'
 import { ProfileTypeIcon } from '@pubkeyapp/web/profile/ui'
-import { showNotificationError, showNotificationSuccess, UiBackButton, UiTabRoutes } from '@pubkeyapp/web/ui/core'
+import {
+  showNotificationError,
+  showNotificationSuccess,
+  UiActionIcon,
+  UiBackButton,
+  UiTabRoutes,
+} from '@pubkeyapp/web/ui/core'
 import { UiPageHeader } from '@pubkeyapp/web/ui/page'
 import {
   AdminUpdatePageInput,
+  Identity,
   Page,
   PageBlock,
+  PageBlockType,
   PageStatus,
   ProfileType,
-  useAnonGetPageQuery,
   UserAddPageBlockInput,
   useUserAddPageBlockMutation,
   useUserDeletePageMutation,
+  useUserGetPageQuery,
   useUserRemovePageBlockMutation,
   useUserUpdatePageBlockMutation,
   useUserUpdatePageMutation,
 } from '@pubkeyapp/web/util/sdk'
-import { IconExternalLink } from '@tabler/icons-react'
+import { IconExternalLink, IconSettings } from '@tabler/icons-react'
 import React from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { PageEditor } from './page.editor'
@@ -26,7 +35,7 @@ import { WebPageEditorPublishTab } from './web-page-editor-publish-tab'
 
 export function WebPageEditorDetailFeature() {
   const { pageId } = useParams<{ pageId: string }>()
-  const [{ data: page }] = useAnonGetPageQuery({ variables: { pageId: `${pageId}` } })
+  const [{ data: page }] = useUserGetPageQuery({ variables: { pageId: `${pageId}` } })
   const [, addPageBlockMutation] = useUserAddPageBlockMutation()
   const [, deletePageMutation] = useUserDeletePageMutation()
   const [, updatePageMutation] = useUserUpdatePageMutation()
@@ -45,6 +54,21 @@ export function WebPageEditorDetailFeature() {
         }
         if (result.data?.item) {
           return showNotificationSuccess(`Page Block ${block.type} deleted`)
+        }
+        return false
+      })
+      .catch((err) => showNotificationError(err.message))
+  }
+  const addPageBlock = async (type: PageBlockType, data?: any) => {
+    const blocks: any[] = page?.item?.blocks || []
+    const order = blocks?.length ? blocks[blocks?.length - 1]?.order + 1 : 0
+    addPageBlockMutation({ pageId: pageId!, input: { type, order, data } })
+      .then((result) => {
+        if (result.error) {
+          return showNotificationError(result.error.message)
+        }
+        if (result.data?.item) {
+          return showNotificationSuccess(`Page Block ${type} added`)
         }
         return false
       })
@@ -140,66 +164,64 @@ export function WebPageEditorDetailFeature() {
                 >
                   View Page
                 </Button>
-                <Button size="sm" component={Link} to={`/apps/pages/${pageId}/publish`}>
-                  Publish Page
-                </Button>
+                {page?.item ? <PagePublishModal page={page?.item} /> : null}
+                <PageSettingsModal deletePage={deletePage} />
               </Group>
             )
           }
         />
       </Skeleton>
-
-      <UiTabRoutes
-        tabs={[
-          {
-            label: 'Editor',
-            value: 'editor',
-            component: (
-              <Flex px="xl">
-                <Box sx={{ flexGrow: 1 }} py="xl">
-                  <Container size="sm">
-                    <PageEditor
-                      page={page?.item as Page}
-                      updatePage={updatePage}
-                      duplicatePageBlock={duplicatePageBlock}
-                      removePageBlock={removePageBlock}
-                      updatePageBlock={updatePageBlock}
-                    />
-                  </Container>
-                </Box>
-                <Box sx={{ flexGrow: 0 }} py="xl">
-                  {page?.item ? <PageEditorPreview page={page.item} /> : null}
-                </Box>
-              </Flex>
-            ),
-          },
-          {
-            label: 'Publish',
-            value: 'publish',
-            component: (
-              <Container size="md">
-                <WebPageEditorPublishTab page={page?.item as Page} />
-              </Container>
-            ),
-          },
-          {
-            label: 'Settings',
-            value: 'settings',
-            component: (
-              <Container size="md">
-                <Paper>
-                  <Group position="center">
-                    <Button variant="outline" color="red" onClick={deletePage}>
-                      Delete Page
-                    </Button>
-                  </Group>
-                </Paper>
-              </Container>
-            ),
-          },
-        ]}
-      />
-      {/*<UiDebugModal data={{ page }} />*/}
+      <Flex px="xl" direction={{ base: 'column', md: 'row' }}>
+        <Box sx={{ flexGrow: 1 }} py="xl">
+          <Container size="sm">
+            <PageEditor
+              page={page?.item as Page}
+              updatePage={updatePage}
+              addPageBlock={addPageBlock}
+              duplicatePageBlock={duplicatePageBlock}
+              removePageBlock={removePageBlock}
+              updatePageBlock={updatePageBlock}
+            />
+          </Container>
+        </Box>
+        <Box sx={{ flexGrow: 0 }} py="xl">
+          {page?.item ? <PageEditorPreview page={page.item} /> : null}
+        </Box>
+      </Flex>
     </Stack>
+  )
+}
+
+function PageSettingsModal({ deletePage }: { deletePage: () => void }) {
+  const [opened, { open, close }] = useDisclosure(false)
+
+  return (
+    <>
+      <Modal opened={opened} onClose={close} title="Page Settings" centered>
+        <Group position="center">
+          <Button variant="outline" color="red" onClick={deletePage}>
+            Delete Page
+          </Button>
+        </Group>
+      </Modal>
+
+      <UiActionIcon label={'Page Settings'} icon={IconSettings} onClick={open} />
+    </>
+  )
+}
+
+function PagePublishModal({ page }: { page: Page }) {
+  const [opened, { open, close }] = useDisclosure(false)
+
+  return (
+    <>
+      <Modal opened={opened} onClose={close} title="Publish Page" centered size="xl">
+        <WebPageEditorPublishTab page={page} />
+      </Modal>
+
+      <Button size="sm" onClick={open}>
+        Publish Page
+      </Button>
+    </>
   )
 }

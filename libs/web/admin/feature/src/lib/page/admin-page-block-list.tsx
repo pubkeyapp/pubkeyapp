@@ -1,5 +1,4 @@
 import { ActionIcon, Box, Group, Paper, Stack, Tooltip } from '@mantine/core'
-import { PageBlock as PageBlockSDK, User as UserSDK } from '@pubkeyapp/sdk'
 import { PageBlockEditIconModal, PageBlockEditModal, PageBlockRender, PageUserProfile } from '@pubkeyapp/web/page/ui'
 import { showNotificationError, showNotificationSuccess, UiDebugModal } from '@pubkeyapp/web/ui/core'
 import {
@@ -10,7 +9,7 @@ import {
   useAdminRemovePageBlockMutation,
   useAdminUpdatePageBlockMutation,
 } from '@pubkeyapp/web/util/sdk'
-import { IconCopy, IconListNumbers, IconTrash } from '@tabler//icons-react'
+import { IconCopy, IconListNumbers, IconTrash } from '@tabler/icons-react'
 import React from 'react'
 
 export function AdminPageBlockList({ page }: { page: Page }) {
@@ -64,18 +63,15 @@ export function AdminPageBlockList({ page }: { page: Page }) {
   return (
     <Box>
       <Stack>
-        <PageUserProfile user={page?.owner as unknown as UserSDK} />
+        {page?.profile ? <PageUserProfile profile={page?.profile} /> : null}
         <Paper>
           <Stack spacing={'md'}>
             {page?.blocks?.map((block) => (
               <Paper key={block.id} py="md">
                 <Stack>
-                  <PageBlockRender block={block as PageBlockSDK} color={page.color!} />
+                  <PageBlockRender block={block} color={page.color!} />
                   <Group spacing={0} position="right" noWrap>
-                    <PageBlockEditModal
-                      block={block as PageBlockSDK}
-                      submit={(data) => updatePageBlock(block.id!, data)}
-                    />
+                    <PageBlockEditModal block={block} submit={(data) => updatePageBlock(block.id!, data)} />
                     <PageBlockEditIconModal block={block} submit={(data) => updatePageBlock(block.id!, data)} />
                     <Tooltip label={`Change block order (${block.order})`}>
                       <ActionIcon

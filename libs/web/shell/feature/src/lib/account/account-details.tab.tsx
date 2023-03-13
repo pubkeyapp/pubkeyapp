@@ -1,6 +1,11 @@
 import { Anchor, Badge, Container, Group, Paper, Skeleton, Stack, Text } from '@mantine/core'
 import { UiDebug, UiError, UiUserLink } from '@pubkeyapp/web/ui/core'
-import { NetworkType, useUserGetAccountHistoryQuery, useUserGetAccountQuery } from '@pubkeyapp/web/util/sdk'
+import {
+  NetworkType,
+  useUserGetAccountHistoryQuery,
+  useUserGetAccountQuery,
+  useUserGetHeliusTransactionsQuery,
+} from '@pubkeyapp/web/util/sdk'
 import React, { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import TimeAgo from 'timeago-react'
@@ -11,6 +16,10 @@ export function AccountDetailsTab({ address, network }: { address: string; netwo
   const [{ data: historyData, fetching: historyFetching, error: historyError }] = useUserGetAccountHistoryQuery({
     variables: { network, address },
   })
+  const [{ data: transactionsData, fetching: transactionsFetching, error: transactionsError }] =
+    useUserGetHeliusTransactionsQuery({
+      variables: { address, network },
+    })
 
   const suffix = useMemo(() => {
     if (network !== NetworkType.SolanaMainnet) {
@@ -22,6 +31,7 @@ export function AccountDetailsTab({ address, network }: { address: string; netwo
   return (
     <Container size="md">
       <Stack>
+        <UiDebug data={{ transactionsData, transactionsFetching, transactionsError }} />
         <Skeleton visible={fetching} radius="xl">
           {error ? (
             <UiError error={error} />

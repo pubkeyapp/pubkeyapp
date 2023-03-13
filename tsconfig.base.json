@@ -30,6 +30,8 @@
       "@pubkeyapp/api/discord/util": ["libs/api/discord/util/src/index.ts"],
       "@pubkeyapp/api/domain/data-access": ["libs/api/domain/data-access/src/index.ts"],
       "@pubkeyapp/api/domain/feature": ["libs/api/domain/feature/src/index.ts"],
+      "@pubkeyapp/api/helius/data-access": ["libs/api/helius/data-access/src/index.ts"],
+      "@pubkeyapp/api/helius/feature": ["libs/api/helius/feature/src/index.ts"],
       "@pubkeyapp/api/identity/data-access": ["libs/api/identity/data-access/src/index.ts"],
       "@pubkeyapp/api/identity/feature": ["libs/api/identity/feature/src/index.ts"],
       "@pubkeyapp/api/invite/data-access": ["libs/api/invite/data-access/src/index.ts"],

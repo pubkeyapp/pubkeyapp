@@ -45,6 +45,12 @@ export class ApiUserProfileResolver {
     return this.service.userVerifyProfile(user.id, profileId)
   }
 
+  @Mutation(() => User, { nullable: true })
+  userVerifyUser(@CtxUser() user: User) {
+    // This should live in the User Resolver, but circular dependencies
+    return this.service.userVerifyUser(user.id)
+  }
+
   @Mutation(() => Profile, { nullable: true })
   userSetDefaultProfile(@CtxUser() user: User, @Args('profileId') profileId: string) {
     return this.service.userSetDefaultProfile(user.id, profileId)

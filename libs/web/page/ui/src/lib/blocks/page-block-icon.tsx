@@ -5,7 +5,7 @@ import {
   IconBrandTwitter,
   IconExternalLink,
   IconQuestionMark,
-} from '@tabler//icons-react'
+} from '@tabler/icons-react'
 import React, { ReactElement } from 'react'
 
 export enum PageBlockIconType {

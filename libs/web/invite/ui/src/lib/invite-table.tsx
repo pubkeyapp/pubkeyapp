@@ -1,7 +1,7 @@
 import { ActionIcon, Anchor, Avatar, Code, Group, ScrollArea, Text, useMantineTheme } from '@mantine/core'
 import { UiCopy } from '@pubkeyapp/web/ui/core'
 import { Invite } from '@pubkeyapp/web/util/sdk'
-import { IconPencil, IconTrash } from '@tabler//icons-react'
+import { IconPencil, IconTrash } from '@tabler/icons-react'
 import { DataTable } from 'mantine-datatable'
 import { Link } from 'react-router-dom'
 

@@ -1,5 +1,5 @@
 import { ActionIcon, Anchor, Box, createStyles, Group, Modal, Stack, Text } from '@mantine/core'
-import { Page } from '@pubkeyapp/sdk'
+import { Page } from '@pubkeyapp/web/util/sdk'
 import {
   IconAt,
   IconBrandFacebook,
@@ -8,7 +8,7 @@ import {
   IconBrandWhatsapp,
   IconChevronRight,
   IconShare,
-} from '@tabler//icons-react'
+} from '@tabler/icons-react'
 import React, { ReactElement, useState } from 'react'
 
 import { PageShareCopyButton } from './page-share-copy-button'

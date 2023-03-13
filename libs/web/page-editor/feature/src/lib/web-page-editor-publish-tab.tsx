@@ -7,10 +7,9 @@ export function WebPageEditorPublishTab({ page }: { page: Page }) {
   const { classes } = useAccordionStyles()
 
   const steps = [
-    { id: 'step-1', title: 'Select domain', description: 'Coming Soon' },
-    { id: 'step-2', title: 'Create Gum User', description: 'Coming Soon' },
-    { id: 'step-3', title: 'Publish to Arweave', description: 'Coming Soon' },
-    { id: 'step-4', title: 'Create Gum Profile', description: 'Coming Soon' },
+    { id: 'step-1', title: 'Confirm page', description: 'Coming Soon' },
+    { id: 'step-2', title: 'Publish to Arweave', description: 'Coming Soon' },
+    { id: 'step-3', title: 'Create Gum Profile Metadata', description: 'Coming Soon' },
   ]
 
   return (

@@ -3,7 +3,7 @@ import { useAdminPage } from '@pubkeyapp/web/admin/data-access'
 import { AdminUiPageTable } from '@pubkeyapp/web/admin/ui'
 import { UiActionLink, UiDebugModal, UiErrorLoader } from '@pubkeyapp/web/ui/core'
 import { UiPage } from '@pubkeyapp/web/ui/page'
-import { IconCards, IconPlus } from '@tabler//icons-react'
+import { IconCards, IconPlus } from '@tabler/icons-react'
 
 export function AdminPageListFeature() {
   const { deletePage, error, pages, loading } = useAdminPage()

@@ -1,5 +1,4 @@
 import { Box, Group, Stack } from '@mantine/core'
-import { Page } from '@pubkeyapp/sdk'
 import { PageWrapper } from '@pubkeyapp/web/page/ui'
 import { UiError, UiLoader } from '@pubkeyapp/web/ui/core'
 import { useUserGetProfilePageQuery } from '@pubkeyapp/web/util/sdk'
@@ -14,7 +13,7 @@ export function ProfilePage({ profileId }: { profileId: string }) {
         <UiLoader />
       ) : data?.item ? (
         <Group position="center">
-          <PageWrapper hideShareButton page={data.item as Page} />
+          <PageWrapper hideShareButton page={data.item} />
         </Group>
       ) : (
         <UiError error="Page not found..." />

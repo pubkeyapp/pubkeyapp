@@ -10,7 +10,7 @@ import {
   useAdminPauseQueueMutation,
   useAdminResumeQueueMutation,
 } from '@pubkeyapp/web/util/sdk'
-import { IconPlayerPause, IconPlayerPlay, IconRefresh, IconTrash } from '@tabler//icons-react'
+import { IconPlayerPause, IconPlayerPlay, IconRefresh, IconTrash } from '@tabler/icons-react'
 import { useEffect, useState } from 'react'
 
 import { useParams } from 'react-router-dom'

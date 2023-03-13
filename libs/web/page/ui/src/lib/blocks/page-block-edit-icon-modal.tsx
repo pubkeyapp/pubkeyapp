@@ -1,6 +1,6 @@
 import { ActionIcon, Box, Group, Modal, Stack, Tooltip } from '@mantine/core'
 import { AdminUpdatePageBlockInput, PageBlock } from '@pubkeyapp/web/util/sdk'
-import { IconIcons } from '@tabler//icons-react'
+import { IconIcons } from '@tabler/icons-react'
 import React, { useState } from 'react'
 import { pageBlockIcons } from './page-block-icon'
 

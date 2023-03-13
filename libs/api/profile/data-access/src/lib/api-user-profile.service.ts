@@ -4,6 +4,7 @@ import { ApiAnonAccountService } from '@pubkeyapp/api/account/data-access'
 import { ApiCoreService, getProfileUsername } from '@pubkeyapp/api/core/data-access'
 import { createNewPage } from '@pubkeyapp/api/page/data-access'
 import { ApiUserUserService } from '@pubkeyapp/api/user/data-access'
+import { PublicKey } from '@solana/web3.js'
 import { getProfileTypeColor } from './api-profile-helpers'
 import { UserUpdateProfileInput } from './dto/user-update-profile.input'
 import { ProfileType } from './entity/profile-type.enum'
@@ -27,7 +28,7 @@ export class ApiUserProfileService {
     return this.core.data.page.findFirst({
       where: { profileId },
       include: {
-        profile: { include: { owner: true } },
+        profile: { include: { owner: { include: { gumUser: true } } } },
         blocks: true,
         domains: { include: { domain: true } },
       },
@@ -225,5 +226,88 @@ export class ApiUserProfileService {
   userVerifyGumProfile() {
     // - Does the user have a Gum Profile of this type?
     // - Does the user have a Gum Meta of this type?
+  }
+
+  async userVerifyUser(userId: string) {
+    const owner = await this.user.userVerifyUser(userId)
+    const gumUserAccount = await this.core.gum.getUser(owner.publicKey)
+    if (gumUserAccount && !owner.gumUser) {
+      await this.connectGumUserAccount(userId, NetworkType.SolanaDevnet, gumUserAccount.cl_pubkey.toString())
+    } else {
+      this.logger.log(`User ${userId} is connected to Gum User ${owner.gumUser?.address}`)
+      console.log('gumUserAccount', gumUserAccount.cl_pubkey.toString())
+      console.log('owner.gumUser?.address', owner.gumUser?.address)
+      console.log('owner.gumUser?.address', owner.gumUser)
+      console.log('owner.gumUser?.profiles', owner.profiles)
+
+      const gumProfiles = await this.core.gum.sdk.profile.getProfilesByUser(new PublicKey(owner.publicKey))
+      const profiles = gumProfiles.map((p) => {
+        const type = Object.keys(JSON.parse(p.namespace))[0]
+        return {
+          address: p.cl_pubkey.toString(),
+          type: Object.keys(ProfileType).find((k) => k.toLowerCase() === type),
+        }
+      })
+      const gumProfileNames = gumProfiles.map((p) => Object.keys(JSON.parse(p.namespace))[0])
+      const ownerProfileTypes = owner.profiles.map((p) => p.type.toString().toLowerCase())
+      // find missing profiles
+      const missing = gumProfileNames.filter((p) => !ownerProfileTypes.includes(p))
+
+      // Match the lowercase missing profiles to the with the enum that has uppercase first letter
+      const missingEnums: ProfileType[] = missing.map((p) => {
+        const enumValue = Object.keys(ProfileType).find((k) => k.toLowerCase() === p)
+        if (!enumValue) {
+          this.logger.verbose(`Profile type ${p} not found`)
+        }
+        return ProfileType[enumValue]
+      })
+      // console.log(
+      //   'profiles',
+      //   profiles,
+      //   profileNames,
+      //   owner.profiles.map((p) => p.type),
+      // )
+      console.log('profiles', gumProfileNames, { missing, missingEnums })
+
+      if (missing.length) {
+        console.log('I will need to create a Gum Profile for you -> ')
+        // Loop over the enums
+        for (const type of missingEnums) {
+          const found = profiles.find((p) => p.type === type)
+          console.log(' - ', type, ' ->', found)
+          // Create the profile
+          const profile = await this.userCreateProfile(userId, type)
+          // Connect the profile to the user
+          await this.account.connectGumProfileAccount(
+            userId,
+            profile.id,
+            NetworkType.SolanaDevnet,
+            found.address,
+            owner.identity.id,
+          )
+        }
+      }
+    }
+    // console.log('owner.profiles', owner.profiles)
+
+    // console.log('owner.gumUser', owner.gumUser)
+  }
+
+  private async connectGumUserAccount(userId: string, network: NetworkType, address: string) {
+    const account = await this.account.userGetAccount(userId, network, address)
+    if (!account) {
+      throw new Error('Account not found')
+    }
+    await this.core.data.account.update({
+      where: { id: account.id },
+      data: { type: AccountType.GumUser, gumUser: { connect: { id: userId } } },
+    })
+    await this.core.data.user.update({
+      where: { id: userId },
+      data: {
+        gumUser: { connect: { address_network: { address, network } } },
+      },
+    })
+    this.logger.log(`User ${userId} connected to Gum User ${address} on ${network}`)
   }
 }

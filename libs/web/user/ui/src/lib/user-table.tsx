@@ -1,6 +1,6 @@
 import { ActionIcon, Avatar, Group, ScrollArea, Stack, Text } from '@mantine/core'
 import { User, UserRole, UserStatus } from '@pubkeyapp/web/util/sdk'
-import { IconPencil, IconTrash, IconUser } from '@tabler//icons-react'
+import { IconPencil, IconTrash, IconUser } from '@tabler/icons-react'
 import { DataTable } from 'mantine-datatable'
 import { Link } from 'react-router-dom'
 import { UserRoleBadge } from './user-role-badge'

@@ -257,6 +257,11 @@ export type Follow = {
   updatedAt?: Maybe<Scalars['DateTime']>
 }
 
+export type HeliusTransaction = {
+  __typename?: 'HeliusTransaction'
+  id?: Maybe<Scalars['String']>
+}
+
 export type Identity = {
   __typename?: 'Identity'
   accounts?: Maybe<Array<Account>>
@@ -771,6 +776,7 @@ export type Query = {
   uptime: Scalars['Float']
   userGetAccount?: Maybe<Account>
   userGetAccountHistory?: Maybe<Scalars['JSON']>
+  userGetHeliusTransactions: Array<HeliusTransaction>
   userGetIdentities?: Maybe<Array<Identity>>
   userGetIdentity?: Maybe<Identity>
   userGetInvite?: Maybe<Invite>
@@ -890,6 +896,11 @@ export type QueryUserGetAccountArgs = {
 }
 
 export type QueryUserGetAccountHistoryArgs = {
+  address: Scalars['String']
+  network: NetworkType
+}
+
+export type QueryUserGetHeliusTransactionsArgs = {
   address: Scalars['String']
   network: NetworkType
 }
@@ -1029,6 +1040,18 @@ export type UserUpdateProfileInput = {
 
 export type UserUpdateUserInput = {
   username?: InputMaybe<Scalars['String']>
+}
+
+export type HeliusTransactionFragment = { __typename?: 'HeliusTransaction'; id?: string | null }
+
+export type UserGetHeliusTransactionsQueryVariables = Exact<{
+  network: NetworkType
+  address: Scalars['String']
+}>
+
+export type UserGetHeliusTransactionsQuery = {
+  __typename?: 'Query'
+  items: Array<{ __typename?: 'HeliusTransaction'; id?: string | null }>
 }
 
 export type AccountSummaryFragment = {
@@ -5348,6 +5371,111 @@ export type UserGetPageQuery = {
       domain?: { __typename?: 'Domain'; id?: string | null; name?: string | null } | null
       page?: { __typename?: 'Page'; id?: string | null; title?: string | null } | null
     }> | null
+    profile?: {
+      __typename?: 'Profile'
+      id?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
+      name?: string | null
+      username?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      color?: string | null
+      followers?: number | null
+      following?: number | null
+      type?: ProfileType | null
+      owner?: {
+        __typename?: 'User'
+        id?: string | null
+        pid?: number | null
+        role?: UserRole | null
+        status?: UserStatus | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        followersCount?: number | null
+        followingCount?: number | null
+        profileUrl?: string | null
+        publicKey?: string | null
+        username?: string | null
+        relation?: {
+          __typename?: 'UserRelation'
+          isYou: boolean
+          isFollowedByYou: boolean
+          isFollowingYou: boolean
+        } | null
+        profile?: {
+          __typename?: 'Profile'
+          id?: string | null
+          createdAt?: any | null
+          updatedAt?: any | null
+          name?: string | null
+          username?: string | null
+          bio?: string | null
+          avatarUrl?: string | null
+          metaUrl?: string | null
+          color?: string | null
+          followers?: number | null
+          following?: number | null
+          type?: ProfileType | null
+          gumProfile?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
+          } | null
+          gumProfileMeta?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
+          } | null
+        } | null
+        gumUser?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+      } | null
+      identities?: Array<{
+        __typename?: 'Identity'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        provider?: IdentityProvider | null
+        providerId: string
+        profile?: any | null
+        verified: boolean
+      }> | null
+      gumProfile?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+      gumProfileMeta?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+    } | null
     owner?: {
       __typename?: 'User'
       id?: string | null
@@ -7589,6 +7717,68 @@ export type AnonGetUserQuery = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      owner?: {
+        __typename?: 'User'
+        id?: string | null
+        pid?: number | null
+        role?: UserRole | null
+        status?: UserStatus | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        followersCount?: number | null
+        followingCount?: number | null
+        profileUrl?: string | null
+        publicKey?: string | null
+        username?: string | null
+        gumUser?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+        relation?: {
+          __typename?: 'UserRelation'
+          isYou: boolean
+          isFollowedByYou: boolean
+          isFollowingYou: boolean
+        } | null
+        profile?: {
+          __typename?: 'Profile'
+          id?: string | null
+          createdAt?: any | null
+          updatedAt?: any | null
+          name?: string | null
+          username?: string | null
+          bio?: string | null
+          avatarUrl?: string | null
+          metaUrl?: string | null
+          color?: string | null
+          followers?: number | null
+          following?: number | null
+          type?: ProfileType | null
+          gumProfile?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
+          } | null
+          gumProfileMeta?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
+          } | null
+        } | null
+      } | null
       gumProfile?: {
         __typename?: 'Account'
         id?: string | null
@@ -8184,6 +8374,11 @@ export type UserVerifyUserMutation = {
   } | null
 }
 
+export const HeliusTransactionFragmentDoc = gql`
+  fragment HeliusTransaction on HeliusTransaction {
+    id
+  }
+`
 export const UserRelationDetailsFragmentDoc = gql`
   fragment UserRelationDetails on UserRelation {
     isYou
@@ -8504,6 +8699,23 @@ export const JobDetailsFragmentDoc = gql`
     failedReason
   }
 `
+export const UserGetHeliusTransactionsDocument = gql`
+  query UserGetHeliusTransactions($network: NetworkType!, $address: String!) {
+    items: userGetHeliusTransactions(network: $network, address: $address) {
+      ...HeliusTransaction
+    }
+  }
+  ${HeliusTransactionFragmentDoc}
+`
+
+export function useUserGetHeliusTransactionsQuery(
+  options: Omit<Urql.UseQueryArgs<UserGetHeliusTransactionsQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<UserGetHeliusTransactionsQuery, UserGetHeliusTransactionsQueryVariables>({
+    query: UserGetHeliusTransactionsDocument,
+    ...options,
+  })
+}
 export const AdminIndexGumAccountsDocument = gql`
   mutation AdminIndexGumAccounts {
     item: adminIndexGumAccounts
@@ -9301,11 +9513,23 @@ export const UserGetPageDocument = gql`
       domains {
         ...PageDomainDetails
       }
+      profile {
+        ...ProfileDetails
+        owner {
+          ...UserDetails
+        }
+        identities {
+          ...IdentityDetails
+        }
+      }
     }
   }
   ${PageDetailsFragmentDoc}
   ${PageBlockDetailsFragmentDoc}
   ${PageDomainDetailsFragmentDoc}
+  ${ProfileDetailsFragmentDoc}
+  ${UserDetailsFragmentDoc}
+  ${IdentityDetailsFragmentDoc}
 `
 
 export function useUserGetPageQuery(options: Omit<Urql.UseQueryArgs<UserGetPageQueryVariables>, 'query'>) {
@@ -9837,6 +10061,12 @@ export const AnonGetUserDocument = gql`
       }
       profile {
         ...ProfileDetails
+        owner {
+          ...UserDetails
+          gumUser {
+            ...AccountSummary
+          }
+        }
       }
       profiles {
         ...ProfileDetails
@@ -9846,6 +10076,7 @@ export const AnonGetUserDocument = gql`
   ${UserDetailsFragmentDoc}
   ${IdentityDetailsFragmentDoc}
   ${ProfileDetailsFragmentDoc}
+  ${AccountSummaryFragmentDoc}
 `
 
 export function useAnonGetUserQuery(options: Omit<Urql.UseQueryArgs<AnonGetUserQueryVariables>, 'query'>) {

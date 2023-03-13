@@ -3,7 +3,7 @@ import { useAdminInvite } from '@pubkeyapp/web/invite/data-access'
 import { InviteTable } from '@pubkeyapp/web/invite/ui'
 import { UiActionLink, UiErrorLoader } from '@pubkeyapp/web/ui/core'
 import { UiPage } from '@pubkeyapp/web/ui/page'
-import { IconCards, IconPlus } from '@tabler//icons-react'
+import { IconCards, IconPlus } from '@tabler/icons-react'
 
 export function AdminInviteListFeature() {
   const { deleteInvite, error, invites, loading } = useAdminInvite()

@@ -365,13 +365,13 @@ export interface Page {
    * @type {PageStatus}
    * @memberof Page
    */
-  status: PageStatus
+  status?: PageStatus
   /**
    *
    * @type {PageType}
    * @memberof Page
    */
-  type: PageType
+  type?: PageType
   /**
    *
    * @type {string}

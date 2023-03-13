@@ -44,11 +44,15 @@ export class ApiUserPageService {
     const page = await this.core.data.page.findUnique({
       where: { id: pageId },
       include: {
-        owner: true,
-        blocks: {
-          orderBy: {
-            order: 'asc',
+        profile: {
+          include: {
+            gumProfile: true,
+            owner: { include: { gumUser: true } },
+            identities: true,
           },
+        },
+        blocks: {
+          orderBy: { order: 'asc' },
         },
         domains: { include: { domain: true } },
       },

@@ -7,7 +7,7 @@ import {
   useAdminDeleteQueueJobMutation,
   useAdminGetQueueJobsQuery,
 } from '@pubkeyapp/web/util/sdk'
-import { IconTrash } from '@tabler//icons-react'
+import { IconTrash } from '@tabler/icons-react'
 
 import { useState } from 'react'
 

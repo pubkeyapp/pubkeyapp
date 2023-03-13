@@ -3,7 +3,7 @@ import { showNotificationError, showNotificationSuccess, UiError, UiFullPage, Ui
 import { UiPage } from '@pubkeyapp/web/ui/page'
 import { UserTable } from '@pubkeyapp/web/user/ui'
 import { AdminDeleteUserDocument, useAdminGetUsersQuery, User } from '@pubkeyapp/web/util/sdk'
-import { IconUserPlus, IconUsers } from '@tabler//icons-react'
+import { IconUserPlus, IconUsers } from '@tabler/icons-react'
 import { Link } from 'react-router-dom'
 import { useClient } from 'urql'
 

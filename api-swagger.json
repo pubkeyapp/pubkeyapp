@@ -571,9 +571,11 @@
             "nullable": true
           },
           "status": {
+            "nullable": true,
             "$ref": "#/components/schemas/PageStatus"
           },
           "type": {
+            "nullable": true,
             "$ref": "#/components/schemas/PageType"
           },
           "title": {
@@ -614,8 +616,7 @@
               "$ref": "#/components/schemas/PageBlock"
             }
           }
-        },
-        "required": ["status", "type"]
+        }
       },
       "Profile": {
         "type": "object",

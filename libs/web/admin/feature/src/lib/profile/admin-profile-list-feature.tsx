@@ -3,7 +3,7 @@ import { Alert } from '@mantine/core'
 import { ProfileTable } from '@pubkeyapp/web/profile/ui'
 import { UiActionLink, UiErrorLoader } from '@pubkeyapp/web/ui/core'
 import { UiPage } from '@pubkeyapp/web/ui/page'
-import { IconCards, IconPlus } from '@tabler//icons-react'
+import { IconCards, IconPlus } from '@tabler/icons-react'
 import { useAdminProfile } from './admin-profile-provider'
 
 export function AdminProfileListFeature() {

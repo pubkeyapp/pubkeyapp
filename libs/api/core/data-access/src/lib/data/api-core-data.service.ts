@@ -24,7 +24,12 @@ export class ApiCoreDataService extends PrismaClient implements OnModuleDestroy,
     return this.user
       .findFirst({
         where: { username: { equals: username, mode: 'insensitive' } },
-        include: { profile: true, profiles: true, identities: true, gumUser: true },
+        include: {
+          profile: { include: { owner: { include: { gumUser: true } } } },
+          profiles: true,
+          identities: true,
+          gumUser: true,
+        },
       })
       .then((user: CoreDbUser) => (user ? convertCoreDbUser(user) : undefined))
   }

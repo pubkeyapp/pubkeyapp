@@ -1,5 +1,4 @@
-import { ActionIcon, Box, Card, Group, Paper, Stack, Tooltip } from '@mantine/core'
-import { PageBlock as PageBlockSDK } from '@pubkeyapp/sdk'
+import { ActionIcon, Box, Card, Group, Stack, Tooltip } from '@mantine/core'
 import {
   PageBlockAddModal,
   PageBlockEditIconModal,
@@ -7,8 +6,8 @@ import {
   PageBlockRender,
   PageColorSelect,
 } from '@pubkeyapp/web/page/ui'
-import { UiDebugModal } from '@pubkeyapp/web/ui/core'
-import { AdminUpdatePageInput, Page, PageBlock, UserAddPageBlockInput } from '@pubkeyapp/web/util/sdk'
+import { UiDebugModal, UiLoader } from '@pubkeyapp/web/ui/core'
+import { AdminUpdatePageInput, Page, PageBlock, PageBlockType, UserAddPageBlockInput } from '@pubkeyapp/web/util/sdk'
 import { IconCopy, IconListNumbers, IconTrash } from '@tabler/icons-react'
 import React from 'react'
 import { PageEditorAddLinkCard } from './ui/page-editor-add-link-card'
@@ -16,35 +15,32 @@ import { PageEditorAddLinkCard } from './ui/page-editor-add-link-card'
 export function PageEditor({
   duplicatePageBlock,
   page,
+  addPageBlock,
   removePageBlock,
   updatePage,
   updatePageBlock,
 }: {
   duplicatePageBlock: (block: PageBlock) => Promise<void>
   page: Page
+  addPageBlock: (type: PageBlockType, data?: any) => Promise<void>
   removePageBlock: (block: PageBlock) => Promise<boolean>
   updatePage: (page: Page, input: AdminUpdatePageInput) => Promise<boolean>
   updatePageBlock: (pageBlockId: string, input: UserAddPageBlockInput) => Promise<boolean>
 }) {
+  if (!page) {
+    return <UiLoader />
+  }
   return (
     <Box>
-      <Stack spacing="xl">
-        <PageEditorAddLinkCard />
-        <Group position="apart">
-          <PageBlockAddModal page={page} />
-          <PageColorSelect selected={page?.color!} selectColor={(color) => updatePage(page, { color })} />
-        </Group>
-
+      <Stack spacing={64}>
+        <PageEditorAddLinkCard page={page} addBlock={addPageBlock} updatePage={updatePage} />
         <Stack spacing={'md'}>
           {page?.blocks?.map((block) => (
             <Card key={block.id} radius="xl" withBorder={false}>
               <Stack>
-                <PageBlockRender block={block as PageBlockSDK} color={page.color!} />
+                <PageBlockRender block={block} color={page.color!} />
                 <Group spacing={0} position="right" noWrap>
-                  <PageBlockEditModal
-                    block={block as PageBlockSDK}
-                    submit={(data) => updatePageBlock(block.id!, data)}
-                  />
+                  <PageBlockEditModal block={block} submit={(data) => updatePageBlock(block.id!, data)} />
                   <PageBlockEditIconModal block={block} submit={(data) => updatePageBlock(block.id!, data)} />
                   <Tooltip label={`Change block order (${block.order})`}>
                     <ActionIcon

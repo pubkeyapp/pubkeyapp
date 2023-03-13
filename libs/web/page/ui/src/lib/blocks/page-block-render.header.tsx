@@ -1,5 +1,5 @@
 import { Stack } from '@mantine/core'
-import { PageBlock } from '@pubkeyapp/sdk'
+import { PageBlock } from '@pubkeyapp/web/util/sdk'
 import React from 'react'
 import ReactMarkdown from 'react-markdown'
 

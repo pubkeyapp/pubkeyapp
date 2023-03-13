@@ -11,6 +11,7 @@ import { ApiConfigFeatureModule } from '@pubkeyapp/api/config/feature'
 import { ApiCoreDataAccessModule } from '@pubkeyapp/api/core/data-access'
 import { ApiDiscordFeatureModule } from '@pubkeyapp/api/discord/feature'
 import { ApiDomainFeatureModule } from '@pubkeyapp/api/domain/feature'
+import { ApiHeliusFeatureModule } from '@pubkeyapp/api/helius/feature'
 import { ApiIdentityFeatureModule } from '@pubkeyapp/api/identity/feature'
 import { ApiInviteFeatureModule } from '@pubkeyapp/api/invite/feature'
 import { ApiPageFeatureModule } from '@pubkeyapp/api/page/feature'
@@ -39,6 +40,7 @@ import { serveStaticFactory } from './serve-static.factory'
     ApiCoreDataAccessModule,
     ApiDiscordFeatureModule,
     ApiDomainFeatureModule,
+    ApiHeliusFeatureModule,
     ApiIdentityFeatureModule,
     ApiInviteFeatureModule,
     ApiPageFeatureModule,

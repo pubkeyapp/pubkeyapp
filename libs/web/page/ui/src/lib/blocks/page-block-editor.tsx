@@ -1,6 +1,6 @@
 import { Badge, Button, Center, Group, Stack, Text } from '@mantine/core'
 import { AdminAddPageBlockInput, PageBlockType } from '@pubkeyapp/web/util/sdk'
-import { IconHeading } from '@tabler//icons-react'
+import { IconHeading } from '@tabler/icons-react'
 import React, { useState } from 'react'
 import { PageBlockForm } from './page-block-form'
 import { pageBlockIcons } from './page-block-icon'

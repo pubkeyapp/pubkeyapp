@@ -3,7 +3,7 @@ import { AdminUiSettingsTable } from '@pubkeyapp/web/admin/ui'
 import { showNotificationError, showNotificationSuccess, UiDebug, UiErrorLoader } from '@pubkeyapp/web/ui/core'
 import { UiPage } from '@pubkeyapp/web/ui/page'
 import { useAdminGetSettingsQuery, useAdminSetSettingMutation } from '@pubkeyapp/web/util/sdk'
-import { IconSettings } from '@tabler//icons-react'
+import { IconSettings } from '@tabler/icons-react'
 import React from 'react'
 
 export function AdminSettingsListFeature() {

@@ -1,7 +1,7 @@
 import { Anchor, Badge, Box, Center, Container, Flex, Group, Stack, Tooltip } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
 import { PubKeyLogo } from '@pubkeyapp/logo'
-import { Page, User } from '@pubkeyapp/sdk'
+import { Page, User } from '@pubkeyapp/web/util/sdk'
 import { PageBlockRender } from './blocks/page-block-render'
 import { PageShareModal } from './page-share-modal'
 import { PageUserProfile } from './page-user-profile'
@@ -26,7 +26,7 @@ export function PageUiRender({
           </Flex>
         </Box>
       )}
-      {page?.owner ? <PageUserProfile user={owner} /> : null}
+      {page?.profile ? <PageUserProfile profile={page.profile} /> : null}
       <Box mt={24}>
         <Stack spacing={width ? 32 : mobileScreen ? 32 : 64} sx={{}}>
           {page?.blocks?.map((block) => (

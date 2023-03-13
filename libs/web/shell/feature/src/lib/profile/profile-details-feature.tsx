@@ -25,7 +25,7 @@ export function ProfileDetailsFeature() {
       {data?.item ? (
         <Container size="md" mt={48}>
           <Stack>
-            {data?.item ? <PageUserProfile user={data.item as any} /> : null}
+            {data.item?.profile ? <PageUserProfile profile={data.item?.profile} /> : null}
             {profileTypes?.length ? (
               <UiTabRoutes
                 grow={false}

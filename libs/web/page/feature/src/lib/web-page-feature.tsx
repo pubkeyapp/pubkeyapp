@@ -1,8 +1,9 @@
 import { Center } from '@mantine/core'
-import { Page, PubKeySdk } from '@pubkeyapp/sdk'
+import { PubKeySdk } from '@pubkeyapp/sdk'
 import { PageWrapper } from '@pubkeyapp/web/page/ui'
 import { useConfig } from '@pubkeyapp/web/shell/data-access'
 import { UiError, UiErrorLoader } from '@pubkeyapp/web/ui/core'
+import { Page } from '@pubkeyapp/web/util/sdk'
 import React, { useEffect, useState } from 'react'
 import { Route, Routes, useParams } from 'react-router-dom'
 
@@ -33,7 +34,7 @@ export function WebPageFeature() {
     PubKeySdk.setup({ endpoint: apiUrl!, token })
       .then((sdk) => sdk.getPageById(pageId + ''))
       .then((page) => {
-        setPage(page)
+        setPage(page as Page)
         setLoading(false)
       })
       .catch((e) => {
