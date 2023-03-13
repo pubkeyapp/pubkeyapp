@@ -1,14 +1,3 @@
-import styles from './web-gum-ui.module.css'
+import React from 'react'
 
-/* eslint-disable-next-line */
-export interface WebGumUiProps {}
-
-export function WebGumUi(props: WebGumUiProps) {
-  return (
-    <div className={styles['container']}>
-      <h1>Welcome to WebGumUi!</h1>
-    </div>
-  )
-}
-
-export default WebGumUi
+export const foo = 'bar'

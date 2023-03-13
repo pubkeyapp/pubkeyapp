@@ -2,6 +2,7 @@ import { BadRequestException, Injectable, Logger, NotFoundException } from '@nes
 import { AccountType, NetworkType, User } from '@prisma/client'
 import { ApiAnonAccountService } from '@pubkeyapp/api/account/data-access'
 import { ApiCoreService, getProfileUsername, slugify } from '@pubkeyapp/api/core/data-access'
+import { PublicKey } from '@solana/web3.js'
 import { UserUpdateUserInput } from './dto/user-update-user.input'
 import { UserRelation } from './entity/user.relation'
 
@@ -121,7 +122,16 @@ export class ApiUserUserService {
       await this.connectGumUserAccount(userId, NetworkType.SolanaDevnet, gumUserAccount.cl_pubkey.toString())
     } else {
       this.logger.log(`User ${userId} is connected to Gum User ${owner.gumUser?.address}`)
+      console.log('gumUserAccount', gumUserAccount.cl_pubkey.toString())
+      console.log('owner.gumUser?.address', owner.gumUser?.address)
+      console.log('owner.gumUser?.address', owner.gumUser)
+      console.log('owner.gumUser?.profiles', owner.profiles)
+
+      const profiles = await this.core.gum.sdk.profile.getProfilesByUser(new PublicKey(owner.publicKey))
+      console.log('profiles', profiles)
     }
+
+    // console.log('owner.gumUser', owner.gumUser)
 
     return this.core.getUserById(userId, true)
   }
@@ -131,12 +141,10 @@ export class ApiUserUserService {
     if (!account) {
       throw new Error('Account not found')
     }
-    if (account.type !== AccountType.GumUser) {
-      await this.core.data.account.update({
-        where: { id: account.id },
-        data: { type: AccountType.GumUser },
-      })
-    }
+    await this.core.data.account.update({
+      where: { id: account.id },
+      data: { type: AccountType.GumUser, gumUser: { connect: { id: userId } } },
+    })
     await this.core.data.user.update({
       where: { id: userId },
       data: {

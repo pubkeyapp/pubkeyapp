@@ -4,7 +4,7 @@ import { AccountType, IdentityProvider, NetworkType } from '@prisma/client'
 import { ApiCoreService } from '@pubkeyapp/api/core/data-access'
 import { ApiSolanaService } from '@pubkeyapp/api/solana/data-access'
 import { ClusterType } from '@pubkeyapp/solana'
-import { Keypair, PublicKey } from '@solana/web3.js'
+import { Keypair, LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js'
 import { ApiAccountQueueService } from './queue/api-account-queue.service'
 
 export const BLOCKED_ACCOUNTS = [
@@ -25,7 +25,11 @@ export class ApiAnonAccountService implements OnModuleInit {
     // })
   }
 
-  async onModuleInit() {}
+  async onModuleInit() {
+    setTimeout(() => {
+      this.airdropAccounts()
+    }, 2000)
+  }
 
   async userGetAccount(userId: string, network: NetworkType, address: string, sync = false, identityId?: string) {
     if (sync) {
@@ -47,7 +51,7 @@ export class ApiAnonAccountService implements OnModuleInit {
     }
 
     let found = await this.findAccount(network, address)
-
+    // console.log('found', found)
     if (!found) {
       found = await this.discoverAccount({
         userId,
@@ -97,7 +101,7 @@ export class ApiAnonAccountService implements OnModuleInit {
     const ignoreKey = `ignore-account:${network}:${address}`
     const ignoreTtlSeconds = 60 * 60
     const ignore = await this.core.cache.get('solana', ignoreKey)
-    if (ignore) {
+    if (ignore && !refresh) {
       this.logger.warn(`Account ${address} not index on ${network} (Ignored)`)
       return
     }
@@ -177,6 +181,7 @@ export class ApiAnonAccountService implements OnModuleInit {
           type = AccountType.Token
         }
 
+        this.logger.verbose(`Discovered account ${address} on ${network} (type: ${type})`)
         await this.core.data.account.create({
           data: {
             discoveredBy: { connect: { id: userId } },
@@ -200,21 +205,25 @@ export class ApiAnonAccountService implements OnModuleInit {
   }
 
   async lookupIntegrations({ userId, address, identityId }: { userId?: string; address: string; identityId?: string }) {
-    const bonfida = await this.core.cache.wrap(
-      'solana',
-      `bonfida:${address}`,
-      () => this.solana.bonfidaLookup(address),
-      60,
-    )
-    for (const token of (bonfida ?? [])?.filter((i) => !!i)) {
-      await this.discoverAccount({
-        userId,
-        network: NetworkType.SolanaMainnet,
-        address: token.publicKey,
-        type: token.type,
-        name: token.name,
-        identityId,
-      })
+    try {
+      const bonfida = await this.core.cache.wrap(
+        'solana',
+        `bonfida:${address}`,
+        () => this.solana.bonfidaLookup(address),
+        60,
+      )
+      for (const token of (bonfida ?? [])?.filter((i) => !!i)) {
+        await this.discoverAccount({
+          userId,
+          network: NetworkType.SolanaMainnet,
+          address: token.publicKey,
+          type: token.type,
+          name: token.name,
+          identityId,
+        })
+      }
+    } catch (e) {
+      this.logger.error('Error looking up Bonfida', e)
     }
 
     const gumUser = await this.core.cache.wrap(
@@ -225,7 +234,7 @@ export class ApiAnonAccountService implements OnModuleInit {
     )
 
     if (gumUser?.user?.cl_pubkey) {
-      await this.discoverAccount({
+      const discovered = await this.discoverAccount({
         userId,
         network: NetworkType.SolanaDevnet,
         address: gumUser?.user?.cl_pubkey,
@@ -235,30 +244,51 @@ export class ApiAnonAccountService implements OnModuleInit {
         metadata: JSON.parse(JSON.stringify(gumUser?.user)),
         refresh: true,
       })
+      if (identityId && !discovered.identity) {
+        await this.core.data.account.update({
+          where: { id: discovered.id },
+          data: { identityId },
+        })
+        this.logger.verbose(`Connected Gum User ${discovered.address} to identity ${identityId} `)
+      }
     }
     for (const gumProfile of gumUser?.profiles) {
-      await this.discoverAccount({
+      const discovered = await this.discoverAccount({
         userId,
         network: NetworkType.SolanaDevnet,
         address: gumProfile?.cl_pubkey,
         type: AccountType.GumProfile,
         name: gumProfile?.cl_pubkey,
         identityId,
-        metadata: JSON.parse(JSON.stringify(gumUser?.user)),
+        metadata: JSON.parse(JSON.stringify(gumProfile)),
         refresh: true,
       })
+      if (identityId && !discovered.identity) {
+        await this.core.data.account.update({
+          where: { id: discovered.id },
+          data: { identityId },
+        })
+        this.logger.verbose(`Connected Gum Profile ${discovered.address} to identity ${identityId} `)
+      }
     }
     for (const gumProfileMeta of gumUser?.meta) {
-      await this.discoverAccount({
+      const discovered = await this.discoverAccount({
         userId,
         network: NetworkType.SolanaDevnet,
         address: gumProfileMeta?.cl_pubkey,
         type: AccountType.GumProfileMeta,
         name: gumProfileMeta?.cl_pubkey,
         identityId,
-        metadata: JSON.parse(JSON.stringify(gumUser?.user)),
+        metadata: JSON.parse(JSON.stringify(gumProfileMeta)),
         refresh: true,
       })
+      if (identityId && !discovered.identity) {
+        await this.core.data.account.update({
+          where: { id: discovered.id },
+          data: { identityId },
+        })
+        this.logger.verbose(`Connected Gum Profile Meta ${discovered.address} to identity ${identityId} `)
+      }
     }
 
     // Lookup Metaplex data
@@ -304,11 +334,70 @@ export class ApiAnonAccountService implements OnModuleInit {
         address_network: { address, network },
       },
       include: {
-        discoveredBy: { include: { profile: true } },
+        discoveredBy: { include: { profile: true, gumUser: true } },
         owner: true,
         tokens: true,
         identity: { include: { owner: true } },
+        gumProfile: { include: { gumProfile: true, gumProfileMeta: true, owner: { include: { profile: true } } } },
+        gumProfileMeta: true,
+        gumUser: { include: { profile: { include: { gumProfile: true } } } },
       },
     })
+  }
+  o
+
+  async airdropAccounts() {
+    const sol = this.solana.getSolana(ClusterType.Devnet)
+    // Get Solana identities
+    const ids = await this.core.data.identity.findMany({
+      where: { provider: IdentityProvider.Solana },
+      include: { owner: true },
+    })
+    const amount = 2
+    for (const id of ids) {
+      const balance = await sol.connection.getBalance(new PublicKey(id.providerId))
+      if (balance > 0) {
+        this.logger.verbose(`Skipping airdrop for ${id.providerId} as balance is ${balance}`)
+        continue
+      }
+      const tx = await sol.connection.requestAirdrop(new PublicKey(id.providerId), amount * LAMPORTS_PER_SOL)
+      this.logger.verbose(`Airdropped $olana Devnet => ${amount} SOL to ${id.providerId} ${tx}`)
+    }
+    for (const id of ids) {
+      try {
+        const account = await this.discoverAccount({
+          userId: id.owner.id,
+          network: NetworkType.SolanaDevnet,
+          address: id.providerId,
+          identityId: id.id,
+          refresh: true,
+        })
+      } catch (e) {
+        this.logger.error(`Error discovering account ${id.providerId}`, e)
+      }
+      // console.log('id', id)
+    }
+  }
+
+  async connectGumProfileAccount(userId: string, profileId: string, network: NetworkType, address: string) {
+    const account = await this.userGetAccount(userId, network, address)
+    if (!account) {
+      throw new Error('Account not found')
+    }
+    if (account.type !== AccountType.GumProfile) {
+      await this.core.data.account.update({
+        where: { id: account.id },
+        data: { type: AccountType.GumProfile },
+      })
+    }
+    await this.core.data.profile.update({
+      where: { id: profileId },
+      data: {
+        gumProfile: {
+          connect: { address_network: { address, network } },
+        },
+      },
+    })
+    this.logger.log(`User ${userId} connected to Gum User ${address} on ${network}`)
   }
 }

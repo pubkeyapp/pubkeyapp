@@ -1,11 +1,14 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common'
+import { IdentityProvider } from '@prisma/client'
 import { ApiCoreService } from '@pubkeyapp/api/core/data-access'
+import { PublicKey } from '@solana/web3.js'
+import { ApiAnonAccountService } from './api-anon-account.service'
 import { AdminGetAccountsInput } from './dto/admin-get-accounts.input'
 
 @Injectable()
 export class ApiAdminAccountService {
   private readonly logger = new Logger(ApiAdminAccountService.name)
-  constructor(private readonly core: ApiCoreService) {}
+  constructor(private readonly anon: ApiAnonAccountService, private readonly core: ApiCoreService) {}
 
   async adminGetAccounts(adminId: string, input: AdminGetAccountsInput) {
     await this.core.ensureUserAdmin(adminId)
@@ -54,6 +57,9 @@ export class ApiAdminAccountService {
             owner: true,
           },
         },
+        gumProfile: true,
+        gumProfileMeta: true,
+        gumUser: true,
       },
     })
 
@@ -73,6 +79,37 @@ export class ApiAdminAccountService {
     } catch (e) {
       this.logger.error(e)
       return false
+    }
+  }
+
+  async adminIndexGumAccounts(userId: string) {
+    await this.core.ensureUserAdmin(userId)
+    const solanaIdentities = await this.core.data.identity.findMany({
+      where: {
+        provider: IdentityProvider.Solana,
+      },
+    })
+    for (const solanaIdentity of solanaIdentities) {
+      try {
+        const gumAccount = await this.core.gum.sdk.user.getUser(new PublicKey(solanaIdentity.providerId))
+        if (gumAccount) {
+          console.log('gumAccount', gumAccount)
+          // Check if we have profiles
+          const gumProfiles = await this.core.gum.sdk.profile.getProfilesByUser(
+            new PublicKey(solanaIdentity.providerId),
+          )
+          console.log('gumProfiles', gumProfiles)
+        }
+      } catch (e) {
+        this.logger.error(e)
+      }
+    }
+    // const allUserAccounts = await this.core.gum.sdk.user.getAllUsersAccounts()
+    // for (const user of allUserAccounts) {
+    //   console.log(user)
+    // }
+    return {
+      hi: 'hi',
     }
   }
 }

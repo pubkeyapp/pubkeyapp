@@ -497,6 +497,14 @@
           },
           "type": {
             "$ref": "#/components/schemas/AccountType"
+          },
+          "gumUser": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
           }
         },
         "required": [
@@ -509,7 +517,8 @@
           "program",
           "address",
           "network",
-          "type"
+          "type",
+          "gumUser"
         ]
       },
       "ProfileType": {

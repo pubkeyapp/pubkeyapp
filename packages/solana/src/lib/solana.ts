@@ -32,7 +32,7 @@ export class Solana {
 
   async getAccountInfo(address: string): Promise<AccountInfo> {
     const account = new PublicKey(address)
-    const accountInfo = await this.connection.getParsedAccountInfo(account)
+    const accountInfo = await this.connection.getParsedAccountInfo(account, { commitment: 'confirmed' })
 
     if (!accountInfo) {
       throw new Error('Account not found')

@@ -102,6 +102,7 @@ export function UiForm<T>({
             case UiFormFieldType.Text:
               return (
                 <TextInput
+                  readOnly={field.readOnly}
                   variant="filled"
                   size="lg"
                   radius="xl"

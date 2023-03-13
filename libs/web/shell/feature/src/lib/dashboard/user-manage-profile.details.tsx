@@ -5,7 +5,7 @@ import { useAuth } from '@pubkeyapp/web/auth/data-access'
 import { IdentityBadge } from '@pubkeyapp/web/identity/ui'
 import { useUserProfiles } from '@pubkeyapp/web/profile/data-access'
 import { useGumApp } from '@pubkeyapp/web/shell/data-access'
-import { showNotificationError, showNotificationSuccess, UiDebugModal } from '@pubkeyapp/web/ui/core'
+import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/core'
 import {
   Profile,
   UserUpdateProfileInput,
@@ -139,11 +139,16 @@ export function UserManageProfileDetails({ profile }: { profile: Profile }) {
       if (app.id === AppType.PubKeyPages) {
         app.itemId = profile.page?.id ?? ''
       }
+      if (app.id === AppType.GumProfile && profile.gumProfile) {
+        app.itemId = profile?.gumProfile?.id
+          ? `${profile.gumProfile.network}/${profile.gumProfile.address}/profile`
+          : ''
+      }
       return app
     })
     .filter((app) => app.itemId)
 
-  return (
+  return profile.gumProfile ? (
     <Stack>
       <Stack>
         <Group position="apart" align="start">
@@ -258,6 +263,14 @@ export function UserManageProfileDetails({ profile }: { profile: Profile }) {
           </Group>
         ))}
       </Stack>
+    </Stack>
+  ) : (
+    <Stack>
+      <Tooltip label={`Verify ${profile.type} profile`}>
+        <Button variant="outline" size="sm" onClick={verifyProfile}>
+          Verify Profile
+        </Button>
+      </Tooltip>
     </Stack>
   )
 }

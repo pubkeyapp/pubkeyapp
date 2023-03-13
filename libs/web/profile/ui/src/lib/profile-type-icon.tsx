@@ -79,11 +79,7 @@ export function ProfileTypeBadge({ profileType, verified, label, component, ...p
   const color = getProfileTypeColor(profileType)
 
   return (
-    <Tooltip
-      label={label ?? `${profileType} profile (${verified ? 'verified' : 'not verified'})`}
-      position="right"
-      withArrow
-    >
+    <Tooltip label={label ?? `${profileType} Gum Profile (${verified ? 'verified' : 'not verified'})`} withArrow>
       <Badge
         {...props}
         onClick={props.onClick}

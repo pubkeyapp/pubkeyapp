@@ -84,7 +84,10 @@ type Account {
   address: String
   network: NetworkType
   type: AccountType
+  gumUser: User
   explorerUrl: String
+  gumProfile: Profile
+  gumProfileMeta: Profile
 }
 
 enum NetworkType {
@@ -445,6 +448,7 @@ enum JobStatus {
 type Mutation {
   adminSetSetting(key: String!, value: String!): Setting
   adminDeleteAccount(accountId: String!): Boolean
+  adminIndexGumAccounts: JSON
   userLogout: Boolean
   anonRespondChallenge(challenge: String!, publicKey: String!, signature: String!): User
   adminCreateDomain(input: AdminCreateDomainInput!): Domain

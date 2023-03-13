@@ -29,6 +29,9 @@ export type Account = {
   discoveredAt?: Maybe<Scalars['DateTime']>
   discoveredBy?: Maybe<User>
   explorerUrl?: Maybe<Scalars['String']>
+  gumProfile?: Maybe<Profile>
+  gumProfileMeta?: Maybe<Profile>
+  gumUser?: Maybe<User>
   id?: Maybe<Scalars['String']>
   identity?: Maybe<Identity>
   metadata?: Maybe<Scalars['JSON']>
@@ -333,6 +336,7 @@ export type Mutation = {
   adminDeleteProfile?: Maybe<Profile>
   adminDeleteQueueJob?: Maybe<Scalars['Boolean']>
   adminDeleteUser?: Maybe<User>
+  adminIndexGumAccounts?: Maybe<Scalars['JSON']>
   adminPauseQueue?: Maybe<Scalars['Boolean']>
   adminRemovePageBlock?: Maybe<PageBlock>
   adminRemovePageDomain?: Maybe<PageDomain>
@@ -1179,6 +1183,10 @@ export type AccountDetailsFragment = {
   } | null
 }
 
+export type AdminIndexGumAccountsMutationVariables = Exact<{ [key: string]: never }>
+
+export type AdminIndexGumAccountsMutation = { __typename?: 'Mutation'; item?: any | null }
+
 export type AdminDeleteAccountMutationVariables = Exact<{
   accountId: Scalars['String']
 }>
@@ -1796,6 +1804,196 @@ export type AdminGetAccountQuery = {
         } | null
       } | null
     }> | null
+    gumProfile?: {
+      __typename?: 'Profile'
+      id?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
+      name?: string | null
+      username?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      color?: string | null
+      followers?: number | null
+      following?: number | null
+      type?: ProfileType | null
+      owner?: {
+        __typename?: 'User'
+        id?: string | null
+        pid?: number | null
+        role?: UserRole | null
+        status?: UserStatus | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        followersCount?: number | null
+        followingCount?: number | null
+        profileUrl?: string | null
+        publicKey?: string | null
+        username?: string | null
+        gumUser?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+        relation?: {
+          __typename?: 'UserRelation'
+          isYou: boolean
+          isFollowedByYou: boolean
+          isFollowingYou: boolean
+        } | null
+        profile?: {
+          __typename?: 'Profile'
+          id?: string | null
+          createdAt?: any | null
+          updatedAt?: any | null
+          name?: string | null
+          username?: string | null
+          bio?: string | null
+          avatarUrl?: string | null
+          metaUrl?: string | null
+          color?: string | null
+          followers?: number | null
+          following?: number | null
+          type?: ProfileType | null
+          gumProfile?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
+          } | null
+          gumProfileMeta?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
+          } | null
+        } | null
+      } | null
+      gumProfile?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+      gumProfileMeta?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+    } | null
+    gumProfileMeta?: {
+      __typename?: 'Profile'
+      id?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
+      name?: string | null
+      username?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      color?: string | null
+      followers?: number | null
+      following?: number | null
+      type?: ProfileType | null
+      gumProfile?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+      gumProfileMeta?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+    } | null
+    gumUser?: {
+      __typename?: 'User'
+      id?: string | null
+      pid?: number | null
+      role?: UserRole | null
+      status?: UserStatus | null
+      createdAt?: any | null
+      updatedAt?: any | null
+      followersCount?: number | null
+      followingCount?: number | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      username?: string | null
+      relation?: {
+        __typename?: 'UserRelation'
+        isYou: boolean
+        isFollowedByYou: boolean
+        isFollowingYou: boolean
+      } | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        name?: string | null
+        username?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        color?: string | null
+        followers?: number | null
+        following?: number | null
+        type?: ProfileType | null
+        gumProfile?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+        gumProfileMeta?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+      } | null
+      gumUser?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+    } | null
     discoveredBy?: {
       __typename?: 'User'
       id?: string | null
@@ -1954,163 +2152,36 @@ export type UserGetAccountQuery = {
     owner?: {
       __typename?: 'Account'
       id?: string | null
-      updatedAt?: any | null
-      createdAt?: any | null
       name?: string | null
-      program?: string | null
-      metadata?: any | null
-      network?: NetworkType | null
       type?: AccountType | null
       address?: string | null
+      network?: NetworkType | null
       explorerUrl?: string | null
-      discoveredAt?: any | null
-      discoveredBy?: {
-        __typename?: 'User'
-        id?: string | null
-        pid?: number | null
-        role?: UserRole | null
-        status?: UserStatus | null
-        createdAt?: any | null
-        updatedAt?: any | null
-        followersCount?: number | null
-        followingCount?: number | null
-        profileUrl?: string | null
-        publicKey?: string | null
-        username?: string | null
-        relation?: {
-          __typename?: 'UserRelation'
-          isYou: boolean
-          isFollowedByYou: boolean
-          isFollowingYou: boolean
-        } | null
-        profile?: {
-          __typename?: 'Profile'
-          id?: string | null
-          createdAt?: any | null
-          updatedAt?: any | null
-          name?: string | null
-          username?: string | null
-          bio?: string | null
-          avatarUrl?: string | null
-          metaUrl?: string | null
-          color?: string | null
-          followers?: number | null
-          following?: number | null
-          type?: ProfileType | null
-          gumProfile?: {
-            __typename?: 'Account'
-            id?: string | null
-            name?: string | null
-            type?: AccountType | null
-            address?: string | null
-            network?: NetworkType | null
-            explorerUrl?: string | null
-          } | null
-          gumProfileMeta?: {
-            __typename?: 'Account'
-            id?: string | null
-            name?: string | null
-            type?: AccountType | null
-            address?: string | null
-            network?: NetworkType | null
-            explorerUrl?: string | null
-          } | null
-        } | null
-        gumUser?: {
-          __typename?: 'Account'
-          id?: string | null
-          name?: string | null
-          type?: AccountType | null
-          address?: string | null
-          network?: NetworkType | null
-          explorerUrl?: string | null
-        } | null
-      } | null
-      identity?: {
-        __typename?: 'Identity'
-        id?: string | null
-        provider?: IdentityProvider | null
-        providerId: string
-        profile?: any | null
-        verified: boolean
-        owner?: {
-          __typename?: 'User'
-          id?: string | null
-          pid?: number | null
-          role?: UserRole | null
-          status?: UserStatus | null
-          createdAt?: any | null
-          updatedAt?: any | null
-          followersCount?: number | null
-          followingCount?: number | null
-          profileUrl?: string | null
-          publicKey?: string | null
-          username?: string | null
-          relation?: {
-            __typename?: 'UserRelation'
-            isYou: boolean
-            isFollowedByYou: boolean
-            isFollowingYou: boolean
-          } | null
-          profile?: {
-            __typename?: 'Profile'
-            id?: string | null
-            createdAt?: any | null
-            updatedAt?: any | null
-            name?: string | null
-            username?: string | null
-            bio?: string | null
-            avatarUrl?: string | null
-            metaUrl?: string | null
-            color?: string | null
-            followers?: number | null
-            following?: number | null
-            type?: ProfileType | null
-            gumProfile?: {
-              __typename?: 'Account'
-              id?: string | null
-              name?: string | null
-              type?: AccountType | null
-              address?: string | null
-              network?: NetworkType | null
-              explorerUrl?: string | null
-            } | null
-            gumProfileMeta?: {
-              __typename?: 'Account'
-              id?: string | null
-              name?: string | null
-              type?: AccountType | null
-              address?: string | null
-              network?: NetworkType | null
-              explorerUrl?: string | null
-            } | null
-          } | null
-          gumUser?: {
-            __typename?: 'Account'
-            id?: string | null
-            name?: string | null
-            type?: AccountType | null
-            address?: string | null
-            network?: NetworkType | null
-            explorerUrl?: string | null
-          } | null
-        } | null
-      } | null
     } | null
     tokens?: Array<{
       __typename?: 'Account'
       id?: string | null
-      updatedAt?: any | null
-      createdAt?: any | null
       name?: string | null
-      program?: string | null
-      metadata?: any | null
-      network?: NetworkType | null
       type?: AccountType | null
       address?: string | null
+      network?: NetworkType | null
       explorerUrl?: string | null
-      discoveredAt?: any | null
-      discoveredBy?: {
+    }> | null
+    gumProfile?: {
+      __typename?: 'Profile'
+      id?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
+      name?: string | null
+      username?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      color?: string | null
+      followers?: number | null
+      following?: number | null
+      type?: ProfileType | null
+      owner?: {
         __typename?: 'User'
         id?: string | null
         pid?: number | null
@@ -2123,6 +2194,15 @@ export type UserGetAccountQuery = {
         profileUrl?: string | null
         publicKey?: string | null
         username?: string | null
+        gumUser?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
         relation?: {
           __typename?: 'UserRelation'
           isYou: boolean
@@ -2162,7 +2242,102 @@ export type UserGetAccountQuery = {
             explorerUrl?: string | null
           } | null
         } | null
-        gumUser?: {
+      } | null
+      gumProfile?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+      gumProfileMeta?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+    } | null
+    gumProfileMeta?: {
+      __typename?: 'Profile'
+      id?: string | null
+      createdAt?: any | null
+      updatedAt?: any | null
+      name?: string | null
+      username?: string | null
+      bio?: string | null
+      avatarUrl?: string | null
+      metaUrl?: string | null
+      color?: string | null
+      followers?: number | null
+      following?: number | null
+      type?: ProfileType | null
+      gumProfile?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+      gumProfileMeta?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
+    } | null
+    gumUser?: {
+      __typename?: 'User'
+      id?: string | null
+      pid?: number | null
+      role?: UserRole | null
+      status?: UserStatus | null
+      createdAt?: any | null
+      updatedAt?: any | null
+      followersCount?: number | null
+      followingCount?: number | null
+      profileUrl?: string | null
+      publicKey?: string | null
+      username?: string | null
+      relation?: {
+        __typename?: 'UserRelation'
+        isYou: boolean
+        isFollowedByYou: boolean
+        isFollowingYou: boolean
+      } | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        name?: string | null
+        username?: string | null
+        bio?: string | null
+        avatarUrl?: string | null
+        metaUrl?: string | null
+        color?: string | null
+        followers?: number | null
+        following?: number | null
+        type?: ProfileType | null
+        gumProfile?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+        gumProfileMeta?: {
           __typename?: 'Account'
           id?: string | null
           name?: string | null
@@ -2172,77 +2347,16 @@ export type UserGetAccountQuery = {
           explorerUrl?: string | null
         } | null
       } | null
-      identity?: {
-        __typename?: 'Identity'
+      gumUser?: {
+        __typename?: 'Account'
         id?: string | null
-        provider?: IdentityProvider | null
-        providerId: string
-        profile?: any | null
-        verified: boolean
-        owner?: {
-          __typename?: 'User'
-          id?: string | null
-          pid?: number | null
-          role?: UserRole | null
-          status?: UserStatus | null
-          createdAt?: any | null
-          updatedAt?: any | null
-          followersCount?: number | null
-          followingCount?: number | null
-          profileUrl?: string | null
-          publicKey?: string | null
-          username?: string | null
-          relation?: {
-            __typename?: 'UserRelation'
-            isYou: boolean
-            isFollowedByYou: boolean
-            isFollowingYou: boolean
-          } | null
-          profile?: {
-            __typename?: 'Profile'
-            id?: string | null
-            createdAt?: any | null
-            updatedAt?: any | null
-            name?: string | null
-            username?: string | null
-            bio?: string | null
-            avatarUrl?: string | null
-            metaUrl?: string | null
-            color?: string | null
-            followers?: number | null
-            following?: number | null
-            type?: ProfileType | null
-            gumProfile?: {
-              __typename?: 'Account'
-              id?: string | null
-              name?: string | null
-              type?: AccountType | null
-              address?: string | null
-              network?: NetworkType | null
-              explorerUrl?: string | null
-            } | null
-            gumProfileMeta?: {
-              __typename?: 'Account'
-              id?: string | null
-              name?: string | null
-              type?: AccountType | null
-              address?: string | null
-              network?: NetworkType | null
-              explorerUrl?: string | null
-            } | null
-          } | null
-          gumUser?: {
-            __typename?: 'Account'
-            id?: string | null
-            name?: string | null
-            type?: AccountType | null
-            address?: string | null
-            network?: NetworkType | null
-            explorerUrl?: string | null
-          } | null
-        } | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
       } | null
-    }> | null
+    } | null
     discoveredBy?: {
       __typename?: 'User'
       id?: string | null
@@ -8390,6 +8504,17 @@ export const JobDetailsFragmentDoc = gql`
     failedReason
   }
 `
+export const AdminIndexGumAccountsDocument = gql`
+  mutation AdminIndexGumAccounts {
+    item: adminIndexGumAccounts
+  }
+`
+
+export function useAdminIndexGumAccountsMutation() {
+  return Urql.useMutation<AdminIndexGumAccountsMutation, AdminIndexGumAccountsMutationVariables>(
+    AdminIndexGumAccountsDocument,
+  )
+}
 export const AdminDeleteAccountDocument = gql`
   mutation AdminDeleteAccount($accountId: String!) {
     item: adminDeleteAccount(accountId: $accountId)
@@ -8427,9 +8552,33 @@ export const AdminGetAccountDocument = gql`
       tokens {
         ...AccountDetails
       }
+      gumProfile {
+        ...ProfileDetails
+        owner {
+          ...UserDetails
+          gumUser {
+            ...AccountSummary
+          }
+        }
+        gumProfile {
+          ...AccountSummary
+        }
+        gumProfileMeta {
+          ...AccountSummary
+        }
+      }
+      gumProfileMeta {
+        ...ProfileDetails
+      }
+      gumUser {
+        ...UserDetails
+      }
     }
   }
   ${AccountDetailsFragmentDoc}
+  ${ProfileDetailsFragmentDoc}
+  ${UserDetailsFragmentDoc}
+  ${AccountSummaryFragmentDoc}
 `
 
 export function useAdminGetAccountQuery(options: Omit<Urql.UseQueryArgs<AdminGetAccountQueryVariables>, 'query'>) {
@@ -8443,14 +8592,38 @@ export const UserGetAccountDocument = gql`
     item: userGetAccount(network: $network, address: $address) {
       ...AccountDetails
       owner {
-        ...AccountDetails
+        ...AccountSummary
       }
       tokens {
-        ...AccountDetails
+        ...AccountSummary
+      }
+      gumProfile {
+        ...ProfileDetails
+        owner {
+          ...UserDetails
+          gumUser {
+            ...AccountSummary
+          }
+        }
+        gumProfile {
+          ...AccountSummary
+        }
+        gumProfileMeta {
+          ...AccountSummary
+        }
+      }
+      gumProfileMeta {
+        ...ProfileDetails
+      }
+      gumUser {
+        ...UserDetails
       }
     }
   }
   ${AccountDetailsFragmentDoc}
+  ${AccountSummaryFragmentDoc}
+  ${ProfileDetailsFragmentDoc}
+  ${UserDetailsFragmentDoc}
 `
 
 export function useUserGetAccountQuery(options: Omit<Urql.UseQueryArgs<UserGetAccountQueryVariables>, 'query'>) {

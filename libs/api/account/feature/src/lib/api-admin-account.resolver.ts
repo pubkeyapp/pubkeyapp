@@ -3,6 +3,7 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { Account, AdminGetAccountsInput, ApiAdminAccountService } from '@pubkeyapp/api/account/data-access'
 import { ApiAuthGraphqlGuard, CtxUser } from '@pubkeyapp/api/auth/data-access'
 import { User } from '@pubkeyapp/api/user/data-access'
+import { GraphQLJSON } from 'graphql-scalars'
 
 @Resolver()
 @UseGuards(ApiAuthGraphqlGuard)
@@ -22,5 +23,10 @@ export class ApiAdminAccountResolver {
   @Query(() => [Account], { nullable: true })
   adminGetAccounts(@CtxUser() user: User, @Args('input') input: AdminGetAccountsInput) {
     return this.service.adminGetAccounts(user.id, input)
+  }
+
+  @Mutation(() => GraphQLJSON, { nullable: true })
+  adminIndexGumAccounts(@CtxUser() user: User) {
+    return this.service.adminIndexGumAccounts(user.id)
   }
 }

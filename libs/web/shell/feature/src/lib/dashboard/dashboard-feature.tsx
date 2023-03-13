@@ -1,5 +1,5 @@
 import { useCreateUser } from '@gumhq/react-sdk'
-import { Anchor, Box, Button, Container, Group, Paper, Skeleton, Stack, Text } from '@mantine/core'
+import { Anchor, Box, Button, Container, Group, Stack, Text } from '@mantine/core'
 import { GumLogo } from '@pubkeyapp/web/apps/ui'
 import { useAuth } from '@pubkeyapp/web/auth/data-access'
 import { UserProfilesProvider } from '@pubkeyapp/web/profile/data-access'
@@ -9,40 +9,33 @@ import { showNotificationError, showNotificationSuccess, UiError } from '@pubkey
 import { AccountType, NetworkType, useUserVerifyUserMutation } from '@pubkeyapp/web/util/sdk'
 import { useWallet } from '@solana/wallet-adapter-react'
 import { PublicKey } from '@solana/web3.js'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { UserIdentitiesProvider } from '../settings/user-identities.provider'
 import { UserManageIdentities } from '../settings/user-manage.identities'
 import { UserDashboardProfileCard } from './user-dashboard-profile.card'
 import { UserManageProfiles } from './user-manage.profiles'
-import { AccountIsNotVerified } from './user-verify.modal'
+import { AccountIsNotVerified, AccountVerifyLoading } from './user-verify.modal'
 
 export function DashboardFeature() {
   const { user } = useAuth()
-  const { publicKey } = useWallet()
-  const { loading, user: gumUser, sdk } = useGumApp()
   const [, verifyUserMutation] = useUserVerifyUserMutation()
 
-  function verifyUser() {
-    verifyUserMutation({})
+  const verifyUser = async (): Promise<boolean> => {
+    return verifyUserMutation({})
       .then((res) => {
         if (res.error) {
-          return showNotificationError(res.error.message)
+          showNotificationError(res.error.message)
+          return false
         }
         if (!res.error && res.data?.item) {
-          return showNotificationSuccess('Success')
+          showNotificationSuccess('Success')
+          return true
         }
+        return false
       })
       .catch((err) => showNotificationError(err.message))
   }
-
-  useEffect(() => {
-    sdk.user.getUserAccountsByUser(new PublicKey(user?.publicKey!)).then((res) => {
-      console.log('getUserAccountsByUser', res)
-    })
-    // sdk.profile.create()
-    console.log('publicKey', publicKey?.toString())
-  }, [publicKey])
 
   return (
     <Stack py={32} spacing={64}>
@@ -57,23 +50,8 @@ export function DashboardFeature() {
               <UserProfilesProvider>
                 <UserManageProfiles />
               </UserProfilesProvider>
-            ) : loading ? null : (
-              <Stack>
-                {gumUser ? (
-                  gumUser.cl_pubkey.toString() !== user?.gumUser?.address ? (
-                    <Paper>
-                      <UiError
-                        title={`Gum User ${gumUser.cl_pubkey.toString()} exists, but is different from the one in the database ${
-                          user?.gumUser?.address
-                        }`}
-                      />
-                      <Button onClick={verifyUser}>Verify</Button>
-                    </Paper>
-                  ) : null
-                ) : (
-                  <DashboardGumUser />
-                )}
-              </Stack>
+            ) : (
+              <DashboardGumUser verifyUser={verifyUser} />
             )}
             <UserIdentitiesProvider>
               <UserManageIdentities />
@@ -90,9 +68,59 @@ export function DashboardFeature() {
   )
 }
 
-export function DashboardGumUser() {
-  const { sdk } = useGumApp()
+export function DashboardGumUser({ verifyUser }: { verifyUser?: () => Promise<boolean> }) {
+  const { user } = useAuth()
   const { publicKey } = useWallet()
+  const [verb, setVerb] = useState('Loading')
+  const [verifying, setVerifying] = useState(false)
+  const { loading, user: gumUser, sdk } = useGumApp()
+  const { create, createUserError, isCreatingUser } = useCreateUser(sdk)
+
+  useEffect(() => {
+    if (gumUser?.cl_pubkey.toString() !== user?.gumUser?.address) {
+      console.log('I need to do some linking!')
+      console.log('user?.gumUser', user?.gumUser)
+      console.log('gumUser', gumUser)
+
+      setVerifying(true)
+      verifyUser?.().then((res) => {
+        setVerifying(false)
+        if (res) {
+          setVerb('Verified')
+        } else {
+          setVerb('Failed verifying')
+        }
+      })
+    }
+  }, [gumUser])
+
+  if (loading) {
+    return <AccountVerifyLoading type={AccountType.GumUser} network={NetworkType.SolanaDevnet} verb="Loading" />
+  }
+
+  if (verifying) {
+    return <AccountVerifyLoading type={AccountType.GumUser} network={NetworkType.SolanaDevnet} verb="Verifying" />
+  }
+
+  if (gumUser?.cl_pubkey.toString() !== user?.gumUser?.address) {
+    console.log(`Mismatch: GumUser ${gumUser?.cl_pubkey.toString()} !== ${user?.gumUser?.address} (user.gumUser)`)
+    return <AccountVerifyLoading type={AccountType.GumUser} network={NetworkType.SolanaDevnet} verb="Checking" />
+  }
+
+  return (
+    <Box>
+      {loading ? (
+        <AccountVerifyLoading type={AccountType.GumUser} network={NetworkType.SolanaDevnet} verb={verb} />
+      ) : (
+        <DashboardGumUserCreate />
+      )}
+    </Box>
+  )
+}
+
+export function DashboardGumUserCreate() {
+  const { publicKey } = useWallet()
+  const { loading, user: gumUser, sdk } = useGumApp()
   const { create, createUserError, isCreatingUser } = useCreateUser(sdk)
 
   return (
@@ -123,6 +151,3 @@ export function DashboardGumUser() {
     </Box>
   )
 }
-// curl 'https://light-pelican-32.hasura.app/v1/graphql' \
-//   --data-raw $'{"query":"\\n      query GetUser ($owner: String\u0021) {\\n        gum_0_1_0_decoded_user(where: { authority: { _eq: $owner } }) {\\n          authority\\n          cl_pubkey\\n          randomhash\\n        }\\n      }\\n    ","variables":{"owner":"DSgca71LD2x37AoKbBEi9RvsoXWtR1UFCusMah1ckhko"},"operationName":"GetUser"}' \
-//   --compressed

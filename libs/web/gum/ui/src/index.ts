@@ -1,1 +1,7 @@
 export * from './lib/web-gum-ui'
+export { GumUserCreate } from './lib/gum-user-create'
+export { GumUiLayout } from './lib/gum-ui.layout'
+export { GumPostGrid } from './lib/gum-post-grid'
+export { GumPostForm } from './lib/gum-post.form'
+export { CreateGumPostModal } from './lib/create-gum-post.modal'
+export { GumNotVerified } from './lib/gum-not-verified'

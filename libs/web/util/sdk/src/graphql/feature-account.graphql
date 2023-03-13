@@ -33,6 +33,10 @@ fragment AccountDetails on Account {
   }
 }
 
+mutation AdminIndexGumAccounts {
+  item: adminIndexGumAccounts
+}
+
 mutation AdminDeleteAccount($accountId: String!) {
   item: adminDeleteAccount(accountId: $accountId)
 }
@@ -55,16 +59,58 @@ query AdminGetAccount($accountId: String!) {
     tokens {
       ...AccountDetails
     }
+    gumProfile {
+      ...ProfileDetails
+      owner {
+        ...UserDetails
+        gumUser {
+          ...AccountSummary
+        }
+      }
+      gumProfile {
+        ...AccountSummary
+      }
+      gumProfileMeta {
+        ...AccountSummary
+      }
+    }
+    gumProfileMeta {
+      ...ProfileDetails
+    }
+    gumUser {
+      ...UserDetails
+    }
   }
 }
 query UserGetAccount($network: NetworkType!, $address: String!) {
   item: userGetAccount(network: $network, address: $address) {
     ...AccountDetails
     owner {
-      ...AccountDetails
+      ...AccountSummary
     }
     tokens {
-      ...AccountDetails
+      ...AccountSummary
+    }
+    gumProfile {
+      ...ProfileDetails
+      owner {
+        ...UserDetails
+        gumUser {
+          ...AccountSummary
+        }
+      }
+      gumProfile {
+        ...AccountSummary
+      }
+      gumProfileMeta {
+        ...AccountSummary
+      }
+    }
+    gumProfileMeta {
+      ...ProfileDetails
+    }
+    gumUser {
+      ...UserDetails
     }
   }
 }

@@ -60,6 +60,7 @@ export class ApiUserProfileService {
         name: user.profile?.name,
         username: user.profile?.username ?? user.username,
         avatarUrl: user.profile?.avatarUrl,
+        identities: { connect: { id: user.identity.id } },
       },
     })
 
@@ -194,7 +195,7 @@ export class ApiUserProfileService {
       if (!profile.gumProfile) {
         console.log('I will need to link your Gum Profile to your Profile')
         console.log('gumProfile', gumProfile, profile.type)
-        await this.connectGumProfileAccount(
+        await this.account.connectGumProfileAccount(
           userId,
           profile.id,
           NetworkType.SolanaDevnet,
@@ -224,27 +225,5 @@ export class ApiUserProfileService {
   userVerifyGumProfile() {
     // - Does the user have a Gum Profile of this type?
     // - Does the user have a Gum Meta of this type?
-  }
-
-  private async connectGumProfileAccount(userId: string, profileId: string, network: NetworkType, address: string) {
-    const account = await this.account.userGetAccount(userId, network, address)
-    if (!account) {
-      throw new Error('Account not found')
-    }
-    if (account.type !== AccountType.GumProfile) {
-      await this.core.data.account.update({
-        where: { id: account.id },
-        data: { type: AccountType.GumProfile },
-      })
-    }
-    await this.core.data.profile.update({
-      where: { id: profileId },
-      data: {
-        gumProfile: {
-          connect: { address_network: { address, network } },
-        },
-      },
-    })
-    this.logger.log(`User ${userId} connected to Gum User ${address} on ${network}`)
   }
 }

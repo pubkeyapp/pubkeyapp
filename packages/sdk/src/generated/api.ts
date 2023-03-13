@@ -105,6 +105,12 @@ export interface Account {
    * @memberof Account
    */
   type: AccountType
+  /**
+   *
+   * @type {User}
+   * @memberof Account
+   */
+  gumUser: User | null
 }
 
 /**

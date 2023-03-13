@@ -58,4 +58,10 @@ export class Account {
   @ApiProperty({ enum: AccountType, enumName: 'AccountType' })
   @Field(() => AccountType, { nullable: true })
   type: AccountType
+
+  @ApiProperty({ type: () => User, nullable: true })
+  @Field(() => User, { nullable: true })
+  gumUser?: User
+  gumProfile?: unknown
+  gumProfileMeta?: unknown
 }

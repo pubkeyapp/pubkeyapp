@@ -1,12 +1,7 @@
 import { ActionIcon, Anchor, Box, Button, Code, Group, Modal, Stack, Text, Tooltip } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { modals } from '@mantine/modals'
-import {
-  PubKeyProfileBadge,
-  showNotificationError,
-  showNotificationSuccess,
-  UiLinkExplorers,
-} from '@pubkeyapp/web/ui/core'
+import { PubKeyProfileBadge, showNotificationError, showNotificationSuccess, UiLoader } from '@pubkeyapp/web/ui/core'
 import { formFieldText, UiForm, UiFormField } from '@pubkeyapp/web/ui/form'
 import {
   Account,
@@ -16,7 +11,7 @@ import {
   UserUpdateUserInput,
   useUserUpdateUserMutation,
 } from '@pubkeyapp/web/util/sdk'
-import { IconDiscountCheckFilled } from '@tabler/icons-react'
+import { IconDiscountCheck, IconDiscountCheckFilled } from '@tabler/icons-react'
 import React, { ReactNode, useState } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -66,7 +61,7 @@ export function UserVerifyModal({ user }: { user: User }) {
       <Tooltip label={user.gumUser ? 'Gum User Verified' : 'Verify your Gum User'}>
         <ActionIcon size="xs" variant="subtle" onClick={open}>
           <Text color={user.gumUser ? 'blue' : 'dimmed'} sx={{ display: 'flex' }}>
-            <IconDiscountCheckFilled color={'red'} size={16} />
+            <IconDiscountCheckFilled size={16} />
           </Text>
         </ActionIcon>
       </Tooltip>
@@ -95,7 +90,7 @@ export function AccountIsVerified({ account }: { account: Account }) {
     <Stack align="center" my={32} spacing={32}>
       <Group position="center">
         <Text color="blue">
-          <IconDiscountCheckFilled color={'red'} size={128} />
+          <IconDiscountCheckFilled size={128} />
         </Text>
       </Group>
       <Stack align="center">
@@ -131,7 +126,7 @@ export function AccountIsNotVerified({
   const label = type.replace('Gum', 'Gum ')
   return (
     <Stack align="center" my={32} spacing={32}>
-      <Text color="blue">{icon ? icon : <IconDiscountCheckFilled color={'red'} size={128} />}</Text>
+      <Text color="blue">{icon ? icon : <IconDiscountCheckFilled size={128} />}</Text>
       <Box>
         <Text size="lg">
           Please create your {label} account on {network?.replace('Solana', 'Solana ')}
@@ -158,6 +153,31 @@ export function AccountIsNotVerified({
           </Button>
         )
       ) : null}
+    </Stack>
+  )
+}
+
+export function AccountVerifyLoading({
+  network,
+  type,
+  icon,
+  verb,
+}: {
+  network: NetworkType
+  type: AccountType
+  icon?: ReactNode
+  verb: string
+}) {
+  const label = type.replace('Gum', 'Gum ')
+  return (
+    <Stack align="center" my={32} spacing={32}>
+      <Text color="grey">{icon ? icon : <IconDiscountCheck size={128} />}</Text>
+      <Box>
+        <Text size="lg">
+          {verb ? verb : 'Verifying'} your {label} account on {network?.replace('Solana', 'Solana ')}
+        </Text>
+      </Box>
+      <UiLoader />
     </Stack>
   )
 }

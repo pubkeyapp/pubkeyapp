@@ -18,7 +18,6 @@ const SolanaContext = createContext<SolanaProviderContext>({} as SolanaProviderC
 
 export function SolanaProvider({ children }: { children: ReactNode }) {
   const { cluster, clusters } = useConfig()
-  console.log(JSON.stringify({ cluster, clusters }))
 
   const endpoint = useMemo(() => {
     const value = cluster?.endpoint ?? ''

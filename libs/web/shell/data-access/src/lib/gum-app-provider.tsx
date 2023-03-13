@@ -1,8 +1,7 @@
-import { SDK, useCreateUser, useGum } from '@gumhq/react-sdk'
+import { SDK, useGum } from '@gumhq/react-sdk'
 import { Namespace } from '@gumhq/sdk/lib/profile'
 import { GumDecodedUser } from '@gumhq/sdk/lib/user'
-import { useAuth } from '@pubkeyapp/web/auth/data-access'
-import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/core'
+import { showNotificationSuccess } from '@pubkeyapp/web/ui/core'
 import { AnchorWallet, useAnchorWallet, useConnection, useWallet } from '@solana/wallet-adapter-react'
 import { PublicKey } from '@solana/web3.js'
 
