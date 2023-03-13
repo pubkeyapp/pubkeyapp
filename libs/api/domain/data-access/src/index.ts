@@ -1,4 +1,5 @@
 export * from './lib/api-admin-domain.service'
+export * from './lib/api-user-domain.service'
 export * from './lib/api-domain-data-access.module'
 export * from './lib/dto/admin-create-domain.input'
 export * from './lib/dto/admin-get-domains.input'

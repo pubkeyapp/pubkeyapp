@@ -52,3 +52,9 @@ mutation AdminDeleteDomain($domainId: String!) {
     ...DomainDetails
   }
 }
+
+query UserGetDomains {
+  items: userGetDomains {
+    ...DomainDetails
+  }
+}

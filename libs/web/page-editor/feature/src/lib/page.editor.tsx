@@ -7,9 +7,16 @@ import {
   PageColorSelect,
 } from '@pubkeyapp/web/page/ui'
 import { UiDebugModal, UiLoader } from '@pubkeyapp/web/ui/core'
-import { AdminUpdatePageInput, Page, PageBlock, PageBlockType, UserAddPageBlockInput } from '@pubkeyapp/web/util/sdk'
+import {
+  AdminUpdatePageInput,
+  Page,
+  PageBlock,
+  PageBlockType,
+  PageDomain,
+  UserAddPageBlockInput,
+} from '@pubkeyapp/web/util/sdk'
 import { IconCopy, IconListNumbers, IconTrash } from '@tabler/icons-react'
-import React from 'react'
+import React, { useState } from 'react'
 import { PageEditorAddLinkCard } from './ui/page-editor-add-link-card'
 
 export function PageEditor({
@@ -19,6 +26,7 @@ export function PageEditor({
   removePageBlock,
   updatePage,
   updatePageBlock,
+  removePageDomain,
 }: {
   duplicatePageBlock: (block: PageBlock) => Promise<void>
   page: Page
@@ -26,6 +34,7 @@ export function PageEditor({
   removePageBlock: (block: PageBlock) => Promise<boolean>
   updatePage: (page: Page, input: AdminUpdatePageInput) => Promise<boolean>
   updatePageBlock: (pageBlockId: string, input: UserAddPageBlockInput) => Promise<boolean>
+  removePageDomain: (pageDomain: PageDomain) => void
 }) {
   if (!page) {
     return <UiLoader />
@@ -33,7 +42,12 @@ export function PageEditor({
   return (
     <Box>
       <Stack spacing={64}>
-        <PageEditorAddLinkCard page={page} addBlock={addPageBlock} updatePage={updatePage} />
+        <PageEditorAddLinkCard
+          page={page}
+          addBlock={addPageBlock}
+          updatePage={updatePage}
+          removePageDomain={removePageDomain}
+        />
         <Stack spacing={'md'}>
           {page?.blocks?.map((block) => (
             <Card key={block.id} radius="xl" withBorder={false}>

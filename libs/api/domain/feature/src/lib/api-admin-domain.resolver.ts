@@ -1,4 +1,4 @@
-import { UseGuards } from '@nestjs/common'
+import { OnModuleInit, UseGuards } from '@nestjs/common'
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { ApiAuthGraphqlGuard, CtxUser } from '@pubkeyapp/api/auth/data-access'
 import {

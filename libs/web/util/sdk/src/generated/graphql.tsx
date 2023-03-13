@@ -357,6 +357,7 @@ export type Mutation = {
   anonRespondChallenge?: Maybe<User>
   userAcceptInvite?: Maybe<Invite>
   userAddPageBlock?: Maybe<PageBlock>
+  userAddPageDomain?: Maybe<PageDomain>
   userCreatePage?: Maybe<Page>
   userCreateProfile?: Maybe<Profile>
   userDeleteIdentity?: Maybe<User>
@@ -367,6 +368,7 @@ export type Mutation = {
   userLinkProfileIdentity?: Maybe<Profile>
   userLogout?: Maybe<Scalars['Boolean']>
   userRemovePageBlock?: Maybe<PageBlock>
+  userRemovePageDomain?: Maybe<PageDomain>
   userSearch?: Maybe<SearchResult>
   userSetDefaultProfile?: Maybe<Profile>
   userSyncIdentity?: Maybe<Identity>
@@ -522,6 +524,11 @@ export type MutationUserAddPageBlockArgs = {
   pageId: Scalars['String']
 }
 
+export type MutationUserAddPageDomainArgs = {
+  input: UserAddPageDomainInput
+  pageId: Scalars['String']
+}
+
 export type MutationUserCreatePageArgs = {
   input: UserCreatePageInput
 }
@@ -558,6 +565,11 @@ export type MutationUserLinkProfileIdentityArgs = {
 
 export type MutationUserRemovePageBlockArgs = {
   pageBlockId: Scalars['String']
+  pageId: Scalars['String']
+}
+
+export type MutationUserRemovePageDomainArgs = {
+  pageDomainId: Scalars['String']
   pageId: Scalars['String']
 }
 
@@ -776,12 +788,14 @@ export type Query = {
   uptime: Scalars['Float']
   userGetAccount?: Maybe<Account>
   userGetAccountHistory?: Maybe<Scalars['JSON']>
+  userGetDomains?: Maybe<Array<Domain>>
   userGetHeliusTransactions: Array<HeliusTransaction>
   userGetIdentities?: Maybe<Array<Identity>>
   userGetIdentity?: Maybe<Identity>
   userGetInvite?: Maybe<Invite>
   userGetInvites?: Maybe<Array<Invite>>
   userGetPage?: Maybe<Page>
+  userGetPageDomain?: Maybe<PageDomain>
   userGetProfile?: Maybe<Profile>
   userGetProfilePage?: Maybe<Page>
   userGetProfiles?: Maybe<Array<Profile>>
@@ -913,6 +927,11 @@ export type QueryUserGetPageArgs = {
   pageId: Scalars['String']
 }
 
+export type QueryUserGetPageDomainArgs = {
+  domainId: Scalars['String']
+  path: Scalars['String']
+}
+
 export type QueryUserGetProfileArgs = {
   profileId: Scalars['String']
 }
@@ -989,6 +1008,11 @@ export type UserAddPageBlockInput = {
   data?: InputMaybe<Scalars['JSON']>
   order?: InputMaybe<Scalars['Int']>
   type?: InputMaybe<PageBlockType>
+}
+
+export type UserAddPageDomainInput = {
+  domainId: Scalars['String']
+  path: Scalars['String']
 }
 
 export type UserCreatePageInput = {
@@ -3054,6 +3078,36 @@ export type AdminDeleteDomainMutation = {
   } | null
 }
 
+export type UserGetDomainsQueryVariables = Exact<{ [key: string]: never }>
+
+export type UserGetDomainsQuery = {
+  __typename?: 'Query'
+  items?: Array<{
+    __typename?: 'Domain'
+    id?: string | null
+    createdAt?: any | null
+    updatedAt?: any | null
+    name?: string | null
+    order?: number | null
+    premium?: boolean | null
+    private?: boolean | null
+    secure?: boolean | null
+    owner?: {
+      __typename?: 'User'
+      id?: string | null
+      username?: string | null
+      profile?: {
+        __typename?: 'Profile'
+        id?: string | null
+        name?: string | null
+        username?: string | null
+        avatarUrl?: string | null
+        bio?: string | null
+      } | null
+    } | null
+  }> | null
+}
+
 export type IdentityDetailsFragment = {
   __typename?: 'Identity'
   id?: string | null
@@ -4610,6 +4664,78 @@ export type AdminRemovePageDomainMutationVariables = Exact<{
 }>
 
 export type AdminRemovePageDomainMutation = {
+  __typename?: 'Mutation'
+  item?: {
+    __typename?: 'PageDomain'
+    id?: string | null
+    createdAt?: any | null
+    updatedAt?: any | null
+    path?: string | null
+    viewUrl?: string | null
+    page?: {
+      __typename?: 'Page'
+      id?: string | null
+      title?: string | null
+      domains?: Array<{ __typename?: 'PageDomain'; id?: string | null }> | null
+    } | null
+    domain?: { __typename?: 'Domain'; id?: string | null; name?: string | null } | null
+  } | null
+}
+
+export type UserGetPageDomainQueryVariables = Exact<{
+  domainId: Scalars['String']
+  path: Scalars['String']
+}>
+
+export type UserGetPageDomainQuery = {
+  __typename?: 'Query'
+  item?: {
+    __typename?: 'PageDomain'
+    id?: string | null
+    createdAt?: any | null
+    updatedAt?: any | null
+    path?: string | null
+    viewUrl?: string | null
+    page?: {
+      __typename?: 'Page'
+      id?: string | null
+      title?: string | null
+      domains?: Array<{ __typename?: 'PageDomain'; id?: string | null }> | null
+    } | null
+    domain?: { __typename?: 'Domain'; id?: string | null; name?: string | null } | null
+  } | null
+}
+
+export type UserAddPageDomainMutationVariables = Exact<{
+  pageId: Scalars['String']
+  input: UserAddPageDomainInput
+}>
+
+export type UserAddPageDomainMutation = {
+  __typename?: 'Mutation'
+  item?: {
+    __typename?: 'PageDomain'
+    id?: string | null
+    createdAt?: any | null
+    updatedAt?: any | null
+    path?: string | null
+    viewUrl?: string | null
+    page?: {
+      __typename?: 'Page'
+      id?: string | null
+      title?: string | null
+      domains?: Array<{ __typename?: 'PageDomain'; id?: string | null }> | null
+    } | null
+    domain?: { __typename?: 'Domain'; id?: string | null; name?: string | null } | null
+  } | null
+}
+
+export type UserRemovePageDomainMutationVariables = Exact<{
+  pageId: Scalars['String']
+  pageDomainId: Scalars['String']
+}>
+
+export type UserRemovePageDomainMutation = {
   __typename?: 'Mutation'
   item?: {
     __typename?: 'PageDomain'
@@ -9030,6 +9156,18 @@ export const AdminDeleteDomainDocument = gql`
 export function useAdminDeleteDomainMutation() {
   return Urql.useMutation<AdminDeleteDomainMutation, AdminDeleteDomainMutationVariables>(AdminDeleteDomainDocument)
 }
+export const UserGetDomainsDocument = gql`
+  query UserGetDomains {
+    items: userGetDomains {
+      ...DomainDetails
+    }
+  }
+  ${DomainDetailsFragmentDoc}
+`
+
+export function useUserGetDomainsQuery(options?: Omit<Urql.UseQueryArgs<UserGetDomainsQueryVariables>, 'query'>) {
+  return Urql.useQuery<UserGetDomainsQuery, UserGetDomainsQueryVariables>({ query: UserGetDomainsDocument, ...options })
+}
 export const UserDeleteIdentityDocument = gql`
   mutation UserDeleteIdentity($identityId: String!) {
     item: userDeleteIdentity(identityId: $identityId) {
@@ -9398,6 +9536,65 @@ export const AdminRemovePageDomainDocument = gql`
 export function useAdminRemovePageDomainMutation() {
   return Urql.useMutation<AdminRemovePageDomainMutation, AdminRemovePageDomainMutationVariables>(
     AdminRemovePageDomainDocument,
+  )
+}
+export const UserGetPageDomainDocument = gql`
+  query UserGetPageDomain($domainId: String!, $path: String!) {
+    item: userGetPageDomain(domainId: $domainId, path: $path) {
+      ...PageDomainDetails
+      page {
+        id
+        domains {
+          id
+        }
+      }
+    }
+  }
+  ${PageDomainDetailsFragmentDoc}
+`
+
+export function useUserGetPageDomainQuery(options: Omit<Urql.UseQueryArgs<UserGetPageDomainQueryVariables>, 'query'>) {
+  return Urql.useQuery<UserGetPageDomainQuery, UserGetPageDomainQueryVariables>({
+    query: UserGetPageDomainDocument,
+    ...options,
+  })
+}
+export const UserAddPageDomainDocument = gql`
+  mutation UserAddPageDomain($pageId: String!, $input: UserAddPageDomainInput!) {
+    item: userAddPageDomain(pageId: $pageId, input: $input) {
+      ...PageDomainDetails
+      page {
+        id
+        domains {
+          id
+        }
+      }
+    }
+  }
+  ${PageDomainDetailsFragmentDoc}
+`
+
+export function useUserAddPageDomainMutation() {
+  return Urql.useMutation<UserAddPageDomainMutation, UserAddPageDomainMutationVariables>(UserAddPageDomainDocument)
+}
+export const UserRemovePageDomainDocument = gql`
+  mutation UserRemovePageDomain($pageId: String!, $pageDomainId: String!) {
+    item: userRemovePageDomain(pageId: $pageId, pageDomainId: $pageDomainId) {
+      ...PageDomainDetails
+      page {
+        id
+        domains {
+          id
+        }
+      }
+    }
+  }
+  ${PageDomainDetailsFragmentDoc}
+`
+
+export function useUserRemovePageDomainMutation() {
+  return Urql.useMutation<UserRemovePageDomainMutation, UserRemovePageDomainMutationVariables>(
+    UserRemovePageDomainDocument,
   )
 }
 export const AdminGetPageDocument = gql`

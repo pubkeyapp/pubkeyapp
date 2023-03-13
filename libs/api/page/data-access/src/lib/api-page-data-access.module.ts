@@ -5,6 +5,7 @@ import { ApiAdminPageDomainService } from './api-admin-page-domain.service'
 import { ApiAdminPageService } from './api-admin-page.service'
 import { ApiPublicPageService } from './api-public-page.service'
 import { ApiUserPageBlockService } from './api-user-page-block.service'
+import { ApiUserPageDomainService } from './api-user-page-domain.service'
 import { ApiUserPageService } from './api-user-page.service'
 
 const services = [
@@ -13,6 +14,7 @@ const services = [
   ApiAdminPageService,
   ApiPublicPageService,
   ApiUserPageBlockService,
+  ApiUserPageDomainService,
   ApiUserPageService,
 ]
 

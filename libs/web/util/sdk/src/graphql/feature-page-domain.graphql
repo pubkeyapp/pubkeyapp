@@ -49,3 +49,39 @@ mutation AdminRemovePageDomain($pageId: String!, $pageDomainId: String!) {
     }
   }
 }
+
+query UserGetPageDomain($domainId: String!, $path: String!) {
+  item: userGetPageDomain(domainId: $domainId, path: $path) {
+    ...PageDomainDetails
+    page {
+      id
+      domains {
+        id
+      }
+    }
+  }
+}
+
+mutation UserAddPageDomain($pageId: String!, $input: UserAddPageDomainInput!) {
+  item: userAddPageDomain(pageId: $pageId, input: $input) {
+    ...PageDomainDetails
+    page {
+      id
+      domains {
+        id
+      }
+    }
+  }
+}
+
+mutation UserRemovePageDomain($pageId: String!, $pageDomainId: String!) {
+  item: userRemovePageDomain(pageId: $pageId, pageDomainId: $pageDomainId) {
+    ...PageDomainDetails
+    page {
+      id
+      domains {
+        id
+      }
+    }
+  }
+}

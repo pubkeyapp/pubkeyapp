@@ -18,7 +18,7 @@ export function App() {
 
   return (
     <UiThemeProvider>
-      <Center h="100vh">{page ? <PageWrapper page={page} /> : <Text>Error loading page...</Text>}</Center>
+      <Center h="100vh">{page ? <PageWrapper page={page as any} /> : <Text>Error loading page...</Text>}</Center>
     </UiThemeProvider>
   )
 }

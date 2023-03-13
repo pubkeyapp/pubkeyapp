@@ -379,6 +379,7 @@ type Query {
   config: Config
   adminGetDomains(input: AdminGetDomainsInput): [Domain!]
   adminGetDomain(domainId: String!): Domain
+  userGetDomains: [Domain!]
   userGetHeliusTransactions(network: NetworkType!, address: String!): [HeliusTransaction!]!
   userGetIdentity(identityId: String!): Identity
   userGetIdentities: [Identity!]
@@ -391,6 +392,7 @@ type Query {
   adminGetPages(input: AdminGetPagesInput): [Page!]
   adminGetPage(pageId: String!): Page
   anonGetPage(pageId: String!): Page
+  userGetPageDomain(domainId: String!, path: String!): PageDomain
   userGetPage(pageId: String!): Page
   anonGetPlans: [Plan!]
   adminGetPlans(input: AdminGetPlansInput): [Plan!]
@@ -477,6 +479,8 @@ type Mutation {
   userAddPageBlock(pageId: String!, input: UserAddPageBlockInput!): PageBlock
   userRemovePageBlock(pageId: String!, pageBlockId: String!): PageBlock
   userUpdatePageBlock(pageId: String!, pageBlockId: String!, input: UserUpdatePageBlockInput!): PageBlock
+  userAddPageDomain(pageId: String!, input: UserAddPageDomainInput!): PageDomain
+  userRemovePageDomain(pageId: String!, pageDomainId: String!): PageDomain
   userCreatePage(input: UserCreatePageInput!): Page
   userDeletePage(pageId: String!): Page
   userUpdatePage(pageId: String!, input: UserUpdatePageInput!): Page
@@ -576,6 +580,11 @@ input UserUpdatePageBlockInput {
   order: Int
   data: JSON
   type: PageBlockType
+}
+
+input UserAddPageDomainInput {
+  domainId: String!
+  path: String!
 }
 
 input UserCreatePageInput {

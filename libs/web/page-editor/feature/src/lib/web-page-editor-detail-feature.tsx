@@ -17,6 +17,7 @@ import {
   Page,
   PageBlock,
   PageBlockType,
+  PageDomain,
   PageStatus,
   ProfileType,
   UserAddPageBlockInput,
@@ -24,6 +25,7 @@ import {
   useUserDeletePageMutation,
   useUserGetPageQuery,
   useUserRemovePageBlockMutation,
+  useUserRemovePageDomainMutation,
   useUserUpdatePageBlockMutation,
   useUserUpdatePageMutation,
 } from '@pubkeyapp/web/util/sdk'
@@ -41,6 +43,7 @@ export function WebPageEditorDetailFeature() {
   const [, updatePageMutation] = useUserUpdatePageMutation()
   const [, updatePageBlockMutation] = useUserUpdatePageBlockMutation()
   const [, removePageBlockMutation] = useUserRemovePageBlockMutation()
+  const [, removePageDomainMutation] = useUserRemovePageDomainMutation()
   const navigate = useNavigate()
 
   const removePageBlock = async (block: PageBlock) => {
@@ -54,6 +57,24 @@ export function WebPageEditorDetailFeature() {
         }
         if (result.data?.item) {
           return showNotificationSuccess(`Page Block ${block.type} deleted`)
+        }
+        return false
+      })
+      .catch((err) => showNotificationError(err.message))
+  }
+
+  const removePageDomain = (pageDomain: PageDomain) => {
+    const label = `${pageDomain.domain?.name}/${pageDomain.page}`
+    if (!confirm(`Do you really want to delete the page block ${label}?`)) {
+      return false
+    }
+    return removePageDomainMutation({ pageId: pageId!, pageDomainId: pageDomain.id! })
+      .then((result) => {
+        if (result.error) {
+          return showNotificationError(result.error.message)
+        }
+        if (result.data?.item) {
+          return showNotificationSuccess(`Page Domain ${label} deleted`)
         }
         return false
       })
@@ -180,6 +201,7 @@ export function WebPageEditorDetailFeature() {
               addPageBlock={addPageBlock}
               duplicatePageBlock={duplicatePageBlock}
               removePageBlock={removePageBlock}
+              removePageDomain={removePageDomain}
               updatePageBlock={updatePageBlock}
             />
           </Container>
