@@ -54,6 +54,8 @@ type Identity {
   accounts: [Account!]
   verified: Boolean!
   owner: User
+  name: String
+  link: String
 }
 
 """
@@ -195,6 +197,7 @@ type Profile {
   avatarUrl: String
   metaUrl: String
   color: String
+  private: Boolean
   followers: Int
   following: Int
   type: ProfileType
@@ -204,6 +207,7 @@ type Profile {
   gumProfile: Account
   gumProfileMeta: Account
   identities: [Identity!]
+  profileUrl: String
 }
 
 enum ProfileType {
@@ -314,6 +318,7 @@ type Setting {
 type AuthChallengeRequest {
   challenge: String!
   expiresAt: String!
+  message: String!
 }
 
 type HeliusTransaction {
@@ -503,6 +508,7 @@ type Mutation {
   adminPauseQueue(type: QueueType!): Boolean
   adminResumeQueue(type: QueueType!): Boolean
   userSearch(input: UserSearchInput!): SearchResult
+  anonSolanaRequestAirdrop(address: String!, lamports: Int!): Boolean
   userFollowUser(username: String!): User
   userUnfollowUser(username: String!): User
   userUpdateUser(input: UserUpdateUserInput!): User
@@ -634,6 +640,7 @@ input UserUpdateProfileInput {
   username: String
   bio: String
   avatarUrl: String
+  private: Boolean
   metaUrl: String
   color: String
 }

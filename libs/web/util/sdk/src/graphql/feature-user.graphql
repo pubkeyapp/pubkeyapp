@@ -66,11 +66,11 @@ mutation AdminDeleteUser($userId: String!) {
 query AnonGetUser($username: String!) {
   item: anonGetUser(username: $username) {
     ...UserDetails
-    identities {
-      ...IdentityDetails
-    }
     profile {
       ...ProfileDetails
+      identities {
+        ...IdentityDetails
+      }
       owner {
         ...UserDetails
         gumUser {
@@ -80,6 +80,15 @@ query AnonGetUser($username: String!) {
     }
     profiles {
       ...ProfileDetails
+      identities {
+        ...IdentityDetails
+      }
+      owner {
+        ...UserDetails
+        gumUser {
+          ...AccountSummary
+        }
+      }
     }
   }
 }

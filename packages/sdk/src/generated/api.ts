@@ -420,6 +420,12 @@ export interface Page {
    * @memberof Page
    */
   blocks?: Array<PageBlock> | null
+  /**
+   *
+   * @type {Profile}
+   * @memberof Page
+   */
+  profile?: Profile | null
 }
 
 /**
@@ -555,6 +561,12 @@ export interface Profile {
    * @memberof Profile
    */
   color?: string | null
+  /**
+   *
+   * @type {boolean}
+   * @memberof Profile
+   */
+  private?: boolean | null
   /**
    *
    * @type {number}

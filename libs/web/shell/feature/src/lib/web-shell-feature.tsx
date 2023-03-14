@@ -13,7 +13,6 @@ import { EarlyFeature } from './early/early-feature'
 import { HomepageContentFeature, HomepageFeature } from './homepage/homepage-feature'
 import { LoginFeature } from './login/login-feature'
 import { PidRoutes } from './pid/pid.routes'
-import { ProfileRoutes } from './profile/profile-routes'
 import { SearchFeature } from './search/search-feature'
 import { SettingsFeature } from './settings/settings-feature'
 import { VerifiedFeature } from './verified/verified-feature'
@@ -21,6 +20,7 @@ import { VerifiedFeature } from './verified/verified-feature'
 const AppsFeature = lazy(() => import('@pubkeyapp/web/apps/feature'))
 const AdminFeature = lazy(() => import('@pubkeyapp/web/admin/feature'))
 const DevFeature = lazy(() => import('@pubkeyapp/web/dev/feature'))
+const ProfileFeature = lazy(() => import('@pubkeyapp/web/profile/feature'))
 const PageFeature = lazy(() => import('@pubkeyapp/web/page/feature'))
 const PageEditorFeature = lazy(() => import('@pubkeyapp/web/page-editor/feature'))
 const PlanFeature = lazy(() => import('@pubkeyapp/web/plan/feature'))
@@ -45,7 +45,6 @@ export function WebShellFeature() {
         <Route element={<UiLayout homepage />}>
           <Route path="/home" element={<HomepageFeature />} />
           <Route path="/verified" element={<VerifiedFeature />} />
-          {/*<Route path="/pricing" element={<PlanFeature />} />*/}
           {pages.map((page) => (
             <Route key={page} path={`${page}`} element={<HomepageContentFeature page={page} />} />
           ))}
@@ -66,6 +65,7 @@ export function WebShellFeature() {
                 <Route path="/dashboard/*" element={<DashboardFeature />} />
                 <Route path="/search/*" element={<SearchFeature />} />
                 <Route element={<UserRoleGuard role={UserRole.Admin} />}>
+                  <Route path="/admin/pricing" element={<PlanFeature />} />
                   <Route path="/admin/*" element={<AdminFeature />} />
                   <Route path="/dev/*" element={<DevFeature />} />
                 </Route>
@@ -73,7 +73,7 @@ export function WebShellFeature() {
               <Route path="/early" element={<EarlyFeature />} />
               <Route path="/pid" element={<PidRoutes />} />
               <Route path="/settings/*" element={<SettingsFeature />} />
-              <Route path="/u/*" element={<ProfileRoutes />} />
+              <Route path="/u/*" element={<ProfileFeature />} />
             </Route>
             <Route path="*" element={<UiNotFound />} />
           </Route>

@@ -192,6 +192,7 @@ export type AuthChallengeRequest = {
   __typename?: 'AuthChallengeRequest'
   challenge: Scalars['String']
   expiresAt: Scalars['String']
+  message: Scalars['String']
 }
 
 export type Cluster = {
@@ -267,6 +268,8 @@ export type Identity = {
   accounts?: Maybe<Array<Account>>
   createdAt?: Maybe<Scalars['DateTime']>
   id?: Maybe<Scalars['String']>
+  link?: Maybe<Scalars['String']>
+  name?: Maybe<Scalars['String']>
   owner?: Maybe<User>
   profile?: Maybe<Scalars['JSON']>
   provider?: Maybe<IdentityProvider>
@@ -355,6 +358,7 @@ export type Mutation = {
   adminUpdateProfile?: Maybe<Profile>
   adminUpdateUser?: Maybe<User>
   anonRespondChallenge?: Maybe<User>
+  anonSolanaRequestAirdrop?: Maybe<Scalars['Boolean']>
   userAcceptInvite?: Maybe<Invite>
   userAddPageBlock?: Maybe<PageBlock>
   userAddPageDomain?: Maybe<PageDomain>
@@ -513,6 +517,11 @@ export type MutationAnonRespondChallengeArgs = {
   challenge: Scalars['String']
   publicKey: Scalars['String']
   signature: Scalars['String']
+}
+
+export type MutationAnonSolanaRequestAirdropArgs = {
+  address: Scalars['String']
+  lamports: Scalars['Int']
 }
 
 export type MutationUserAcceptInviteArgs = {
@@ -733,6 +742,8 @@ export type Profile = {
   name?: Maybe<Scalars['String']>
   owner?: Maybe<User>
   page?: Maybe<Page>
+  private?: Maybe<Scalars['Boolean']>
+  profileUrl?: Maybe<Scalars['String']>
   status?: Maybe<ProfileStatus>
   type?: Maybe<ProfileType>
   updatedAt?: Maybe<Scalars['DateTime']>
@@ -1059,6 +1070,7 @@ export type UserUpdateProfileInput = {
   color?: InputMaybe<Scalars['String']>
   metaUrl?: InputMaybe<Scalars['String']>
   name?: InputMaybe<Scalars['String']>
+  private?: InputMaybe<Scalars['Boolean']>
   username?: InputMaybe<Scalars['String']>
 }
 
@@ -1129,6 +1141,8 @@ export type AccountDetailsFragment = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      private?: boolean | null
+      profileUrl?: string | null
       gumProfile?: {
         __typename?: 'Account'
         id?: string | null
@@ -1198,6 +1212,8 @@ export type AccountDetailsFragment = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        private?: boolean | null
+        profileUrl?: string | null
         gumProfile?: {
           __typename?: 'Account'
           id?: string | null
@@ -1305,6 +1321,8 @@ export type AdminGetAccountsQuery = {
           followers?: number | null
           following?: number | null
           type?: ProfileType | null
+          private?: boolean | null
+          profileUrl?: string | null
           gumProfile?: {
             __typename?: 'Account'
             id?: string | null
@@ -1374,6 +1392,8 @@ export type AdminGetAccountsQuery = {
             followers?: number | null
             following?: number | null
             type?: ProfileType | null
+            private?: boolean | null
+            profileUrl?: string | null
             gumProfile?: {
               __typename?: 'Account'
               id?: string | null
@@ -1438,6 +1458,8 @@ export type AdminGetAccountsQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        private?: boolean | null
+        profileUrl?: string | null
         gumProfile?: {
           __typename?: 'Account'
           id?: string | null
@@ -1507,6 +1529,8 @@ export type AdminGetAccountsQuery = {
           followers?: number | null
           following?: number | null
           type?: ProfileType | null
+          private?: boolean | null
+          profileUrl?: string | null
           gumProfile?: {
             __typename?: 'Account'
             id?: string | null
@@ -1605,6 +1629,8 @@ export type AdminGetAccountQuery = {
           followers?: number | null
           following?: number | null
           type?: ProfileType | null
+          private?: boolean | null
+          profileUrl?: string | null
           gumProfile?: {
             __typename?: 'Account'
             id?: string | null
@@ -1674,6 +1700,8 @@ export type AdminGetAccountQuery = {
             followers?: number | null
             following?: number | null
             type?: ProfileType | null
+            private?: boolean | null
+            profileUrl?: string | null
             gumProfile?: {
               __typename?: 'Account'
               id?: string | null
@@ -1751,6 +1779,8 @@ export type AdminGetAccountQuery = {
           followers?: number | null
           following?: number | null
           type?: ProfileType | null
+          private?: boolean | null
+          profileUrl?: string | null
           gumProfile?: {
             __typename?: 'Account'
             id?: string | null
@@ -1820,6 +1850,8 @@ export type AdminGetAccountQuery = {
             followers?: number | null
             following?: number | null
             type?: ProfileType | null
+            private?: boolean | null
+            profileUrl?: string | null
             gumProfile?: {
               __typename?: 'Account'
               id?: string | null
@@ -1865,6 +1897,8 @@ export type AdminGetAccountQuery = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      private?: boolean | null
+      profileUrl?: string | null
       owner?: {
         __typename?: 'User'
         id?: string | null
@@ -1907,6 +1941,8 @@ export type AdminGetAccountQuery = {
           followers?: number | null
           following?: number | null
           type?: ProfileType | null
+          private?: boolean | null
+          profileUrl?: string | null
           gumProfile?: {
             __typename?: 'Account'
             id?: string | null
@@ -1960,6 +1996,8 @@ export type AdminGetAccountQuery = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      private?: boolean | null
+      profileUrl?: string | null
       gumProfile?: {
         __typename?: 'Account'
         id?: string | null
@@ -2012,6 +2050,8 @@ export type AdminGetAccountQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        private?: boolean | null
+        profileUrl?: string | null
         gumProfile?: {
           __typename?: 'Account'
           id?: string | null
@@ -2074,6 +2114,8 @@ export type AdminGetAccountQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        private?: boolean | null
+        profileUrl?: string | null
         gumProfile?: {
           __typename?: 'Account'
           id?: string | null
@@ -2143,6 +2185,8 @@ export type AdminGetAccountQuery = {
           followers?: number | null
           following?: number | null
           type?: ProfileType | null
+          private?: boolean | null
+          profileUrl?: string | null
           gumProfile?: {
             __typename?: 'Account'
             id?: string | null
@@ -2228,6 +2272,8 @@ export type UserGetAccountQuery = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      private?: boolean | null
+      profileUrl?: string | null
       owner?: {
         __typename?: 'User'
         id?: string | null
@@ -2270,6 +2316,8 @@ export type UserGetAccountQuery = {
           followers?: number | null
           following?: number | null
           type?: ProfileType | null
+          private?: boolean | null
+          profileUrl?: string | null
           gumProfile?: {
             __typename?: 'Account'
             id?: string | null
@@ -2323,6 +2371,8 @@ export type UserGetAccountQuery = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      private?: boolean | null
+      profileUrl?: string | null
       gumProfile?: {
         __typename?: 'Account'
         id?: string | null
@@ -2375,6 +2425,8 @@ export type UserGetAccountQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        private?: boolean | null
+        profileUrl?: string | null
         gumProfile?: {
           __typename?: 'Account'
           id?: string | null
@@ -2437,6 +2489,8 @@ export type UserGetAccountQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        private?: boolean | null
+        profileUrl?: string | null
         gumProfile?: {
           __typename?: 'Account'
           id?: string | null
@@ -2506,6 +2560,8 @@ export type UserGetAccountQuery = {
           followers?: number | null
           following?: number | null
           type?: ProfileType | null
+          private?: boolean | null
+          profileUrl?: string | null
           gumProfile?: {
             __typename?: 'Account'
             id?: string | null
@@ -2550,6 +2606,7 @@ export type AuthChallengeRequestDetailsFragment = {
   __typename?: 'AuthChallengeRequest'
   challenge: string
   expiresAt: string
+  message: string
 }
 
 export type GetMeQueryVariables = Exact<{ [key: string]: never }>
@@ -2578,6 +2635,8 @@ export type GetMeQuery = {
       providerId: string
       profile?: any | null
       verified: boolean
+      link?: string | null
+      name?: string | null
     }> | null
     profile?: {
       __typename?: 'Profile'
@@ -2593,6 +2652,8 @@ export type GetMeQuery = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      private?: boolean | null
+      profileUrl?: string | null
       gumProfile?: {
         __typename?: 'Account'
         id?: string | null
@@ -2602,6 +2663,146 @@ export type GetMeQuery = {
         network?: NetworkType | null
         explorerUrl?: string | null
       } | null
+      owner?: {
+        __typename?: 'User'
+        id?: string | null
+        pid?: number | null
+        role?: UserRole | null
+        status?: UserStatus | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        followersCount?: number | null
+        followingCount?: number | null
+        profileUrl?: string | null
+        publicKey?: string | null
+        username?: string | null
+        gumUser?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+          gumUser?: {
+            __typename?: 'User'
+            id?: string | null
+            pid?: number | null
+            role?: UserRole | null
+            status?: UserStatus | null
+            createdAt?: any | null
+            updatedAt?: any | null
+            followersCount?: number | null
+            followingCount?: number | null
+            profileUrl?: string | null
+            publicKey?: string | null
+            username?: string | null
+            relation?: {
+              __typename?: 'UserRelation'
+              isYou: boolean
+              isFollowedByYou: boolean
+              isFollowingYou: boolean
+            } | null
+            profile?: {
+              __typename?: 'Profile'
+              id?: string | null
+              createdAt?: any | null
+              updatedAt?: any | null
+              name?: string | null
+              username?: string | null
+              bio?: string | null
+              avatarUrl?: string | null
+              metaUrl?: string | null
+              color?: string | null
+              followers?: number | null
+              following?: number | null
+              type?: ProfileType | null
+              private?: boolean | null
+              profileUrl?: string | null
+              gumProfile?: {
+                __typename?: 'Account'
+                id?: string | null
+                name?: string | null
+                type?: AccountType | null
+                address?: string | null
+                network?: NetworkType | null
+                explorerUrl?: string | null
+              } | null
+              gumProfileMeta?: {
+                __typename?: 'Account'
+                id?: string | null
+                name?: string | null
+                type?: AccountType | null
+                address?: string | null
+                network?: NetworkType | null
+                explorerUrl?: string | null
+              } | null
+            } | null
+            gumUser?: {
+              __typename?: 'Account'
+              id?: string | null
+              name?: string | null
+              type?: AccountType | null
+              address?: string | null
+              network?: NetworkType | null
+              explorerUrl?: string | null
+            } | null
+          } | null
+        } | null
+        relation?: {
+          __typename?: 'UserRelation'
+          isYou: boolean
+          isFollowedByYou: boolean
+          isFollowingYou: boolean
+        } | null
+        profile?: {
+          __typename?: 'Profile'
+          id?: string | null
+          createdAt?: any | null
+          updatedAt?: any | null
+          name?: string | null
+          username?: string | null
+          bio?: string | null
+          avatarUrl?: string | null
+          metaUrl?: string | null
+          color?: string | null
+          followers?: number | null
+          following?: number | null
+          type?: ProfileType | null
+          private?: boolean | null
+          profileUrl?: string | null
+          gumProfile?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
+          } | null
+          gumProfileMeta?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
+          } | null
+        } | null
+      } | null
+      identities?: Array<{
+        __typename?: 'Identity'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        provider?: IdentityProvider | null
+        providerId: string
+        profile?: any | null
+        verified: boolean
+        link?: string | null
+        name?: string | null
+      }> | null
       gumProfileMeta?: {
         __typename?: 'Account'
         id?: string | null
@@ -2612,7 +2813,6 @@ export type GetMeQuery = {
         explorerUrl?: string | null
       } | null
     } | null
-    relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
     gumUser?: {
       __typename?: 'Account'
       id?: string | null
@@ -2622,6 +2822,7 @@ export type GetMeQuery = {
       network?: NetworkType | null
       explorerUrl?: string | null
     } | null
+    relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
   } | null
 }
 
@@ -2631,7 +2832,7 @@ export type AnonRequestChallengeQueryVariables = Exact<{
 
 export type AnonRequestChallengeQuery = {
   __typename?: 'Query'
-  result?: { __typename?: 'AuthChallengeRequest'; challenge: string; expiresAt: string } | null
+  result?: { __typename?: 'AuthChallengeRequest'; challenge: string; expiresAt: string; message: string } | null
 }
 
 export type UserLogoutMutationVariables = Exact<{ [key: string]: never }>
@@ -2674,6 +2875,8 @@ export type AnonRespondChallengeMutation = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      private?: boolean | null
+      profileUrl?: string | null
       gumProfile?: {
         __typename?: 'Account'
         id?: string | null
@@ -2903,6 +3106,8 @@ export type AdminGetDomainQuery = {
           followers?: number | null
           following?: number | null
           type?: ProfileType | null
+          private?: boolean | null
+          profileUrl?: string | null
           gumProfile?: {
             __typename?: 'Account'
             id?: string | null
@@ -3117,6 +3322,8 @@ export type IdentityDetailsFragment = {
   providerId: string
   profile?: any | null
   verified: boolean
+  link?: string | null
+  name?: string | null
 }
 
 export type UserDeleteIdentityMutationVariables = Exact<{
@@ -3153,6 +3360,8 @@ export type UserDeleteIdentityMutation = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      private?: boolean | null
+      profileUrl?: string | null
       gumProfile?: {
         __typename?: 'Account'
         id?: string | null
@@ -3197,6 +3406,8 @@ export type UserGetIdentitiesQuery = {
     providerId: string
     profile?: any | null
     verified: boolean
+    link?: string | null
+    name?: string | null
     accounts?: Array<{
       __typename?: 'Account'
       id?: string | null
@@ -3243,6 +3454,8 @@ export type UserGetIdentitiesQuery = {
           followers?: number | null
           following?: number | null
           type?: ProfileType | null
+          private?: boolean | null
+          profileUrl?: string | null
           gumProfile?: {
             __typename?: 'Account'
             id?: string | null
@@ -3312,6 +3525,8 @@ export type UserGetIdentitiesQuery = {
             followers?: number | null
             following?: number | null
             type?: ProfileType | null
+            private?: boolean | null
+            profileUrl?: string | null
             gumProfile?: {
               __typename?: 'Account'
               id?: string | null
@@ -3361,6 +3576,8 @@ export type UserGetIdentityQuery = {
     providerId: string
     profile?: any | null
     verified: boolean
+    link?: string | null
+    name?: string | null
   } | null
 }
 
@@ -3399,6 +3616,8 @@ export type UserLinkIdentityMutation = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      private?: boolean | null
+      profileUrl?: string | null
       gumProfile?: {
         __typename?: 'Account'
         id?: string | null
@@ -3445,6 +3664,8 @@ export type UserSyncIdentityMutation = {
     providerId: string
     profile?: any | null
     verified: boolean
+    link?: string | null
+    name?: string | null
   } | null
 }
 
@@ -3488,6 +3709,8 @@ export type InviteDetailsFragment = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      private?: boolean | null
+      profileUrl?: string | null
       gumProfile?: {
         __typename?: 'Account'
         id?: string | null
@@ -3570,6 +3793,8 @@ export type AdminGetInviteQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        private?: boolean | null
+        profileUrl?: string | null
         gumProfile?: {
           __typename?: 'Account'
           id?: string | null
@@ -3632,6 +3857,8 @@ export type AdminGetInviteQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        private?: boolean | null
+        profileUrl?: string | null
         gumProfile?: {
           __typename?: 'Account'
           id?: string | null
@@ -3715,6 +3942,8 @@ export type AdminGetInvitesQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        private?: boolean | null
+        profileUrl?: string | null
         gumProfile?: {
           __typename?: 'Account'
           id?: string | null
@@ -3798,6 +4027,8 @@ export type AdminCreateInviteMutation = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        private?: boolean | null
+        profileUrl?: string | null
         gumProfile?: {
           __typename?: 'Account'
           id?: string | null
@@ -3882,6 +4113,8 @@ export type AdminUpdateInviteMutation = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        private?: boolean | null
+        profileUrl?: string | null
         gumProfile?: {
           __typename?: 'Account'
           id?: string | null
@@ -3965,6 +4198,8 @@ export type AdminDeleteInviteMutation = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        private?: boolean | null
+        profileUrl?: string | null
         gumProfile?: {
           __typename?: 'Account'
           id?: string | null
@@ -4048,6 +4283,8 @@ export type AnonGetInviteQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        private?: boolean | null
+        profileUrl?: string | null
         gumProfile?: {
           __typename?: 'Account'
           id?: string | null
@@ -4110,6 +4347,8 @@ export type AnonGetInviteQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        private?: boolean | null
+        profileUrl?: string | null
         gumProfile?: {
           __typename?: 'Account'
           id?: string | null
@@ -4191,6 +4430,8 @@ export type UserGetInvitesQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        private?: boolean | null
+        profileUrl?: string | null
         gumProfile?: {
           __typename?: 'Account'
           id?: string | null
@@ -4272,6 +4513,8 @@ export type UserGetInviteQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        private?: boolean | null
+        profileUrl?: string | null
         gumProfile?: {
           __typename?: 'Account'
           id?: string | null
@@ -4334,6 +4577,8 @@ export type UserGetInviteQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        private?: boolean | null
+        profileUrl?: string | null
         gumProfile?: {
           __typename?: 'Account'
           id?: string | null
@@ -4417,6 +4662,8 @@ export type UserAcceptInviteMutation = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        private?: boolean | null
+        profileUrl?: string | null
         gumProfile?: {
           __typename?: 'Account'
           id?: string | null
@@ -4815,6 +5062,8 @@ export type PageDetailsFragment = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      private?: boolean | null
+      profileUrl?: string | null
       gumProfile?: {
         __typename?: 'Account'
         id?: string | null
@@ -4917,6 +5166,8 @@ export type AdminGetPageQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        private?: boolean | null
+        profileUrl?: string | null
         gumProfile?: {
           __typename?: 'Account'
           id?: string | null
@@ -4991,6 +5242,8 @@ export type AdminGetPagesQuery = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      private?: boolean | null
+      profileUrl?: string | null
       gumProfile?: {
         __typename?: 'Account'
         id?: string | null
@@ -5043,6 +5296,8 @@ export type AdminGetPagesQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        private?: boolean | null
+        profileUrl?: string | null
         gumProfile?: {
           __typename?: 'Account'
           id?: string | null
@@ -5126,6 +5381,8 @@ export type AdminCreatePageMutation = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        private?: boolean | null
+        profileUrl?: string | null
         gumProfile?: {
           __typename?: 'Account'
           id?: string | null
@@ -5210,6 +5467,8 @@ export type AdminUpdatePageMutation = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        private?: boolean | null
+        profileUrl?: string | null
         gumProfile?: {
           __typename?: 'Account'
           id?: string | null
@@ -5293,6 +5552,8 @@ export type AdminDeletePageMutation = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        private?: boolean | null
+        profileUrl?: string | null
         gumProfile?: {
           __typename?: 'Account'
           id?: string | null
@@ -5376,6 +5637,8 @@ export type AnonGetPageQuery = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      private?: boolean | null
+      profileUrl?: string | null
       gumProfile?: {
         __typename?: 'Account'
         id?: string | null
@@ -5428,6 +5691,8 @@ export type AnonGetPageQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        private?: boolean | null
+        profileUrl?: string | null
         gumProfile?: {
           __typename?: 'Account'
           id?: string | null
@@ -5511,6 +5776,8 @@ export type UserGetPageQuery = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      private?: boolean | null
+      profileUrl?: string | null
       owner?: {
         __typename?: 'User'
         id?: string | null
@@ -5544,6 +5811,8 @@ export type UserGetPageQuery = {
           followers?: number | null
           following?: number | null
           type?: ProfileType | null
+          private?: boolean | null
+          profileUrl?: string | null
           gumProfile?: {
             __typename?: 'Account'
             id?: string | null
@@ -5582,6 +5851,8 @@ export type UserGetPageQuery = {
         providerId: string
         profile?: any | null
         verified: boolean
+        link?: string | null
+        name?: string | null
       }> | null
       gumProfile?: {
         __typename?: 'Account'
@@ -5635,6 +5906,8 @@ export type UserGetPageQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        private?: boolean | null
+        profileUrl?: string | null
         gumProfile?: {
           __typename?: 'Account'
           id?: string | null
@@ -5719,6 +5992,8 @@ export type UserUpdatePageMutation = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        private?: boolean | null
+        profileUrl?: string | null
         gumProfile?: {
           __typename?: 'Account'
           id?: string | null
@@ -5802,6 +6077,8 @@ export type UserDeletePageMutation = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        private?: boolean | null
+        profileUrl?: string | null
         gumProfile?: {
           __typename?: 'Account'
           id?: string | null
@@ -5885,6 +6162,8 @@ export type UserCreatePageMutation = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        private?: boolean | null
+        profileUrl?: string | null
         gumProfile?: {
           __typename?: 'Account'
           id?: string | null
@@ -6077,6 +6356,8 @@ export type ProfileDetailsFragment = {
   followers?: number | null
   following?: number | null
   type?: ProfileType | null
+  private?: boolean | null
+  profileUrl?: string | null
   gumProfile?: {
     __typename?: 'Account'
     id?: string | null
@@ -6117,6 +6398,8 @@ export type AdminGetProfileQuery = {
     followers?: number | null
     following?: number | null
     type?: ProfileType | null
+    private?: boolean | null
+    profileUrl?: string | null
     owner?: {
       __typename?: 'User'
       id?: string | null
@@ -6130,6 +6413,15 @@ export type AdminGetProfileQuery = {
       profileUrl?: string | null
       publicKey?: string | null
       username?: string | null
+      gumUser?: {
+        __typename?: 'Account'
+        id?: string | null
+        name?: string | null
+        type?: AccountType | null
+        address?: string | null
+        network?: NetworkType | null
+        explorerUrl?: string | null
+      } | null
       relation?: {
         __typename?: 'UserRelation'
         isYou: boolean
@@ -6150,6 +6442,8 @@ export type AdminGetProfileQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        private?: boolean | null
+        profileUrl?: string | null
         gumProfile?: {
           __typename?: 'Account'
           id?: string | null
@@ -6168,15 +6462,6 @@ export type AdminGetProfileQuery = {
           network?: NetworkType | null
           explorerUrl?: string | null
         } | null
-      } | null
-      gumUser?: {
-        __typename?: 'Account'
-        id?: string | null
-        name?: string | null
-        type?: AccountType | null
-        address?: string | null
-        network?: NetworkType | null
-        explorerUrl?: string | null
       } | null
     } | null
     gumProfile?: {
@@ -6220,6 +6505,8 @@ export type AdminGetProfilesQuery = {
     followers?: number | null
     following?: number | null
     type?: ProfileType | null
+    private?: boolean | null
+    profileUrl?: string | null
     owner?: {
       __typename?: 'User'
       id?: string | null
@@ -6253,6 +6540,8 @@ export type AdminGetProfilesQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        private?: boolean | null
+        profileUrl?: string | null
         gumProfile?: {
           __typename?: 'Account'
           id?: string | null
@@ -6344,6 +6633,8 @@ export type AdminUpdateProfileMutation = {
     followers?: number | null
     following?: number | null
     type?: ProfileType | null
+    private?: boolean | null
+    profileUrl?: string | null
     gumProfile?: {
       __typename?: 'Account'
       id?: string | null
@@ -6385,6 +6676,8 @@ export type AdminDeleteProfileMutation = {
     followers?: number | null
     following?: number | null
     type?: ProfileType | null
+    private?: boolean | null
+    profileUrl?: string | null
     gumProfile?: {
       __typename?: 'Account'
       id?: string | null
@@ -6427,6 +6720,8 @@ export type UserLinkProfileIdentityMutation = {
     followers?: number | null
     following?: number | null
     type?: ProfileType | null
+    private?: boolean | null
+    profileUrl?: string | null
     gumProfile?: {
       __typename?: 'Account'
       id?: string | null
@@ -6469,6 +6764,8 @@ export type UserUnlinkProfileIdentityMutation = {
     followers?: number | null
     following?: number | null
     type?: ProfileType | null
+    private?: boolean | null
+    profileUrl?: string | null
     gumProfile?: {
       __typename?: 'Account'
       id?: string | null
@@ -6510,6 +6807,8 @@ export type UserGetProfileQuery = {
     followers?: number | null
     following?: number | null
     type?: ProfileType | null
+    private?: boolean | null
+    profileUrl?: string | null
     gumProfile?: {
       __typename?: 'Account'
       id?: string | null
@@ -6601,6 +6900,8 @@ export type UserGetProfilePageQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        private?: boolean | null
+        profileUrl?: string | null
         gumProfile?: {
           __typename?: 'Account'
           id?: string | null
@@ -6651,6 +6952,8 @@ export type UserGetProfilesQuery = {
     followers?: number | null
     following?: number | null
     type?: ProfileType | null
+    private?: boolean | null
+    profileUrl?: string | null
     owner?: {
       __typename?: 'User'
       id?: string | null
@@ -6678,6 +6981,8 @@ export type UserGetProfilesQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        private?: boolean | null
+        profileUrl?: string | null
         gumProfile?: {
           __typename?: 'Account'
           id?: string | null
@@ -6742,6 +7047,8 @@ export type UserGetProfilesQuery = {
       providerId: string
       profile?: any | null
       verified: boolean
+      link?: string | null
+      name?: string | null
     }> | null
     gumProfile?: {
       __typename?: 'Account'
@@ -6785,6 +7092,8 @@ export type UserUpdateProfileMutation = {
     followers?: number | null
     following?: number | null
     type?: ProfileType | null
+    private?: boolean | null
+    profileUrl?: string | null
     gumProfile?: {
       __typename?: 'Account'
       id?: string | null
@@ -6826,6 +7135,8 @@ export type UserDeleteProfileMutation = {
     followers?: number | null
     following?: number | null
     type?: ProfileType | null
+    private?: boolean | null
+    profileUrl?: string | null
     gumProfile?: {
       __typename?: 'Account'
       id?: string | null
@@ -6867,6 +7178,8 @@ export type UserSyncProfileMutation = {
     followers?: number | null
     following?: number | null
     type?: ProfileType | null
+    private?: boolean | null
+    profileUrl?: string | null
     gumProfile?: {
       __typename?: 'Account'
       id?: string | null
@@ -6908,6 +7221,8 @@ export type UserVerifyProfileMutation = {
     followers?: number | null
     following?: number | null
     type?: ProfileType | null
+    private?: boolean | null
+    profileUrl?: string | null
     gumProfile?: {
       __typename?: 'Account'
       id?: string | null
@@ -6949,6 +7264,8 @@ export type UserSetDefaultProfileMutation = {
     followers?: number | null
     following?: number | null
     type?: ProfileType | null
+    private?: boolean | null
+    profileUrl?: string | null
     gumProfile?: {
       __typename?: 'Account'
       id?: string | null
@@ -6990,6 +7307,8 @@ export type UserCreateProfileMutation = {
     followers?: number | null
     following?: number | null
     type?: ProfileType | null
+    private?: boolean | null
+    profileUrl?: string | null
     gumProfile?: {
       __typename?: 'Account'
       id?: string | null
@@ -7177,6 +7496,8 @@ export type UserSearchMutation = {
         verified: boolean
         createdAt?: any | null
         updatedAt?: any | null
+        link?: string | null
+        name?: string | null
         owner?: {
           __typename?: 'User'
           id?: string | null
@@ -7210,6 +7531,8 @@ export type UserSearchMutation = {
             followers?: number | null
             following?: number | null
             type?: ProfileType | null
+            private?: boolean | null
+            profileUrl?: string | null
             gumProfile?: {
               __typename?: 'Account'
               id?: string | null
@@ -7273,6 +7596,8 @@ export type UserSearchMutation = {
           followers?: number | null
           following?: number | null
           type?: ProfileType | null
+          private?: boolean | null
+          profileUrl?: string | null
           gumProfile?: {
             __typename?: 'Account'
             id?: string | null
@@ -7336,6 +7661,8 @@ export type UserSearchMutation = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        private?: boolean | null
+        profileUrl?: string | null
         gumProfile?: {
           __typename?: 'Account'
           id?: string | null
@@ -7367,6 +7694,13 @@ export type UserSearchMutation = {
     }> | null
   } | null
 }
+
+export type AnonSolanaRequestAirdropMutationVariables = Exact<{
+  address: Scalars['String']
+  lamports: Scalars['Int']
+}>
+
+export type AnonSolanaRequestAirdropMutation = { __typename?: 'Mutation'; result?: boolean | null }
 
 export type UserRelationDetailsFragment = {
   __typename?: 'UserRelation'
@@ -7403,6 +7737,8 @@ export type UserDetailsFragment = {
     followers?: number | null
     following?: number | null
     type?: ProfileType | null
+    private?: boolean | null
+    profileUrl?: string | null
     gumProfile?: {
       __typename?: 'Account'
       id?: string | null
@@ -7461,6 +7797,8 @@ export type AdminGetUserQuery = {
       providerId: string
       profile?: any | null
       verified: boolean
+      link?: string | null
+      name?: string | null
     }> | null
     profiles?: Array<{
       __typename?: 'Profile'
@@ -7476,6 +7814,8 @@ export type AdminGetUserQuery = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      private?: boolean | null
+      profileUrl?: string | null
       gumProfile?: {
         __typename?: 'Account'
         id?: string | null
@@ -7510,6 +7850,8 @@ export type AdminGetUserQuery = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      private?: boolean | null
+      profileUrl?: string | null
       gumProfile?: {
         __typename?: 'Account'
         id?: string | null
@@ -7573,6 +7915,8 @@ export type AdminGetUsersQuery = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      private?: boolean | null
+      profileUrl?: string | null
       gumProfile?: {
         __typename?: 'Account'
         id?: string | null
@@ -7638,6 +7982,8 @@ export type AdminCreateUserMutation = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      private?: boolean | null
+      profileUrl?: string | null
       gumProfile?: {
         __typename?: 'Account'
         id?: string | null
@@ -7704,6 +8050,8 @@ export type AdminUpdateUserMutation = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      private?: boolean | null
+      profileUrl?: string | null
       gumProfile?: {
         __typename?: 'Account'
         id?: string | null
@@ -7769,6 +8117,8 @@ export type AdminDeleteUserMutation = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      private?: boolean | null
+      profileUrl?: string | null
       gumProfile?: {
         __typename?: 'Account'
         id?: string | null
@@ -7819,16 +8169,6 @@ export type AnonGetUserQuery = {
     profileUrl?: string | null
     publicKey?: string | null
     username?: string | null
-    identities?: Array<{
-      __typename?: 'Identity'
-      id?: string | null
-      createdAt?: any | null
-      updatedAt?: any | null
-      provider?: IdentityProvider | null
-      providerId: string
-      profile?: any | null
-      verified: boolean
-    }> | null
     profile?: {
       __typename?: 'Profile'
       id?: string | null
@@ -7843,6 +8183,20 @@ export type AnonGetUserQuery = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      private?: boolean | null
+      profileUrl?: string | null
+      identities?: Array<{
+        __typename?: 'Identity'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        provider?: IdentityProvider | null
+        providerId: string
+        profile?: any | null
+        verified: boolean
+        link?: string | null
+        name?: string | null
+      }> | null
       owner?: {
         __typename?: 'User'
         id?: string | null
@@ -7885,6 +8239,8 @@ export type AnonGetUserQuery = {
           followers?: number | null
           following?: number | null
           type?: ProfileType | null
+          private?: boolean | null
+          profileUrl?: string | null
           gumProfile?: {
             __typename?: 'Account'
             id?: string | null
@@ -7938,6 +8294,84 @@ export type AnonGetUserQuery = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      private?: boolean | null
+      profileUrl?: string | null
+      identities?: Array<{
+        __typename?: 'Identity'
+        id?: string | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        provider?: IdentityProvider | null
+        providerId: string
+        profile?: any | null
+        verified: boolean
+        link?: string | null
+        name?: string | null
+      }> | null
+      owner?: {
+        __typename?: 'User'
+        id?: string | null
+        pid?: number | null
+        role?: UserRole | null
+        status?: UserStatus | null
+        createdAt?: any | null
+        updatedAt?: any | null
+        followersCount?: number | null
+        followingCount?: number | null
+        profileUrl?: string | null
+        publicKey?: string | null
+        username?: string | null
+        gumUser?: {
+          __typename?: 'Account'
+          id?: string | null
+          name?: string | null
+          type?: AccountType | null
+          address?: string | null
+          network?: NetworkType | null
+          explorerUrl?: string | null
+        } | null
+        relation?: {
+          __typename?: 'UserRelation'
+          isYou: boolean
+          isFollowedByYou: boolean
+          isFollowingYou: boolean
+        } | null
+        profile?: {
+          __typename?: 'Profile'
+          id?: string | null
+          createdAt?: any | null
+          updatedAt?: any | null
+          name?: string | null
+          username?: string | null
+          bio?: string | null
+          avatarUrl?: string | null
+          metaUrl?: string | null
+          color?: string | null
+          followers?: number | null
+          following?: number | null
+          type?: ProfileType | null
+          private?: boolean | null
+          profileUrl?: string | null
+          gumProfile?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
+          } | null
+          gumProfileMeta?: {
+            __typename?: 'Account'
+            id?: string | null
+            name?: string | null
+            type?: AccountType | null
+            address?: string | null
+            network?: NetworkType | null
+            explorerUrl?: string | null
+          } | null
+        } | null
+      } | null
       gumProfile?: {
         __typename?: 'Account'
         id?: string | null
@@ -7998,6 +8432,8 @@ export type AnonGetUserFollowersQuery = {
       providerId: string
       profile?: any | null
       verified: boolean
+      link?: string | null
+      name?: string | null
     }> | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
     profile?: {
@@ -8014,6 +8450,8 @@ export type AnonGetUserFollowersQuery = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      private?: boolean | null
+      profileUrl?: string | null
       gumProfile?: {
         __typename?: 'Account'
         id?: string | null
@@ -8073,6 +8511,8 @@ export type AnonGetUserFollowingQuery = {
       providerId: string
       profile?: any | null
       verified: boolean
+      link?: string | null
+      name?: string | null
     }> | null
     relation?: { __typename?: 'UserRelation'; isYou: boolean; isFollowedByYou: boolean; isFollowingYou: boolean } | null
     profile?: {
@@ -8089,6 +8529,8 @@ export type AnonGetUserFollowingQuery = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      private?: boolean | null
+      profileUrl?: string | null
       gumProfile?: {
         __typename?: 'Account'
         id?: string | null
@@ -8152,6 +8594,8 @@ export type AnonGetUserPagesQuery = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      private?: boolean | null
+      profileUrl?: string | null
       gumProfile?: {
         __typename?: 'Account'
         id?: string | null
@@ -8204,6 +8648,8 @@ export type AnonGetUserPagesQuery = {
         followers?: number | null
         following?: number | null
         type?: ProfileType | null
+        private?: boolean | null
+        profileUrl?: string | null
         gumProfile?: {
           __typename?: 'Account'
           id?: string | null
@@ -8276,6 +8722,8 @@ export type UserUpdateUserMutation = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      private?: boolean | null
+      profileUrl?: string | null
       gumProfile?: {
         __typename?: 'Account'
         id?: string | null
@@ -8341,6 +8789,8 @@ export type UserFollowUserMutation = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      private?: boolean | null
+      profileUrl?: string | null
       gumProfile?: {
         __typename?: 'Account'
         id?: string | null
@@ -8406,6 +8856,8 @@ export type UserUnfollowUserMutation = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      private?: boolean | null
+      profileUrl?: string | null
       gumProfile?: {
         __typename?: 'Account'
         id?: string | null
@@ -8469,6 +8921,8 @@ export type UserVerifyUserMutation = {
       followers?: number | null
       following?: number | null
       type?: ProfileType | null
+      private?: boolean | null
+      profileUrl?: string | null
       gumProfile?: {
         __typename?: 'Account'
         id?: string | null
@@ -8536,6 +8990,8 @@ export const ProfileDetailsFragmentDoc = gql`
     followers
     following
     type
+    private
+    profileUrl
     gumProfile {
       ...AccountSummary
     }
@@ -8605,6 +9061,7 @@ export const AuthChallengeRequestDetailsFragmentDoc = gql`
   fragment AuthChallengeRequestDetails on AuthChallengeRequest {
     challenge
     expiresAt
+    message
   }
 `
 export const ConfigApiDetailsFragmentDoc = gql`
@@ -8690,6 +9147,8 @@ export const IdentityDetailsFragmentDoc = gql`
     providerId
     profile
     verified
+    link
+    name
   }
 `
 export const InviteDetailsFragmentDoc = gql`
@@ -8990,12 +9449,31 @@ export const GetMeDocument = gql`
       }
       profile {
         ...ProfileDetails
+        gumProfile {
+          ...AccountSummary
+        }
+        owner {
+          ...UserDetails
+          gumUser {
+            ...AccountSummary
+            gumUser {
+              ...UserDetails
+            }
+          }
+        }
+        identities {
+          ...IdentityDetails
+        }
+      }
+      gumUser {
+        ...AccountSummary
       }
     }
   }
   ${UserDetailsFragmentDoc}
   ${IdentityDetailsFragmentDoc}
   ${ProfileDetailsFragmentDoc}
+  ${AccountSummaryFragmentDoc}
 `
 
 export function useGetMeQuery(options?: Omit<Urql.UseQueryArgs<GetMeQueryVariables>, 'query'>) {
@@ -9846,11 +10324,18 @@ export const AdminGetProfileDocument = gql`
       ...ProfileDetails
       owner {
         ...UserDetails
+        gumUser {
+          ...AccountSummary
+        }
+      }
+      gumProfile {
+        ...AccountSummary
       }
     }
   }
   ${ProfileDetailsFragmentDoc}
   ${UserDetailsFragmentDoc}
+  ${AccountSummaryFragmentDoc}
 `
 
 export function useAdminGetProfileQuery(options: Omit<Urql.UseQueryArgs<AdminGetProfileQueryVariables>, 'query'>) {
@@ -10181,6 +10666,17 @@ export const UserSearchDocument = gql`
 export function useUserSearchMutation() {
   return Urql.useMutation<UserSearchMutation, UserSearchMutationVariables>(UserSearchDocument)
 }
+export const AnonSolanaRequestAirdropDocument = gql`
+  mutation AnonSolanaRequestAirdrop($address: String!, $lamports: Int!) {
+    result: anonSolanaRequestAirdrop(address: $address, lamports: $lamports)
+  }
+`
+
+export function useAnonSolanaRequestAirdropMutation() {
+  return Urql.useMutation<AnonSolanaRequestAirdropMutation, AnonSolanaRequestAirdropMutationVariables>(
+    AnonSolanaRequestAirdropDocument,
+  )
+}
 export const AdminGetUserDocument = gql`
   query AdminGetUser($userId: String!) {
     item: adminGetUser(userId: $userId) {
@@ -10253,11 +10749,11 @@ export const AnonGetUserDocument = gql`
   query AnonGetUser($username: String!) {
     item: anonGetUser(username: $username) {
       ...UserDetails
-      identities {
-        ...IdentityDetails
-      }
       profile {
         ...ProfileDetails
+        identities {
+          ...IdentityDetails
+        }
         owner {
           ...UserDetails
           gumUser {
@@ -10267,12 +10763,21 @@ export const AnonGetUserDocument = gql`
       }
       profiles {
         ...ProfileDetails
+        identities {
+          ...IdentityDetails
+        }
+        owner {
+          ...UserDetails
+          gumUser {
+            ...AccountSummary
+          }
+        }
       }
     }
   }
   ${UserDetailsFragmentDoc}
-  ${IdentityDetailsFragmentDoc}
   ${ProfileDetailsFragmentDoc}
+  ${IdentityDetailsFragmentDoc}
   ${AccountSummaryFragmentDoc}
 `
 

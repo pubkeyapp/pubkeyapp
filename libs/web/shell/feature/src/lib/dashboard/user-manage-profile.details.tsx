@@ -1,28 +1,47 @@
-import { ActionIcon, Anchor, Badge, Button, Group, Menu, Stack, Text, ThemeIcon, Tooltip } from '@mantine/core'
+import {
+  ActionIcon,
+  Badge,
+  Box,
+  Button,
+  Card,
+  Group,
+  JsonInput,
+  Stack,
+  Text,
+  ThemeIcon,
+  Tooltip,
+  UnstyledButton,
+} from '@mantine/core'
+import { modals } from '@mantine/modals'
 import { AppType, useApps } from '@pubkeyapp/web/apps/data-access'
-import { AppDashboard } from '@pubkeyapp/web/apps/ui'
+import { AppDashboard, GumLogo } from '@pubkeyapp/web/apps/ui'
 import { useAuth } from '@pubkeyapp/web/auth/data-access'
-import { IdentityBadge } from '@pubkeyapp/web/identity/ui'
+import { IdentityBadge, IdentityGrid } from '@pubkeyapp/web/identity/ui'
 import { useUserProfiles } from '@pubkeyapp/web/profile/data-access'
+import { ProfileIdentityCardContent, ProfileTypeBadge } from '@pubkeyapp/web/profile/ui'
 import { useGumApp } from '@pubkeyapp/web/shell/data-access'
 import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/core'
 import {
+  AccountType,
+  NetworkType,
   Profile,
+  ProfileType,
   UserUpdateProfileInput,
   useUserCreatePageMutation,
   useUserLinkProfileIdentityMutation,
-  useUserSetDefaultProfileMutation,
   useUserUnlinkProfileIdentityMutation,
   useUserUpdateProfileMutation,
   useUserVerifyProfileMutation,
 } from '@pubkeyapp/web/util/sdk'
-import { IconApps, IconTrash, IconUser } from '@tabler/icons-react'
-import React, { useMemo } from 'react'
-import { Link } from 'react-router-dom'
+import { IconApps, IconDiscountCheck, IconTrash, IconUser } from '@tabler/icons-react'
+import React, { ComponentType, useMemo } from 'react'
+import { AccountIsNotVerified } from './account-is-not.verified'
+import { AccountIsVerified } from './account-is.verified'
+import { DashboardGumUserCreate } from './dashboard-gum-user.create'
 import { UserEditProfileModal } from './user-edit-profile.modal'
 import { UserSelectAvatarModal } from './user-select-avatar-modal'
 
-export function UserManageProfileDetails({ profile }: { profile: Profile }) {
+export function UserManageProfileDetails({ profile, verifyUser }: { profile: Profile; verifyUser: () => void }) {
   const { apps } = useApps()
   const { user } = useAuth()
   const { createProfile } = useGumApp()
@@ -31,7 +50,6 @@ export function UserManageProfileDetails({ profile }: { profile: Profile }) {
   const [, updateProfileMutation] = useUserUpdateProfileMutation()
   const [, linkIdentityMutation] = useUserLinkProfileIdentityMutation()
   const [, unlinkIdentityMutation] = useUserUnlinkProfileIdentityMutation()
-  const [, setDefaultProfileMutation] = useUserSetDefaultProfileMutation()
   const [, verifyProfileMutation] = useUserVerifyProfileMutation()
 
   const createPage = () => {
@@ -78,22 +96,6 @@ export function UserManageProfileDetails({ profile }: { profile: Profile }) {
         if (res.error) return showNotificationError(res.error.message)
         if (!res.error && res.data?.item) {
           showNotificationSuccess('Profile updated! ')
-          return !!res.data.item
-        }
-        return false
-      })
-      .catch((err) => showNotificationError(err.message))
-  }
-
-  const setDefaultProfile = async () => {
-    if (!window.confirm(`Are you sure you want to use ${profile.type} as your primary profile?`)) {
-      return
-    }
-    return setDefaultProfileMutation({ profileId: `${profile.id}` })
-      .then((res) => {
-        if (res.error) return showNotificationError(res.error.message)
-        if (!res.error && res.data?.item) {
-          showNotificationSuccess('Profile selected! ')
           return !!res.data.item
         }
         return false
@@ -148,66 +150,26 @@ export function UserManageProfileDetails({ profile }: { profile: Profile }) {
     })
     .filter((app) => app.itemId)
 
-  return profile.gumProfile ? (
+  return (
     <Stack>
       <Stack>
-        <Group position="apart" align="start">
-          <Group align="center">
-            {user ? (
-              <UserSelectAvatarModal
-                size={64}
-                radius="xl"
-                profile={profile!}
-                identities={profile.identities ?? user.identities ?? []}
-                updateAvatar={(avatarUrl) => updateProfile({ avatarUrl: avatarUrl })}
-              />
-            ) : null}
-            <Stack spacing={0}>
-              <Text size="xl" fw={500}>
-                {profile.name}
-              </Text>
-              <Anchor component={Link} to={`${profile.owner?.profileUrl}`} size="sm" color="brand">
-                {profile.username}
-              </Anchor>
-            </Stack>
-          </Group>
-          <Group>
-            <UserEditProfileModal profile={profile!} />
-          </Group>
-        </Group>
-        <Group position="right" align="start">
-          <Group>
-            {user?.profile?.id === profile.id ? null : (
-              <Tooltip label={`Use ${profile.type} as your primary profile on PubKey`}>
-                <Button variant="outline" size="sm" onClick={() => setDefaultProfile()}>
-                  Use as Primary
-                </Button>
-              </Tooltip>
-            )}
-            <Tooltip label={`Verify ${profile.type} profile`}>
-              <Button variant="outline" size="sm" onClick={verifyProfile}>
-                Verify Profile
-              </Button>
-            </Tooltip>
-          </Group>
-        </Group>
+        <ProfileIdentityCardContent
+          profile={profile}
+          actions={<UserEditProfileModal profile={profile!} />}
+          avatar={
+            <UserSelectAvatarModal
+              size={128}
+              radius={128}
+              profile={profile!}
+              identities={profile.identities ?? []}
+              updateAvatar={(avatarUrl) => updateProfile({ avatarUrl: avatarUrl })}
+            />
+          }
+        />
       </Stack>
-      <Stack spacing="xl" my={16}>
+      <Stack spacing="xl" mt={16} sx={{}}>
         <Group position="apart" align="center">
-          <Stack>
-            <Badge
-              size="lg"
-              pl={0}
-              color="brand"
-              leftSection={
-                <ThemeIcon color={'brand'} variant="transparent" size="lg" radius="xl">
-                  <IconApps size={16} />
-                </ThemeIcon>
-              }
-            >
-              Apps
-            </Badge>
-          </Stack>
+          <UiIconBadge label="Apps" icon={IconApps} />
         </Group>
         {!profile.page ? (
           <Group>
@@ -216,61 +178,117 @@ export function UserManageProfileDetails({ profile }: { profile: Profile }) {
             </Button>
           </Group>
         ) : null}
-
         <AppDashboard apps={userApps} />
       </Stack>
-      <Stack spacing="xl" my={16}>
+      <Stack spacing="xl" mt={16} sx={{}}>
         <Group position="apart" align="start">
-          <Badge
-            size="lg"
-            pl={0}
-            color="brand"
-            leftSection={
-              <ThemeIcon color={'brand'} variant="transparent" size="lg" radius="xl">
-                <IconUser size={16} />
-              </ThemeIcon>
-            }
-          >
-            Linked Identities
-          </Badge>
-          <Group>
-            <Menu shadow="md" width={300} withArrow>
-              <Menu.Target>
-                <Button size="sm" variant="outline">
-                  Link Identity
-                </Button>
-              </Menu.Target>
-              <Menu.Dropdown style={{ zIndex: 9999999 }}>
-                {identities?.map((identity) => (
-                  <Menu.Item key={identity.id} onClick={() => addIdentity(identity.id!)}>
-                    <Group position="center">
-                      <IdentityBadge identity={identity} />
-                    </Group>
-                  </Menu.Item>
-                ))}
-              </Menu.Dropdown>
-            </Menu>
-          </Group>
+          <UiIconBadge label="Linked Identities" icon={IconUser} />
         </Group>
-        {enabled?.map((identity) => (
-          <Group key={identity.id} position="apart">
-            <IdentityBadge identity={identity} />
-            <Tooltip label={`Unlink ${identity.provider} identity `}>
-              <ActionIcon color="red" onClick={() => removeIdentity(identity.id!)}>
-                <IconTrash size={16} />
-              </ActionIcon>
-            </Tooltip>
-          </Group>
-        ))}
+        <IdentityGrid
+          identities={enabled ?? []}
+          addIdentity={() =>
+            modals.open({
+              title: <ProfileTypeBadge profileType={profile.type as ProfileType} verified={!!profile?.gumProfile} />,
+              centered: true,
+              children: (
+                <Box>
+                  {identities?.length ? (
+                    <Stack align="center" spacing={32} mt={32}>
+                      <Text size="xl">Link an identity to your {profile.type} profile</Text>
+                      {identities?.map((identity) => (
+                        <UnstyledButton
+                          key={identity.id}
+                          onClick={() => {
+                            addIdentity(identity.id!)
+                            modals.closeAll()
+                          }}
+                        >
+                          <IdentityBadge identity={identity} />
+                        </UnstyledButton>
+                      ))}
+                    </Stack>
+                  ) : (
+                    <Stack align="center" spacing={32} mt={32}>
+                      <Text size="xl">All your identities are linked!</Text>
+                    </Stack>
+                  )}
+                </Box>
+              ),
+            })
+          }
+          selectIdentity={(identity) =>
+            modals.open({
+              title: <IdentityBadge identity={identity} />,
+              centered: true,
+              children: (
+                <Stack align="center">
+                  <Tooltip label={`Unlink ${identity.provider} identity `}>
+                    <Button
+                      color="red"
+                      variant="subtle"
+                      onClick={() => {
+                        removeIdentity(identity.id!)
+                        modals.closeAll()
+                      }}
+                    >
+                      <Group spacing={8}>
+                        <IconTrash size={16} />
+                        <Text>Remove Identity from Profile</Text>
+                      </Group>
+                    </Button>
+                  </Tooltip>
+                  {identity.profile ? (
+                    <JsonInput
+                      label="Profile Data"
+                      readOnly
+                      minRows={6}
+                      value={JSON.stringify(identity.profile, null, 2)}
+                    />
+                  ) : null}
+                </Stack>
+              ),
+            })
+          }
+        />
+      </Stack>
+      <Stack spacing="xl" mt={16} sx={{}}>
+        <Group position="apart" align="start">
+          <UiIconBadge label="Verification" icon={IconDiscountCheck} />
+        </Group>
+        <Box>
+          {user?.gumUser ? (
+            profile.gumProfile ? (
+              <AccountIsVerified icon={<GumLogo width={128} />} account={profile.gumProfile} />
+            ) : (
+              <AccountIsNotVerified
+                icon={<GumLogo width={128} />}
+                type={AccountType.GumProfile}
+                network={NetworkType.SolanaDevnet}
+                onClick={() => verifyProfile()}
+              />
+            )
+          ) : (
+            <DashboardGumUserCreate />
+          )}
+        </Box>
       </Stack>
     </Stack>
-  ) : (
-    <Stack>
-      <Tooltip label={`Verify ${profile.type} profile`}>
-        <Button variant="outline" size="sm" onClick={verifyProfile}>
-          Verify Profile
-        </Button>
-      </Tooltip>
-    </Stack>
+  )
+}
+
+export function UiIconBadge({ label, icon: Icon }: { label: string; icon: ComponentType<{ size: number }> }) {
+  return (
+    <Badge
+      size="lg"
+      pl={0}
+      color="brand"
+      leftSection={
+        <ThemeIcon color={'brand'} variant="transparent" size="lg" radius="xl">
+          <Icon size={16} />
+        </ThemeIcon>
+      }
+    >
+      {label}
+    </Badge>
   )
 }

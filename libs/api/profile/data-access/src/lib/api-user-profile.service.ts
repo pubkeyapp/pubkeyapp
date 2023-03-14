@@ -42,6 +42,7 @@ export class ApiUserProfileService {
       include: {
         gumProfile: true,
         gumProfileMeta: true,
+        owner: { include: { gumUser: true } },
         user: true,
         identities: true,
         page: { include: { domains: { include: { domain: true } } } },
@@ -75,6 +76,7 @@ export class ApiUserProfileService {
         profileId: created.id,
       }),
     })
+    await this.core.getUserById(userId, true)
     return this.userGetProfile(userId, created.id)
   }
 
@@ -84,7 +86,14 @@ export class ApiUserProfileService {
   }
 
   async userUpdateProfile(userId: string, profileId: string, input: UserUpdateProfileInput) {
-    await this.ensureProfileOwner(userId, profileId)
+    const profile = await this.ensureProfileOwner(userId, profileId)
+    if (input.private && profile?.owner?.profile?.id === profileId) {
+      throw new Error('Cannot set a default profile as private')
+    }
+    if (input.username && input.username.length > 15) {
+      throw new Error('Username must be less than 15 characters')
+    }
+
     const updated = await this.core.data.profile.update({
       where: { id: profileId },
       data: { ...input, username: input.username ? getProfileUsername(input.username) : undefined },
@@ -110,7 +119,10 @@ export class ApiUserProfileService {
   }
 
   async userSetDefaultProfile(userId: string, profileId: string) {
-    await this.ensureProfileOwner(userId, profileId)
+    const profile = await this.ensureProfileOwner(userId, profileId)
+    if (profile.private) {
+      throw new Error('Cannot set a private profile as default')
+    }
     await this.core.data.user.update({
       where: { id: userId },
       data: { profileId },
@@ -231,11 +243,14 @@ export class ApiUserProfileService {
   async userVerifyUser(userId: string) {
     const owner = await this.user.userVerifyUser(userId)
     const gumUserAccount = await this.core.gum.getUser(owner.publicKey)
-    if (gumUserAccount && !owner.gumUser) {
+    if (!gumUserAccount?.cl_pubkey) {
+      throw new Error('User does not have a Gum User')
+    }
+    if (gumUserAccount.cl_pubkey && !owner.gumUser) {
       await this.connectGumUserAccount(userId, NetworkType.SolanaDevnet, gumUserAccount.cl_pubkey.toString())
     } else {
       this.logger.log(`User ${userId} is connected to Gum User ${owner.gumUser?.address}`)
-      console.log('gumUserAccount', gumUserAccount.cl_pubkey.toString())
+      console.log('gumUserAccount', gumUserAccount?.cl_pubkey.toString())
       console.log('owner.gumUser?.address', owner.gumUser?.address)
       console.log('owner.gumUser?.address', owner.gumUser)
       console.log('owner.gumUser?.profiles', owner.profiles)

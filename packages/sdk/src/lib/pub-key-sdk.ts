@@ -69,7 +69,7 @@ export class PubKeySdk {
 
   async init() {
     try {
-      this.config?.logger?.log(`${tag()}: initializing SDK`)
+      this.config?.logger?.log(`${tag()}: initializing SDK: ${this.config.endpoint}`)
 
       const config = await this.internal.getConfig()
       const { endpoint, type, explorerUrl } = config.cluster as Cluster

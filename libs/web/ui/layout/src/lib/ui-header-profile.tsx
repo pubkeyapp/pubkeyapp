@@ -82,9 +82,6 @@ export function UiHeaderProfile() {
             </>
           ) : null}
           <Menu.Divider />
-          <Menu.Item component={Link} to="/settings">
-            Settings
-          </Menu.Item>
           <Menu.Item onClick={() => logout()}>Sign out</Menu.Item>
         </Menu.Dropdown>
       ) : null}

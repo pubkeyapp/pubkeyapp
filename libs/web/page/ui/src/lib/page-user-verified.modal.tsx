@@ -1,4 +1,4 @@
-import { ActionIcon, Anchor, Box, Code, Group, Modal, Stack, Text, Tooltip } from '@mantine/core'
+import { ActionIcon, Anchor, Box, Code, Group, Modal, Stack, Text } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { PubKeyProfileBadge } from '@pubkeyapp/web/ui/core'
 import { Account, User } from '@pubkeyapp/web/util/sdk'
@@ -25,13 +25,11 @@ export function PageUserVerifiedModal({ user }: { user?: User }) {
       >
         <AccountIsVerified account={user.gumUser} />
       </Modal>
-      <Tooltip label={'Gum User Verified'}>
-        <ActionIcon size="xs" variant="subtle" onClick={open}>
-          <Text color={'blue'} sx={{ display: 'flex' }}>
-            <IconDiscountCheckFilled size={16} />
-          </Text>
-        </ActionIcon>
-      </Tooltip>
+      <ActionIcon size="xs" variant="subtle" onClick={open}>
+        <Text color={'blue'} sx={{ display: 'flex' }}>
+          <IconDiscountCheckFilled size={16} />
+        </Text>
+      </ActionIcon>
     </>
   )
 }

@@ -227,6 +227,7 @@ model Profile {
   bio              String?
   username         String?
   metaUrl          String?
+  private          Boolean       @default(false)
   avatarUrl        String?
   following        Int?
   followers        Int?

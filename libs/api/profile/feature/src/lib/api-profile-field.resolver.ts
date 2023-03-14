@@ -19,6 +19,11 @@ export class ApiProfileFieldResolver {
   }
 
   @ResolveField(() => String, { nullable: true })
+  profileUrl(@Parent() profile: Profile) {
+    return `/u/${profile.owner?.username}/${profile.type}`
+  }
+
+  @ResolveField(() => String, { nullable: true })
   avatarUrl(@Parent() profile: Profile) {
     return profile.avatarUrl ? profile.avatarUrl : getAvatarUrl(profile.username ?? profile.ownerId)
   }

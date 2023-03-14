@@ -79,6 +79,7 @@
       "@pubkeyapp/web/plan/feature": ["libs/web/plan/feature/src/index.ts"],
       "@pubkeyapp/web/plan/ui": ["libs/web/plan/ui/src/index.ts"],
       "@pubkeyapp/web/profile/data-access": ["libs/web/profile/data-access/src/index.ts"],
+      "@pubkeyapp/web/profile/feature": ["libs/web/profile/feature/src/index.ts"],
       "@pubkeyapp/web/profile/ui": ["libs/web/profile/ui/src/index.ts"],
       "@pubkeyapp/web/search/ui": ["libs/web/search/ui/src/index.ts"],
       "@pubkeyapp/web/shell/data-access": ["libs/web/shell/data-access/src/index.ts"],

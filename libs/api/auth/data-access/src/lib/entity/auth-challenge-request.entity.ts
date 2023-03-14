@@ -7,4 +7,7 @@ export class AuthChallengeRequest {
 
   @Field()
   expiresAt: string
+
+  @Field()
+  message: string
 }

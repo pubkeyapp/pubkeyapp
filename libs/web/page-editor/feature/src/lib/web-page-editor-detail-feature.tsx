@@ -1,19 +1,12 @@
-import { Anchor, Box, Button, Container, Flex, Group, Modal, Paper, Skeleton, Stack, Tooltip } from '@mantine/core'
+import { Anchor, Box, Button, Container, Flex, Group, Modal, Skeleton, Stack, Tooltip } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 
 import { PageEditorPreview } from '@pubkeyapp/web/page/ui'
 import { ProfileTypeIcon } from '@pubkeyapp/web/profile/ui'
-import {
-  showNotificationError,
-  showNotificationSuccess,
-  UiActionIcon,
-  UiBackButton,
-  UiTabRoutes,
-} from '@pubkeyapp/web/ui/core'
+import { showNotificationError, showNotificationSuccess, UiActionIcon, UiBackButton } from '@pubkeyapp/web/ui/core'
 import { UiPageHeader } from '@pubkeyapp/web/ui/page'
 import {
   AdminUpdatePageInput,
-  Identity,
   Page,
   PageBlock,
   PageBlockType,

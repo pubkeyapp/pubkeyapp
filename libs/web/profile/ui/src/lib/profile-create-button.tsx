@@ -12,17 +12,11 @@ export function ProfileCreateButton({ type }: { type: ProfileType }) {
   const { refresh } = useUserProfiles()
   const [_, createProfileMutation] = useUserCreateProfileMutation()
   const [loading, setLoading] = useState(false)
-  const { createProfile } = useGumApp()
 
-  const createProfile2 = async (type: ProfileType) => {
-    if (!user?.gumUser) {
-      return showNotificationError('You need to create a GUM account first')
-    }
-    console.log('Create', type)
+  const createProfile = async (type: ProfileType) => {
     setLoading(true)
 
-    createProfile(type, user?.publicKey!, user?.gumUser?.address!)
-      .then(() => createProfileMutation({ type }))
+    createProfileMutation({ type })
       .then((res) => {
         refresh()
         if (res.error) {
@@ -47,7 +41,7 @@ export function ProfileCreateButton({ type }: { type: ProfileType }) {
       variant="subtle"
       color={getProfileTypeColor(type)}
       leftIcon={<ProfileTypeIcon type={type} size={36} />}
-      onClick={() => createProfile2(type)}
+      onClick={() => createProfile(type)}
     >
       Create {type} Profile
     </Button>

@@ -5,7 +5,7 @@ import { AccountType, NetworkType } from '@prisma/client'
 import { ApiCoreService } from '@pubkeyapp/api/core/data-access'
 import { TokenInfo } from '@pubkeyapp/api/solana/util'
 import { ClusterType, Solana } from '@pubkeyapp/solana'
-import { Connection, PublicKey } from '@solana/web3.js'
+import { Connection, LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js'
 import axios from 'axios'
 
 @Injectable()
@@ -131,5 +131,19 @@ export class ApiSolanaService {
     const { data } = await axios.get(url)
 
     return data
+  }
+
+  async requestAirdrop(address: string, lamports: number) {
+    if (lamports > 2 * LAMPORTS_PER_SOL) {
+      throw new Error(`Airdrop amount too high`)
+    }
+    try {
+      const res = await this.getSolana(ClusterType.Devnet).connection.requestAirdrop(new PublicKey(address), lamports)
+      console.log(res)
+      return true
+    } catch (e) {
+      this.logger.error(`Airdrop Failed: ${address} ${lamports}`, e)
+      throw new Error(`Airdrop Failed`)
+    }
   }
 }

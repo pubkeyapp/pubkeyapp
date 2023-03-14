@@ -72,13 +72,14 @@ export class ApiUserUserService {
   }
 
   async userUpdateUser(userId: string, input: UserUpdateUserInput) {
+    if (input.username && input.username.length > 15) {
+      throw new Error('Username must be less than 15 characters')
+    }
     await this.core.data.user.update({
       where: { id: userId },
       data: { ...input, username: input.username ? getProfileUsername(input.username) : undefined },
-      include: { identities: true },
     })
-    await this.core.cache.del('user', `get-by-id:${userId}`)
-    return this.core.getUserById(userId)
+    return this.core.getUserById(userId, true)
   }
 
   private decrementFollowersCount(ownerId: string) {

@@ -15,6 +15,9 @@ export class UserUpdateProfileInput {
   avatarUrl: string
 
   @Field({ nullable: true })
+  private?: boolean
+
+  @Field({ nullable: true })
   metaUrl: string
 
   @Field({ nullable: true })

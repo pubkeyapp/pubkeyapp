@@ -6,6 +6,8 @@ fragment IdentityDetails on Identity {
   providerId
   profile
   verified
+  link
+  name
 }
 
 mutation UserDeleteIdentity($identityId: String!) {

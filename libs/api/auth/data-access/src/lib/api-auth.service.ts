@@ -44,7 +44,12 @@ export class ApiAuthService {
   async requestChallenge(publicKey: string): Promise<RequestChallenge> {
     const { challenge, expiresAt } = getChallenge(publicKey)
 
-    return { challenge, expiresAt, publicKey, message: `Sign in to ${this.core.config.appName}` }
+    return {
+      challenge,
+      expiresAt,
+      publicKey,
+      message: `You are about to sign in to ${this.core.config.appName} running at ${this.core.config.webUrl}.`,
+    }
   }
 
   async responseChallenge(req: AuthRequest, res: Response, input?: ResponseChallengeOptions) {

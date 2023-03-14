@@ -1,0 +1,3 @@
+mutation AnonSolanaRequestAirdrop($address: String!, $lamports: Int!) {
+  result: anonSolanaRequestAirdrop(address: $address, lamports: $lamports)
+}

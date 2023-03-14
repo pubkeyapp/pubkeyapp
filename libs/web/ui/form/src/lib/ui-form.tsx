@@ -13,7 +13,7 @@ import { DatePicker } from '@mantine/dates'
 import { useForm } from '@mantine/form'
 
 import { IconLock } from '@tabler/icons-react'
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useEffect } from 'react'
 import { UiFormDate } from './ui-form-date'
 import { UiFormField, UiFormFieldType } from './ui-form-field'
 
@@ -42,7 +42,6 @@ export function UiForm<T>({
   submit: (input: Partial<T>) => Promise<boolean | undefined>
   validate?: (input: Partial<T>) => Record<string, string>
 }) {
-  const theme = useMantineTheme()
   const form = useForm<T>({
     clearInputErrorOnChange: true,
     initialValues: model,
@@ -56,10 +55,14 @@ export function UiForm<T>({
     if (!result) {
       form.setFieldError('submit', 'An error occurred')
     } else {
-      form.resetTouched()
       form.reset()
     }
   }
+
+  useEffect(() => {
+    form.setValues(model)
+    form.resetDirty(model)
+  }, [model])
 
   return (
     <form onSubmit={form.onSubmit(handleSubmit)}>
@@ -71,6 +74,7 @@ export function UiForm<T>({
                 <Checkbox
                   key={field.key?.toString()}
                   description={field.description}
+                  disabled={field.disabled}
                   label={field.label}
                   placeholder={field.placeholder ?? field.label}
                   required={field.required}
@@ -103,6 +107,7 @@ export function UiForm<T>({
               return (
                 <TextInput
                   readOnly={field.readOnly}
+                  disabled={field.disabled}
                   variant="filled"
                   size="lg"
                   radius="xl"

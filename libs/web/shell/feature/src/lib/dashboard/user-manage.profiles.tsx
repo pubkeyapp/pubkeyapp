@@ -6,7 +6,7 @@ import { ProfileType } from '@pubkeyapp/web/util/sdk'
 import React from 'react'
 import { UserManageProfileDetails } from './user-manage-profile.details'
 
-export function UserManageProfiles() {
+export function UserManageProfiles({ verifyUser }: { verifyUser: () => void }) {
   const { classes } = useAccordionStyles()
   const { items, loading } = useUserProfiles()
 
@@ -40,7 +40,7 @@ export function UserManageProfiles() {
                   <Accordion.Panel>
                     <Box>
                       {found ? (
-                        <UserManageProfileDetails profile={found} />
+                        <UserManageProfileDetails profile={found} verifyUser={verifyUser} />
                       ) : (
                         <Group position="center">
                           <ProfileCreateButton type={type} />

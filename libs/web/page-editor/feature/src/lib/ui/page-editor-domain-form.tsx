@@ -152,11 +152,9 @@ export function PageEditorDomainForm({ button, page }: { button?: ReactNode; pag
             {selectedDomain?.name}/{selectedPath}
           </Anchor>
           <Group>
-            {canCreate ? (
-              <Button loading={loading} size="xl" disabled={!canCreate} onClick={addPageDomain} color="green">
-                Add Domain
-              </Button>
-            ) : null}
+            <Button loading={loading} size="xl" disabled={!canCreate} onClick={addPageDomain} color="green">
+              Add Domain
+            </Button>
             {button}
           </Group>
         </Stack>

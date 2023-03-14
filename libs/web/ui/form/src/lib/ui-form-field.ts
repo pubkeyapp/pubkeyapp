@@ -16,6 +16,7 @@ export interface UiFormField<T> {
   placeholder?: string
   required?: boolean
   readOnly?: boolean
+  disabled?: boolean
   rows?: number
   type: UiFormFieldType
 }

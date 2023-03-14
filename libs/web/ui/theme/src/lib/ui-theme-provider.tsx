@@ -1,7 +1,8 @@
+import { IdentityAddModal } from '@pubkeyapp/web/identity/ui'
 import React from 'react'
-import { ColorScheme, ColorSchemeProvider, MantineProvider } from '@mantine/core'
+import { Button, ColorScheme, ColorSchemeProvider, MantineProvider, Text } from '@mantine/core'
 import { useHotkeys, useLocalStorage } from '@mantine/hooks'
-import { ModalsProvider } from '@mantine/modals'
+import { ContextModalProps, ModalsProvider } from '@mantine/modals'
 import { Notifications } from '@mantine/notifications'
 import { DefaultUiTheme } from '@pubkeyapp/web/ui/theme'
 import { createContext, ReactNode, Suspense, useContext } from 'react'
@@ -41,7 +42,7 @@ export function UiThemeProvider({ children }: { children: ReactNode }) {
           withGlobalStyles
           withNormalizeCSS
         >
-          <ModalsProvider>
+          <ModalsProvider modals={{ demonstration: TestModal, identityAdd: IdentityAddModal }}>
             <Notifications zIndex={10} />
             <Suspense fallback={<UiThemeLoader type="full" />}>{children}</Suspense>
           </ModalsProvider>
@@ -52,3 +53,12 @@ export function UiThemeProvider({ children }: { children: ReactNode }) {
 }
 
 export const useUiTheme = () => useContext(Context)
+
+const TestModal = ({ context, id, innerProps }: ContextModalProps<{ modalBody: string }>) => (
+  <>
+    <Text size="sm">{innerProps.modalBody}</Text>
+    <Button fullWidth mt="md" onClick={() => context.closeModal(id)}>
+      Close modal
+    </Button>
+  </>
+)

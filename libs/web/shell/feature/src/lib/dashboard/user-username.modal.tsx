@@ -1,4 +1,4 @@
-import { ActionIcon, Button, Group, Modal, Tooltip } from '@mantine/core'
+import { ActionIcon, Button, Group, Modal, Tooltip, UnstyledButton } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { modals } from '@mantine/modals'
 import { PubKeyProfileBadge, showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/core'
@@ -42,9 +42,9 @@ export function UserUsernameModal({ user }: { user: User }) {
       </Modal>
 
       <Tooltip label="Edit your PubKey Username">
-        <ActionIcon size="xs" variant="subtle" onClick={open} color="dimmed">
-          <IconPencil size={16} />
-        </ActionIcon>
+        <UnstyledButton onClick={open}>
+          <PubKeyProfileBadge user={user} />
+        </UnstyledButton>
       </Tooltip>
     </>
   )

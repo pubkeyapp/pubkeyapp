@@ -26,9 +26,9 @@ export class ApiAnonAccountService implements OnModuleInit {
   }
 
   async onModuleInit() {
-    setTimeout(() => {
-      this.airdropAccounts()
-    }, 2000)
+    // setTimeout(() => {
+    //   this.airdropAccounts()
+    // }, 2000)
   }
 
   async userGetAccount(userId: string, network: NetworkType, address: string, sync = false, identityId?: string) {

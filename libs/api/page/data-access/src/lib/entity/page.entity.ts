@@ -1,5 +1,6 @@
 import { Field, HideField, ObjectType } from '@nestjs/graphql'
 import { ApiProperty } from '@nestjs/swagger'
+import { Profile } from '@pubkeyapp/api/profile/data-access'
 import { User } from '@pubkeyapp/api/user/data-access'
 import { GraphQLDateTime } from 'graphql-scalars'
 import { PageBlock } from './page-block.entity'
@@ -58,5 +59,6 @@ export class Page {
   @Field(() => [PageDomain], { nullable: true })
   domains: PageDomain[]
   @HideField()
-  profile: unknown
+  @ApiProperty({ type: () => Profile, required: false, nullable: true })
+  profile: Profile
 }

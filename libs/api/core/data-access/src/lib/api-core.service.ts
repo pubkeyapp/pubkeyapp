@@ -81,7 +81,18 @@ export class ApiCoreService implements OnApplicationBootstrap {
         this.data.user
           .findUnique({
             where: { id: userId },
-            include: { profile: true, profiles: true, identities: true, gumUser: { include: { gumUser: true } } },
+            include: {
+              profile: {
+                include: {
+                  gumProfile: true,
+                  identities: true,
+                  owner: { include: { gumUser: true } },
+                },
+              },
+              profiles: true,
+              identities: true,
+              gumUser: { include: { gumUser: true } },
+            },
           })
           .then((user: CoreDbUser) => (user ? convertCoreDbUser(user) : undefined)),
       10,

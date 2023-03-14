@@ -615,6 +615,14 @@
             "items": {
               "$ref": "#/components/schemas/PageBlock"
             }
+          },
+          "profile": {
+            "nullable": true,
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Profile"
+              }
+            ]
           }
         }
       },
@@ -643,6 +651,10 @@
           },
           "color": {
             "type": "string",
+            "nullable": true
+          },
+          "private": {
+            "type": "boolean",
             "nullable": true
           },
           "followers": {

@@ -11,6 +11,8 @@ fragment ProfileDetails on Profile {
   followers
   following
   type
+  private
+  profileUrl
   gumProfile {
     ...AccountSummary
   }
@@ -24,6 +26,12 @@ query AdminGetProfile($profileId: String!) {
     ...ProfileDetails
     owner {
       ...UserDetails
+      gumUser {
+        ...AccountSummary
+      }
+    }
+    gumProfile {
+      ...AccountSummary
     }
   }
 }

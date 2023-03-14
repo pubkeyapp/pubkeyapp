@@ -48,7 +48,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
     if (fetching || !data || connecting) return
 
     if (!connected) {
-      console.log('Wallet disconnected, showing modal.')
+      // console.log('Wallet disconnected, showing modal.')
       modals.open({
         title: 'Wallet Disconnected',
         centered: true,
@@ -106,13 +106,13 @@ function AuthProvider({ children }: { children: ReactNode }) {
       throw new Error('No challenge received.')
     }
 
-    const signature = await signMessage(Uint8Array.from(Buffer.from(challenge, 'utf-8')))
-    console.log(bs58.encode(signature))
+    const message = `${requestChallenge.data.result.message} \n\nChallenge: ${challenge}`
+    const signature = await signMessage(Uint8Array.from(Buffer.from(message, 'utf-8')))
 
     const respondChallenge = await client
       .mutation(AnonRespondChallengeDocument, {
         publicKey: input.publicKey,
-        challenge: requestChallenge.data.result?.challenge,
+        challenge: message,
         signature: bs58.encode(signature),
       })
       .toPromise()

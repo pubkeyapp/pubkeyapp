@@ -77,6 +77,7 @@ export class ApiUserInviteService {
       data: { status: UserStatus.Active },
     })
     this.logger.verbose(`User ${userId} accepted invite ${invite.id}`)
+    await this.core.getUserById(userId, true)
     return this.userGetInvite(userId)
   }
 }

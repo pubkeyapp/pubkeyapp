@@ -1,4 +1,4 @@
-import { Avatar, Box, Center, Flex, Group, Stack, Text } from '@mantine/core'
+import { Avatar, Box, Center, Flex, Group, Stack, Text, Tooltip } from '@mantine/core'
 import { Profile } from '@pubkeyapp/web/util/sdk'
 import React from 'react'
 import ReactMarkdown from 'react-markdown'
@@ -21,7 +21,11 @@ export function PageUserProfile({ profile }: { profile: Profile }) {
                   <Text component={Link} to={`${profile?.owner?.profileUrl}`} color="dimmed" ff="monospace">
                     {profile?.username}
                   </Text>
-                  {profile?.owner ? <PageUserVerifiedModal user={profile.owner} /> : null}
+                  {profile?.owner?.gumUser ? (
+                    <Tooltip label={'Gum User Verified'}>
+                      <PageUserVerifiedModal user={profile.owner} />
+                    </Tooltip>
+                  ) : null}
                 </Group>
               </Stack>
             </Center>

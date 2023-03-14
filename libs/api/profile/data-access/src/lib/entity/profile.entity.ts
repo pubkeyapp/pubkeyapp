@@ -43,6 +43,10 @@ export class Profile {
   @Field({ nullable: true })
   color: string
 
+  @ApiProperty({ nullable: true, required: false })
+  @Field({ nullable: true })
+  private: boolean
+
   @ApiProperty({ type: 'integer', nullable: true, required: false })
   @Field(() => Int, { nullable: true })
   followers: number

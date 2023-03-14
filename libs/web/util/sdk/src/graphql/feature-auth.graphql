@@ -1,6 +1,7 @@
 fragment AuthChallengeRequestDetails on AuthChallengeRequest {
   challenge
   expiresAt
+  message
 }
 
 query GetMe {
@@ -11,6 +12,24 @@ query GetMe {
     }
     profile {
       ...ProfileDetails
+      gumProfile {
+        ...AccountSummary
+      }
+      owner {
+        ...UserDetails
+        gumUser {
+          ...AccountSummary
+          gumUser {
+            ...UserDetails
+          }
+        }
+      }
+      identities {
+        ...IdentityDetails
+      }
+    }
+    gumUser {
+      ...AccountSummary
     }
   }
 }

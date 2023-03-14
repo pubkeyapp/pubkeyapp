@@ -87,7 +87,7 @@ export class GatewayController {
       // Add hydrated page data to the window object
       { from: '</head>', to: `<script>window.pubkey = { page: ${JSON.stringify(page)} }</script></head>` },
       // Update the page title
-      { from: '<title>PubKey</title>', to: `<title>${page.title} | PubKey</title>` },
+      { from: '<title>PubKey</title>', to: `<title>${page.profile.username} | PubKey</title>` },
     ]
 
     const updated = replace.reduce((acc, { from, to }) => acc.replace(from, to), index)
