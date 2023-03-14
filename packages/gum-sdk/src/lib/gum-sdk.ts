@@ -1,11 +1,13 @@
 import { SDK } from '@gumhq/sdk'
-import { Namespace } from '@gumhq/sdk/src/profile'
+
 import { Connection, PublicKey } from '@solana/web3.js'
 import { fetch } from 'cross-fetch'
 import { createClient } from '../generated'
 import { convertGumSdkProfileMetadata, GumSdkProfileMetadata } from './interfaces/gum-sdk-profile-meta.interface'
 import { convertGumSdkProfile, GumSdkProfile } from './interfaces/gum-sdk-profile.interface'
 import { convertGumSdkUser, GumSdkUser } from './interfaces/gum-sdk.user.interface'
+
+export type Namespace = 'Professional' | 'Personal' | 'Gaming' | 'Degen'
 
 import { GraphQLClient } from 'graphql-request'
 interface GumSdkConfig {
