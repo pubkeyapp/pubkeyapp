@@ -213,6 +213,7 @@ export class ApiUserProfileService {
           profile.id,
           NetworkType.SolanaDevnet,
           gumProfile.cl_pubkey.toString(),
+          owner.identity.id,
         )
       }
     }

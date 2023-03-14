@@ -31,7 +31,7 @@ export function AccountDetailsTab({ address, network }: { address: string; netwo
   return (
     <Container size="md">
       <Stack>
-        <UiDebug data={{ transactionsData, transactionsFetching, transactionsError }} />
+        {/*<UiDebug data={{ transactionsData, transactionsFetching, transactionsError }} />*/}
         <Skeleton visible={fetching} radius="xl">
           {error ? (
             <UiError error={error} />

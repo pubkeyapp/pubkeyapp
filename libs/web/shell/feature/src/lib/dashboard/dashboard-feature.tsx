@@ -19,7 +19,6 @@ import { UserUsernameModal } from './user-username.modal'
 export function DashboardFeature() {
   const { user, refresh } = useAuth()
   const [, verifyUserMutation] = useUserVerifyUserMutation()
-  const [, updateProfileMutation] = useUserUpdateProfileMutation()
 
   const verifyUser = async (alert = true): Promise<boolean> => {
     return verifyUserMutation({})
@@ -34,22 +33,6 @@ export function DashboardFeature() {
           showNotificationSuccess('User verified!')
           refresh()
           return true
-        }
-        return false
-      })
-      .catch((err) => showNotificationError(err.message))
-  }
-  const updateProfile = async (input: UserUpdateProfileInput) => {
-    if (!user?.profile) {
-      console.log('No profile found')
-      return false
-    }
-    return updateProfileMutation({ profileId: `${user?.profile?.id}`, input })
-      .then((res) => {
-        if (res.error) return showNotificationError(res.error.message)
-        if (!res.error && res.data?.item) {
-          showNotificationSuccess('Profile updated! ')
-          return !!res.data.item
         }
         return false
       })

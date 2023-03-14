@@ -1,8 +1,9 @@
 import { ActionIcon, Box, Button, Container, Group, Stack, Text } from '@mantine/core'
+import { SearchBox } from '@pubkeyapp/web/search/ui'
 import { SolanaLogo } from '@pubkeyapp/web/ui/core'
 import { UiPageHeader } from '@pubkeyapp/web/ui/page'
 import { NetworkType } from '@pubkeyapp/web/util/sdk'
-import { useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { Link, Route, Routes, useParams } from 'react-router-dom'
 import { AccountDetailsTab } from './account-details.tab'
 
@@ -25,8 +26,11 @@ export function AccountDetailsFeature() {
     cluster === 'devnet' ? NetworkType.SolanaDevnet : NetworkType.SolanaMainnet,
   )
   return (
-    <Container size="xl">
-      <Stack>
+    <Container size="lg" mt={32}>
+      <Stack my={32} spacing={32}>
+        <Group position="center">
+          <SearchBox />
+        </Group>
         <UiPageHeader
           title={
             <Text component={Link} to={`/account/${address}`} size="xl" weight={500}>

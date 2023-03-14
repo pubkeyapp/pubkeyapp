@@ -4,7 +4,12 @@ import React, { ReactNode } from 'react'
 
 export function UiError({ children, error, title }: { children?: ReactNode; error?: unknown; title?: string }) {
   return (
-    <Alert icon={<IconAlertCircle size={16} />} title={title ?? 'Something went wrong...'} color="red">
+    <Alert
+      icon={<IconAlertCircle size={16} />}
+      title={title ?? 'Something went wrong...'}
+      color="red"
+      variant="outline"
+    >
       {error ? (typeof error === 'string' ? error : error?.toString() ?? 'Unknown error') : null}
       {children ? <>{children}</> : null}
     </Alert>

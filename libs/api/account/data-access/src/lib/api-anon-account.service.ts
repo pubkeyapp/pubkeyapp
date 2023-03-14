@@ -391,11 +391,13 @@ export class ApiAnonAccountService implements OnModuleInit {
       throw new Error('Account not found')
     }
     if (account.type !== AccountType.GumProfile) {
+      this.logger.verbose(`Account ${address} on ${network} is not a Gum Profile -> ${account.type}`)
       await this.core.data.account.update({
-        where: { id: account.id },
-        data: { type: AccountType.GumProfile, identityId, ownerId: userId },
+        where: { address_network: { address, network } },
+        data: { type: AccountType.GumProfile, identityId },
       })
     }
+    this.logger.verbose(`Connecting Gum Profile ${address} on ${network} to user ${userId} `)
     await this.core.data.profile.update({
       where: { id: profileId },
       data: {

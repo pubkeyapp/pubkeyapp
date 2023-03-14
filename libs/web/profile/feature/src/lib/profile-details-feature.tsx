@@ -1,5 +1,6 @@
 import { Alert, Container, Group, SimpleGrid, Stack } from '@mantine/core'
 import { ProfileIdentityCard } from '@pubkeyapp/web/profile/ui'
+import { SearchBox } from '@pubkeyapp/web/search/ui'
 import { PubKeyProfileBadge, UiError, UiErrorLoader } from '@pubkeyapp/web/ui/core'
 import { Profile, ProfileType, useAnonGetUserQuery } from '@pubkeyapp/web/util/sdk'
 import { IconAlertCircle } from '@tabler/icons-react'
@@ -22,9 +23,12 @@ export function ProfileDetailsFeature() {
   }, [profiles])
 
   return (
-    <UiErrorLoader error={error} loading={fetching}>
-      {data?.item ? (
-        <Container size="lg" mt={48}>
+    <UiErrorLoader loading={fetching}>
+      <Container size="lg" mt={36}>
+        <Group position="center">
+          <SearchBox />
+        </Group>
+        {data?.item ? (
           <Stack align="center" my={32} spacing={32}>
             <Group position="center">
               <PubKeyProfileBadge
@@ -44,14 +48,16 @@ export function ProfileDetailsFeature() {
               )
             ) : (
               <Alert icon={<IconAlertCircle size="1rem" />} variant="outline">
-                This user does not have any profiles.
+                This user does not have any public profiles.
               </Alert>
             )}
           </Stack>
-        </Container>
-      ) : (
-        <UiError error="User not found..." />
-      )}
+        ) : (
+          <Stack align="center" my={32} spacing={32}>
+            <UiError error="User not found..." />
+          </Stack>
+        )}
+      </Container>
     </UiErrorLoader>
   )
 }

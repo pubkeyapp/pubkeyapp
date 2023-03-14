@@ -1,5 +1,5 @@
-import { createStyles, Card, Image, Text, Group, RingProgress, rem, SimpleGrid } from '@mantine/core'
-import { getAvatarUrl, UiDebug } from '@pubkeyapp/web/ui/core'
+import { Card, createStyles, Group, Image, rem, SimpleGrid, Text } from '@mantine/core'
+import { getAvatarUrl } from '@pubkeyapp/web/ui/core'
 import { Account } from '@pubkeyapp/web/util/sdk'
 
 const useStyles = createStyles((theme) => ({

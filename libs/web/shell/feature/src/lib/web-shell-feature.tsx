@@ -14,7 +14,6 @@ import { HomepageContentFeature, HomepageFeature } from './homepage/homepage-fea
 import { LoginFeature } from './login/login-feature'
 import { PidRoutes } from './pid/pid.routes'
 import { SearchFeature } from './search/search-feature'
-import { SettingsFeature } from './settings/settings-feature'
 import { VerifiedFeature } from './verified/verified-feature'
 
 const AppsFeature = lazy(() => import('@pubkeyapp/web/apps/feature'))
@@ -72,7 +71,6 @@ export function WebShellFeature() {
               </Route>
               <Route path="/early" element={<EarlyFeature />} />
               <Route path="/pid" element={<PidRoutes />} />
-              <Route path="/settings/*" element={<SettingsFeature />} />
               <Route path="/u/*" element={<ProfileFeature />} />
             </Route>
             <Route path="*" element={<UiNotFound />} />

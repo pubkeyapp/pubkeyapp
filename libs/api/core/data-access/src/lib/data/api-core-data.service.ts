@@ -17,7 +17,7 @@ export class ApiCoreDataService extends PrismaClient implements OnModuleDestroy,
 
   async onModuleInit() {
     await this.$connect()
-    await this.provisionUses()
+    await this.provisionUsers()
   }
 
   findUserByUsername(username: string) {
@@ -72,7 +72,12 @@ export class ApiCoreDataService extends PrismaClient implements OnModuleDestroy,
     return this.user.findMany()
   }
 
-  private async provisionUses() {
+  private async provisionUsers() {
+    const count = await this.user.count()
+    if (count > 0) {
+      this.logger.verbose(`Found ${count} users. Skipping provisioning.`)
+      return
+    }
     const admins = this.config.provisionAdminPublicKeys()
     const users = this.config.provisionUserPublicKeys()
 
