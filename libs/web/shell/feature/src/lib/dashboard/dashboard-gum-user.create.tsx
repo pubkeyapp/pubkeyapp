@@ -56,7 +56,7 @@ export function DashboardGumUserCreate() {
   }
 
   const hasBalance = useMemo(() => {
-    return typeof balance !== undefined && Number(balance) > 0
+    return typeof balance !== undefined && Number(balance) > 1 * LAMPORTS_PER_SOL
   }, [balance])
 
   return (

@@ -1,4 +1,5 @@
 import { Accordion, Box, Group, Stack } from '@mantine/core'
+import { useAuth } from '@pubkeyapp/web/auth/data-access'
 import { useUserProfiles } from '@pubkeyapp/web/profile/data-access'
 import { ProfileCreateButton, ProfileTypeBadge } from '@pubkeyapp/web/profile/ui'
 import { PubKeyProfileBadge, UiLoader, useAccordionStyles } from '@pubkeyapp/web/ui/core'
@@ -8,6 +9,7 @@ import { UserManageProfileDetails } from './user-manage-profile.details'
 
 export function UserManageProfiles({ verifyUser }: { verifyUser: () => void }) {
   const { classes } = useAccordionStyles()
+  const { user } = useAuth()
   const { items, loading } = useUserProfiles()
 
   const types = [ProfileType.Personal, ProfileType.Professional, ProfileType.Gaming, ProfileType.Degen]
@@ -21,7 +23,7 @@ export function UserManageProfiles({ verifyUser }: { verifyUser: () => void }) {
           <Accordion
             mx="auto"
             variant="filled"
-            defaultValue={items.length ? undefined : types[0]}
+            defaultValue={user?.profile?.type ? user?.profile?.type : types[0]}
             classNames={classes}
             className={classes.root}
           >

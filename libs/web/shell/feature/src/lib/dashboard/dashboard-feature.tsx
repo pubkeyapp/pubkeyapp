@@ -1,7 +1,6 @@
 import { Box, Button, Container, Group, Paper, Stack } from '@mantine/core'
 import { useAuth } from '@pubkeyapp/web/auth/data-access'
 import { UserProfilesProvider } from '@pubkeyapp/web/profile/data-access'
-import { ProfileIdentityCard } from '@pubkeyapp/web/profile/ui'
 import { SearchBox } from '@pubkeyapp/web/search/ui'
 import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/core'
 import {
@@ -9,31 +8,31 @@ import {
   useUserUpdateProfileMutation,
   useUserVerifyUserMutation,
 } from '@pubkeyapp/web/util/sdk'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { UserIdentitiesProvider } from '../settings/user-identities.provider'
 import { UserManageIdentities } from '../settings/user-manage.identities'
 import { DashboardGumUserCreate } from './dashboard-gum-user.create'
-import { UserEditProfileModal } from './user-edit-profile.modal'
 import { UserManageProfiles } from './user-manage.profiles'
-import { UserSelectAvatarModal } from './user-select-avatar-modal'
 import { UserUsernameModal } from './user-username.modal'
 
 export function DashboardFeature() {
-  const { user } = useAuth()
+  const { user, refresh } = useAuth()
   const [, verifyUserMutation] = useUserVerifyUserMutation()
   const [, updateProfileMutation] = useUserUpdateProfileMutation()
 
-  const verifyUser = async (): Promise<boolean> => {
+  const verifyUser = async (alert = true): Promise<boolean> => {
     return verifyUserMutation({})
       .then((res) => {
         if (res.error) {
-          showNotificationError(res.error.message)
-
+          if (alert) {
+            showNotificationError(res.error.message)
+          }
           return false
         }
         if (!res.error && res.data?.item) {
-          showNotificationSuccess('Success')
+          showNotificationSuccess('User verified!')
+          refresh()
           return true
         }
         return false
@@ -66,24 +65,23 @@ export function DashboardFeature() {
         <Container size="sm">
           <Stack spacing={64}>
             <Group position="center">{user ? <UserUsernameModal user={user} /> : null}</Group>
-            {user?.gumUser ? (
-              user?.profile ? (
-                <ProfileIdentityCard
-                  radius="xl"
-                  profile={user.profile}
-                  avatar={
-                    <UserSelectAvatarModal
-                      size={128}
-                      radius={128}
-                      profile={user.profile!}
-                      identities={user.profile?.identities ?? []}
-                      updateAvatar={(avatarUrl) => updateProfile({ avatarUrl: avatarUrl })}
-                    />
-                  }
-                  actions={<UserEditProfileModal profile={user.profile} />}
-                />
-              ) : null
-            ) : (
+            {user?.gumUser ? null : (
+              // user?.profile ? (
+              //   <ProfileIdentityCard
+              //     radius="xl"
+              //     profile={user.profile}
+              //     avatar={
+              //       <UserSelectAvatarModal
+              //         size={128}
+              //         radius={128}
+              //         profile={user.profile!}
+              //         identities={user.profile?.identities ?? []}
+              //         updateAvatar={(avatarUrl) => updateProfile({ avatarUrl: avatarUrl })}
+              //       />
+              //     }
+              //     actions={<UserEditProfileModal profile={user.profile} />}
+              //   />
+              // ) : null
               <Paper>
                 <DashboardGumUserCreate />
                 <Button onClick={() => verifyUser()}>Verify</Button>

@@ -7,10 +7,12 @@ import { TokenInfo } from '@pubkeyapp/api/solana/util'
 import { ClusterType, Solana } from '@pubkeyapp/solana'
 import { Connection, LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js'
 import axios from 'axios'
+import { Helius } from 'helius-sdk'
 
 @Injectable()
 export class ApiSolanaService {
   private readonly logger = new Logger(ApiSolanaService.name)
+  private readonly helius = new Helius(this.core.config.heliusApiKey)
   tokens = new Map<ClusterType, TokenInfo[]>()
 
   private readonly connections = new Map<ClusterType, Solana>()
@@ -137,9 +139,10 @@ export class ApiSolanaService {
     if (lamports > 2 * LAMPORTS_PER_SOL) {
       throw new Error(`Airdrop amount too high`)
     }
+    this.logger.verbose(`Requesting Airdrop: ${address} ${lamports} lamports`)
     try {
-      const res = await this.getSolana(ClusterType.Devnet).connection.requestAirdrop(new PublicKey(address), lamports)
-      console.log(res)
+      const res = await this.helius.rpc.airdrop(new PublicKey(address), lamports, 'finalized')
+      this.logger.verbose(`Airdrop: ${address} ${lamports} tx => ${res}`)
       return true
     } catch (e) {
       this.logger.error(`Airdrop Failed: ${address} ${lamports}`, e)
