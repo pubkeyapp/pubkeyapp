@@ -10,249 +10,89 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": [
-      "es2017",
-      "dom"
-    ],
+    "lib": ["es2017", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@pubkeyapp/api-app-module": [
-        "apps/api/src/app/app.module.ts"
-      ],
-      "@pubkeyapp/api/account/data-access": [
-        "libs/api/account/data-access/src/index.ts"
-      ],
-      "@pubkeyapp/api/account/feature": [
-        "libs/api/account/feature/src/index.ts"
-      ],
-      "@pubkeyapp/api/auth/data-access": [
-        "libs/api/auth/data-access/src/index.ts"
-      ],
-      "@pubkeyapp/api/auth/feature": [
-        "libs/api/auth/feature/src/index.ts"
-      ],
-      "@pubkeyapp/api/auth/util": [
-        "libs/api/auth/util/src/index.ts"
-      ],
-      "@pubkeyapp/api/config/data-access": [
-        "libs/api/config/data-access/src/index.ts"
-      ],
-      "@pubkeyapp/api/config/feature": [
-        "libs/api/config/feature/src/index.ts"
-      ],
-      "@pubkeyapp/api/core/data-access": [
-        "libs/api/core/data-access/src/index.ts"
-      ],
-      "@pubkeyapp/api/core/feature": [
-        "libs/api/core/feature/src/index.ts"
-      ],
-      "@pubkeyapp/api/discord/data-access": [
-        "libs/api/discord/data-access/src/index.ts"
-      ],
-      "@pubkeyapp/api/discord/feature": [
-        "libs/api/discord/feature/src/index.ts"
-      ],
-      "@pubkeyapp/api/discord/util": [
-        "libs/api/discord/util/src/index.ts"
-      ],
-      "@pubkeyapp/api/domain/data-access": [
-        "libs/api/domain/data-access/src/index.ts"
-      ],
-      "@pubkeyapp/api/domain/feature": [
-        "libs/api/domain/feature/src/index.ts"
-      ],
-      "@pubkeyapp/api/gum/data-access": [
-        "libs/api/gum/data-access/src/index.ts"
-      ],
-      "@pubkeyapp/api/helius/data-access": [
-        "libs/api/helius/data-access/src/index.ts"
-      ],
-      "@pubkeyapp/api/helius/feature": [
-        "libs/api/helius/feature/src/index.ts"
-      ],
-      "@pubkeyapp/api/identity/data-access": [
-        "libs/api/identity/data-access/src/index.ts"
-      ],
-      "@pubkeyapp/api/identity/feature": [
-        "libs/api/identity/feature/src/index.ts"
-      ],
-      "@pubkeyapp/api/invite/data-access": [
-        "libs/api/invite/data-access/src/index.ts"
-      ],
-      "@pubkeyapp/api/invite/feature": [
-        "libs/api/invite/feature/src/index.ts"
-      ],
-      "@pubkeyapp/api/page/data-access": [
-        "libs/api/page/data-access/src/index.ts"
-      ],
-      "@pubkeyapp/api/page/feature": [
-        "libs/api/page/feature/src/index.ts"
-      ],
-      "@pubkeyapp/api/plan/data-access": [
-        "libs/api/plan/data-access/src/index.ts"
-      ],
-      "@pubkeyapp/api/plan/feature": [
-        "libs/api/plan/feature/src/index.ts"
-      ],
-      "@pubkeyapp/api/profile/data-access": [
-        "libs/api/profile/data-access/src/index.ts"
-      ],
-      "@pubkeyapp/api/profile/feature": [
-        "libs/api/profile/feature/src/index.ts"
-      ],
-      "@pubkeyapp/api/queue/data-access": [
-        "libs/api/queue/data-access/src/index.ts"
-      ],
-      "@pubkeyapp/api/queue/feature": [
-        "libs/api/queue/feature/src/index.ts"
-      ],
-      "@pubkeyapp/api/search/data-access": [
-        "libs/api/search/data-access/src/index.ts"
-      ],
-      "@pubkeyapp/api/search/feature": [
-        "libs/api/search/feature/src/index.ts"
-      ],
-      "@pubkeyapp/api/solana/data-access": [
-        "libs/api/solana/data-access/src/index.ts"
-      ],
-      "@pubkeyapp/api/solana/feature": [
-        "libs/api/solana/feature/src/index.ts"
-      ],
-      "@pubkeyapp/api/solana/util": [
-        "libs/api/solana/util/src/index.ts"
-      ],
-      "@pubkeyapp/api/user/data-access": [
-        "libs/api/user/data-access/src/index.ts"
-      ],
-      "@pubkeyapp/api/user/feature": [
-        "libs/api/user/feature/src/index.ts"
-      ],
-      "@pubkeyapp/logo": [
-        "packages/logo/src/index.ts"
-      ],
-      "@pubkeyapp/sdk": [
-        "packages/sdk/src/index.ts"
-      ],
-      "@pubkeyapp/solana": [
-        "packages/solana/src/index.ts"
-      ],
-      "@pubkeyapp/wallet-adapter-mantine-ui": [
-        "packages/wallet-adapter-mantine-ui/src/index.ts"
-      ],
-      "@pubkeyapp/web/admin/data-access": [
-        "libs/web/admin/data-access/src/index.ts"
-      ],
-      "@pubkeyapp/web/admin/feature": [
-        "libs/web/admin/feature/src/index.ts"
-      ],
-      "@pubkeyapp/web/admin/ui": [
-        "libs/web/admin/ui/src/index.ts"
-      ],
-      "@pubkeyapp/web/apps/data-access": [
-        "libs/web/apps/data-access/src/index.ts"
-      ],
-      "@pubkeyapp/web/apps/feature": [
-        "libs/web/apps/feature/src/index.ts"
-      ],
-      "@pubkeyapp/web/apps/ui": [
-        "libs/web/apps/ui/src/index.ts"
-      ],
-      "@pubkeyapp/web/auth/data-access": [
-        "libs/web/auth/data-access/src/index.ts"
-      ],
-      "@pubkeyapp/web/dev/data-access": [
-        "libs/web/dev/data-access/src/index.ts"
-      ],
-      "@pubkeyapp/web/dev/feature": [
-        "libs/web/dev/feature/src/index.ts"
-      ],
-      "@pubkeyapp/web/dev/ui": [
-        "libs/web/dev/ui/src/index.ts"
-      ],
-      "@pubkeyapp/web/gum/data-access": [
-        "libs/web/gum/data-access/src/index.ts"
-      ],
-      "@pubkeyapp/web/gum/feature": [
-        "libs/web/gum/feature/src/index.ts"
-      ],
-      "@pubkeyapp/web/gum/ui": [
-        "libs/web/gum/ui/src/index.ts"
-      ],
-      "@pubkeyapp/web/identity/ui": [
-        "libs/web/identity/ui/src/index.ts"
-      ],
-      "@pubkeyapp/web/invite/data-access": [
-        "libs/web/invite/data-access/src/index.ts"
-      ],
-      "@pubkeyapp/web/invite/ui": [
-        "libs/web/invite/ui/src/index.ts"
-      ],
-      "@pubkeyapp/web/page-editor/feature": [
-        "libs/web/page-editor/feature/src/index.ts"
-      ],
-      "@pubkeyapp/web/page-editor/ui": [
-        "libs/web/page-editor/ui/src/index.ts"
-      ],
-      "@pubkeyapp/web/page/feature": [
-        "libs/web/page/feature/src/index.ts"
-      ],
-      "@pubkeyapp/web/page/ui": [
-        "libs/web/page/ui/src/index.ts"
-      ],
-      "@pubkeyapp/web/plan/data-access": [
-        "libs/web/plan/data-access/src/index.ts"
-      ],
-      "@pubkeyapp/web/plan/feature": [
-        "libs/web/plan/feature/src/index.ts"
-      ],
-      "@pubkeyapp/web/plan/ui": [
-        "libs/web/plan/ui/src/index.ts"
-      ],
-      "@pubkeyapp/web/profile/data-access": [
-        "libs/web/profile/data-access/src/index.ts"
-      ],
-      "@pubkeyapp/web/profile/feature": [
-        "libs/web/profile/feature/src/index.ts"
-      ],
-      "@pubkeyapp/web/profile/ui": [
-        "libs/web/profile/ui/src/index.ts"
-      ],
-      "@pubkeyapp/web/search/ui": [
-        "libs/web/search/ui/src/index.ts"
-      ],
-      "@pubkeyapp/web/shell/data-access": [
-        "libs/web/shell/data-access/src/index.ts"
-      ],
-      "@pubkeyapp/web/shell/feature": [
-        "libs/web/shell/feature/src/index.ts"
-      ],
-      "@pubkeyapp/web/ui/core": [
-        "libs/web/ui/core/src/index.ts"
-      ],
-      "@pubkeyapp/web/ui/form": [
-        "libs/web/ui/form/src/index.ts"
-      ],
-      "@pubkeyapp/web/ui/layout": [
-        "libs/web/ui/layout/src/index.ts"
-      ],
-      "@pubkeyapp/web/ui/page": [
-        "libs/web/ui/page/src/index.ts"
-      ],
-      "@pubkeyapp/web/ui/theme": [
-        "libs/web/ui/theme/src/index.ts"
-      ],
-      "@pubkeyapp/web/user/ui": [
-        "libs/web/user/ui/src/index.ts"
-      ],
-      "@pubkeyapp/web/util/sdk": [
-        "libs/web/util/sdk/src/index.ts"
-      ]
+      "@pubkeyapp/api-app-module": ["apps/api/src/app/app.module.ts"],
+      "@pubkeyapp/api/account/data-access": ["libs/api/account/data-access/src/index.ts"],
+      "@pubkeyapp/api/account/feature": ["libs/api/account/feature/src/index.ts"],
+      "@pubkeyapp/api/auth/data-access": ["libs/api/auth/data-access/src/index.ts"],
+      "@pubkeyapp/api/auth/feature": ["libs/api/auth/feature/src/index.ts"],
+      "@pubkeyapp/api/auth/util": ["libs/api/auth/util/src/index.ts"],
+      "@pubkeyapp/api/config/data-access": ["libs/api/config/data-access/src/index.ts"],
+      "@pubkeyapp/api/config/feature": ["libs/api/config/feature/src/index.ts"],
+      "@pubkeyapp/api/core/data-access": ["libs/api/core/data-access/src/index.ts"],
+      "@pubkeyapp/api/core/feature": ["libs/api/core/feature/src/index.ts"],
+      "@pubkeyapp/api/discord/data-access": ["libs/api/discord/data-access/src/index.ts"],
+      "@pubkeyapp/api/discord/feature": ["libs/api/discord/feature/src/index.ts"],
+      "@pubkeyapp/api/discord/util": ["libs/api/discord/util/src/index.ts"],
+      "@pubkeyapp/api/domain/data-access": ["libs/api/domain/data-access/src/index.ts"],
+      "@pubkeyapp/api/domain/feature": ["libs/api/domain/feature/src/index.ts"],
+      "@pubkeyapp/api/gum/data-access": ["libs/api/gum/data-access/src/index.ts"],
+      "@pubkeyapp/api/helius/data-access": ["libs/api/helius/data-access/src/index.ts"],
+      "@pubkeyapp/api/helius/feature": ["libs/api/helius/feature/src/index.ts"],
+      "@pubkeyapp/api/identity/data-access": ["libs/api/identity/data-access/src/index.ts"],
+      "@pubkeyapp/api/identity/feature": ["libs/api/identity/feature/src/index.ts"],
+      "@pubkeyapp/api/invite/data-access": ["libs/api/invite/data-access/src/index.ts"],
+      "@pubkeyapp/api/invite/feature": ["libs/api/invite/feature/src/index.ts"],
+      "@pubkeyapp/api/page/data-access": ["libs/api/page/data-access/src/index.ts"],
+      "@pubkeyapp/api/page/feature": ["libs/api/page/feature/src/index.ts"],
+      "@pubkeyapp/api/plan/data-access": ["libs/api/plan/data-access/src/index.ts"],
+      "@pubkeyapp/api/plan/feature": ["libs/api/plan/feature/src/index.ts"],
+      "@pubkeyapp/api/profile/data-access": ["libs/api/profile/data-access/src/index.ts"],
+      "@pubkeyapp/api/profile/feature": ["libs/api/profile/feature/src/index.ts"],
+      "@pubkeyapp/api/queue/data-access": ["libs/api/queue/data-access/src/index.ts"],
+      "@pubkeyapp/api/queue/feature": ["libs/api/queue/feature/src/index.ts"],
+      "@pubkeyapp/api/search/data-access": ["libs/api/search/data-access/src/index.ts"],
+      "@pubkeyapp/api/search/feature": ["libs/api/search/feature/src/index.ts"],
+      "@pubkeyapp/api/solana/data-access": ["libs/api/solana/data-access/src/index.ts"],
+      "@pubkeyapp/api/solana/feature": ["libs/api/solana/feature/src/index.ts"],
+      "@pubkeyapp/api/solana/util": ["libs/api/solana/util/src/index.ts"],
+      "@pubkeyapp/api/user/data-access": ["libs/api/user/data-access/src/index.ts"],
+      "@pubkeyapp/api/user/feature": ["libs/api/user/feature/src/index.ts"],
+      "@pubkeyapp/logo": ["packages/logo/src/index.ts"],
+      "@pubkeyapp/sdk": ["packages/sdk/src/index.ts"],
+      "@pubkeyapp/solana": ["packages/solana/src/index.ts"],
+      "@pubkeyapp/wallet-adapter-mantine-ui": ["packages/wallet-adapter-mantine-ui/src/index.ts"],
+      "@pubkeyapp/web/admin/data-access": ["libs/web/admin/data-access/src/index.ts"],
+      "@pubkeyapp/web/admin/feature": ["libs/web/admin/feature/src/index.ts"],
+      "@pubkeyapp/web/admin/ui": ["libs/web/admin/ui/src/index.ts"],
+      "@pubkeyapp/web/apps/data-access": ["libs/web/apps/data-access/src/index.ts"],
+      "@pubkeyapp/web/apps/feature": ["libs/web/apps/feature/src/index.ts"],
+      "@pubkeyapp/web/apps/ui": ["libs/web/apps/ui/src/index.ts"],
+      "@pubkeyapp/web/auth/data-access": ["libs/web/auth/data-access/src/index.ts"],
+      "@pubkeyapp/web/dev/data-access": ["libs/web/dev/data-access/src/index.ts"],
+      "@pubkeyapp/web/dev/feature": ["libs/web/dev/feature/src/index.ts"],
+      "@pubkeyapp/web/dev/ui": ["libs/web/dev/ui/src/index.ts"],
+      "@pubkeyapp/web/gum/data-access": ["libs/web/gum/data-access/src/index.ts"],
+      "@pubkeyapp/web/gum/feature": ["libs/web/gum/feature/src/index.ts"],
+      "@pubkeyapp/web/gum/ui": ["libs/web/gum/ui/src/index.ts"],
+      "@pubkeyapp/web/identity/ui": ["libs/web/identity/ui/src/index.ts"],
+      "@pubkeyapp/web/invite/data-access": ["libs/web/invite/data-access/src/index.ts"],
+      "@pubkeyapp/web/invite/ui": ["libs/web/invite/ui/src/index.ts"],
+      "@pubkeyapp/web/page-editor/feature": ["libs/web/page-editor/feature/src/index.ts"],
+      "@pubkeyapp/web/page-editor/ui": ["libs/web/page-editor/ui/src/index.ts"],
+      "@pubkeyapp/web/page/feature": ["libs/web/page/feature/src/index.ts"],
+      "@pubkeyapp/web/page/ui": ["libs/web/page/ui/src/index.ts"],
+      "@pubkeyapp/web/plan/data-access": ["libs/web/plan/data-access/src/index.ts"],
+      "@pubkeyapp/web/plan/feature": ["libs/web/plan/feature/src/index.ts"],
+      "@pubkeyapp/web/plan/ui": ["libs/web/plan/ui/src/index.ts"],
+      "@pubkeyapp/web/profile/data-access": ["libs/web/profile/data-access/src/index.ts"],
+      "@pubkeyapp/web/profile/feature": ["libs/web/profile/feature/src/index.ts"],
+      "@pubkeyapp/web/profile/ui": ["libs/web/profile/ui/src/index.ts"],
+      "@pubkeyapp/web/search/ui": ["libs/web/search/ui/src/index.ts"],
+      "@pubkeyapp/web/shell/data-access": ["libs/web/shell/data-access/src/index.ts"],
+      "@pubkeyapp/web/shell/feature": ["libs/web/shell/feature/src/index.ts"],
+      "@pubkeyapp/web/ui/core": ["libs/web/ui/core/src/index.ts"],
+      "@pubkeyapp/web/ui/form": ["libs/web/ui/form/src/index.ts"],
+      "@pubkeyapp/web/ui/layout": ["libs/web/ui/layout/src/index.ts"],
+      "@pubkeyapp/web/ui/page": ["libs/web/ui/page/src/index.ts"],
+      "@pubkeyapp/web/ui/theme": ["libs/web/ui/theme/src/index.ts"],
+      "@pubkeyapp/web/user/ui": ["libs/web/user/ui/src/index.ts"],
+      "@pubkeyapp/web/util/sdk": ["libs/web/util/sdk/src/index.ts"]
     }
   },
-  "exclude": [
-    "node_modules",
-    "tmp"
-  ]
+  "exclude": ["node_modules", "tmp"]
 }

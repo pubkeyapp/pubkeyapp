@@ -1,7 +1,6 @@
 import { Accordion, Button, Group, Text } from '@mantine/core'
 import { useAccordionStyles } from '@pubkeyapp/web/ui/core'
 import { Page } from '@pubkeyapp/web/util/sdk'
-import React from 'react'
 
 export function WebPageEditorPublishTab({ page }: { page: Page }) {
   const { classes } = useAccordionStyles()

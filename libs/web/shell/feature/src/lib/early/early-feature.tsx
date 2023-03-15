@@ -16,7 +16,6 @@ import {
   IconSquareRoundedNumber2,
   IconSquareRoundedNumber3,
 } from '@tabler/icons-react'
-import React from 'react'
 import { EarlyAcceptInviteForm, EarlyAcceptInviteFormInput } from './early-accept-invite-form'
 import { EarlyInviteItem } from './early-invite.item'
 

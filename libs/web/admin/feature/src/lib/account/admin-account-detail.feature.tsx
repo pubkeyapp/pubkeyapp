@@ -3,7 +3,6 @@ import { AdminUiUserLink } from '@pubkeyapp/web/admin/ui'
 import { UiBackButton, UiDebug, UiErrorLoader, UiTabRoutes } from '@pubkeyapp/web/ui/core'
 import { UiPage } from '@pubkeyapp/web/ui/page'
 import { useAdminGetAccountQuery } from '@pubkeyapp/web/util/sdk'
-import React from 'react'
 import { Link, useParams } from 'react-router-dom'
 
 export function AdminAccountDetailFeature() {

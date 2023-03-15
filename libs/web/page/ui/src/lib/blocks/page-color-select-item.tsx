@@ -1,5 +1,4 @@
 import { CheckIcon, ColorSwatch, Menu, Text, useMantineTheme } from '@mantine/core'
-import React from 'react'
 
 export function PageColorSelectItem({
   color,

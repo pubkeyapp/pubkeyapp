@@ -4,7 +4,6 @@ import { modals } from '@mantine/modals'
 import { PubKeyProfileBadge, showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/core'
 import { formFieldText, UiForm, UiFormField } from '@pubkeyapp/web/ui/form'
 import { User, UserUpdateUserInput, useUserUpdateUserMutation } from '@pubkeyapp/web/util/sdk'
-import React from 'react'
 
 export function UserUsernameModal({ user }: { user: User }) {
   const [opened, { open, close }] = useDisclosure(false)

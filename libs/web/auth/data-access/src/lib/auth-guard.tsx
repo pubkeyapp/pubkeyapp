@@ -1,5 +1,4 @@
 import { UiErrorFull, UiFullPage, UiLoader } from '@pubkeyapp/web/ui/core'
-import React from 'react'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { useAuth } from './auth-provider'
 

@@ -1,4 +1,3 @@
-import React from 'react'
 import { DEFAULT_THEME, MantineThemeOverride } from '@mantine/core'
 
 export const DefaultUiTheme: MantineThemeOverride = {

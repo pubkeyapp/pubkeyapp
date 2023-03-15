@@ -23,7 +23,6 @@ import {
   useUserUpdatePageMutation,
 } from '@pubkeyapp/web/util/sdk'
 import { IconExternalLink, IconSettings } from '@tabler/icons-react'
-import React from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { PageEditor } from './page.editor'
 import { WebPageEditorPublishTab } from './web-page-editor-publish-tab'

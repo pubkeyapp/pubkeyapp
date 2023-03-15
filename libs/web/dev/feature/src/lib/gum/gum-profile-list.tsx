@@ -1,6 +1,5 @@
 import { Accordion, createStyles, Group, Text } from '@mantine/core'
 import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/core'
-import React from 'react'
 
 import { GumProfileCard } from './gum-profile-card'
 import { GumProfileCreateButton } from './gum-profile-create-button'

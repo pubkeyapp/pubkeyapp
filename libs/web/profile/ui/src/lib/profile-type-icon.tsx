@@ -9,7 +9,6 @@ import {
   IconQuestionMark,
   IconUser,
 } from '@tabler/icons-react'
-import React from 'react'
 
 export function getProfileTypeColor(type: ProfileType | string): string {
   switch (type) {

@@ -1,7 +1,6 @@
 import { Button } from '@mantine/core'
 import { PageBlock } from '@pubkeyapp/web/util/sdk'
 import { IconExternalLink } from '@tabler/icons-react'
-import React from 'react'
 import { PageBlockIcon, PageBlockIconType } from './page-block-icon'
 
 export function PageBlockRenderLink({ block, color }: { block: PageBlock; color?: string }) {

@@ -1,6 +1,5 @@
 import { Button } from '@mantine/core'
 import { PublicKey } from '@solana/web3.js'
-import React from 'react'
 import { GumProfile, GumUser } from './gum-interfaces'
 import { useGumApp } from './use-gum-app'
 

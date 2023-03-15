@@ -1,7 +1,6 @@
 import { PageBlockEditor } from '@pubkeyapp/web/page/ui'
 import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/core'
 import { AdminAddPageBlockInput, Page, useAdminAddPageBlockMutation } from '@pubkeyapp/web/util/sdk'
-import React from 'react'
 
 export function AdminUiBlockAddForm({ page }: { page: Page }) {
   const [, addPageBlockMutation] = useAdminAddPageBlockMutation()

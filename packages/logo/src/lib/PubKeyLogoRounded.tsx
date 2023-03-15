@@ -1,4 +1,3 @@
-import React from 'react'
 import { LogoProps, usePubKeyLogoColors } from './use-pubkey-logo-colors'
 
 export function PubKeyLogoRounded({ size, color, variant, inverted, ...others }: LogoProps) {

@@ -4,7 +4,6 @@ import { useUserProfiles } from '@pubkeyapp/web/profile/data-access'
 import { ProfileCreateButton, ProfileTypeBadge } from '@pubkeyapp/web/profile/ui'
 import { PubKeyProfileBadge, UiLoader, useAccordionStyles } from '@pubkeyapp/web/ui/core'
 import { ProfileType } from '@pubkeyapp/web/util/sdk'
-import React from 'react'
 import { UserManageProfileDetails } from './user-manage-profile.details'
 
 export function UserManageProfiles({ verifyUser }: { verifyUser: () => void }) {

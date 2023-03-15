@@ -1,5 +1,3 @@
-import React from 'react'
-
 export function GatewayHtml({ children, styles }: { children: string; styles: React.ReactElement }) {
   return (
     <html lang="en">

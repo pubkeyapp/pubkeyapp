@@ -5,7 +5,6 @@ import { UiDashboard, UiDashboardItem, UiTabRoutes } from '@pubkeyapp/web/ui/cor
 import { UiPageHeader } from '@pubkeyapp/web/ui/page'
 import { useAdminIndexGumAccountsMutation, useUserVerifyUserMutation } from '@pubkeyapp/web/util/sdk'
 import { IconBug, IconCandy, IconCurrencySolana, IconWallet } from '@tabler/icons-react'
-import React from 'react'
 import { DevSolanaPay } from './dev-solana-pay'
 import { DevWalletFeature } from './dev-wallet.feature'
 import { GumFeature } from './gum/gum.feature'

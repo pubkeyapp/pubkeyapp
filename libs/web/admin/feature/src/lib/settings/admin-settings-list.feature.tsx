@@ -4,7 +4,6 @@ import { showNotificationError, showNotificationSuccess, UiDebug, UiErrorLoader 
 import { UiPage } from '@pubkeyapp/web/ui/page'
 import { useAdminGetSettingsQuery, useAdminSetSettingMutation } from '@pubkeyapp/web/util/sdk'
 import { IconSettings } from '@tabler/icons-react'
-import React from 'react'
 
 export function AdminSettingsListFeature() {
   const [{ data, error, fetching }] = useAdminGetSettingsQuery()

@@ -1,5 +1,4 @@
 import { Button, CheckIcon, SimpleGrid, Stack, Text, useMantineTheme } from '@mantine/core'
-import React from 'react'
 
 export function PageColorSelect({
   colors,

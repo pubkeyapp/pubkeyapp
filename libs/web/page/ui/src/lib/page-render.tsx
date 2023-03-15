@@ -1,4 +1,3 @@
-import React from 'react'
 import { Anchor, Badge, Box, Center, Container, Flex, Group, Stack, Tooltip } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
 import { PubKeyLogo } from '@pubkeyapp/logo'

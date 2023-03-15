@@ -2,7 +2,6 @@ import { Box, Button } from '@mantine/core'
 import { IdentityProviderAvatar } from '@pubkeyapp/web/identity/ui'
 import { UiDebug } from '@pubkeyapp/web/ui/core'
 import { IdentityProvider, PageBlock, PageBlockType } from '@pubkeyapp/web/util/sdk'
-import React from 'react'
 import { PageBlockRenderHeader } from './page-block-render.header'
 import { PageBlockRenderLink } from './page-block-render.link'
 

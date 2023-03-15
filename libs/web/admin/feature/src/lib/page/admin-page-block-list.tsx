@@ -10,7 +10,6 @@ import {
   useAdminUpdatePageBlockMutation,
 } from '@pubkeyapp/web/util/sdk'
 import { IconCopy, IconListNumbers, IconTrash } from '@tabler/icons-react'
-import React from 'react'
 
 export function AdminPageBlockList({ page }: { page: Page }) {
   const [, addPageBlockMutation] = useAdminAddPageBlockMutation()

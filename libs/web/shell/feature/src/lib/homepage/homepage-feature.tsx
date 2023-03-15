@@ -1,6 +1,5 @@
 import { Button, Container, Group, Paper, Stack } from '@mantine/core'
 import { IconCookie, IconGauge, IconLock, IconMessage2, IconUser } from '@tabler/icons-react'
-import React from 'react'
 import { Link } from 'react-router-dom'
 import { HomepageSectionBuiltWith } from './homepage-section-built-with'
 import { HomepageSectionFaq } from './homepage-section-faq'

@@ -1,6 +1,5 @@
 import { Card, createStyles, rem, SimpleGrid, Text, UnstyledButton } from '@mantine/core'
 import { App } from '@pubkeyapp/web/apps/data-access'
-import React from 'react'
 import { Link } from 'react-router-dom'
 
 const useStyles = createStyles((theme) => ({

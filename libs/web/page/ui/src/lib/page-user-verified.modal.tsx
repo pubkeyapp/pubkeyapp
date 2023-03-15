@@ -3,7 +3,6 @@ import { useDisclosure } from '@mantine/hooks'
 import { PubKeyProfileBadge } from '@pubkeyapp/web/ui/core'
 import { Account, User } from '@pubkeyapp/web/util/sdk'
 import { IconDiscountCheckFilled } from '@tabler/icons-react'
-import React from 'react'
 import { Link } from 'react-router-dom'
 
 export function PageUserVerifiedModal({ user }: { user?: User }) {

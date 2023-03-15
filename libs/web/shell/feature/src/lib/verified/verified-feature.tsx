@@ -1,13 +1,7 @@
 import { Button, Container, Group, Paper, Stack } from '@mantine/core'
-import { IconCookie, IconGauge, IconLock, IconMessage2, IconUser } from '@tabler/icons-react'
-import React from 'react'
 import { Link } from 'react-router-dom'
-import { DialectLogo } from './logos/dialect-logo'
 import { GumLogo } from './logos/gum-logo'
-import { HeliusLogo } from './logos/helius-logo'
 import { VerifiedSectionBuiltWith } from './verified-section-built-with'
-import { VerifiedSectionFaq } from './verified-section-faq'
-import { VerifiedSectionGrid } from './verified-section-grid'
 
 export function VerifiedFeature() {
   return (

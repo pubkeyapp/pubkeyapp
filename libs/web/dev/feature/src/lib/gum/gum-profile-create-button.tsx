@@ -1,5 +1,4 @@
 import { Button } from '@mantine/core'
-import React from 'react'
 
 import { Namespace } from './gum-interfaces'
 import { GumProfileTypeIcon } from './use-gum-app'

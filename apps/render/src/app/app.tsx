@@ -2,7 +2,6 @@ import { Center, Text } from '@mantine/core'
 import { Page } from '@pubkeyapp/sdk'
 import { PageWrapper } from '@pubkeyapp/web/page/ui'
 import { UiThemeProvider } from '@pubkeyapp/web/ui/theme'
-import React from 'react'
 
 // add the pubkey global variable
 declare global {

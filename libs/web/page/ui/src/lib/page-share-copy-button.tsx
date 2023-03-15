@@ -1,7 +1,6 @@
 import { Button, CopyButton, Input } from '@mantine/core'
 import { PubKeyLogo } from '@pubkeyapp/logo'
 import { Page } from '@pubkeyapp/web/util/sdk'
-import React from 'react'
 
 export function PageShareCopyButton({ page }: { page: Page }) {
   return (

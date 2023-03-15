@@ -1,6 +1,5 @@
 import { Box, Group, Stack } from '@mantine/core'
 import { LinkAccount, UiDebugModal } from '@pubkeyapp/web/ui/core'
-import React from 'react'
 import { GumProfileList } from './gum-profile-list'
 import { GumUserDeleteButton } from './gum-user-delete-button'
 import { GumUser } from './gum-interfaces'

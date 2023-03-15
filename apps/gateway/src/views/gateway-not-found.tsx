@@ -13,7 +13,6 @@ import {
   Title,
 } from '@mantine/core'
 import { PubKeyLogo } from '@pubkeyapp/logo'
-import React from 'react'
 
 export const useStyles = createStyles((theme) => ({
   root: {

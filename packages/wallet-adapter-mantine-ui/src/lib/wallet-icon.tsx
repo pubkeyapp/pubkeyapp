@@ -1,6 +1,5 @@
 import { Image, ImageProps } from '@mantine/core'
 import type { Wallet } from '@solana/wallet-adapter-react'
-import React from 'react'
 
 export interface WalletIconProps extends ImageProps {
   wallet: Wallet | null

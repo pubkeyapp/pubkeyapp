@@ -1,6 +1,5 @@
 import { Anchor, Avatar, Group, Text, useMantineTheme } from '@mantine/core'
 import { Profile, User } from '@pubkeyapp/web/util/sdk'
-import React from 'react'
 import { Link } from 'react-router-dom'
 
 export function AdminUiUserLink({ user }: { user: User }) {

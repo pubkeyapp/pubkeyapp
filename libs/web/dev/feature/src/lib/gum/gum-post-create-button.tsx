@@ -1,6 +1,5 @@
 import { Button } from '@mantine/core'
 import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/core'
-import React from 'react'
 
 import { GumProfile, GumUser } from './gum-interfaces'
 import { useGumApp } from './use-gum-app'

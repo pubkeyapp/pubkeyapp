@@ -1,4 +1,3 @@
-import React from 'react'
 import { Flex, Loader } from '@mantine/core'
 import { MantineNumberSize, MantineTheme } from '@mantine/styles'
 

@@ -1,7 +1,6 @@
 import { useCreateUser } from '@gumhq/react-sdk'
 import { Button } from '@mantine/core'
 import { UiError } from '@pubkeyapp/web/ui/core'
-import React from 'react'
 
 import { useGumApp } from './use-gum-app'
 

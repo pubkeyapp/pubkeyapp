@@ -18,7 +18,6 @@ import { IdentityBadge } from '@pubkeyapp/web/identity/ui'
 import { ProfileTypeBadge } from '@pubkeyapp/web/profile/ui'
 import { getAvatarUrl } from '@pubkeyapp/web/ui/core'
 import { Identity, Profile, ProfileType, User } from '@pubkeyapp/web/util/sdk'
-import React from 'react'
 
 export interface UserSelectAvatarModalProps extends AvatarProps {
   avatarUrl?: string

@@ -3,7 +3,6 @@ import { PubKeyLogoRounded } from '@pubkeyapp/logo'
 import { PageUserVerifiedModal } from '@pubkeyapp/web/page/ui'
 import { User } from '@pubkeyapp/web/util/sdk'
 import { IconDiscountCheck } from '@tabler/icons-react'
-import React from 'react'
 
 export interface PubKeyProfileBadgeProps extends BadgeProps {
   label?: string

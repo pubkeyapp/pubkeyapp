@@ -1,6 +1,5 @@
 import { Avatar, Box, Center, Flex, Group, Stack, Text, Tooltip } from '@mantine/core'
 import { Profile } from '@pubkeyapp/web/util/sdk'
-import React from 'react'
 import { Link } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
 import { PageUserVerifiedModal } from './page-user-verified.modal'

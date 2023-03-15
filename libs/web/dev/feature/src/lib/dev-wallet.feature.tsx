@@ -1,6 +1,5 @@
 import { Box, Button, Group, Stack } from '@mantine/core'
 
-import React from 'react'
 import {
   useWalletModal,
   WalletModalProvider,

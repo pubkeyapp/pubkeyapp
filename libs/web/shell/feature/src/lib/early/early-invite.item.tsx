@@ -1,7 +1,6 @@
 import { Box, Code, Stack, Text } from '@mantine/core'
 import { UiCopyButton } from '@pubkeyapp/web/ui/core'
 import { Invite } from '@pubkeyapp/web/util/sdk'
-import React from 'react'
 import TimeAgo from 'timeago-react'
 
 export function EarlyInviteItem({ invite }: { invite: Invite }) {

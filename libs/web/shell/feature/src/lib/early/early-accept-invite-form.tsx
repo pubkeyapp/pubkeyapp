@@ -1,6 +1,5 @@
 import { Button, Group } from '@mantine/core'
 import { formFieldText, UiForm } from '@pubkeyapp/web/ui/form'
-import React from 'react'
 
 export interface EarlyAcceptInviteFormInput {
   code: string

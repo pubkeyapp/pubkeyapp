@@ -9,7 +9,6 @@ import {
   IconCurrencySolana,
   IconQuestionCircle,
 } from '@tabler/icons-react'
-import React from 'react'
 export function ellipsify(str = '', len = 4) {
   if (str.length > 30) {
     return str.substring(0, len) + '..' + str.substring(str.length - len, str.length)

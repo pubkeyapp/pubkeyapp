@@ -2,7 +2,6 @@ import { Stack } from '@mantine/core'
 import { showNotificationError, showNotificationSuccess, UiButton, UiDebug } from '@pubkeyapp/web/ui/core'
 import { Identity, useUserSyncIdentityMutation } from '@pubkeyapp/web/util/sdk'
 import { IconRefresh } from '@tabler/icons-react'
-import React from 'react'
 
 export function UserIdentitySettingsSync({ identity }: { identity: Identity }) {
   const [{ fetching: loading, error, data }, syncIdentityMutation] = useUserSyncIdentityMutation()

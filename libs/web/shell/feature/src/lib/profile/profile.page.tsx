@@ -2,7 +2,6 @@ import { Box, Group, Stack } from '@mantine/core'
 import { PageWrapper } from '@pubkeyapp/web/page/ui'
 import { UiError, UiLoader } from '@pubkeyapp/web/ui/core'
 import { useUserGetProfilePageQuery } from '@pubkeyapp/web/util/sdk'
-import React from 'react'
 
 export function ProfilePage({ profileId }: { profileId: string }) {
   const [{ data, fetching, error }] = useUserGetProfilePageQuery({ variables: { profileId } })

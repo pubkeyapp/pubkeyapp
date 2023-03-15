@@ -1,6 +1,5 @@
 import { Anchor, Group, Text } from '@mantine/core'
 import { IconExternalLink } from '@tabler/icons-react'
-import React from 'react'
 
 export function AdminUiExternalLink({ label, link }: { label?: string; link: string }) {
   return (

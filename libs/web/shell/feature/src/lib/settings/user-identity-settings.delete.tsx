@@ -2,7 +2,6 @@ import { Stack } from '@mantine/core'
 import { showNotificationError, showNotificationSuccess, UiButton } from '@pubkeyapp/web/ui/core'
 import { Identity, useUserDeleteIdentityMutation } from '@pubkeyapp/web/util/sdk'
 import { IconRefresh } from '@tabler/icons-react'
-import React from 'react'
 
 export function UserIdentitySettingsDelete({ identity }: { identity: Identity }) {
   const [{ fetching, error, data }, syncIdentityMutation] = useUserDeleteIdentityMutation()

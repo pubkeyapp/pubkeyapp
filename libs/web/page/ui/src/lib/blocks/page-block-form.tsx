@@ -1,6 +1,5 @@
 import { Stack } from '@mantine/core'
 import { PageBlockType } from '@pubkeyapp/web/util/sdk'
-import React from 'react'
 import { PageBlockFormHeader, PageBlockHeaderInput } from './page-block-form-header'
 import { PageBlockFormLink, PageBlockLinkInput } from './page-block-form-link'
 

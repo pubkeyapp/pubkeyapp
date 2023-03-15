@@ -1,6 +1,5 @@
 import { Button, Group } from '@mantine/core'
 import { formFieldTextarea, UiForm } from '@pubkeyapp/web/ui/form'
-import React from 'react'
 
 export interface PageBlockHeaderInput {
   text: string

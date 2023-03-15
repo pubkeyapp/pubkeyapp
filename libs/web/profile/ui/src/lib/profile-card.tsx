@@ -1,7 +1,6 @@
 import { ActionIcon, Avatar, Box, Center, Flex, Group, Stack, Text, Tooltip } from '@mantine/core'
 import { Profile, ProfileType } from '@pubkeyapp/web/util/sdk'
 import { IconDiscountCheck, IconDiscountCheckFilled } from '@tabler/icons-react'
-import React from 'react'
 import ReactMarkdown from 'react-markdown'
 import { Link } from 'react-router-dom'
 import { ProfileTypeBadge } from './profile-type-icon'

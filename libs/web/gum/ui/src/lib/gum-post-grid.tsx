@@ -1,7 +1,6 @@
 import { AspectRatio, Card, Container, createStyles, Group, Image, SimpleGrid, Text } from '@mantine/core'
 import { UiActionIcon } from '@pubkeyapp/web/ui/core'
 import { IconTrash } from '@tabler/icons-react'
-import React from 'react'
 
 const useStyles = createStyles((theme) => ({
   card: {
