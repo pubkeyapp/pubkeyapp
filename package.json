@@ -1,6 +1,6 @@
 {
   "name": "pubkeyapp",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "license": "MIT",
   "scripts": {
     "build": "yarn build:web && yarn prisma generate && yarn build:api",
