@@ -2,7 +2,7 @@ import { Avatar, Box, Center, Flex, Group, Stack, Text, Tooltip } from '@mantine
 import { Profile } from '@pubkeyapp/web/util/sdk'
 import React from 'react'
 import { Link } from 'react-router-dom'
-const ReactMarkdown: any = import('react-markdown').then(({ default: ReactMarkdown }) => ReactMarkdown)
+import ReactMarkdown from 'react-markdown'
 import { PageUserVerifiedModal } from './page-user-verified.modal'
 
 export function PageUserProfile({ profile }: { profile: Profile }) {

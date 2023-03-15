@@ -2,7 +2,7 @@ import { Stack } from '@mantine/core'
 import { PageBlock } from '@pubkeyapp/web/util/sdk'
 import React from 'react'
 
-const ReactMarkdown: any = import('react-markdown').then(({ default: ReactMarkdown }) => ReactMarkdown)
+import ReactMarkdown from 'react-markdown'
 
 export function PageBlockRenderHeader({ block }: { block: PageBlock }) {
   const data = block.data as { text: string }
