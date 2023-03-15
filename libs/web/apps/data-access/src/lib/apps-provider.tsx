@@ -17,7 +17,7 @@ export interface App {
 }
 
 export const apps: App[] = [
-  { id: AppType.PubKeyPages, name: 'PubKey Page', logo: <PubKeyLogoRounded size={64} /> },
+  { id: AppType.PubKeyPages, name: 'PubKey Pages', logo: <PubKeyLogoRounded size={64} /> },
   { id: AppType.GumProfile, name: 'Gum Profile', logo: <GumLogo width={64} height={64} /> },
   { id: AppType.DialectInbox, name: 'Dialect Inbox', logo: <GumLogo width={64} height={64} />, soon: true },
 ]

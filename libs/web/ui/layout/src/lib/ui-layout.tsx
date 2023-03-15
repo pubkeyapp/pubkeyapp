@@ -4,6 +4,7 @@ import { UiLoader } from '@pubkeyapp/web/ui/core'
 import { IconBrandDiscord, IconBrandGithub, IconBrandTwitter } from '@tabler/icons-react'
 import { Suspense } from 'react'
 import { Outlet } from 'react-router-dom'
+import { UiAppFooter } from './ui-app-footer'
 import { UiFooter } from './ui-footer'
 import { UiHeader, UiLinkGroup, UiLinks } from './ui-header'
 import { UiHomepageHeader } from './ui-homepage-header'
@@ -84,7 +85,11 @@ export function UiLayout({ homepage = false }: { homepage?: boolean }) {
           </Suspense>
         </Box>
       </Stack>
-      <UiFooter copyright={copyright} description={description} links={footerLinks} logo={logo} />
+      {homepage ? (
+        <UiFooter copyright={copyright} description={description} links={footerLinks} logo={logo} />
+      ) : (
+        <UiAppFooter copyright={copyright} logo={logo} />
+      )}
     </Flex>
   )
 }

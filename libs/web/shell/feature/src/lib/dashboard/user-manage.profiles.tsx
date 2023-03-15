@@ -23,7 +23,7 @@ export function UserManageProfiles({ verifyUser }: { verifyUser: () => void }) {
           <Accordion
             mx="auto"
             variant="filled"
-            defaultValue={user?.profile?.type ? user?.profile?.type : types[0]}
+            defaultValue={user?.profile?.type ? null : types[0]}
             classNames={classes}
             className={classes.root}
           >

@@ -3,6 +3,7 @@ import { useUiTheme } from '@pubkeyapp/web/ui/theme'
 import { IconBrandDiscord, IconBrandGithub, IconBrandTwitter, IconMoonStars, IconSun } from '@tabler/icons-react'
 import { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
+import { UiAppFooter } from './ui-app-footer'
 import { UiLinks } from './ui-header'
 
 const useStyles = createStyles((theme) => ({
