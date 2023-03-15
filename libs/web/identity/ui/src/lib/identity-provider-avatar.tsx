@@ -1,5 +1,4 @@
 import { Avatar, Badge, Box, ThemeIcon, Tooltip } from '@mantine/core'
-import { ellipsify } from '@pubkeyapp/web/admin/ui'
 import { SolanaLogo } from '@pubkeyapp/web/ui/core'
 import { Identity, IdentityProvider } from '@pubkeyapp/web/util/sdk'
 import {
@@ -11,6 +10,12 @@ import {
   IconQuestionCircle,
 } from '@tabler/icons-react'
 import React from 'react'
+export function ellipsify(str = '', len = 4) {
+  if (str.length > 30) {
+    return str.substring(0, len) + '..' + str.substring(str.length - len, str.length)
+  }
+  return str
+}
 
 export function IdentityProviderAvatar({ provider, size = 48 }: { provider: IdentityProvider; size?: number }) {
   switch (provider) {

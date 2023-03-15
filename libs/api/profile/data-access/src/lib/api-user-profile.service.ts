@@ -236,11 +236,6 @@ export class ApiUserProfileService {
     }
   }
 
-  userVerifyGumProfile() {
-    // - Does the user have a Gum Profile of this type?
-    // - Does the user have a Gum Meta of this type?
-  }
-
   async userVerifyUser(userId: string) {
     const owner = await this.user.userVerifyUser(userId)
     const gumUserAccount = await this.core.gum.getUser(owner.publicKey)

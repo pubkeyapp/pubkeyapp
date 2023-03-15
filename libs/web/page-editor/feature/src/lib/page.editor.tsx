@@ -1,11 +1,5 @@
-import { ActionIcon, Box, Card, Group, Stack, Tooltip } from '@mantine/core'
-import {
-  PageBlockAddModal,
-  PageBlockEditIconModal,
-  PageBlockEditModal,
-  PageBlockRender,
-  PageColorSelect,
-} from '@pubkeyapp/web/page/ui'
+import { ActionIcon, Box, Button, Card, Group, Stack, Text, Tooltip } from '@mantine/core'
+import { PageBlockEditIconModal, PageBlockEditModal, PageBlockRender } from '@pubkeyapp/web/page/ui'
 import { UiDebugModal, UiLoader } from '@pubkeyapp/web/ui/core'
 import {
   AdminUpdatePageInput,
@@ -36,6 +30,16 @@ export function PageEditor({
   updatePageBlock: (pageBlockId: string, input: UserAddPageBlockInput) => Promise<boolean>
   removePageDomain: (pageDomain: PageDomain) => void
 }) {
+  const [editing, setEditing] = useState<PageBlock | undefined>(undefined)
+  const updatePageBlockOrder = async (block: PageBlock) => {
+    const newOrder = prompt('Update the block order', block.order?.toString())
+
+    if (newOrder === null || newOrder === block.order?.toString()) {
+      return false
+    }
+    return updatePageBlock(block.id!, { order: parseInt(newOrder) })
+  }
+
   if (!page) {
     return <UiLoader />
   }
@@ -50,44 +54,69 @@ export function PageEditor({
         />
         <Stack spacing={'md'}>
           {page?.blocks?.map((block) => (
-            <Card key={block.id} radius="xl" withBorder={false}>
-              <Stack>
-                <PageBlockRender block={block} color={page.color!} />
-                <Group spacing={0} position="right" noWrap>
-                  <PageBlockEditModal block={block} submit={(data) => updatePageBlock(block.id!, data)} />
-                  <PageBlockEditIconModal block={block} submit={(data) => updatePageBlock(block.id!, data)} />
-                  <Tooltip label={`Change block order (${block.order})`}>
-                    <ActionIcon
-                      color="brand"
-                      onClick={() => {
-                        const newOrder = prompt('Update the block order', block.order?.toString())
-
-                        if (newOrder === null || newOrder === block.order?.toString()) {
-                          return false
-                        }
-                        return updatePageBlock(block.id!, { order: parseInt(newOrder) })
-                      }}
-                    >
-                      <IconListNumbers size={16} />
-                    </ActionIcon>
+            <Box key={block.id}>
+              {editing?.id === block?.id ? (
+                <Card key={block.id} radius="xl" withBorder={false}>
+                  <Stack>
+                    <PageBlockRender block={block} color={page.color!} />
+                    <PageEditorBlockActions
+                      block={block}
+                      duplicatePageBlock={duplicatePageBlock}
+                      updatePageBlock={updatePageBlock}
+                      updatePageBlockOrder={updatePageBlockOrder}
+                      removePageBlock={removePageBlock}
+                    />
+                  </Stack>
+                </Card>
+              ) : (
+                <Stack>
+                  <Tooltip label={`Edit ${block.type} block`}>
+                    <Button variant="subtle" onClick={() => setEditing(block)}>
+                      <Text>{`${block.type}`}</Text>
+                    </Button>
                   </Tooltip>
-                  <Tooltip label="Duplicate block">
-                    <ActionIcon color="brand" onClick={() => duplicatePageBlock(block)}>
-                      <IconCopy size={16} />
-                    </ActionIcon>
-                  </Tooltip>
-                  <UiDebugModal data={block} title="PageBlock" />
-                  <Tooltip label="Delete block">
-                    <ActionIcon color="red" onClick={() => removePageBlock(block)}>
-                      <IconTrash size={16} />
-                    </ActionIcon>
-                  </Tooltip>
-                </Group>
-              </Stack>
-            </Card>
+                </Stack>
+              )}
+            </Box>
           ))}
         </Stack>
       </Stack>
     </Box>
+  )
+}
+export function PageEditorBlockActions({
+  block,
+  duplicatePageBlock,
+  updatePageBlock,
+  updatePageBlockOrder,
+  removePageBlock,
+}: {
+  block: PageBlock
+  duplicatePageBlock: (block: PageBlock) => Promise<void>
+  updatePageBlockOrder: (block: PageBlock) => Promise<boolean>
+  updatePageBlock: (pageBlockId: string, input: UserAddPageBlockInput) => Promise<boolean>
+  removePageBlock: (block: PageBlock) => Promise<boolean>
+}) {
+  return (
+    <Group spacing={0} position="right" noWrap>
+      <PageBlockEditModal block={block} submit={(data) => updatePageBlock(block.id!, data)} />
+      <PageBlockEditIconModal block={block} submit={(data) => updatePageBlock(block.id!, data)} />
+      <Tooltip label={`Change block order (${block.order})`}>
+        <ActionIcon color="brand" onClick={() => updatePageBlockOrder(block)}>
+          <IconListNumbers size={16} />
+        </ActionIcon>
+      </Tooltip>
+      <Tooltip label="Duplicate block">
+        <ActionIcon color="brand" onClick={() => duplicatePageBlock(block)}>
+          <IconCopy size={16} />
+        </ActionIcon>
+      </Tooltip>
+      <UiDebugModal data={block} title="PageBlock" />
+      <Tooltip label="Delete block">
+        <ActionIcon color="red" onClick={() => removePageBlock(block)}>
+          <IconTrash size={16} />
+        </ActionIcon>
+      </Tooltip>
+    </Group>
   )
 }

@@ -1,3 +1,4 @@
+import React from 'react'
 import { Anchor, Badge, Box, Center, Container, Flex, Group, Stack, Tooltip } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
 import { PubKeyLogo } from '@pubkeyapp/logo'
@@ -15,7 +16,6 @@ export function PageUiRender({
   page: Page
   width?: number
 }) {
-  const owner = page?.owner as User
   const mobileScreen = useMediaQuery('(max-width: 600px)')
   return (
     <Container size="sm" miw={width ? width : mobileScreen ? 400 : 600} sx={{}} px={10} m={0}>

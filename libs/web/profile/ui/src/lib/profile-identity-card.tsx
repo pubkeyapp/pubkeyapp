@@ -13,7 +13,7 @@ import {
   Tooltip,
 } from '@mantine/core'
 import { IdentityProviderAvatar } from '@pubkeyapp/web/identity/ui'
-import { PubKeyProfileBadge, UiDebugModal } from '@pubkeyapp/web/ui/core'
+import { PubKeyProfileBadge } from '@pubkeyapp/web/ui/core'
 import { IdentityProvider, Profile, ProfileType } from '@pubkeyapp/web/util/sdk'
 import React, { ReactNode } from 'react'
 import ReactMarkdown from 'react-markdown'

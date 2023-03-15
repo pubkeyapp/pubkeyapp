@@ -25,7 +25,16 @@ export function PageUserVerifiedModal({ user }: { user?: User }) {
       >
         <AccountIsVerified account={user.gumUser} />
       </Modal>
-      <ActionIcon size="xs" variant="subtle" onClick={open}>
+      <ActionIcon
+        size="xs"
+        variant="subtle"
+        onClick={(e) => {
+          // FIXME: Default is not prevented, propagation is not stopped ¯\_(ツ)_/¯
+          e.preventDefault()
+          e.stopPropagation()
+          open()
+        }}
+      >
         <Text color={'blue'} sx={{ display: 'flex' }}>
           <IconDiscountCheckFilled size={16} />
         </Text>

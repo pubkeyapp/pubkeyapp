@@ -1,3 +1,4 @@
+import React from 'react'
 import { Anchor } from '@mantine/core'
 import { IdentityProvider } from '@pubkeyapp/web/util/sdk'
 

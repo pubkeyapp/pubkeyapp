@@ -1,5 +1,6 @@
-import { Box, Button, Container, Group, Paper, Stack } from '@mantine/core'
+import { Box, Button, Container, Group, Paper, Stack, UnstyledButton } from '@mantine/core'
 import { useAuth } from '@pubkeyapp/web/auth/data-access'
+import { RequestAirdrop } from '@pubkeyapp/web/dev/ui'
 import { UserProfilesProvider } from '@pubkeyapp/web/profile/data-access'
 import { SearchBox } from '@pubkeyapp/web/search/ui'
 import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/core'
@@ -49,26 +50,13 @@ export function DashboardFeature() {
           <Stack spacing={64}>
             <Group position="center">{user ? <UserUsernameModal user={user} /> : null}</Group>
             {user?.gumUser ? null : (
-              // user?.profile ? (
-              //   <ProfileIdentityCard
-              //     radius="xl"
-              //     profile={user.profile}
-              //     avatar={
-              //       <UserSelectAvatarModal
-              //         size={128}
-              //         radius={128}
-              //         profile={user.profile!}
-              //         identities={user.profile?.identities ?? []}
-              //         updateAvatar={(avatarUrl) => updateProfile({ avatarUrl: avatarUrl })}
-              //       />
-              //     }
-              //     actions={<UserEditProfileModal profile={user.profile} />}
-              //   />
-              // ) : null
-              <Paper>
+              <Stack>
+                <RequestAirdrop />
                 <DashboardGumUserCreate />
-                <Button onClick={() => verifyUser()}>Verify</Button>
-              </Paper>
+                <UnstyledButton onClick={() => verifyUser()}>
+                  <div style={{ height: 10 }} />
+                </UnstyledButton>
+              </Stack>
             )}
             <UserProfilesProvider>
               <UserManageProfiles verifyUser={verifyUser} />

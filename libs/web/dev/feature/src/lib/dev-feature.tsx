@@ -1,5 +1,6 @@
 import { Box, Button, Container, Stack } from '@mantine/core'
 import { useAuth } from '@pubkeyapp/web/auth/data-access'
+import { RequestAirdrop } from '@pubkeyapp/web/dev/ui'
 import { UiDashboard, UiDashboardItem, UiTabRoutes } from '@pubkeyapp/web/ui/core'
 import { UiPageHeader } from '@pubkeyapp/web/ui/page'
 import { useAdminIndexGumAccountsMutation, useUserVerifyUserMutation } from '@pubkeyapp/web/util/sdk'
@@ -42,6 +43,9 @@ export function DevFeature() {
           <Box>
             <Button onClick={verify}>Verify User</Button>
             <Button onClick={() => indexGumMutation({})}>Index Gum</Button>
+          </Box>
+          <Box>
+            <RequestAirdrop required={10} />
           </Box>
         </Stack>
       </Box>

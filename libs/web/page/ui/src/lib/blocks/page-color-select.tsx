@@ -5,12 +5,10 @@ export function PageColorSelect({
   colors,
   selected,
   selectColor,
-  title = 'Select Color',
 }: {
   colors?: string[]
   selected: string
   selectColor: (color: string) => void
-  title?: string
 }) {
   const theme = useMantineTheme()
   colors = colors ?? Object.keys(theme.colors)

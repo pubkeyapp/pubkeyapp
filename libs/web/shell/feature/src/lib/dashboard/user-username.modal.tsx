@@ -1,10 +1,9 @@
-import { ActionIcon, Button, Group, Modal, Tooltip, UnstyledButton } from '@mantine/core'
+import { Button, Group, Modal, Tooltip } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { modals } from '@mantine/modals'
 import { PubKeyProfileBadge, showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/core'
 import { formFieldText, UiForm, UiFormField } from '@pubkeyapp/web/ui/form'
 import { User, UserUpdateUserInput, useUserUpdateUserMutation } from '@pubkeyapp/web/util/sdk'
-import { IconPencil } from '@tabler/icons-react'
 import React from 'react'
 
 export function UserUsernameModal({ user }: { user: User }) {
@@ -30,11 +29,7 @@ export function UserUsernameModal({ user }: { user: User }) {
       <Modal
         opened={opened}
         onClose={close}
-        title={
-          <Group>
-            <PubKeyProfileBadge label="PubKey Settings" user={user} />
-          </Group>
-        }
+        title={<Group>{<PubKeyProfileBadge label="PubKey Settings" user={user} />}</Group>}
         centered
         size="lg"
       >
@@ -42,9 +37,9 @@ export function UserUsernameModal({ user }: { user: User }) {
       </Modal>
 
       <Tooltip label="Edit your PubKey Username">
-        <UnstyledButton onClick={open}>
-          <PubKeyProfileBadge user={user} />
-        </UnstyledButton>
+        <Group>
+          <PubKeyProfileBadge user={user} onClick={open} />
+        </Group>
       </Tooltip>
     </>
   )

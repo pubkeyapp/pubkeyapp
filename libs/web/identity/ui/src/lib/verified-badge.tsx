@@ -1,3 +1,4 @@
+import React from 'react'
 import { Badge, Text } from '@mantine/core'
 import { IconCheck } from '@tabler/icons-react'
 

@@ -73,6 +73,7 @@
       "@pubkeyapp/web/invite/data-access": ["libs/web/invite/data-access/src/index.ts"],
       "@pubkeyapp/web/invite/ui": ["libs/web/invite/ui/src/index.ts"],
       "@pubkeyapp/web/page-editor/feature": ["libs/web/page-editor/feature/src/index.ts"],
+      "@pubkeyapp/web/page-editor/ui": ["libs/web/page-editor/ui/src/index.ts"],
       "@pubkeyapp/web/page/feature": ["libs/web/page/feature/src/index.ts"],
       "@pubkeyapp/web/page/ui": ["libs/web/page/ui/src/index.ts"],
       "@pubkeyapp/web/plan/data-access": ["libs/web/plan/data-access/src/index.ts"],
