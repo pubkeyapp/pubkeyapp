@@ -2,7 +2,7 @@ import { Injectable, Logger, NotFoundException, OnApplicationBootstrap } from '@
 import { EventEmitter2 } from '@nestjs/event-emitter'
 import { Identity, IdentityProvider, UserRole, UserStatus } from '@prisma/client'
 import { ApiConfigService } from '@pubkeyapp/api/config/data-access'
-import { GumSdk } from '@pubkeyapp/gum-sdk'
+import { GumSdk } from '@pubkeyapp/api/gum/data-access'
 import { convertCoreDbUser, CoreDbUser, CoreUser } from './api-core.helpers'
 import { ApiCoreCacheService } from './cache/api-core-cache.service'
 import { ApiCoreDataService } from './data/api-core-data.service'

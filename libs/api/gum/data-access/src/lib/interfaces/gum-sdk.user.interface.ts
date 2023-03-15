@@ -1,4 +1,4 @@
-import { gum_0_1_0_decoded_user } from '@pubkeyapp/gum-sdk'
+import { gum_0_1_0_decoded_user } from '../../generated'
 
 export function convertGumSdkUser(input: gum_0_1_0_decoded_user): GumSdkUser {
   return {

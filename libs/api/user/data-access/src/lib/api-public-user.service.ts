@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { ApiCoreService } from '@pubkeyapp/api/core/data-access'
+import { GumSdkProfileMetadata } from '@pubkeyapp/api/gum/data-access'
 import { IdentityProvider } from '@pubkeyapp/api/identity/data-access'
-import { GumSdkProfileMetadata } from '@pubkeyapp/gum-sdk'
 
 @Injectable()
 export class ApiPublicUserService {

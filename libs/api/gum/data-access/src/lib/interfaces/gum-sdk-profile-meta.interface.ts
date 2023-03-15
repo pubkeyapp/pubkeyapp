@@ -1,7 +1,7 @@
-import { gum_0_1_0_decoded_profile } from '@pubkeyapp/gum-sdk'
-import { GumSdkUser } from './gum-sdk.user.interface'
+import { GumSdkProfile } from './gum-sdk-profile.interface'
+import { gum_0_1_0_decoded_profilemetadata } from '../../generated'
 
-export function convertGumSdkProfile(input: gum_0_1_0_decoded_profile): GumSdkProfile {
+export function convertGumSdkProfileMetadata(input: gum_0_1_0_decoded_profilemetadata): GumSdkProfileMetadata {
   return {
     // bf: input.cl_bf,
     // decoded_updated_on: input.cl_decoded_updated_on,
@@ -14,12 +14,13 @@ export function convertGumSdkProfile(input: gum_0_1_0_decoded_profile): GumSdkPr
     // txn_signature: input.cl_txn_signature,
     updated_on: input.cl_updated_on,
     write_version: input.cl_write_version,
-    namespace: Object.keys(JSON.parse(`${input.namespace}`))[0].toString(),
-    username: input.username,
+    metadata: input.metadata,
+    metadatauri: input.metadatauri,
+    profileId: input.profile,
   }
 }
 
-export interface GumSdkProfile {
+export interface GumSdkProfileMetadata {
   bf?: boolean
   decoded_updated_on?: bigint
   executable?: boolean
@@ -31,7 +32,8 @@ export interface GumSdkProfile {
   txn_signature?: string
   updated_on?: number
   write_version?: bigint
-  namespace?: string
-  username?: string
-  user?: GumSdkUser
+  metadata?: any
+  metadatauri?: string
+  profileId?: string
+  profile?: GumSdkProfile
 }
