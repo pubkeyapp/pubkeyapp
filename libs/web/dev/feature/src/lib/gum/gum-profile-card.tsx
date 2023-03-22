@@ -1,5 +1,6 @@
 import { Anchor, Box, Group, Stack, Title } from '@mantine/core'
-import { LinkAccount, UiDebugModal } from '@pubkeyapp/web/ui/core'
+import { LinkAccount } from '@pubkeyapp/web/account/ui'
+import { UiDebugModal } from '@pubkeyapp/web/ui/core'
 import { GumProfile, GumUser } from './gum-interfaces'
 
 import { GumPostCreateButton } from './gum-post-create-button'
