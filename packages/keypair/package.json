@@ -1,0 +1,7 @@
+{
+  "name": "@pubkeyapp/keypair",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "ed25519-keygen": "^0.4.1"
+  }
+}

@@ -52,6 +52,7 @@
       "@pubkeyapp/api/solana/util": ["libs/api/solana/util/src/index.ts"],
       "@pubkeyapp/api/user/data-access": ["libs/api/user/data-access/src/index.ts"],
       "@pubkeyapp/api/user/feature": ["libs/api/user/feature/src/index.ts"],
+      "@pubkeyapp/keypair": ["packages/keypair/src/index.ts"],
       "@pubkeyapp/sdk": ["packages/sdk/src/index.ts"],
       "@pubkeyapp/solana": ["packages/solana/src/index.ts"],
       "@pubkeyapp/web/account/feature": ["libs/web/account/feature/src/index.ts"],

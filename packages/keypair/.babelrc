@@ -1,0 +1,10 @@
+{
+  "presets": [
+    ["@nrwl/js/babel", { "useBuiltIns": "usage" }],
+    ["@babel/preset-env", {
+      "targets": {
+        "esmodules": false
+      },
+      "modules": "false", "debug": true }]
+  ]
+}
