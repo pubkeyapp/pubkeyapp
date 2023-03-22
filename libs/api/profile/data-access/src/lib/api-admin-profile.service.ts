@@ -1,4 +1,4 @@
-import { Injectable, Logger, OnModuleInit } from '@nestjs/common'
+import { Injectable, Logger } from '@nestjs/common'
 import { ApiCoreService } from '@pubkeyapp/api/core/data-access'
 import { AdminGetProfilesInput } from './dto/admin-get-profiles.input'
 import { AdminUpdateProfileInput } from './dto/admin-update-profile.input'

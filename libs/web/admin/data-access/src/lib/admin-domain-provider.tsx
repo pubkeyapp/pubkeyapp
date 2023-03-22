@@ -1,4 +1,4 @@
-import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/core'
+import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/notifications'
 import {
   AdminCreateDomainInput,
   AdminGetDomainsInput,

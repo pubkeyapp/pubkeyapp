@@ -1,9 +1,7 @@
 import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common'
-import { AccountType, NetworkType, ProfileType, User } from '@prisma/client'
+import { User } from '@prisma/client'
 import { ApiAnonAccountService } from '@pubkeyapp/api/account/data-access'
-import { ApiCoreService, getProfileUsername, slugify } from '@pubkeyapp/api/core/data-access'
-import { ApiUserProfileService } from '@pubkeyapp/api/profile/data-access'
-import { PublicKey } from '@solana/web3.js'
+import { ApiCoreService, getProfileUsername } from '@pubkeyapp/api/core/data-access'
 import { UserUpdateUserInput } from './dto/user-update-user.input'
 import { UserRelation } from './entity/user.relation'
 

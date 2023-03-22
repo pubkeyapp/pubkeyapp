@@ -1,4 +1,4 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql'
+import { Field, ObjectType } from '@nestjs/graphql'
 import { ApiProperty } from '@nestjs/swagger'
 import { Domain } from '@pubkeyapp/api/domain/data-access'
 import { GraphQLDateTime } from 'graphql-scalars'

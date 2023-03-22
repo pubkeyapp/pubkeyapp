@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common'
-import { ApiDiscordService } from '@pubkeyapp/api/discord/data-access'
 import { formatUserEmbed, unknownUser } from '@pubkeyapp/api/discord/util'
 import { User } from 'discord.js'
 import { Ctx, Options, SlashCommand, SlashCommandContext, UserOption } from 'necord'
+import { ApiDiscordService } from '../api-discord.service'
 
 export class Whois {
   @UserOption({

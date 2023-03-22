@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common'
-
-import { ApiDiscordService } from '@pubkeyapp/api/discord/data-access'
 import { ApiSolanaService } from '@pubkeyapp/api/solana/data-access'
 import { ClusterType } from '@pubkeyapp/solana'
 import { Ctx, Options, SlashCommand, SlashCommandContext, StringOption } from 'necord'
+
+import { ApiDiscordService } from '../api-discord.service'
 
 export class SolanaTx {
   @StringOption({

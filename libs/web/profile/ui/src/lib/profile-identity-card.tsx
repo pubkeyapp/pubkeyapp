@@ -13,7 +13,7 @@ import {
   Tooltip,
 } from '@mantine/core'
 import { IdentityProviderAvatar } from '@pubkeyapp/web/identity/ui'
-import { PubKeyProfileBadge } from '@pubkeyapp/web/ui/core'
+import { UserProfileBadge } from '@pubkeyapp/web/user/ui'
 import { IdentityProvider, Profile, ProfileType } from '@pubkeyapp/web/util/sdk'
 import React, { ReactNode } from 'react'
 import ReactMarkdown from 'react-markdown'
@@ -40,7 +40,7 @@ export function ProfileIdentityCard({ actions, avatar, profile, ...props }: Prof
     <Card className={classes.wrapper} {...props}>
       <Group position="apart">
         {profile.owner ? (
-          <PubKeyProfileBadge
+          <UserProfileBadge
             user={profile.owner}
             tooltip={`PubKey Profile: ${profile.owner?.username}#${profile.owner?.pid}`}
           />

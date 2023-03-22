@@ -41,7 +41,7 @@ export function PageEditorAddLinkCard({
           </Group>
         </Accordion.Control>
         <Accordion.Panel>
-          <PageColorSelect selected={page?.color!} selectColor={(color) => updatePage(page, { color })} />
+          <PageColorSelect selected={page.color!} selectColor={(color) => updatePage(page, { color })} />
         </Accordion.Panel>
       </Accordion.Item>
       <Accordion.Item value="domain">

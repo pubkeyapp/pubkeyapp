@@ -1,7 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql'
 import { ApiProperty } from '@nestjs/swagger'
-import { Identity } from '@pubkeyapp/api/identity/data-access'
-import { User } from '@pubkeyapp/api/user/data-access'
 import { GraphQLDateTime, GraphQLJSON } from 'graphql-scalars'
 import { AccountType } from './account-type.enum'
 import { NetworkType } from './network-type.enum'
@@ -20,14 +18,6 @@ export class Account {
 
   @Field(() => GraphQLDateTime, { nullable: true })
   discoveredAt?: Date
-
-  @ApiProperty({ type: () => User, nullable: true })
-  @Field(() => User, { nullable: true })
-  discoveredBy?: User
-
-  @ApiProperty({ type: () => Identity, nullable: true })
-  @Field(() => Identity, { nullable: true })
-  identity?: Identity
 
   @ApiProperty({ type: () => Account, nullable: true })
   @Field(() => Account, { nullable: true })
@@ -59,9 +49,9 @@ export class Account {
   @Field(() => AccountType, { nullable: true })
   type: AccountType
 
-  @ApiProperty({ type: () => User, nullable: true })
-  @Field(() => User, { nullable: true })
-  gumUser?: User
+  discoveredBy?: unknown
+  identity?: unknown
+  gumUser?: unknown
   gumProfile?: unknown
   gumProfileMeta?: unknown
 }

@@ -1,9 +1,9 @@
-import { ResponseChallengeOptions } from '@pubkeyapp/api/auth/data-access'
 import { Injectable, Logger } from '@nestjs/common'
 import { PassportStrategy } from '@nestjs/passport'
 import { Strategy } from 'passport-custom'
 
 import { ApiAuthService } from '../api-auth.service'
+import { ResponseChallengeOptions } from '../dto/auth-challenge-response.dto'
 
 @Injectable()
 export class SolanaStrategy extends PassportStrategy(Strategy, 'solana') {
@@ -12,7 +12,7 @@ export class SolanaStrategy extends PassportStrategy(Strategy, 'solana') {
     super()
   }
 
-  async validate(req): Promise<any> {
+  async validate(req): Promise<unknown> {
     const { challenge, publicKey, signature }: ResponseChallengeOptions = req.body
     this.logger.debug(`validate: ${challenge} ${publicKey} ${signature}`)
 

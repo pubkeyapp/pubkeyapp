@@ -1,5 +1,5 @@
 import { SDK } from '@gumhq/sdk'
-
+import { Wallet } from '@project-serum/anchor/dist/cjs/provider'
 import { Connection, PublicKey } from '@solana/web3.js'
 import { fetch } from 'cross-fetch'
 import { createClient } from '../generated'
@@ -20,7 +20,7 @@ export class GumSdk {
   constructor(private readonly config: GumSdkConfig) {
     const graphqlClient = new GraphQLClient(process.env.GUM_ENDPOINT as string)
     const connection = new Connection(process.env.SOLANA_DEVNET_ENDPOINT as string, 'confirmed')
-    this.sdk = new SDK({} as any, connection, { commitment: 'confirmed' }, 'devnet', graphqlClient)
+    this.sdk = new SDK({} as unknown as Wallet, connection, { commitment: 'confirmed' }, 'devnet', graphqlClient)
     this.client = createClient({ url: config.endpoint, fetch: fetch })
   }
 

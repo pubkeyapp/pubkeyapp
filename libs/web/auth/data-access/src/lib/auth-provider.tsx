@@ -29,13 +29,13 @@ export interface AuthProviderContext {
 
 const AuthProviderContext = createContext<AuthProviderContext>({} as AuthProviderContext)
 function AuthProvider({ children }: { children: ReactNode }) {
-  const { connect, connected, connecting, disconnect, publicKey, signMessage } = useWallet()
+  const { connected, connecting, disconnect, publicKey, signMessage } = useWallet()
   const { setVisible } = useWalletModal()
   const location = useLocation()
   const navigate = useNavigate()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | undefined>()
-  const [{ data, error: meError, fetching }, refresh] = useGetMeQuery()
+  const [{ data, fetching }] = useGetMeQuery()
   const client = useClient()
   const [user, setUser] = useState<User | undefined>(undefined)
 

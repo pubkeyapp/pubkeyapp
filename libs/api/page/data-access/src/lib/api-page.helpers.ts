@@ -9,11 +9,12 @@ export function parseUrl(url: string): { hostname: string; path: string } {
     url = 'https://' + url
   }
   try {
-    let { hostname, pathname, port } = new URL(url)
-    if (port) {
-      hostname += ':' + port
+    const parsed = new URL(url)
+
+    if (parsed.port) {
+      parsed.hostname += ':' + parsed.port
     }
-    return { hostname, path: pathname.replace('/', '') }
+    return { hostname: parsed.hostname, path: parsed.pathname.replace('/', '') }
   } catch (e) {
     return null
   }

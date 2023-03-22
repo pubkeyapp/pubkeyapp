@@ -1,5 +1,6 @@
 import { Parent, ResolveField, Resolver } from '@nestjs/graphql'
 import { IdentityProvider } from '@prisma/client'
+import { Account } from '@pubkeyapp/api/account/data-access'
 import { ellipsify } from '@pubkeyapp/api/core/data-access'
 import { ApiUserIdentityService, Identity } from '@pubkeyapp/api/identity/data-access'
 import { User } from '@pubkeyapp/api/user/data-access'
@@ -45,5 +46,10 @@ export class ApiIdentityFieldResolver {
         return `https://solscan.io/address/${identity.providerId}`
     }
     return null
+  }
+
+  @ResolveField(() => [Account], { nullable: true })
+  accounts(@Parent() identity: Identity) {
+    return identity.accounts
   }
 }

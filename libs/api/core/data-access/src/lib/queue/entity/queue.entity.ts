@@ -1,8 +1,7 @@
 import { Field, ObjectType } from '@nestjs/graphql'
-import { QueueType } from '@pubkeyapp/api/core/data-access'
 import { GraphQLJSON } from 'graphql-scalars'
 import { QueueCount } from './queue-count.entity'
-
+import { QueueType } from './queue-type.enum'
 
 @ObjectType()
 export class Queue {

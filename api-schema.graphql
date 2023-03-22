@@ -2,6 +2,55 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Cluster {
+  id: String!
+  name: String!
+  type: ClusterType!
+  endpoint: String!
+  explorerUrl: String!
+}
+
+enum ClusterType {
+  Custom
+  Devnet
+  Mainnet
+  Testnet
+}
+
+type ConfigApi {
+  name: String!
+  version: String!
+  url: String!
+}
+
+type ConfigApp {
+  description: String!
+  name: String!
+  url: String!
+}
+
+type Config {
+  api: ConfigApi!
+  app: ConfigApp!
+  cluster: Cluster!
+  clusters: [Cluster!]!
+}
+
+type Setting {
+  id: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  default: String
+  description: String
+  key: String
+  value: String
+}
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar DateTime
+
 type QueueCount {
   active: Int
   completed: Int
@@ -44,40 +93,11 @@ type Job {
   failedReason: String
 }
 
-type Identity {
-  id: String
-  createdAt: DateTime
-  updatedAt: DateTime
-  provider: IdentityProvider
-  providerId: String!
-  profile: JSON
-  accounts: [Account!]
-  verified: Boolean!
-  owner: User
-  name: String
-  link: String
-}
-
-"""
-A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
-"""
-scalar DateTime
-
-enum IdentityProvider {
-  Discord
-  Github
-  Google
-  Solana
-  Twitter
-}
-
 type Account {
   id: String
   createdAt: DateTime
   updatedAt: DateTime
   discoveredAt: DateTime
-  discoveredBy: User
-  identity: Identity
   owner: Account
   tokens: [Account!]
   name: String
@@ -86,10 +106,12 @@ type Account {
   address: String
   network: NetworkType
   type: AccountType
-  gumUser: User
   explorerUrl: String
   gumProfile: Profile
   gumProfileMeta: Profile
+  gumUser: User
+  discoveredBy: User
+  identity: Identity
 }
 
 enum NetworkType {
@@ -110,6 +132,82 @@ enum AccountType {
   Program
   Token
   System
+}
+
+type AuthChallengeRequest {
+  challenge: String!
+  expiresAt: String!
+  message: String!
+}
+
+type Identity {
+  id: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  provider: IdentityProvider
+  providerId: String!
+  profile: JSON
+  verified: Boolean!
+  owner: User
+  name: String
+  link: String
+  accounts: [Account!]
+}
+
+enum IdentityProvider {
+  Discord
+  Github
+  Google
+  Solana
+  Twitter
+}
+
+type User {
+  id: String
+  pid: Int
+  createdAt: DateTime
+  updatedAt: DateTime
+  username: String
+  profileUrl: String
+  publicKey: String
+  role: UserRole
+  status: UserStatus
+  identities: [Identity!]
+  followers: [Follow!]
+  followersCount: Int
+  following: [Follow!]
+  followingCount: Int
+  gumUser: Account
+  relation: UserRelation
+  profile: Profile
+  profiles: [Profile!]
+}
+
+enum UserRole {
+  Admin
+  User
+}
+
+enum UserStatus {
+  Active
+  Created
+  Inactive
+}
+
+type Follow {
+  id: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  followerId: String
+  follower: User
+  ownerId: String
+  owner: User
+}
+
+type UserRelation {
+  isYou: Boolean!
+  isFollowingYou: Boolean!
+  isFollowedByYou: Boolean!
 }
 
 type Domain {
@@ -202,12 +300,12 @@ type Profile {
   following: Int
   type: ProfileType
   status: ProfileStatus
+  identities: [Identity!]
   owner: User
+  profileUrl: String
   page: Page
   gumProfile: Account
   gumProfileMeta: Account
-  identities: [Identity!]
-  profileUrl: String
 }
 
 enum ProfileType {
@@ -221,104 +319,6 @@ enum ProfileStatus {
   Demo
   Draft
   Published
-}
-
-type User {
-  id: String
-  pid: Int
-  createdAt: DateTime
-  updatedAt: DateTime
-  username: String
-  profileUrl: String
-  publicKey: String
-  role: UserRole
-  status: UserStatus
-  identities: [Identity!]
-  followers: [Follow!]
-  followersCount: Int
-  following: [Follow!]
-  followingCount: Int
-  gumUser: Account
-  profile: Profile
-  profiles: [Profile!]
-  relation: UserRelation
-}
-
-enum UserRole {
-  Admin
-  User
-}
-
-enum UserStatus {
-  Active
-  Created
-  Inactive
-}
-
-type Follow {
-  id: String
-  createdAt: DateTime
-  updatedAt: DateTime
-  followerId: String
-  follower: User
-  ownerId: String
-  owner: User
-}
-
-type UserRelation {
-  isYou: Boolean!
-  isFollowingYou: Boolean!
-  isFollowedByYou: Boolean!
-}
-
-type Cluster {
-  id: String!
-  name: String!
-  type: ClusterType!
-  endpoint: String!
-  explorerUrl: String!
-}
-
-enum ClusterType {
-  Custom
-  Devnet
-  Mainnet
-  Testnet
-}
-
-type ConfigApi {
-  name: String!
-  version: String!
-  url: String!
-}
-
-type ConfigApp {
-  description: String!
-  name: String!
-  url: String!
-}
-
-type Config {
-  api: ConfigApi!
-  app: ConfigApp!
-  cluster: Cluster!
-  clusters: [Cluster!]!
-}
-
-type Setting {
-  id: String
-  createdAt: DateTime
-  updatedAt: DateTime
-  default: String
-  description: String
-  key: String
-  value: String
-}
-
-type AuthChallengeRequest {
-  challenge: String!
-  expiresAt: String!
-  message: String!
 }
 
 type HeliusTransaction {

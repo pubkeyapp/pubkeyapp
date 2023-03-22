@@ -4099,6 +4099,16 @@
   resolved "https://registry.yarnpkg.com/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
   integrity sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==
 
+"@pubkeyapp/logo@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@pubkeyapp/logo/-/logo-1.1.1.tgz#ccf7bb8f3b508c667d2ded20cd85baeefdfd31b0"
+  integrity sha512-V0mQ75V2+MUMTLubtIUMNi9qko4s3GUtfTRQbd19PdfVjJitJJyshrLJ3hhIoVNqHH3LMntzwmfQPnHvQ2r1OQ==
+
+"@pubkeyapp/wallet-adapter-mantine-ui@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@pubkeyapp/wallet-adapter-mantine-ui/-/wallet-adapter-mantine-ui-1.1.1.tgz#ac7e489849469bac3abb7e5a9cdbba2a392713d5"
+  integrity sha512-lvLgoWWNuaq6PJbuHLWedJzxcvyJoUuEQH5PtUx76WlRvZuzwKPXGVhxUAlBJAiHk0YvkdRU9KA8MYeqhNf0mg==
+
 "@radix-ui/number@1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@radix-ui/number/-/number-1.0.0.tgz#4c536161d0de750b3f5d55860fc3de46264f897b"
@@ -8561,6 +8571,11 @@ core-js-pure@^3.23.3:
   version "3.29.0"
   resolved "https://registry.yarnpkg.com/core-js-pure/-/core-js-pure-3.29.0.tgz#0e1ac889214398641ea4bb1c6cf25ff0959ec1d2"
   integrity sha512-v94gUjN5UTe1n0yN/opTihJ8QBWD2O8i19RfTZR7foONPWArnjB96QA/wk5ozu1mm6ja3udQCzOzwQXTxi3xOQ==
+
+core-js@^3.29.1:
+  version "3.29.1"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.29.1.tgz#40ff3b41588b091aaed19ca1aa5cb111803fa9a6"
+  integrity sha512-+jwgnhg6cQxKYIIjGtAHq2nwUOolo9eoFZ4sHfUH09BLXBgxnH4gA0zEd+t+BO2cNB8idaBtZFcFTRjQJRJmAw==
 
 core-util-is@1.0.2:
   version "1.0.2"

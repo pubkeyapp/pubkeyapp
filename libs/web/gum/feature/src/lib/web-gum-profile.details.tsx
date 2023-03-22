@@ -1,6 +1,6 @@
 import { Badge, Box, Group, List, Paper, Skeleton, Stack } from '@mantine/core'
 import { useAuth } from '@pubkeyapp/web/auth/data-access'
-import { CreateGumPostModal, GumPostGrid } from '@pubkeyapp/web/gum/ui'
+import { CreateGumPostModal, GumPostGrid, GumPostInput } from '@pubkeyapp/web/gum/ui'
 import { ProfileCard } from '@pubkeyapp/web/profile/ui'
 import { useGumApp } from '@pubkeyapp/web/shell/data-access'
 import { UiActionIcon, UiDebug, UiError, UiLoader, UiUserLink } from '@pubkeyapp/web/ui/core'
@@ -8,7 +8,6 @@ import { NetworkType, useUserGetAccountQuery } from '@pubkeyapp/web/util/sdk'
 import { PublicKey } from '@solana/web3.js'
 import { IconRefresh } from '@tabler/icons-react'
 import React, { useEffect, useState } from 'react'
-import { GumPostInput } from '../../../ui/src/lib/gum-post.form'
 
 export function WebGumProfileDetails({ address, network }: { address: string; network: NetworkType }) {
   const { user } = useAuth()
@@ -133,7 +132,7 @@ export function WebGumProfileDetails({ address, network }: { address: string; ne
                   loading={loading}
                   label={'Refresh Posts'}
                   icon={IconRefresh}
-                  onClick={() => loadPosts(data.item?.address!)}
+                  onClick={() => loadPosts(data.item!.address!)}
                 />
               </Group>
             </Group>

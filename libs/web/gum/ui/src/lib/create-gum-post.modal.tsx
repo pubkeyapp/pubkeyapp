@@ -2,7 +2,8 @@ import { useCreatePost } from '@gumhq/react-sdk'
 import { Group, Modal, Stack } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { useGumApp } from '@pubkeyapp/web/shell/data-access'
-import { showNotificationError, UiActionIcon, UiDebug } from '@pubkeyapp/web/ui/core'
+import { UiActionIcon, UiDebug } from '@pubkeyapp/web/ui/core'
+import { showNotificationError } from '@pubkeyapp/web/ui/notifications'
 import { PublicKey } from '@solana/web3.js'
 import { IconPlus } from '@tabler/icons-react'
 import React, { useState } from 'react'
@@ -11,8 +12,8 @@ import { GumPostForm, GumPostInput } from './gum-post.form'
 export function CreateGumPostModal({ post }: { post: GumPostInput }) {
   const { sdk } = useGumApp()
   const [opened, { open, close }] = useDisclosure(false)
-  const [progress, setProgress] = useState<any>('none')
-  const { create, isCreatingPost, createPostError, postPDA } = useCreatePost(sdk)
+  const [progress, setProgress] = useState<unknown>('none')
+  const { create, isCreatingPost, createPostError } = useCreatePost(sdk)
   const submit = async (input: Partial<GumPostInput>) => {
     setProgress('submitting')
 

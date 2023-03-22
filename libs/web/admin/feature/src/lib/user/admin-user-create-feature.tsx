@@ -1,4 +1,5 @@
-import { showNotificationError, showNotificationSuccess, UiBackButton } from '@pubkeyapp/web/ui/core'
+import { UiBackButton } from '@pubkeyapp/web/ui/core'
+import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/notifications'
 import { UiPage } from '@pubkeyapp/web/ui/page'
 import { UserFormCreate } from '@pubkeyapp/web/user/ui'
 import { AdminCreateUserInput, useAdminCreateUserMutation, UserRole } from '@pubkeyapp/web/util/sdk'

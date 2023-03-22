@@ -15,6 +15,7 @@ export class ApiUserPageBlockService {
       data: {
         pageId,
         ...input,
+        data: JSON.parse(JSON.stringify(input.data ?? {})),
       },
       include: { page: { include: { blocks: true } } },
     })
@@ -28,7 +29,11 @@ export class ApiUserPageBlockService {
     }
     return this.core.data.pageBlock.update({
       where: { id: pageBlockId },
-      data: { pageId, ...input },
+      data: {
+        pageId,
+        ...input,
+        data: JSON.parse(JSON.stringify(input.data ?? {})),
+      },
       include: { page: { include: { blocks: true } } },
     })
   }

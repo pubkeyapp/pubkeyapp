@@ -59,13 +59,17 @@ export class GatewayService implements OnModuleInit {
       return undefined
     }
     const hasTwitter = githubUser.twitter_username !== null
-    return {
-      owner: {
-        id: githubUser.id,
+    const owner = {
+      id: githubUser.id,
+      profile: {
         name: githubUser.name,
         avatarUrl: githubUser.avatar_url,
         bio: githubUser.bio,
       },
+    } as unknown as Page['owner']
+
+    return {
+      owner,
       color: this.getColor(githubUser.login),
       status: 'Demo',
       type: 'Personal',
@@ -140,7 +144,7 @@ export class GatewayService implements OnModuleInit {
   }
 }
 
-export function pageBlock(type: PageBlockType, data: Record<string, string>, order: number = 0): PageBlock {
+export function pageBlock(type: PageBlockType, data: Record<string, string>, order = 0): PageBlock {
   switch (type) {
     case 'Header':
       return {

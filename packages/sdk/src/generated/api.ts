@@ -47,18 +47,6 @@ export interface Account {
   id: string
   /**
    *
-   * @type {User}
-   * @memberof Account
-   */
-  discoveredBy: User | null
-  /**
-   *
-   * @type {Identity}
-   * @memberof Account
-   */
-  identity: Identity | null
-  /**
-   *
    * @type {Account}
    * @memberof Account
    */
@@ -105,12 +93,6 @@ export interface Account {
    * @memberof Account
    */
   type: AccountType
-  /**
-   *
-   * @type {User}
-   * @memberof Account
-   */
-  gumUser: User | null
 }
 
 /**
@@ -218,12 +200,6 @@ export interface Config {
    * @memberof Config
    */
   clusters: Array<Cluster> | null
-  /**
-   *
-   * @type {User}
-   * @memberof Config
-   */
-  user: User | null
 }
 /**
  *
@@ -305,12 +281,6 @@ export interface Identity {
    * @memberof Identity
    */
   profile?: object | null
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof Identity
-   */
-  accounts?: Array<string> | null
   /**
    *
    * @type {boolean}
@@ -410,22 +380,16 @@ export interface Page {
   urls?: Array<string> | null
   /**
    *
-   * @type {object}
+   * @type {User}
    * @memberof Page
    */
-  owner?: object | null
+  owner?: User | null
   /**
    *
    * @type {Array<PageBlock>}
    * @memberof Page
    */
   blocks?: Array<PageBlock> | null
-  /**
-   *
-   * @type {Profile}
-   * @memberof Page
-   */
-  profile?: Profile | null
 }
 
 /**
@@ -512,139 +476,6 @@ export const PageType = {
 } as const
 
 export type PageType = (typeof PageType)[keyof typeof PageType]
-
-/**
- *
- * @export
- * @interface Profile
- */
-export interface Profile {
-  /**
-   *
-   * @type {string}
-   * @memberof Profile
-   */
-  id: string
-  /**
-   *
-   * @type {string}
-   * @memberof Profile
-   */
-  name: string
-  /**
-   *
-   * @type {string}
-   * @memberof Profile
-   */
-  username?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof Profile
-   */
-  bio: string
-  /**
-   *
-   * @type {string}
-   * @memberof Profile
-   */
-  avatarUrl: string
-  /**
-   *
-   * @type {string}
-   * @memberof Profile
-   */
-  metaUrl?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof Profile
-   */
-  color?: string | null
-  /**
-   *
-   * @type {boolean}
-   * @memberof Profile
-   */
-  private?: boolean | null
-  /**
-   *
-   * @type {number}
-   * @memberof Profile
-   */
-  followers?: number | null
-  /**
-   *
-   * @type {number}
-   * @memberof Profile
-   */
-  following?: number | null
-  /**
-   *
-   * @type {ProfileType}
-   * @memberof Profile
-   */
-  type: ProfileType
-  /**
-   *
-   * @type {ProfileStatus}
-   * @memberof Profile
-   */
-  status: ProfileStatus
-  /**
-   *
-   * @type {object}
-   * @memberof Profile
-   */
-  owner?: object | null
-  /**
-   *
-   * @type {Page}
-   * @memberof Profile
-   */
-  page?: Page | null
-  /**
-   *
-   * @type {Account}
-   * @memberof Profile
-   */
-  gumProfile?: Account | null
-  /**
-   *
-   * @type {Account}
-   * @memberof Profile
-   */
-  gumProfileMeta?: Account | null
-}
-
-/**
- *
- * @export
- * @enum {string}
- */
-
-export const ProfileStatus = {
-  Demo: 'Demo',
-  Draft: 'Draft',
-  Published: 'Published',
-} as const
-
-export type ProfileStatus = (typeof ProfileStatus)[keyof typeof ProfileStatus]
-
-/**
- *
- * @export
- * @enum {string}
- */
-
-export const ProfileType = {
-  Degen: 'Degen',
-  Gaming: 'Gaming',
-  Personal: 'Personal',
-  Professional: 'Professional',
-} as const
-
-export type ProfileType = (typeof ProfileType)[keyof typeof ProfileType]
 
 /**
  *
@@ -774,18 +605,6 @@ export interface User {
    * @memberof User
    */
   gumUser?: Account | null
-  /**
-   *
-   * @type {Profile}
-   * @memberof User
-   */
-  profile?: Profile | null
-  /**
-   *
-   * @type {Array<Profile>}
-   * @memberof User
-   */
-  profiles?: Array<Profile> | null
 }
 
 /**

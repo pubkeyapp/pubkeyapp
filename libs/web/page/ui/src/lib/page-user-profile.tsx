@@ -1,8 +1,8 @@
 import { Avatar, Box, Center, Flex, Group, Stack, Text, Tooltip } from '@mantine/core'
+import { UserVerifiedModal } from '@pubkeyapp/web/user/ui'
 import { Profile } from '@pubkeyapp/web/util/sdk'
 import { Link } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
-import { PageUserVerifiedModal } from './page-user-verified.modal'
 
 export function PageUserProfile({ profile }: { profile: Profile }) {
   return (
@@ -23,7 +23,7 @@ export function PageUserProfile({ profile }: { profile: Profile }) {
                   {profile?.owner?.gumUser ? (
                     <Tooltip label={'Gum User Verified'}>
                       <Group>
-                        <PageUserVerifiedModal user={profile.owner} />
+                        <UserVerifiedModal user={profile.owner} />
                       </Group>
                     </Tooltip>
                   ) : null}

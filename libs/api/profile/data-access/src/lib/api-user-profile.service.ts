@@ -156,6 +156,7 @@ export class ApiUserProfileService {
   }
 
   async userSyncProfile(userId: string, profileId: string) {
+    console.log('userSyncProfile', userId, profileId)
     const user = await this.core.ensureUserActive(userId)
     if (!user.publicKey) {
       throw new Error('User does not have a public key')
@@ -165,7 +166,7 @@ export class ApiUserProfileService {
     //   throw new Error('Profile does not have a user')
     // }
     // Make sure the owner has a Gum Profile
-    const owner = user.publicKey
+    // const owner = user.publicKey
     // const gumUser = await this.core.gum.getGumProfile(owner)
 
     const accounts: string[] = [

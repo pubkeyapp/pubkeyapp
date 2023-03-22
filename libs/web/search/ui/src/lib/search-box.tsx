@@ -1,6 +1,7 @@
 import { Autocomplete, Avatar, Box, Group, MantineColor, SelectItemProps, Text } from '@mantine/core'
 import { PubKeyLogoRounded } from '@pubkeyapp/logo'
-import { getAvatarUrl, showNotificationError } from '@pubkeyapp/web/ui/core'
+import { getAvatarUrl } from '@pubkeyapp/web/ui/core'
+import { showNotificationError } from '@pubkeyapp/web/ui/notifications'
 import { Account, User, useUserSearchMutation } from '@pubkeyapp/web/util/sdk'
 import { IconSearch } from '@tabler/icons-react'
 import { forwardRef, useState } from 'react'

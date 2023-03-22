@@ -1,5 +1,5 @@
 import { Alert, Button, Group, Stack, Text } from '@mantine/core'
-import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/core'
+import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/notifications'
 import { useAnonSolanaRequestAirdropMutation } from '@pubkeyapp/web/util/sdk'
 import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js'

@@ -1,9 +1,9 @@
-import { ActionIcon, Anchor, Avatar, Code, Group, ScrollArea, Text, useMantineTheme } from '@mantine/core'
+import { ActionIcon, Anchor, Avatar, Group, ScrollArea, Text, useMantineTheme } from '@mantine/core'
 import { Profile, ProfileType } from '@pubkeyapp/web/util/sdk'
 import { IconPencil, IconTrash } from '@tabler/icons-react'
 import { DataTable } from 'mantine-datatable'
 import { Link } from 'react-router-dom'
-import { ProfileTypeBadge, ProfileTypeIcon } from './profile-type-icon'
+import { ProfileTypeBadge } from './profile-type-icon'
 
 interface AdminProfileTableProps {
   profiles: Profile[]

@@ -2,7 +2,8 @@ import { useCreateUser } from '@gumhq/react-sdk'
 import { Anchor, Box, Text } from '@mantine/core'
 import { useAuth } from '@pubkeyapp/web/auth/data-access'
 import { useGumApp } from '@pubkeyapp/web/shell/data-access'
-import { showNotificationSuccess, UiError } from '@pubkeyapp/web/ui/core'
+import { UiError } from '@pubkeyapp/web/ui/core'
+import { showNotificationSuccess } from '@pubkeyapp/web/ui/notifications'
 import { AccountType, NetworkType, useUserVerifyUserMutation } from '@pubkeyapp/web/util/sdk'
 import { PublicKey } from '@solana/web3.js'
 import React, { useEffect, useState } from 'react'
@@ -12,14 +13,14 @@ import { TransactionTracker } from './transaction.tracker'
 export function GumUserCreate() {
   const { user, refresh } = useAuth()
   const [signature, setSignature] = useState<string>()
-  // '3SYzZNY2D9uCLG1KChX8NwYAHdbBnuyAHQTko5uqxDPEZLqczCt1jjBVDZCruohvwjb2fQ2TpqigwcsT1KzVQP31',
-  const { loading, user: gumUser, sdk } = useGumApp()
+  const { user: gumUser, sdk } = useGumApp()
   const [{ fetching: verifying }, verifyUserMutation] = useUserVerifyUserMutation()
-  const { create, createUserError, isCreatingUser } = useCreateUser(sdk)
+  const { createUserError, isCreatingUser } = useCreateUser(sdk)
 
   const createUser = () => {
+    if (!user?.publicKey) return
     sdk.user
-      .create(new PublicKey(user?.publicKey!))
+      .create(new PublicKey(user.publicKey))
       .then(({ instructionMethodBuilder }) => {
         return instructionMethodBuilder.rpc()
       })

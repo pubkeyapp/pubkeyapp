@@ -1,7 +1,7 @@
 import { UserRole } from '@prisma/client'
 import * as process from 'process'
 // Remove trailing slashes from the URLs to avoid double slashes
-const API_URL = getUrl('API_URL')
+const API_URL = getUrl('API_URL') ?? 'http://localhost:3000/api'
 // Infer the WEB URL from the API_URL if it's not set
 const WEB_URL = getUrl('WEB_URL') ?? API_URL?.replace('/api', '')
 
@@ -88,7 +88,7 @@ export default () => ({
 
 // Get the values from the ENV
 function getFromEnvironment(key: string) {
-  return (process.env[key]?.includes(',') ? process.env[key]?.split(',') : [process.env[key]]).filter(Boolean)
+  return (process.env[key]?.includes(',') ? process.env[key].split(',') : [process.env[key]]).filter(Boolean)
 }
 
 function getUrl(key: string) {

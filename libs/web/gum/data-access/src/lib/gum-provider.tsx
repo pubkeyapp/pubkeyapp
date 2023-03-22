@@ -67,8 +67,6 @@ export function GumProvider({ children, owner, sdk }: { children: ReactNode; own
   return <GumContext.Provider value={value}>{children}</GumContext.Provider>
 }
 
-export const gumProvider = () => useContext(GumContext)
-
 // export const useGumSDK = (connection: Connection, opts: ConfirmOptions, cluster: Cluster) => {
 //   const anchorWallet = useAnchorWallet() as AnchorWallet
 //
