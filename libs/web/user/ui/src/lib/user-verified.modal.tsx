@@ -1,11 +1,11 @@
 import { ActionIcon, Anchor, Box, Code, Group, Modal, Stack, Text } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import { PubKeyProfileBadge } from '@pubkeyapp/web/ui/core'
 import { Account, User } from '@pubkeyapp/web/util/sdk'
 import { IconDiscountCheckFilled } from '@tabler/icons-react'
 import { Link } from 'react-router-dom'
+import { UserProfileBadge } from './user-profile-badge'
 
-export function PageUserVerifiedModal({ user }: { user?: User }) {
+export function UserVerifiedModal({ user }: { user?: User }) {
   const [opened, { open, close }] = useDisclosure(false)
 
   if (!user?.gumUser) return null
@@ -16,7 +16,7 @@ export function PageUserVerifiedModal({ user }: { user?: User }) {
         onClose={close}
         title={
           <Group>
-            <PubKeyProfileBadge label="Verified on PubKey" user={user} />
+            <UserProfileBadge label="Verified on PubKey" user={user} />
           </Group>
         }
         centered

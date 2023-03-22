@@ -91,7 +91,7 @@ export class ApiAnonAccountService implements OnModuleInit {
     type?: AccountType
     name?: string
     identityId?: string
-    metadata?: any
+    metadata?: unknown
     refresh?: boolean
   }) {
     if (BLOCKED_ACCOUNTS.includes(address)) {
@@ -193,7 +193,7 @@ export class ApiAnonAccountService implements OnModuleInit {
             address,
             name: name || address,
             type,
-            metadata,
+            metadata: JSON.parse(JSON.stringify(metadata ?? {})),
           },
         })
 
@@ -212,7 +212,7 @@ export class ApiAnonAccountService implements OnModuleInit {
         () => this.solana.bonfidaLookup(address),
         60,
       )
-      for (const token of (bonfida ?? [])?.filter((i) => !!i)) {
+      for (const token of (bonfida ?? []).filter((i) => !!i)) {
         await this.discoverAccount({
           userId,
           network: NetworkType.SolanaMainnet,
@@ -252,7 +252,7 @@ export class ApiAnonAccountService implements OnModuleInit {
         this.logger.verbose(`Connected Gum User ${discovered.address} to identity ${identityId} `)
       }
     }
-    for (const gumProfile of gumUser?.profiles) {
+    for (const gumProfile of gumUser.profiles) {
       const discovered = await this.discoverAccount({
         userId,
         network: NetworkType.SolanaDevnet,
@@ -271,7 +271,7 @@ export class ApiAnonAccountService implements OnModuleInit {
         this.logger.verbose(`Connected Gum Profile ${discovered.address} to identity ${identityId} `)
       }
     }
-    for (const gumProfileMeta of gumUser?.meta) {
+    for (const gumProfileMeta of gumUser.meta) {
       const discovered = await this.discoverAccount({
         userId,
         network: NetworkType.SolanaDevnet,
@@ -365,7 +365,7 @@ export class ApiAnonAccountService implements OnModuleInit {
     }
     for (const id of ids) {
       try {
-        const account = await this.discoverAccount({
+        await this.discoverAccount({
           userId: id.owner.id,
           network: NetworkType.SolanaDevnet,
           address: id.providerId,

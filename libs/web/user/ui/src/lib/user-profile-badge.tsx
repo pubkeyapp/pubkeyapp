@@ -1,8 +1,8 @@
 import { Badge, BadgeProps, Box, Text, ThemeIcon, Tooltip } from '@mantine/core'
 import { PubKeyLogoRounded } from '@pubkeyapp/logo'
-import { PageUserVerifiedModal } from '@pubkeyapp/web/page/ui'
 import { User } from '@pubkeyapp/web/util/sdk'
 import { IconDiscountCheck } from '@tabler/icons-react'
+import { UserVerifiedModal } from './user-verified.modal'
 
 export interface PubKeyProfileBadgeProps extends BadgeProps {
   label?: string
@@ -12,7 +12,7 @@ export interface PubKeyProfileBadgeProps extends BadgeProps {
   onClick?: () => void
 }
 
-export function PubKeyProfileBadge({ component, label, tooltip, user, ...props }: PubKeyProfileBadgeProps) {
+export function UserProfileBadge({ component, label, tooltip, user, ...props }: PubKeyProfileBadgeProps) {
   const badge = (
     <Badge
       {...props}
@@ -28,7 +28,7 @@ export function PubKeyProfileBadge({ component, label, tooltip, user, ...props }
       }
       rightSection={
         user?.gumUser ? (
-          <PageUserVerifiedModal user={user} />
+          <UserVerifiedModal user={user} />
         ) : (
           <ThemeIcon variant="transparent" size="lg" radius="xl">
             <Text color={'dimmed'} sx={{ display: 'flex' }}>

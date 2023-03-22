@@ -1,6 +1,7 @@
 import { ActionIcon, Alert, Box, Stack } from '@mantine/core'
 import { AdminUiSettingsTable } from '@pubkeyapp/web/admin/ui'
-import { showNotificationError, showNotificationSuccess, UiDebug, UiErrorLoader } from '@pubkeyapp/web/ui/core'
+import { UiDebug, UiErrorLoader } from '@pubkeyapp/web/ui/core'
+import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/notifications'
 import { UiPage } from '@pubkeyapp/web/ui/page'
 import { useAdminGetSettingsQuery, useAdminSetSettingMutation } from '@pubkeyapp/web/util/sdk'
 import { IconSettings } from '@tabler/icons-react'

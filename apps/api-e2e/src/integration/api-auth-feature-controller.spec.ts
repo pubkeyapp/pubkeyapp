@@ -56,7 +56,7 @@ describe('ApiAuthController (e2e)', () => {
       })
 
       try {
-        const response = await postEndpoint(app, apiUrl(endpointRespond), payload, 200)
+        await postEndpoint(app, apiUrl(endpointRespond), payload, 200)
           .then((res) => {
             console.log(res.body)
             return res

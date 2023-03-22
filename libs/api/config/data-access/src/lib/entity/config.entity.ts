@@ -1,6 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql'
 import { ApiProperty } from '@nestjs/swagger'
-import { User } from '@pubkeyapp/api/user/data-access'
 import { Cluster } from './cluster.entity'
 import { ConfigApi } from './config-api.entity'
 import { ConfigApp } from './config-app.entity'
@@ -19,6 +18,4 @@ export class Config {
   @ApiProperty({ type: [Cluster], nullable: true })
   @Field(() => [Cluster])
   clusters: Cluster[]
-  @ApiProperty({ type: User, nullable: true })
-  user: User
 }

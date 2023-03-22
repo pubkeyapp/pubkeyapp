@@ -1,6 +1,5 @@
 import { InjectQueue } from '@nestjs/bull'
 import { Injectable, Logger } from '@nestjs/common'
-import { NetworkType } from '@prisma/client'
 import { ApiCoreService, QueueType } from '@pubkeyapp/api/core/data-access'
 import { Queue } from 'bull'
 import { AccountDiscoverQueueData } from './account-discover/account-discover-queue.processor'

@@ -1,7 +1,7 @@
 import { SDK, useGum } from '@gumhq/react-sdk'
 import { Namespace } from '@gumhq/sdk/lib/profile'
 import { GumDecodedUser } from '@gumhq/sdk/lib/user'
-import { showNotificationSuccess } from '@pubkeyapp/web/ui/core'
+import { showNotificationSuccess } from '@pubkeyapp/web/ui/notifications'
 import { AnchorWallet, useAnchorWallet, useConnection, useWallet } from '@solana/wallet-adapter-react'
 import { PublicKey } from '@solana/web3.js'
 
@@ -14,7 +14,7 @@ const gqlClient = new GraphQLClient(DEVNET_GRAPHQL_ENDPOINT as string)
 
 export interface GumProviderContext {
   loading: boolean
-  error: any
+  error: unknown
   sdk: SDK
   createProfile: (namespace: Namespace, owner: string, userAccount: string) => Promise<boolean>
   refresh: () => Promise<void>
@@ -30,7 +30,7 @@ export function GumAppProvider({ children }: { children: ReactNode }) {
   const sdk = useGum(anchorWallet, connection, { preflightCommitment: 'confirmed' }, 'devnet', gqlClient)
 
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<any>(undefined)
+  const [error, setError] = useState<unknown>(undefined)
   const [user, setUser] = useState<GumDecodedUser | undefined>(undefined)
 
   const refresh = async () => {
@@ -55,7 +55,8 @@ export function GumAppProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     refresh()
-  }, [connection.rpcEndpoint, publicKey])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   async function createProfile(namespace: Namespace, owner: string, userAccount: string) {
     setLoading(true)

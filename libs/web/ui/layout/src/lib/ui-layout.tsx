@@ -1,6 +1,7 @@
 import { Box, Container, Flex, Stack } from '@mantine/core'
 import { PubKeyLogo } from '@pubkeyapp/logo'
 import { UiLoader } from '@pubkeyapp/web/ui/core'
+
 import { IconBrandDiscord, IconBrandGithub, IconBrandTwitter } from '@tabler/icons-react'
 import { Suspense } from 'react'
 import { Outlet } from 'react-router-dom'

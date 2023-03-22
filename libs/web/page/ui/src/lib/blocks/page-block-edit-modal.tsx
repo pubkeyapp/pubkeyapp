@@ -1,9 +1,8 @@
 import { ActionIcon, Modal, Tooltip } from '@mantine/core'
-import { PageBlock } from '@pubkeyapp/web/util/sdk'
-import { PageBlockForm } from '@pubkeyapp/web/page/ui'
-import { AdminUpdatePageBlockInput, PageBlockType } from '@pubkeyapp/web/util/sdk'
+import { AdminUpdatePageBlockInput, PageBlock, PageBlockType } from '@pubkeyapp/web/util/sdk'
 import { IconPencil } from '@tabler/icons-react'
 import React, { useState } from 'react'
+import { PageBlockForm } from './page-block-form'
 
 export function PageBlockEditModal({
   block,

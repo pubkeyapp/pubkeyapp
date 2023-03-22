@@ -1,5 +1,6 @@
 import { Box, Group, Stack } from '@mantine/core'
-import { LinkAccount, UiDebugModal } from '@pubkeyapp/web/ui/core'
+import { UiDebugModal } from '@pubkeyapp/web/ui/core'
+import { LinkAccount } from '@pubkeyapp/web/account/ui'
 import { GumProfileList } from './gum-profile-list'
 import { GumUserDeleteButton } from './gum-user-delete-button'
 import { GumUser } from './gum-interfaces'

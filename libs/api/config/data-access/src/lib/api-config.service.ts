@@ -1,7 +1,6 @@
 import { INestApplication, Injectable, Logger } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
-import { User } from '@pubkeyapp/api/user/data-access'
 import { ClusterType } from '@pubkeyapp/solana'
 
 import { CookieOptions } from 'express-serve-static-core'
@@ -92,7 +91,7 @@ export class ApiConfigService {
   get environment() {
     return this.config.get('environment')
   }
-  async getConfig(user?: User): Promise<Config> {
+  async getConfig(): Promise<Config> {
     const clusterDevnet: Cluster = {
       id: 'devnet',
       name: 'Devnet',
@@ -121,7 +120,6 @@ export class ApiConfigService {
       },
       cluster: clusterDevnet,
       clusters: [clusterDevnet, clusterMainnet],
-      user,
     }
   }
 

@@ -1,13 +1,7 @@
 import { Alert } from '@mantine/core'
 import { AdminInviteProvider } from '@pubkeyapp/web/invite/data-access'
-import {
-  showNotificationError,
-  showNotificationSuccess,
-  UiBackButton,
-  UiError,
-  UiLoader,
-  UiTabRoutes,
-} from '@pubkeyapp/web/ui/core'
+import { UiBackButton, UiError, UiLoader, UiTabRoutes } from '@pubkeyapp/web/ui/core'
+import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/notifications'
 import { UiPage } from '@pubkeyapp/web/ui/page'
 import { AdminUpdateUserInput, useAdminGetUserQuery, useAdminUpdateUserMutation } from '@pubkeyapp/web/util/sdk'
 import { useParams } from 'react-router-dom'

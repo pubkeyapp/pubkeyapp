@@ -1,8 +1,5 @@
 import { Field, HideField, Int, ObjectType } from '@nestjs/graphql'
 import { ApiProperty } from '@nestjs/swagger'
-import { Account } from '@pubkeyapp/api/account/data-access'
-import { Page } from '@pubkeyapp/api/page/data-access'
-import { User } from '@pubkeyapp/api/user/data-access'
 import { GraphQLDateTime } from 'graphql-scalars'
 import { ProfileStatus } from './profile-status.enum'
 import { ProfileType } from './profile-type.enum'
@@ -63,23 +60,15 @@ export class Profile {
   @Field(() => ProfileStatus, { nullable: true })
   status: ProfileStatus
 
-  @ApiProperty({ type: User, required: false, nullable: true })
-  @Field(() => User, { nullable: true })
-  owner?: User
+  owner?: unknown
 
-  @ApiProperty({ type: Page, required: false, nullable: true })
-  @Field(() => Page, { nullable: true })
-  page?: Page
+  page?: unknown
   @HideField()
   ownerId: string
   @HideField()
   identities?: unknown[]
 
-  @ApiProperty({ type: Account, nullable: true, required: false })
-  @Field(() => Account, { nullable: true })
-  gumProfile?: Account
+  gumProfile?: unknown
 
-  @ApiProperty({ type: Account, nullable: true, required: false })
-  @Field(() => Account, { nullable: true })
-  gumProfileMeta?: Account
+  gumProfileMeta?: unknown
 }

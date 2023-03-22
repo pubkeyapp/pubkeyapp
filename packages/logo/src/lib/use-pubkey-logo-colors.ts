@@ -10,11 +10,7 @@ export interface LogoProps extends ComponentPropsWithoutRef<'svg'> {
   inverted?: boolean
 }
 
-export function usePubKeyLogoColors(
-  color?: MantineColor,
-  variant: PubKeyLogoVariant = 'pubkey.app',
-  inverted: boolean = false,
-) {
+export function usePubKeyLogoColors(color?: MantineColor, variant: PubKeyLogoVariant = 'pubkey.app', inverted = false) {
   const theme = useMantineTheme()
 
   if (variant === 'pubkey.app') {

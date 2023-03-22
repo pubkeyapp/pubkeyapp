@@ -1,6 +1,7 @@
 import { ActionIcon, Box, Group, Paper, Stack, Tooltip } from '@mantine/core'
 import { PageBlockEditIconModal, PageBlockEditModal, PageBlockRender, PageUserProfile } from '@pubkeyapp/web/page/ui'
-import { showNotificationError, showNotificationSuccess, UiDebugModal } from '@pubkeyapp/web/ui/core'
+import { UiDebugModal } from '@pubkeyapp/web/ui/core'
+import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/notifications'
 import {
   AdminAddPageBlockInput,
   Page,
@@ -16,7 +17,7 @@ export function AdminPageBlockList({ page }: { page: Page }) {
   const [, updatePageBlockMutation] = useAdminUpdatePageBlockMutation()
   const [, removePageBlockMutation] = useAdminRemovePageBlockMutation()
   const removePageBlock = (block: PageBlock) => {
-    if (!confirm(`Do you really want to delete the page block ${block.type}?`)) {
+    if (!window.confirm(`Do you really want to delete the page block ${block.type}?`)) {
       return false
     }
     removePageBlockMutation({ pageId: page.id!, pageBlockId: block.id! })

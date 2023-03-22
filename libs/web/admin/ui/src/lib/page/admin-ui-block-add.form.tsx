@@ -1,5 +1,5 @@
 import { PageBlockEditor } from '@pubkeyapp/web/page/ui'
-import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/core'
+import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/notifications'
 import { AdminAddPageBlockInput, Page, useAdminAddPageBlockMutation } from '@pubkeyapp/web/util/sdk'
 
 export function AdminUiBlockAddForm({ page }: { page: Page }) {

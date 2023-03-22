@@ -2,7 +2,7 @@ import { Identity, useUserGetIdentitiesQuery } from '@pubkeyapp/web/util/sdk'
 import { createContext, ReactNode, useContext } from 'react'
 
 export interface UserIdentitiesProviderContext {
-  error?: any
+  error?: unknown
   loading?: boolean
   refresh?: () => void
   items: Identity[]

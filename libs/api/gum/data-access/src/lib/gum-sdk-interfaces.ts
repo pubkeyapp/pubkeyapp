@@ -10,7 +10,7 @@ export interface GumSdkPost {
   txn_signature?: string
   updated_on?: number
   write_version?: bigint
-  metadata?: any
+  metadata?: unknown
   metadatauri?: string
   profile?: string
   randomhash?: number[]

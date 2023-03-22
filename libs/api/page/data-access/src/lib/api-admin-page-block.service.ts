@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { ApiCoreService } from '@pubkeyapp/api/core/data-access'
-import { AdminUpdatePageBlockInput } from '@pubkeyapp/api/page/data-access'
 import { AdminAddPageBlockInput } from './dto/admin-add-page-block.input'
+import { AdminUpdatePageBlockInput } from './dto/admin-update-page-block.input'
 
 @Injectable()
 export class ApiAdminPageBlockService {
@@ -13,6 +13,7 @@ export class ApiAdminPageBlockService {
       data: {
         pageId,
         ...input,
+        data: JSON.parse(JSON.stringify(input.data ?? {})),
       },
       include: { page: { include: { blocks: true } } },
     })
@@ -22,7 +23,7 @@ export class ApiAdminPageBlockService {
     await this.core.ensureUserAdmin(adminId)
     return this.core.data.pageBlock.update({
       where: { id: pageBlockId },
-      data: { pageId, ...input },
+      data: { pageId, ...input, data: JSON.parse(JSON.stringify(input.data ?? {})) },
       include: { page: { include: { blocks: true } } },
     })
   }

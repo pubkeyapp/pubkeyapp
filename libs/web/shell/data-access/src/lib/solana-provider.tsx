@@ -1,7 +1,7 @@
 import { WalletModalProvider } from '@pubkeyapp/wallet-adapter-mantine-ui'
 import { Cluster } from '@pubkeyapp/web/util/sdk'
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base'
-import { AnchorWallet, ConnectionProvider, useAnchorWallet, WalletProvider } from '@solana/wallet-adapter-react'
+import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react'
 import { PhantomWalletAdapter, SolflareWalletAdapter } from '@solana/wallet-adapter-wallets'
 import { clusterApiUrl } from '@solana/web3.js'
 import { createContext, ReactNode, useContext, useMemo } from 'react'

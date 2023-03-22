@@ -3,7 +3,7 @@ import { createClient, defaultExchanges, subscriptionExchange } from 'urql'
 
 export function createGraphqlClient(url: string) {
   if (!url.startsWith('http')) {
-    url = `${location.origin}${url}`
+    url = `${window.location.origin}${url}`
   }
 
   const wsUrl = url.replace(/^http/, 'ws')

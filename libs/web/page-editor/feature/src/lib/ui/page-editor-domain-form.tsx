@@ -163,7 +163,7 @@ export function PageEditorDomainForm({ button, page }: { button?: ReactNode; pag
   )
 }
 
-export function slugify(str: string = '') {
+export function slugify(str = '') {
   return (str ?? '')
     .toLowerCase()
     .replace(/[^a-z0-9 -]/g, '')

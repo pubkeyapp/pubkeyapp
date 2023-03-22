@@ -96,6 +96,7 @@
       "@pubkeyapp/web/ui/core": ["libs/web/ui/core/src/index.ts"],
       "@pubkeyapp/web/ui/form": ["libs/web/ui/form/src/index.ts"],
       "@pubkeyapp/web/ui/layout": ["libs/web/ui/layout/src/index.ts"],
+      "@pubkeyapp/web/ui/notifications": ["libs/web/ui/notifications/src/index.ts"],
       "@pubkeyapp/web/ui/page": ["libs/web/ui/page/src/index.ts"],
       "@pubkeyapp/web/ui/theme": ["libs/web/ui/theme/src/index.ts"],
       "@pubkeyapp/web/user/ui": ["libs/web/user/ui/src/index.ts"],

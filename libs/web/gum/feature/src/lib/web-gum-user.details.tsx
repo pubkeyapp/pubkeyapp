@@ -1,5 +1,6 @@
 import { Anchor, Badge, Box, Group, List, Paper, Skeleton, Stack, Title } from '@mantine/core'
 import { useAuth } from '@pubkeyapp/web/auth/data-access'
+import { GumPostInput } from '@pubkeyapp/web/gum/ui'
 import { useGumApp } from '@pubkeyapp/web/shell/data-access'
 import { UiActionIcon, UiDebug, UiError, UiLoader } from '@pubkeyapp/web/ui/core'
 import { NetworkType, useUserGetAccountQuery } from '@pubkeyapp/web/util/sdk'
@@ -7,7 +8,6 @@ import { PublicKey } from '@solana/web3.js'
 import { IconRefresh } from '@tabler/icons-react'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { GumPostInput } from '../../../ui/src/lib/gum-post.form'
 
 export function WebGumUserDetails({ address, network }: { address: string; network: NetworkType }) {
   const { user } = useAuth()
@@ -82,7 +82,7 @@ export function WebGumUserDetails({ address, network }: { address: string; netwo
     return <UiError error={error ?? getAccountError?.message} />
   }
 
-  if (!data?.item?.address) {
+  if (!data?.item && !data?.item?.address) {
     return <UiError error={'No data found'} />
   }
 
@@ -103,7 +103,7 @@ export function WebGumUserDetails({ address, network }: { address: string; netwo
                   loading={loading}
                   label={'Refresh Profiles'}
                   icon={IconRefresh}
-                  onClick={() => loadProfiles(data.item?.address!)}
+                  onClick={() => loadProfiles(data.item!.address!)}
                 />
               </Group>
             </Group>

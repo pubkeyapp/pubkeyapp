@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common'
-import { ApiDiscordService } from '@pubkeyapp/api/discord/data-access'
 import { ActivityType } from 'discord.js'
 import { Context, ContextOf, Ctx, Once, UserCommand, UserCommandContext } from 'necord'
+import { ApiDiscordService } from '../api-discord.service'
 
 @Injectable()
 export class ApiDiscordCoreSetupService {

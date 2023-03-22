@@ -1,6 +1,8 @@
 import React, { ReactNode } from 'react'
 
-export interface WebDevProviderContext {}
+export interface WebDevProviderContext {
+  name?: string
+}
 
 const WebDevContext = React.createContext<WebDevProviderContext>({})
 

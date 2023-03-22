@@ -1,11 +1,13 @@
 import { Accordion, Alert, Badge, Box, Group, Stack, ThemeIcon, Tooltip } from '@mantine/core'
 import { useAuth } from '@pubkeyapp/web/auth/data-access'
-import { IdentityBadge, VerifiedBadge } from '@pubkeyapp/web/identity/ui'
+
 import { UiLoader, useAccordionStyles } from '@pubkeyapp/web/ui/core'
 import { IconUserPlus } from '@tabler/icons-react'
 import { CreateNewIdentity } from './create-new.identity'
+import { IdentityBadge } from './identity-provider-avatar'
 import { useUserIdentities } from './user-identities.provider'
 import { UserIdentityPanel } from './user-identity.panel'
+import { VerifiedBadge } from './verified-badge'
 
 export function UserManageIdentities() {
   const { user } = useAuth()

@@ -1,4 +1,4 @@
-import { Badge, BadgeProps, Button, ButtonProps, Text, ThemeIcon, Tooltip, useMantineTheme } from '@mantine/core'
+import { Badge, BadgeProps, Text, ThemeIcon, Tooltip, useMantineTheme } from '@mantine/core'
 import { ProfileType } from '@pubkeyapp/web/util/sdk'
 import {
   IconBuildingBank,
@@ -49,32 +49,14 @@ export function ProfileTypeIcon({
   }
 }
 
-export interface ProfileTypeButtonProps extends ButtonProps {
-  component?: any
-  pageType: ProfileType | string
-  onClick?: () => void
-}
-
-export function ProfileTypeButton({ pageType, component, ...props }: ProfileTypeButtonProps) {
-  const theme = useMantineTheme()
-  const color = props.color ?? theme.colors[getProfileTypeColor(pageType)][6]
-
-  return (
-    <Button {...props} onClick={props.onClick}>
-      {pageType}
-    </Button>
-  )
-}
-
 export interface ProfileTypeBadgeProps extends BadgeProps {
-  component?: any
   label?: string
   verified?: boolean
   profileType: ProfileType | string
   onClick?: () => void
 }
 
-export function ProfileTypeBadge({ profileType, verified, label, component, ...props }: ProfileTypeBadgeProps) {
+export function ProfileTypeBadge({ profileType, verified, label, ...props }: ProfileTypeBadgeProps) {
   const color = getProfileTypeColor(profileType)
 
   return (

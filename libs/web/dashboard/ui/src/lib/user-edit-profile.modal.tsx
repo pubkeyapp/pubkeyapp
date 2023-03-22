@@ -2,8 +2,9 @@ import { Button, Group, Modal, Tooltip } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { modals } from '@mantine/modals'
 import { ProfileTypeBadge } from '@pubkeyapp/web/profile/ui'
-import { PubKeyProfileBadge, showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/core'
 import { formFieldCheckbox, formFieldText, formFieldTextarea, UiForm, UiFormField } from '@pubkeyapp/web/ui/form'
+import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/notifications'
+import { UserProfileBadge } from '@pubkeyapp/web/user/ui'
 import {
   Profile,
   ProfileType,
@@ -64,7 +65,7 @@ export function UserEditProfileModal({ profile }: { profile: Profile }) {
               verified={!!item.gumProfile}
             />
             {primaryProfile ? (
-              <PubKeyProfileBadge label="Primary" tooltip="This profile is your primary profile on PubKey" />
+              <UserProfileBadge label="Primary" tooltip="This profile is your primary profile on PubKey" />
             ) : (
               <Tooltip label={`Use ${profile.type} as your primary profile on PubKey`}>
                 <Button variant="subtle" size="xs" onClick={setDefaultProfile}>

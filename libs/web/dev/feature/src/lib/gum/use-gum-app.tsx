@@ -1,6 +1,6 @@
 import { SDK } from '@gumhq/react-sdk'
 import { useMantineTheme } from '@mantine/core'
-import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/core'
+import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/notifications'
 import { AnchorWallet, useAnchorWallet } from '@solana/wallet-adapter-react'
 import { Cluster, ConfirmOptions, Connection, PublicKey } from '@solana/web3.js'
 import { IconBuildingBank, IconDeviceGamepad, IconDice3, IconQuestionMark, IconUser } from '@tabler/icons-react'

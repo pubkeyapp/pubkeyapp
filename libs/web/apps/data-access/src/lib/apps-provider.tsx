@@ -1,5 +1,3 @@
-import { PubKeyLogoRounded } from '@pubkeyapp/logo'
-import { GumLogo } from '@pubkeyapp/web/apps/ui'
 import { createContext, ReactNode, useContext } from 'react'
 
 export enum AppType {
@@ -16,19 +14,13 @@ export interface App {
   soon?: boolean
 }
 
-export const apps: App[] = [
-  { id: AppType.PubKeyPages, name: 'PubKey Pages', logo: <PubKeyLogoRounded size={64} /> },
-  { id: AppType.GumProfile, name: 'Gum Profile', logo: <GumLogo width={64} height={64} /> },
-  { id: AppType.DialectInbox, name: 'Dialect Inbox', logo: <GumLogo width={64} height={64} />, soon: true },
-]
-
 export interface AppsProviderContext {
   apps: App[]
 }
 
 const AppsContext = createContext<AppsProviderContext>({} as AppsProviderContext)
 
-export function AppsProvider({ children }: { children: ReactNode }) {
+export function AppsProvider({ apps, children }: { apps: App[]; children: ReactNode }) {
   const value: AppsProviderContext = {
     apps,
   }

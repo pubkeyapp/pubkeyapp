@@ -7,7 +7,7 @@ export class UserAddPageBlockInput {
   @Field(() => Int, { nullable: true })
   order: number
   @Field(() => GraphQLJSON, { nullable: true })
-  data: any
+  data: unknown
   @Field(() => PageBlockType, { nullable: true })
   type: PageBlockType
 }

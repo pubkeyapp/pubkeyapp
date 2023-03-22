@@ -32,7 +32,7 @@ export interface GumSdkProfileMetadata {
   txn_signature?: string
   updated_on?: number
   write_version?: bigint
-  metadata?: any
+  metadata?: unknown
   metadatauri?: string
   profileId?: string
   profile?: GumSdkProfile

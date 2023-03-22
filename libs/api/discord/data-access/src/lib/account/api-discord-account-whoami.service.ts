@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
-import { ApiDiscordService } from '@pubkeyapp/api/discord/data-access'
 import { formatUserEmbed } from '@pubkeyapp/api/discord/util'
 import { Ctx, SlashCommand, SlashCommandContext } from 'necord'
+import { ApiDiscordService } from '../api-discord.service'
 
 @Injectable()
 export class ApiDiscordAccountWhoamiService {

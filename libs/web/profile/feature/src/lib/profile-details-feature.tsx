@@ -1,7 +1,8 @@
 import { Alert, Container, Group, SimpleGrid, Stack } from '@mantine/core'
 import { ProfileIdentityCard } from '@pubkeyapp/web/profile/ui'
 import { SearchBox } from '@pubkeyapp/web/search/ui'
-import { PubKeyProfileBadge, UiError, UiErrorLoader } from '@pubkeyapp/web/ui/core'
+import { UiError, UiErrorLoader } from '@pubkeyapp/web/ui/core'
+import { UserProfileBadge } from '@pubkeyapp/web/user/ui'
 import { Profile, ProfileType, useAnonGetUserQuery } from '@pubkeyapp/web/util/sdk'
 import { IconAlertCircle } from '@tabler/icons-react'
 import React, { useMemo } from 'react'
@@ -31,10 +32,7 @@ export function ProfileDetailsFeature() {
         {data?.item ? (
           <Stack align="center" my={32} spacing={32}>
             <Group position="center">
-              <PubKeyProfileBadge
-                user={data.item}
-                tooltip={`PubKey Profile: ${data.item?.username}#${data.item?.pid}`}
-              />
+              <UserProfileBadge user={data.item} tooltip={`PubKey Profile: ${data.item?.username}#${data.item?.pid}`} />
             </Group>
             {ordered?.length ? (
               ordered?.length === 1 ? (

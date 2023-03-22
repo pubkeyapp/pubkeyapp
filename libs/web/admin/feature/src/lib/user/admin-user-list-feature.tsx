@@ -1,5 +1,6 @@
 import { Button } from '@mantine/core'
-import { showNotificationError, showNotificationSuccess, UiError, UiFullPage, UiLoader } from '@pubkeyapp/web/ui/core'
+import { UiError, UiFullPage, UiLoader } from '@pubkeyapp/web/ui/core'
+import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/notifications'
 import { UiPage } from '@pubkeyapp/web/ui/page'
 import { UserTable } from '@pubkeyapp/web/user/ui'
 import { AdminDeleteUserDocument, useAdminGetUsersQuery, User } from '@pubkeyapp/web/util/sdk'

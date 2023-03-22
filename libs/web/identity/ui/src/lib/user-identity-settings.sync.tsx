@@ -1,5 +1,6 @@
 import { Stack } from '@mantine/core'
-import { showNotificationError, showNotificationSuccess, UiButton, UiDebug } from '@pubkeyapp/web/ui/core'
+import { UiButton, UiDebug } from '@pubkeyapp/web/ui/core'
+import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/notifications'
 import { Identity, useUserSyncIdentityMutation } from '@pubkeyapp/web/util/sdk'
 import { IconRefresh } from '@tabler/icons-react'
 

@@ -1,6 +1,6 @@
 import { ActionIcon, Box, Group } from '@mantine/core'
 import { AdminUiExternalLink } from '@pubkeyapp/web/admin/ui'
-import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/core'
+import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/notifications'
 import { Page, PageDomain, useAdminRemovePageDomainMutation } from '@pubkeyapp/web/util/sdk'
 import { IconGlobe, IconTrash } from '@tabler/icons-react'
 

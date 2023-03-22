@@ -1,7 +1,8 @@
 import { Button, Code, Container, createStyles, Group, rem, Stack, Text, Title, Tooltip } from '@mantine/core'
 
 import { useAuth } from '@pubkeyapp/web/auth/data-access'
-import { showNotificationError, showNotificationSuccess, UiUserLink } from '@pubkeyapp/web/ui/core'
+import { UiUserLink } from '@pubkeyapp/web/ui/core'
+import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/notifications'
 import {
   User,
   UserStatus,

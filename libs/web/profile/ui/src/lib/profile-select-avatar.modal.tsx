@@ -14,9 +14,9 @@ import {
 import { useDisclosure } from '@mantine/hooks'
 import { modals } from '@mantine/modals'
 import { IdentityBadge } from '@pubkeyapp/web/identity/ui'
-import { ProfileTypeBadge } from '@pubkeyapp/web/profile/ui'
 import { getAvatarUrl } from '@pubkeyapp/web/ui/core'
 import { Identity, Profile, ProfileType } from '@pubkeyapp/web/util/sdk'
+import { ProfileTypeBadge } from './profile-type-icon'
 
 export interface ProfileSelectAvatarModalProps extends AvatarProps {
   avatarUrl?: string

@@ -1,15 +1,8 @@
 import { Anchor, AnchorProps, Flex } from '@mantine/core'
 import { useSolana } from '@pubkeyapp/web/shell/data-access'
+import { ellipsify, UiCopyButton } from '@pubkeyapp/web/ui/core'
 import { ClusterType } from '@pubkeyapp/web/util/sdk'
 import { PublicKey } from '@solana/web3.js'
-import { UiCopyButton } from './ui-copy.button'
-
-export function ellipsify(str = '', len = 4) {
-  if (str.length > 30) {
-    return str.substring(0, len) + '..' + str.substring(str.length - len, str.length)
-  }
-  return str
-}
 
 const prefix = 'https://solscan.io'
 

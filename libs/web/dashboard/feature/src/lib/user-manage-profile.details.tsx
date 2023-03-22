@@ -9,7 +9,7 @@ import { IdentityBadge, IdentityGrid } from '@pubkeyapp/web/identity/ui'
 import { useUserProfiles } from '@pubkeyapp/web/profile/data-access'
 import { ProfileIdentityCardContent, ProfileSelectAvatarModal, ProfileTypeBadge } from '@pubkeyapp/web/profile/ui'
 import { useGumApp } from '@pubkeyapp/web/shell/data-access'
-import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/core'
+import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/notifications'
 import {
   AccountType,
   NetworkType,
@@ -104,7 +104,7 @@ export function UserManageProfileDetails({ profile }: { profile: Profile }) {
         }
         if (!res.data?.item) {
           showNotificationError('Profile not verified yet! ')
-          return createProfile(profile.type!, user?.publicKey!, user?.gumUser?.address!)
+          return createProfile(profile.type!, user!.publicKey!, user!.gumUser!.address!)
             .then((res) => {
               if (!res) return showNotificationError('Profile not verified yet!')
               if (res) {

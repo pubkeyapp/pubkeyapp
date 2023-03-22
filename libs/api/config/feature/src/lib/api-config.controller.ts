@@ -13,6 +13,6 @@ export class ApiConfigController {
   @ApiOperation({ operationId: 'getConfig' })
   @ApiResponse({ type: Config })
   config(@Request() req) {
-    return this.service.getConfig(req.user)
+    return this.service.getConfig()
   }
 }

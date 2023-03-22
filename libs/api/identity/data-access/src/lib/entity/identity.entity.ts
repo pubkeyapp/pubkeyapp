@@ -1,6 +1,5 @@
 import { Field, HideField, ObjectType } from '@nestjs/graphql'
 import { ApiProperty } from '@nestjs/swagger'
-import { Account } from '@pubkeyapp/api/account/data-access'
 import { GraphQLDateTime, GraphQLJSON } from 'graphql-scalars'
 import { IdentityProvider } from './identity-provider.enum'
 
@@ -28,9 +27,8 @@ export class Identity {
   @Field(() => GraphQLJSON, { nullable: true })
   profile?: unknown
 
-  @ApiProperty({ nullable: true, required: false })
-  @Field(() => [Account], { nullable: true })
-  accounts?: Account[]
+  @HideField()
+  accounts?: unknown[]
 
   @ApiProperty()
   @Field()

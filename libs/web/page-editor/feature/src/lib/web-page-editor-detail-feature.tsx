@@ -3,7 +3,8 @@ import { useDisclosure } from '@mantine/hooks'
 
 import { PageEditorPreview } from '@pubkeyapp/web/page-editor/ui'
 import { ProfileTypeIcon } from '@pubkeyapp/web/profile/ui'
-import { showNotificationError, showNotificationSuccess, UiActionIcon, UiBackButton } from '@pubkeyapp/web/ui/core'
+import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/notifications'
+import { UiActionIcon, UiBackButton } from '@pubkeyapp/web/ui/core'
 import { UiPageHeader } from '@pubkeyapp/web/ui/page'
 import {
   AdminUpdatePageInput,
@@ -39,7 +40,7 @@ export function WebPageEditorDetailFeature() {
   const navigate = useNavigate()
 
   const removePageBlock = async (block: PageBlock) => {
-    if (!confirm(`Do you really want to delete the page block ${block.type}?`)) {
+    if (!window.confirm(`Do you really want to delete the page block ${block.type}?`)) {
       return false
     }
     return removePageBlockMutation({ pageId: pageId!, pageBlockId: block.id! })
@@ -57,7 +58,7 @@ export function WebPageEditorDetailFeature() {
 
   const removePageDomain = (pageDomain: PageDomain) => {
     const label = `${pageDomain.domain?.name}/${pageDomain.page}`
-    if (!confirm(`Do you really want to delete the page block ${label}?`)) {
+    if (!window.confirm(`Do you really want to delete the page block ${label}?`)) {
       return false
     }
     return removePageDomainMutation({ pageId: pageId!, pageDomainId: pageDomain.id! })
@@ -131,7 +132,7 @@ export function WebPageEditorDetailFeature() {
       .catch((err) => showNotificationError(err.message))
 
   const deletePage = () => {
-    if (!confirm(`Do you really want to delete the page ${page?.item?.profile?.type}?`)) {
+    if (!window.confirm(`Do you really want to delete the page ${page?.item?.profile?.type}?`)) {
       return false
     }
     return deletePageMutation({ pageId: pageId! })

@@ -1,5 +1,7 @@
 import { Container, Paper } from '@mantine/core'
-import { AppsProvider } from '@pubkeyapp/web/apps/data-access'
+import { PubKeyLogoRounded } from '@pubkeyapp/logo'
+import { AppsProvider, AppType } from '@pubkeyapp/web/apps/data-access'
+import { GumLogo } from '@pubkeyapp/web/apps/ui'
 import { AuthGuard, AuthProvider, UserRoleGuard, UserStatusGuard } from '@pubkeyapp/web/auth/data-access'
 import { ConfigProvider, SolanaProvider } from '@pubkeyapp/web/shell/data-access'
 import { UiNotFound } from '@pubkeyapp/web/ui/core'
@@ -37,6 +39,10 @@ export function WebShellFeature() {
     '/pricing',
     '/verified',
   ]
+  const apps = [
+    { id: AppType.PubKeyPages, name: 'PubKey Pages', logo: <PubKeyLogoRounded size={64} /> },
+    { id: AppType.GumProfile, name: 'Gum Profile', logo: <GumLogo width={64} height={64} /> },
+  ]
   return (
     <UiThemeProvider>
       <Routes>
@@ -53,7 +59,7 @@ export function WebShellFeature() {
             <Route element={<AuthGuard redirectTo="/login" />}>
               <Route
                 element={
-                  <AppsProvider>
+                  <AppsProvider apps={apps}>
                     <UserStatusGuard status={UserStatus.Active} element={<EarlyFeature />} />
                   </AppsProvider>
                 }
