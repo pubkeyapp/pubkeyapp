@@ -1,7 +1,0 @@
-export * from './lib/homepage-section-built-with'
-export * from './lib/homepage-section-faq'
-export * from './lib/homepage-section-grid'
-export * from './lib/homepage-section-hero-image'
-export * from './lib/logos/gum-logo'
-export * from './lib/logos/dialect-logo'
-export * from './lib/logos/helius-logo'

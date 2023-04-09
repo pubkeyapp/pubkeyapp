@@ -72,8 +72,6 @@
       "@pubkeyapp/web/gum/data-access": ["libs/web/gum/data-access/src/index.ts"],
       "@pubkeyapp/web/gum/feature": ["libs/web/gum/feature/src/index.ts"],
       "@pubkeyapp/web/gum/ui": ["libs/web/gum/ui/src/index.ts"],
-      "@pubkeyapp/web/homepage/feature": ["libs/web/homepage/feature/src/index.ts"],
-      "@pubkeyapp/web/homepage/ui": ["libs/web/homepage/ui/src/index.ts"],
       "@pubkeyapp/web/identity/ui": ["libs/web/identity/ui/src/index.ts"],
       "@pubkeyapp/web/invite/data-access": ["libs/web/invite/data-access/src/index.ts"],
       "@pubkeyapp/web/invite/ui": ["libs/web/invite/ui/src/index.ts"],

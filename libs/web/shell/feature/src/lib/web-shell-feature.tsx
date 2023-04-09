@@ -1,4 +1,3 @@
-import { Container, Paper } from '@mantine/core'
 import { PubKeyLogoRounded } from '@pubkeyapp/logo'
 import { AppsProvider, AppType } from '@pubkeyapp/web/apps/data-access'
 import { GumLogo } from '@pubkeyapp/web/apps/ui'
@@ -18,7 +17,6 @@ const AppsFeature = lazy(() => import('@pubkeyapp/web/apps/feature'))
 const AdminFeature = lazy(() => import('@pubkeyapp/web/admin/feature'))
 const DashboardFeature = lazy(() => import('@pubkeyapp/web/dashboard/feature'))
 const DevFeature = lazy(() => import('@pubkeyapp/web/dev/feature'))
-const HomepageFeature = lazy(() => import('@pubkeyapp/web/homepage/feature'))
 const LoginFeature = lazy(() => import('@pubkeyapp/web/auth/feature'))
 const ProfileFeature = lazy(() => import('@pubkeyapp/web/profile/feature'))
 const PageFeature = lazy(() => import('@pubkeyapp/web/page/feature'))
@@ -26,19 +24,6 @@ const PlanFeature = lazy(() => import('@pubkeyapp/web/plan/feature'))
 const SearchFeature = lazy(() => import('@pubkeyapp/web/search/feature'))
 
 export function WebShellFeature() {
-  const pages = [
-    '/learn',
-    '/docs',
-    '/resources',
-    '/sdk',
-    '/support',
-    '/about',
-    '/privacy',
-    '/terms',
-    '/contact',
-    '/pricing',
-    '/verified',
-  ]
   const apps = [
     { id: AppType.PubKeyPages, name: 'PubKey Pages', logo: <PubKeyLogoRounded size={64} /> },
     { id: AppType.GumProfile, name: 'Gum Profile', logo: <GumLogo width={64} height={64} /> },
@@ -46,13 +31,8 @@ export function WebShellFeature() {
   return (
     <UiThemeProvider>
       <Routes>
-        <Route index element={<Navigate replace to={'/home'} />} />
-        <Route element={<UiLayout homepage />}>
-          <Route path="/home" element={<HomepageFeature />} />
-          {pages.map((page) => (
-            <Route key={page} path={`${page}`} element={<PlaceholderComponent page={page} />} />
-          ))}
-        </Route>
+        <Route index element={<Navigate replace to={'/dashboard'} />} />
+        <Route path="/home/*" element={<Navigate replace to={'/dashboard'} />} />
         <Route element={<AppProviders />}>
           <Route element={<UiLayout />}>
             <Route path="/login" element={<LoginFeature />} />
@@ -100,13 +80,5 @@ export function AppProviders() {
         </SolanaProvider>
       </ConfigProvider>
     </GraphQLProvider>
-  )
-}
-
-export function PlaceholderComponent({ page }: { page: string }) {
-  return (
-    <Container>
-      <Paper>TBD: {page}</Paper>
-    </Container>
   )
 }
