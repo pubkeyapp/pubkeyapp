@@ -15,7 +15,10 @@ export class ApiAnonUserResolver {
   }
 
   @Query(() => User, { nullable: true })
-  anonGetUserByIdentity(@Args('provider') provider: IdentityProvider, @Args('providerId') providerId: string) {
+  anonGetUserByIdentity(
+    @Args({ name: 'provider', type: () => IdentityProvider }) provider: IdentityProvider,
+    @Args('providerId') providerId: string,
+  ) {
     return this.service.getUserByIdentity(provider, providerId)
   }
 
