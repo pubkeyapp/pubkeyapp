@@ -123,4 +123,12 @@ export class ApiPublicUserService {
     }
     return found
   }
+
+  async getUserByPid(pid: number) {
+    const found = await this.core.getUserByPid(pid)
+    if (!found) {
+      throw new NotFoundException('User not found')
+    }
+    return found
+  }
 }

@@ -76,11 +76,45 @@ export class ApiCoreService implements OnApplicationBootstrap {
     }
     return this.cache.wrap<CoreUser>(
       'user',
-      `get-by-id:${userId}`,
+      key,
       () =>
         this.data.user
           .findUnique({
             where: { id: userId },
+            include: {
+              profile: {
+                include: {
+                  gumProfile: true,
+                  identities: true,
+                  owner: { include: { gumUser: true } },
+                },
+              },
+              profiles: true,
+              identities: true,
+              gumUser: { include: { gumUser: true } },
+            },
+          })
+          .then((user: CoreDbUser) => (user ? convertCoreDbUser(user) : undefined)),
+      10,
+    )
+  }
+
+  async getUserByPid(pid: number, refresh = false): Promise<CoreUser> {
+    if (!pid) {
+      return Promise.reject("Can't get user without pid")
+    }
+    parseInt(pid.toString(), 10)
+    const key = `get-by-pid:${pid}`
+    if (refresh) {
+      await this.cache.del('user', key)
+    }
+    return this.cache.wrap<CoreUser>(
+      'user',
+      key,
+      () =>
+        this.data.user
+          .findUnique({
+            where: { pid },
             include: {
               profile: {
                 include: {

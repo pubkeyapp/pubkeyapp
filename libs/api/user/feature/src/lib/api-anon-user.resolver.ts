@@ -1,4 +1,4 @@
-import { Args, Query, Resolver } from '@nestjs/graphql'
+import { Args, Int, Query, Resolver } from '@nestjs/graphql'
 import { IdentityProvider } from '@pubkeyapp/api/identity/data-access'
 import { Invite } from '@pubkeyapp/api/invite/data-access'
 import { Page } from '@pubkeyapp/api/page/data-access'
@@ -20,6 +20,11 @@ export class ApiAnonUserResolver {
     @Args('providerId') providerId: string,
   ) {
     return this.service.getUserByIdentity(provider, providerId)
+  }
+
+  @Query(() => User, { nullable: true })
+  anonGetUserByPid(@Args({ name: 'pid', type: () => Int }) pid: number) {
+    return this.service.getUserByPid(pid)
   }
 
   @Query(() => [User], { nullable: true })
