@@ -30,11 +30,11 @@ export function AdminClusterDetailFeature() {
                       </Group>
 
                       <Text>
-                        Type <Badge>{data?.item?.type}</Badge>
+                        Type <Badge>{data?.item?.type?.replace('Solana', 'Solana ')}</Badge>
                       </Text>
                     </Stack>
                   </Box>
-                  <UiDebug data={{ data }} />
+                  <UiDebug data={data?.item} open hideButton />
                 </Stack>
               ),
             },

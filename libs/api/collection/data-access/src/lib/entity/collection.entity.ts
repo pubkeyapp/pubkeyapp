@@ -1,6 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql'
 import { ApiProperty } from '@nestjs/swagger'
-import { NetworkType } from '@pubkeyapp/api/account/data-access'
+import { ClusterType } from '@pubkeyapp/api/cluster/data-access'
 import { GraphQLDateTime } from 'graphql-scalars'
 
 @ObjectType()
@@ -23,7 +23,7 @@ export class Collection {
   @Field({ nullable: true })
   name: string
 
-  @ApiProperty({ enum: NetworkType, enumName: 'NetworkType' })
-  @Field(() => NetworkType, { nullable: true })
-  network: NetworkType
+  @ApiProperty({ enum: ClusterType, enumName: 'ClusterType' })
+  @Field(() => ClusterType, { nullable: true })
+  cluster: ClusterType
 }

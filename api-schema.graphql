@@ -333,7 +333,7 @@ type Collection {
   updatedAt: DateTime
   address: String
   name: String
-  network: NetworkType
+  cluster: ClusterType
   explorerUrl: String
 }
 
@@ -403,7 +403,7 @@ type Query {
   userGetClusters: Cluster
   adminGetCollection(collectionId: String!): Collection
   adminGetCollections(input: AdminGetCollectionsInput!): [Collection!]
-  userGetCollection(network: NetworkType!, address: String!): Collection
+  userGetCollection(cluster: ClusterType!, address: String!): Collection
   userGetCollections: Collection
   config: Config
   adminGetDomains(input: AdminGetDomainsInput): [Domain!]
@@ -460,7 +460,7 @@ input AdminGetClustersInput {
 }
 
 input AdminGetCollectionsInput {
-  network: NetworkType
+  cluster: ClusterType
   address: String
   name: String
 }
@@ -575,7 +575,7 @@ input AdminUpdateClusterInput {
 }
 
 input AdminCreateCollectionInput {
-  network: NetworkType!
+  cluster: ClusterType!
   address: String!
   name: String!
 }

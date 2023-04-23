@@ -77,8 +77,8 @@ export type AdminCreateClusterInput = {
 
 export type AdminCreateCollectionInput = {
   address: Scalars['String']
+  cluster: ClusterType
   name: Scalars['String']
-  network: NetworkType
 }
 
 export type AdminCreateDomainInput = {
@@ -134,8 +134,8 @@ export type AdminGetClustersInput = {
 
 export type AdminGetCollectionsInput = {
   address?: InputMaybe<Scalars['String']>
+  cluster?: InputMaybe<ClusterType>
   name?: InputMaybe<Scalars['String']>
-  network?: InputMaybe<NetworkType>
 }
 
 export type AdminGetDomainsInput = {
@@ -258,11 +258,11 @@ export enum ClusterType {
 export type Collection = {
   __typename?: 'Collection'
   address?: Maybe<Scalars['String']>
+  cluster?: Maybe<ClusterType>
   createdAt?: Maybe<Scalars['DateTime']>
   explorerUrl?: Maybe<Scalars['String']>
   id?: Maybe<Scalars['String']>
   name?: Maybe<Scalars['String']>
-  network?: Maybe<NetworkType>
   updatedAt?: Maybe<Scalars['DateTime']>
 }
 
@@ -1051,7 +1051,7 @@ export type QueryUserGetClusterArgs = {
 
 export type QueryUserGetCollectionArgs = {
   address: Scalars['String']
-  network: NetworkType
+  cluster: ClusterType
 }
 
 export type QueryUserGetHeliusTransactionsArgs = {
@@ -3189,7 +3189,7 @@ export type CollectionSummaryFragment = {
   id?: string | null
   name?: string | null
   address?: string | null
-  network?: NetworkType | null
+  cluster?: ClusterType | null
   explorerUrl?: string | null
 }
 
@@ -3199,7 +3199,7 @@ export type CollectionDetailsFragment = {
   updatedAt?: any | null
   createdAt?: any | null
   name?: string | null
-  network?: NetworkType | null
+  cluster?: ClusterType | null
   address?: string | null
   explorerUrl?: string | null
 }
@@ -3216,7 +3216,7 @@ export type AdminCreateCollectionMutation = {
     updatedAt?: any | null
     createdAt?: any | null
     name?: string | null
-    network?: NetworkType | null
+    cluster?: ClusterType | null
     address?: string | null
     explorerUrl?: string | null
   } | null
@@ -3235,7 +3235,7 @@ export type AdminUpdateCollectionMutation = {
     updatedAt?: any | null
     createdAt?: any | null
     name?: string | null
-    network?: NetworkType | null
+    cluster?: ClusterType | null
     address?: string | null
     explorerUrl?: string | null
   } | null
@@ -3259,7 +3259,7 @@ export type AdminGetCollectionsQuery = {
     updatedAt?: any | null
     createdAt?: any | null
     name?: string | null
-    network?: NetworkType | null
+    cluster?: ClusterType | null
     address?: string | null
     explorerUrl?: string | null
   }> | null
@@ -3277,14 +3277,14 @@ export type AdminGetCollectionQuery = {
     updatedAt?: any | null
     createdAt?: any | null
     name?: string | null
-    network?: NetworkType | null
+    cluster?: ClusterType | null
     address?: string | null
     explorerUrl?: string | null
   } | null
 }
 
 export type UserGetCollectionQueryVariables = Exact<{
-  network: NetworkType
+  cluster: ClusterType
   address: Scalars['String']
 }>
 
@@ -3296,7 +3296,7 @@ export type UserGetCollectionQuery = {
     updatedAt?: any | null
     createdAt?: any | null
     name?: string | null
-    network?: NetworkType | null
+    cluster?: ClusterType | null
     address?: string | null
     explorerUrl?: string | null
   } | null
@@ -3312,7 +3312,7 @@ export type UserGetCollectionsQuery = {
     updatedAt?: any | null
     createdAt?: any | null
     name?: string | null
-    network?: NetworkType | null
+    cluster?: ClusterType | null
     address?: string | null
     explorerUrl?: string | null
   } | null
@@ -9460,7 +9460,7 @@ export const CollectionSummaryFragmentDoc = gql`
     id
     name
     address
-    network
+    cluster
     explorerUrl
   }
 `
@@ -9470,7 +9470,7 @@ export const CollectionDetailsFragmentDoc = gql`
     updatedAt
     createdAt
     name
-    network
+    cluster
     address
     explorerUrl
   }
@@ -10078,8 +10078,8 @@ export function useAdminGetCollectionQuery(
   })
 }
 export const UserGetCollectionDocument = gql`
-  query UserGetCollection($network: NetworkType!, $address: String!) {
-    item: userGetCollection(network: $network, address: $address) {
+  query UserGetCollection($cluster: ClusterType!, $address: String!) {
+    item: userGetCollection(cluster: $cluster, address: $address) {
       ...CollectionDetails
     }
   }

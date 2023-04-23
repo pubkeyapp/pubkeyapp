@@ -81,10 +81,11 @@ model Collection {
   createdAt DateTime    @default(now())
   updatedAt DateTime    @default(now()) @updatedAt
   address   String
+  cluster   ClusterType
+  metadata  Json?
   name      String
-  network   NetworkType
 
-  @@unique([address, network])
+  @@unique([address, cluster])
 }
 
 model User {

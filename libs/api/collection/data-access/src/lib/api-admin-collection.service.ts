@@ -16,7 +16,7 @@ export class ApiAdminCollectionService {
       data: {
         name: input.name,
         address: input.address,
-        network: input.network,
+        cluster: input.cluster,
       },
     })
   }
@@ -28,7 +28,7 @@ export class ApiAdminCollectionService {
       where: Object.keys(input).length
         ? {
             OR: [
-              { network: input.network },
+              { cluster: input.cluster },
               { name: { contains: input.name } },
               { address: { contains: input.address } },
             ],

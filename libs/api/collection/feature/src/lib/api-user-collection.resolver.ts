@@ -1,7 +1,7 @@
 import { UseGuards } from '@nestjs/common'
 import { Args, Query, Resolver } from '@nestjs/graphql'
-import { NetworkType } from '@pubkeyapp/api/account/data-access'
 import { ApiAuthGraphqlGuard, CtxUser } from '@pubkeyapp/api/auth/data-access'
+import { ClusterType } from '@pubkeyapp/api/cluster/data-access'
 import { ApiUserCollectionService, Collection } from '@pubkeyapp/api/collection/data-access'
 import { User } from '@pubkeyapp/api/user/data-access'
 
@@ -13,10 +13,10 @@ export class ApiUserCollectionResolver {
   @Query(() => Collection, { nullable: true })
   userGetCollection(
     @CtxUser() user: User,
-    @Args({ name: 'network', type: () => NetworkType }) network: NetworkType,
+    @Args({ name: 'cluster', type: () => ClusterType }) cluster: ClusterType,
     @Args('address') address: string,
   ) {
-    return this.service.userGetCollection(user.id, network, address)
+    return this.service.userGetCollection(user.id, cluster, address)
   }
 
   @Query(() => Collection, { nullable: true })

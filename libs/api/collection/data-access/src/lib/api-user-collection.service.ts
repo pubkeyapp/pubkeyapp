@@ -1,7 +1,6 @@
-import { Injectable, Logger, NotFoundException, OnModuleInit } from '@nestjs/common'
-import { NetworkType } from '@prisma/client'
+import { Injectable, Logger, NotFoundException } from '@nestjs/common'
+import { ClusterType } from '@prisma/client'
 import { ApiCoreService } from '@pubkeyapp/api/core/data-access'
-import { ApiSolanaService } from '@pubkeyapp/api/solana/data-access'
 
 @Injectable()
 export class ApiUserCollectionService {
@@ -21,22 +20,22 @@ export class ApiUserCollectionService {
     return found
   }
 
-  async userGetCollection(userId: string, network: NetworkType, address: string) {
+  async userGetCollection(userId: string, cluster: ClusterType, address: string) {
     await this.core.ensureUserActive(userId)
 
-    let found = await this.findCollection(network, address)
+    let found = await this.findCollection(cluster, address)
 
     if (!found) {
-      throw new NotFoundException(`Collection ${address} not found on ${network} (after discovery)`)
+      throw new NotFoundException(`Collection ${address} not found on ${cluster} (after discovery)`)
     }
 
     return found
   }
 
-  private findCollection(network: NetworkType, address: string) {
+  private findCollection(cluster: ClusterType, address: string) {
     return this.core.data.collection.findUnique({
       where: {
-        address_network: { address, network },
+        address_cluster: { address, cluster },
       },
     })
   }

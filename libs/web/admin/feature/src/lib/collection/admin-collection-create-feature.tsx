@@ -1,13 +1,8 @@
-import { Button, Paper, useMantineTheme } from '@mantine/core'
+import { Button, Paper } from '@mantine/core'
 import { UiBackButton } from '@pubkeyapp/web/ui/core'
 import { formFieldSelect, formFieldText, UiForm, UiFormField } from '@pubkeyapp/web/ui/form'
 import { UiPage } from '@pubkeyapp/web/ui/page'
-import {
-  AdminCreateCollectionInput,
-  NetworkType,
-  useAdminCreateCollectionMutation,
-  useAdminGetUsersQuery,
-} from '@pubkeyapp/web/util/sdk'
+import { AdminCreateCollectionInput, ClusterType, useAdminCreateCollectionMutation } from '@pubkeyapp/web/util/sdk'
 import { useNavigate } from 'react-router-dom'
 
 export function AdminCollectionCreateFeature() {
@@ -21,15 +16,15 @@ export function AdminCollectionCreateFeature() {
     })
   }
 
-  const userOptions: { label: string; value: string }[] = Object.keys(NetworkType).map((key) => ({
+  const userOptions: { label: string; value: string }[] = Object.keys(ClusterType).map((key) => ({
     label: key.replace('Solana', 'Solana '),
     value: key,
   }))
 
   const fields: UiFormField<AdminCreateCollectionInput>[] = [
-    formFieldSelect('network', {
-      label: 'Collection network',
-      description: 'Select the network.',
+    formFieldSelect('cluster', {
+      label: 'Collection cluster',
+      description: 'Select the cluster.',
       options: [...userOptions],
     }),
     formFieldText('name', {
@@ -49,7 +44,7 @@ export function AdminCollectionCreateFeature() {
       <Paper>
         <UiForm<AdminCreateCollectionInput>
           fields={fields}
-          model={{ name: '', address: '', network: NetworkType.SolanaMainnet }}
+          model={{ name: '', address: '', cluster: ClusterType.SolanaMainnet }}
           submit={createCollection}
         >
           <Button type="submit">Create</Button>

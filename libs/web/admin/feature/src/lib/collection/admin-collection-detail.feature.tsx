@@ -30,7 +30,7 @@ export function AdminCollectionDetailFeature() {
                       </Group>
 
                       <Text>
-                        Network <Badge>{data?.item?.network}</Badge>
+                        Cluster <Badge>{data?.item?.cluster}</Badge>
                       </Text>
                     </Stack>
                   </Box>

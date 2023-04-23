@@ -492,14 +492,14 @@
             "deprecationReason": null
           },
           {
-            "name": "name",
+            "name": "cluster",
             "description": null,
             "type": {
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
+                "kind": "ENUM",
+                "name": "ClusterType",
                 "ofType": null
               }
             },
@@ -508,14 +508,14 @@
             "deprecationReason": null
           },
           {
-            "name": "network",
+            "name": "name",
             "description": null,
             "type": {
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "ENUM",
-                "name": "NetworkType",
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               }
             },
@@ -1004,11 +1004,11 @@
             "deprecationReason": null
           },
           {
-            "name": "name",
+            "name": "cluster",
             "description": null,
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
+              "kind": "ENUM",
+              "name": "ClusterType",
               "ofType": null
             },
             "defaultValue": null,
@@ -1016,11 +1016,11 @@
             "deprecationReason": null
           },
           {
-            "name": "network",
+            "name": "name",
             "description": null,
             "type": {
-              "kind": "ENUM",
-              "name": "NetworkType",
+              "kind": "SCALAR",
+              "name": "String",
               "ofType": null
             },
             "defaultValue": null,
@@ -1972,6 +1972,18 @@
             "deprecationReason": null
           },
           {
+            "name": "cluster",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "ENUM",
+              "name": "ClusterType",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "createdAt",
             "description": null,
             "args": [],
@@ -2014,18 +2026,6 @@
             "type": {
               "kind": "SCALAR",
               "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "network",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "ENUM",
-              "name": "NetworkType",
               "ofType": null
             },
             "isDeprecated": false,
@@ -7771,14 +7771,14 @@
                 "deprecationReason": null
               },
               {
-                "name": "network",
+                "name": "cluster",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
                   "ofType": {
                     "kind": "ENUM",
-                    "name": "NetworkType",
+                    "name": "ClusterType",
                     "ofType": null
                   }
                 },

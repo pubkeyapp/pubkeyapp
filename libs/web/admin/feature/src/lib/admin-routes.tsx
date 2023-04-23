@@ -3,6 +3,7 @@ import { getColorByIndex, UiDashboardItem } from '@pubkeyapp/web/ui/core'
 import { UiPageHeader } from '@pubkeyapp/web/ui/page'
 import {
   IconCards,
+  IconClubs,
   IconColumns3,
   IconGlobe,
   IconMoneybag,
@@ -13,6 +14,7 @@ import {
   IconStack3,
   IconSunglasses,
   IconUsers,
+  IconWorld,
 } from '@tabler/icons-react'
 import { useMemo } from 'react'
 import { Link, Navigate, Outlet, Route, Routes } from 'react-router-dom'
@@ -33,7 +35,7 @@ export function AdminRoutes() {
   const links: UiDashboardItem[] = useMemo(() => {
     return [
       { label: 'Accounts', icon: IconNotes, link: '/admin/accounts' },
-      { label: 'Cluster', icon: IconColumns3, link: '/admin/clusters' },
+      { label: 'Cluster', icon: IconWorld, link: '/admin/clusters' },
       { label: 'Collections', icon: IconColumns3, link: '/admin/collections' },
       { label: 'Domains', icon: IconGlobe, link: '/admin/domains' },
       { label: 'Invites', icon: IconCards, link: '/admin/invites' },

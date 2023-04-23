@@ -8,7 +8,7 @@ import { Collection } from '@pubkeyapp/api/collection/data-access'
 export class ApiCollectionFieldResolver {
   @ResolveField(() => String, { nullable: true })
   explorerUrl(@Parent() collection: Collection) {
-    const postfix = `?cluster=${collection?.network?.toLowerCase()}`
+    const postfix = `?cluster=${collection?.cluster?.toLowerCase()}`
 
     return `/collection/${collection.address}${postfix}`
   }

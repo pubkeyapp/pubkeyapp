@@ -1,10 +1,10 @@
 import { Field, InputType } from '@nestjs/graphql'
-import { NetworkType } from '@pubkeyapp/api/account/data-access'
+import { ClusterType } from '@pubkeyapp/api/cluster/data-access'
 
 @InputType()
 export class AdminCreateCollectionInput {
-  @Field(() => NetworkType)
-  network: NetworkType
+  @Field(() => ClusterType)
+  cluster: ClusterType
 
   @Field()
   address: string
