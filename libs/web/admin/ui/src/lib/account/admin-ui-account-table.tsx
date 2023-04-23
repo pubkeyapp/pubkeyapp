@@ -1,12 +1,12 @@
 import { ActionIcon, Code, Group, ScrollArea, Text } from '@mantine/core'
-import { UiActionIcon } from '@pubkeyapp/web/ui/core'
+import { ellipsify, UiActionIcon } from '@pubkeyapp/web/ui/core'
 import { Account } from '@pubkeyapp/web/util/sdk'
 import { IconTrash } from '@tabler/icons-react'
 import { IconNavigation, IconPencil } from '@tabler/icons-react'
 import { DataTable } from 'mantine-datatable'
 import { Link } from 'react-router-dom'
 import { AdminUiUserLink } from '../admin-ui-user-link'
-import { AdminUiAccountLabel, ellipsify } from './admin-ui-account-label'
+import { AdminUiAccountLabel } from './admin-ui-account-label'
 
 interface AdminUiAccountTableProps {
   accounts: Account[]

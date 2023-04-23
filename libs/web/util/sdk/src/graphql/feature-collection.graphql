@@ -1,0 +1,56 @@
+fragment CollectionSummary on Collection {
+  id
+  name
+  address
+  network
+  explorerUrl
+}
+
+fragment CollectionDetails on Collection {
+  id
+  updatedAt
+  createdAt
+  name
+  network
+  address
+  explorerUrl
+}
+
+mutation AdminCreateCollection($input: AdminCreateCollectionInput!) {
+  item: adminCreateCollection(input: $input) {
+    ...CollectionDetails
+  }
+}
+
+mutation AdminUpdateCollection($collectionId: String!, $input: AdminUpdateCollectionInput!) {
+  item: adminUpdateCollection(collectionId: $collectionId, input: $input) {
+    ...CollectionDetails
+  }
+}
+
+mutation AdminDeleteCollection($collectionId: String!) {
+  item: adminDeleteCollection(collectionId: $collectionId)
+}
+
+query AdminGetCollections($input: AdminGetCollectionsInput!) {
+  items: adminGetCollections(input: $input) {
+    ...CollectionDetails
+  }
+}
+
+query AdminGetCollection($collectionId: String!) {
+  item: adminGetCollection(collectionId: $collectionId) {
+    ...CollectionDetails
+  }
+}
+
+query UserGetCollection($network: NetworkType!, $address: String!) {
+  item: userGetCollection(network: $network, address: $address) {
+    ...CollectionDetails
+  }
+}
+query UserGetCollections {
+  items: userGetCollections {
+    ...CollectionDetails
+  }
+}

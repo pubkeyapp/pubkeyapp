@@ -1,4 +1,5 @@
 import { Group, Text } from '@mantine/core'
+import { ellipsify } from '@pubkeyapp/web/ui/core'
 
 import { Account } from '@pubkeyapp/web/util/sdk'
 import { Link } from 'react-router-dom'
@@ -12,11 +13,4 @@ export function AdminUiAccountLabel({ account }: { account: Account }) {
       </Text>
     </Group>
   )
-}
-
-export function ellipsify(str = '', len = 4) {
-  if (str.length > 30) {
-    return str.substring(0, len) + '..' + str.substring(str.length - len, str.length)
-  }
-  return str
 }

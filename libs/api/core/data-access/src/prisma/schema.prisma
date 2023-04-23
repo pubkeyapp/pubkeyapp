@@ -53,6 +53,17 @@ enum NetworkType {
   SolanaTestnet
 }
 
+model Collection {
+  id        String      @id @default(cuid())
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @default(now()) @updatedAt
+  address   String
+  name      String
+  network   NetworkType
+
+  @@unique([address, network])
+}
+
 model User {
   id                 String     @id @default(cuid())
   pid                Int        @unique @default(autoincrement())

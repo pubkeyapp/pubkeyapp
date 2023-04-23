@@ -69,6 +69,12 @@ export type AdminAddPageDomainInput = {
   path: Scalars['String']
 }
 
+export type AdminCreateCollectionInput = {
+  address: Scalars['String']
+  name: Scalars['String']
+  network: NetworkType
+}
+
 export type AdminCreateDomainInput = {
   name: Scalars['String']
   ownerId?: InputMaybe<Scalars['String']>
@@ -115,6 +121,12 @@ export type AdminGetAccountsInput = {
   type?: InputMaybe<AccountType>
 }
 
+export type AdminGetCollectionsInput = {
+  address?: InputMaybe<Scalars['String']>
+  name?: InputMaybe<Scalars['String']>
+  network?: InputMaybe<NetworkType>
+}
+
 export type AdminGetDomainsInput = {
   ownerId?: InputMaybe<Scalars['String']>
 }
@@ -133,6 +145,11 @@ export type AdminGetPlansInput = {
 
 export type AdminGetProfilesInput = {
   ownerId?: InputMaybe<Scalars['String']>
+}
+
+export type AdminUpdateCollectionInput = {
+  address?: InputMaybe<Scalars['String']>
+  name?: InputMaybe<Scalars['String']>
 }
 
 export type AdminUpdateDomainInput = {
@@ -209,6 +226,17 @@ export enum ClusterType {
   Devnet = 'Devnet',
   Mainnet = 'Mainnet',
   Testnet = 'Testnet',
+}
+
+export type Collection = {
+  __typename?: 'Collection'
+  address?: Maybe<Scalars['String']>
+  createdAt?: Maybe<Scalars['DateTime']>
+  explorerUrl?: Maybe<Scalars['String']>
+  id?: Maybe<Scalars['String']>
+  name?: Maybe<Scalars['String']>
+  network?: Maybe<NetworkType>
+  updatedAt?: Maybe<Scalars['DateTime']>
 }
 
 export type Config = {
@@ -331,12 +359,14 @@ export type Mutation = {
   adminAddPageBlock?: Maybe<PageBlock>
   adminAddPageDomain?: Maybe<PageDomain>
   adminCleanQueue?: Maybe<Scalars['Boolean']>
+  adminCreateCollection?: Maybe<Collection>
   adminCreateDomain?: Maybe<Domain>
   adminCreateInvite?: Maybe<Invite>
   adminCreatePage?: Maybe<Page>
   adminCreatePlan?: Maybe<Plan>
   adminCreateUser?: Maybe<User>
   adminDeleteAccount?: Maybe<Scalars['Boolean']>
+  adminDeleteCollection?: Maybe<Scalars['Boolean']>
   adminDeleteDomain?: Maybe<Domain>
   adminDeleteInvite?: Maybe<Invite>
   adminDeletePage?: Maybe<Page>
@@ -350,6 +380,7 @@ export type Mutation = {
   adminRemovePageDomain?: Maybe<PageDomain>
   adminResumeQueue?: Maybe<Scalars['Boolean']>
   adminSetSetting?: Maybe<Setting>
+  adminUpdateCollection?: Maybe<Collection>
   adminUpdateDomain?: Maybe<Domain>
   adminUpdateInvite?: Maybe<Invite>
   adminUpdatePage?: Maybe<Page>
@@ -401,6 +432,10 @@ export type MutationAdminCleanQueueArgs = {
   type: QueueType
 }
 
+export type MutationAdminCreateCollectionArgs = {
+  input: AdminCreateCollectionInput
+}
+
 export type MutationAdminCreateDomainArgs = {
   input: AdminCreateDomainInput
 }
@@ -423,6 +458,10 @@ export type MutationAdminCreateUserArgs = {
 
 export type MutationAdminDeleteAccountArgs = {
   accountId: Scalars['String']
+}
+
+export type MutationAdminDeleteCollectionArgs = {
+  collectionId: Scalars['String']
 }
 
 export type MutationAdminDeleteDomainArgs = {
@@ -475,6 +514,11 @@ export type MutationAdminResumeQueueArgs = {
 export type MutationAdminSetSettingArgs = {
   key: Scalars['String']
   value: Scalars['String']
+}
+
+export type MutationAdminUpdateCollectionArgs = {
+  collectionId: Scalars['String']
+  input: AdminUpdateCollectionInput
 }
 
 export type MutationAdminUpdateDomainArgs = {
@@ -767,6 +811,8 @@ export type Query = {
   __typename?: 'Query'
   adminGetAccount?: Maybe<Account>
   adminGetAccounts?: Maybe<Array<Account>>
+  adminGetCollection?: Maybe<Collection>
+  adminGetCollections?: Maybe<Array<Collection>>
   adminGetDomain?: Maybe<Domain>
   adminGetDomains?: Maybe<Array<Domain>>
   adminGetInvite?: Maybe<Invite>
@@ -788,6 +834,8 @@ export type Query = {
   anonGetPage?: Maybe<Page>
   anonGetPlans?: Maybe<Array<Plan>>
   anonGetUser?: Maybe<User>
+  anonGetUserByIdentity?: Maybe<User>
+  anonGetUserByPid?: Maybe<User>
   anonGetUserFollowers?: Maybe<Array<User>>
   anonGetUserFollowing?: Maybe<Array<User>>
   anonGetUserInvites?: Maybe<Array<Invite>>
@@ -799,6 +847,8 @@ export type Query = {
   uptime: Scalars['Float']
   userGetAccount?: Maybe<Account>
   userGetAccountHistory?: Maybe<Scalars['JSON']>
+  userGetCollection?: Maybe<Collection>
+  userGetCollections?: Maybe<Collection>
   userGetDomains?: Maybe<Array<Domain>>
   userGetHeliusTransactions: Array<HeliusTransaction>
   userGetIdentities?: Maybe<Array<Identity>>
@@ -818,6 +868,14 @@ export type QueryAdminGetAccountArgs = {
 
 export type QueryAdminGetAccountsArgs = {
   input: AdminGetAccountsInput
+}
+
+export type QueryAdminGetCollectionArgs = {
+  collectionId: Scalars['String']
+}
+
+export type QueryAdminGetCollectionsArgs = {
+  input: AdminGetCollectionsInput
 }
 
 export type QueryAdminGetDomainArgs = {
@@ -890,6 +948,15 @@ export type QueryAnonGetUserArgs = {
   username: Scalars['String']
 }
 
+export type QueryAnonGetUserByIdentityArgs = {
+  provider: IdentityProvider
+  providerId: Scalars['String']
+}
+
+export type QueryAnonGetUserByPidArgs = {
+  pid: Scalars['Int']
+}
+
 export type QueryAnonGetUserFollowersArgs = {
   username: Scalars['String']
 }
@@ -921,6 +988,11 @@ export type QueryUserGetAccountArgs = {
 }
 
 export type QueryUserGetAccountHistoryArgs = {
+  address: Scalars['String']
+  network: NetworkType
+}
+
+export type QueryUserGetCollectionArgs = {
   address: Scalars['String']
   network: NetworkType
 }
@@ -2905,6 +2977,140 @@ export type AnonRespondChallengeMutation = {
       network?: NetworkType | null
       explorerUrl?: string | null
     } | null
+  } | null
+}
+
+export type CollectionSummaryFragment = {
+  __typename?: 'Collection'
+  id?: string | null
+  name?: string | null
+  address?: string | null
+  network?: NetworkType | null
+  explorerUrl?: string | null
+}
+
+export type CollectionDetailsFragment = {
+  __typename?: 'Collection'
+  id?: string | null
+  updatedAt?: any | null
+  createdAt?: any | null
+  name?: string | null
+  network?: NetworkType | null
+  address?: string | null
+  explorerUrl?: string | null
+}
+
+export type AdminCreateCollectionMutationVariables = Exact<{
+  input: AdminCreateCollectionInput
+}>
+
+export type AdminCreateCollectionMutation = {
+  __typename?: 'Mutation'
+  item?: {
+    __typename?: 'Collection'
+    id?: string | null
+    updatedAt?: any | null
+    createdAt?: any | null
+    name?: string | null
+    network?: NetworkType | null
+    address?: string | null
+    explorerUrl?: string | null
+  } | null
+}
+
+export type AdminUpdateCollectionMutationVariables = Exact<{
+  collectionId: Scalars['String']
+  input: AdminUpdateCollectionInput
+}>
+
+export type AdminUpdateCollectionMutation = {
+  __typename?: 'Mutation'
+  item?: {
+    __typename?: 'Collection'
+    id?: string | null
+    updatedAt?: any | null
+    createdAt?: any | null
+    name?: string | null
+    network?: NetworkType | null
+    address?: string | null
+    explorerUrl?: string | null
+  } | null
+}
+
+export type AdminDeleteCollectionMutationVariables = Exact<{
+  collectionId: Scalars['String']
+}>
+
+export type AdminDeleteCollectionMutation = { __typename?: 'Mutation'; item?: boolean | null }
+
+export type AdminGetCollectionsQueryVariables = Exact<{
+  input: AdminGetCollectionsInput
+}>
+
+export type AdminGetCollectionsQuery = {
+  __typename?: 'Query'
+  items?: Array<{
+    __typename?: 'Collection'
+    id?: string | null
+    updatedAt?: any | null
+    createdAt?: any | null
+    name?: string | null
+    network?: NetworkType | null
+    address?: string | null
+    explorerUrl?: string | null
+  }> | null
+}
+
+export type AdminGetCollectionQueryVariables = Exact<{
+  collectionId: Scalars['String']
+}>
+
+export type AdminGetCollectionQuery = {
+  __typename?: 'Query'
+  item?: {
+    __typename?: 'Collection'
+    id?: string | null
+    updatedAt?: any | null
+    createdAt?: any | null
+    name?: string | null
+    network?: NetworkType | null
+    address?: string | null
+    explorerUrl?: string | null
+  } | null
+}
+
+export type UserGetCollectionQueryVariables = Exact<{
+  network: NetworkType
+  address: Scalars['String']
+}>
+
+export type UserGetCollectionQuery = {
+  __typename?: 'Query'
+  item?: {
+    __typename?: 'Collection'
+    id?: string | null
+    updatedAt?: any | null
+    createdAt?: any | null
+    name?: string | null
+    network?: NetworkType | null
+    address?: string | null
+    explorerUrl?: string | null
+  } | null
+}
+
+export type UserGetCollectionsQueryVariables = Exact<{ [key: string]: never }>
+
+export type UserGetCollectionsQuery = {
+  __typename?: 'Query'
+  items?: {
+    __typename?: 'Collection'
+    id?: string | null
+    updatedAt?: any | null
+    createdAt?: any | null
+    name?: string | null
+    network?: NetworkType | null
+    address?: string | null
+    explorerUrl?: string | null
   } | null
 }
 
@@ -9064,6 +9270,26 @@ export const AuthChallengeRequestDetailsFragmentDoc = gql`
     message
   }
 `
+export const CollectionSummaryFragmentDoc = gql`
+  fragment CollectionSummary on Collection {
+    id
+    name
+    address
+    network
+    explorerUrl
+  }
+`
+export const CollectionDetailsFragmentDoc = gql`
+  fragment CollectionDetails on Collection {
+    id
+    updatedAt
+    createdAt
+    name
+    network
+    address
+    explorerUrl
+  }
+`
 export const ConfigApiDetailsFragmentDoc = gql`
   fragment ConfigApiDetails on ConfigApi {
     name
@@ -9518,6 +9744,111 @@ export function useAnonRespondChallengeMutation() {
   return Urql.useMutation<AnonRespondChallengeMutation, AnonRespondChallengeMutationVariables>(
     AnonRespondChallengeDocument,
   )
+}
+export const AdminCreateCollectionDocument = gql`
+  mutation AdminCreateCollection($input: AdminCreateCollectionInput!) {
+    item: adminCreateCollection(input: $input) {
+      ...CollectionDetails
+    }
+  }
+  ${CollectionDetailsFragmentDoc}
+`
+
+export function useAdminCreateCollectionMutation() {
+  return Urql.useMutation<AdminCreateCollectionMutation, AdminCreateCollectionMutationVariables>(
+    AdminCreateCollectionDocument,
+  )
+}
+export const AdminUpdateCollectionDocument = gql`
+  mutation AdminUpdateCollection($collectionId: String!, $input: AdminUpdateCollectionInput!) {
+    item: adminUpdateCollection(collectionId: $collectionId, input: $input) {
+      ...CollectionDetails
+    }
+  }
+  ${CollectionDetailsFragmentDoc}
+`
+
+export function useAdminUpdateCollectionMutation() {
+  return Urql.useMutation<AdminUpdateCollectionMutation, AdminUpdateCollectionMutationVariables>(
+    AdminUpdateCollectionDocument,
+  )
+}
+export const AdminDeleteCollectionDocument = gql`
+  mutation AdminDeleteCollection($collectionId: String!) {
+    item: adminDeleteCollection(collectionId: $collectionId)
+  }
+`
+
+export function useAdminDeleteCollectionMutation() {
+  return Urql.useMutation<AdminDeleteCollectionMutation, AdminDeleteCollectionMutationVariables>(
+    AdminDeleteCollectionDocument,
+  )
+}
+export const AdminGetCollectionsDocument = gql`
+  query AdminGetCollections($input: AdminGetCollectionsInput!) {
+    items: adminGetCollections(input: $input) {
+      ...CollectionDetails
+    }
+  }
+  ${CollectionDetailsFragmentDoc}
+`
+
+export function useAdminGetCollectionsQuery(
+  options: Omit<Urql.UseQueryArgs<AdminGetCollectionsQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<AdminGetCollectionsQuery, AdminGetCollectionsQueryVariables>({
+    query: AdminGetCollectionsDocument,
+    ...options,
+  })
+}
+export const AdminGetCollectionDocument = gql`
+  query AdminGetCollection($collectionId: String!) {
+    item: adminGetCollection(collectionId: $collectionId) {
+      ...CollectionDetails
+    }
+  }
+  ${CollectionDetailsFragmentDoc}
+`
+
+export function useAdminGetCollectionQuery(
+  options: Omit<Urql.UseQueryArgs<AdminGetCollectionQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<AdminGetCollectionQuery, AdminGetCollectionQueryVariables>({
+    query: AdminGetCollectionDocument,
+    ...options,
+  })
+}
+export const UserGetCollectionDocument = gql`
+  query UserGetCollection($network: NetworkType!, $address: String!) {
+    item: userGetCollection(network: $network, address: $address) {
+      ...CollectionDetails
+    }
+  }
+  ${CollectionDetailsFragmentDoc}
+`
+
+export function useUserGetCollectionQuery(options: Omit<Urql.UseQueryArgs<UserGetCollectionQueryVariables>, 'query'>) {
+  return Urql.useQuery<UserGetCollectionQuery, UserGetCollectionQueryVariables>({
+    query: UserGetCollectionDocument,
+    ...options,
+  })
+}
+export const UserGetCollectionsDocument = gql`
+  query UserGetCollections {
+    items: userGetCollections {
+      ...CollectionDetails
+    }
+  }
+  ${CollectionDetailsFragmentDoc}
+`
+
+export function useUserGetCollectionsQuery(
+  options?: Omit<Urql.UseQueryArgs<UserGetCollectionsQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<UserGetCollectionsQuery, UserGetCollectionsQueryVariables>({
+    query: UserGetCollectionsDocument,
+    ...options,
+  })
 }
 export const ConfigDocument = gql`
   query Config {

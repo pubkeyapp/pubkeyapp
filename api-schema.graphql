@@ -321,6 +321,16 @@ enum ProfileStatus {
   Published
 }
 
+type Collection {
+  id: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  address: String
+  name: String
+  network: NetworkType
+  explorerUrl: String
+}
+
 type HeliusTransaction {
   id: String
 }
@@ -381,6 +391,10 @@ type Query {
   userGetAccountHistory(network: NetworkType!, address: String!): JSON
   getMe: User
   anonRequestChallenge(publicKey: String!): AuthChallengeRequest
+  adminGetCollection(collectionId: String!): Collection
+  adminGetCollections(input: AdminGetCollectionsInput!): [Collection!]
+  userGetCollection(network: NetworkType!, address: String!): Collection
+  userGetCollections: Collection
   config: Config
   adminGetDomains(input: AdminGetDomainsInput): [Domain!]
   adminGetDomain(domainId: String!): Domain
@@ -411,6 +425,8 @@ type Query {
   adminGetQueueJobs(type: QueueType!, statuses: [JobStatus!]!): [Job!]
   adminGetQueues: [Queue!]
   anonGetUser(username: String!): User
+  anonGetUserByIdentity(provider: IdentityProvider!, providerId: String!): User
+  anonGetUserByPid(pid: Int!): User
   anonGetUserFollowers(username: String!): [User!]
   anonGetUserFollowing(username: String!): [User!]
   anonGetUserInvites(username: String!): [Invite!]
@@ -425,6 +441,12 @@ input AdminGetAccountsInput {
   type: AccountType
   address: String
   program: String
+  name: String
+}
+
+input AdminGetCollectionsInput {
+  network: NetworkType
+  address: String
   name: String
 }
 
@@ -463,6 +485,9 @@ type Mutation {
   adminIndexGumAccounts: JSON
   userLogout: Boolean
   anonRespondChallenge(challenge: String!, publicKey: String!, signature: String!): User
+  adminCreateCollection(input: AdminCreateCollectionInput!): Collection
+  adminDeleteCollection(collectionId: String!): Boolean
+  adminUpdateCollection(collectionId: String!, input: AdminUpdateCollectionInput!): Collection
   adminCreateDomain(input: AdminCreateDomainInput!): Domain
   adminDeleteDomain(domainId: String!): Domain
   adminUpdateDomain(domainId: String!, input: AdminUpdateDomainInput!): Domain
@@ -515,6 +540,17 @@ type Mutation {
   adminCreateUser(input: AdminCreateUserInput!): User
   adminDeleteUser(userId: String!): User
   adminUpdateUser(userId: String!, input: AdminUpdateUserInput!): User
+}
+
+input AdminCreateCollectionInput {
+  network: NetworkType!
+  address: String!
+  name: String!
+}
+
+input AdminUpdateCollectionInput {
+  address: String
+  name: String
 }
 
 input AdminCreateDomainInput {
