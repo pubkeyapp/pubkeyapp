@@ -3,12 +3,14 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { ApiAuthGraphqlGuard, CtxUser } from '@pubkeyapp/api/auth/data-access'
 import {
   AdminCreateCollectionInput,
+  AdminGetCollectionMintsInput,
   AdminGetCollectionsInput,
+  AdminUpdateCollectionInput,
   ApiAdminCollectionService,
   Collection,
+  Mint,
 } from '@pubkeyapp/api/collection/data-access'
 import { User } from '@pubkeyapp/api/user/data-access'
-import { AdminUpdateCollectionInput } from '../../../data-access/src/lib/dto/admin-update-collection.input'
 
 @Resolver()
 @UseGuards(ApiAuthGraphqlGuard)
@@ -25,9 +27,28 @@ export class ApiAdminCollectionResolver {
     return this.service.adminDeleteCollection(user.id, collectionId)
   }
 
+  @Mutation(() => Boolean, { nullable: true })
+  adminSyncCollection(@CtxUser() user: User, @Args('collectionId') collectionId: string) {
+    return this.service.adminSyncCollection(user.id, collectionId)
+  }
+
+  @Mutation(() => Boolean, { nullable: true })
+  adminSyncCollectionMeta(@CtxUser() user: User, @Args('collectionId') collectionId: string) {
+    return this.service.adminSyncCollectionMeta(user.id, collectionId)
+  }
+
   @Query(() => Collection, { nullable: true })
   adminGetCollection(@CtxUser() user: User, @Args('collectionId') collectionId: string) {
-    return this.service.adminGetCollection(user.id, collectionId)
+    return this.service.adminGetCollection(user.id, collectionId, { includeMints: true })
+  }
+
+  @Query(() => [Mint], { nullable: true })
+  adminGetCollectionMints(
+    @CtxUser() user: User,
+    @Args('collectionId') collectionId: string,
+    @Args('input') input: AdminGetCollectionMintsInput,
+  ) {
+    return this.service.adminGetCollectionMints(user.id, collectionId, input)
   }
 
   @Query(() => [Collection], { nullable: true })

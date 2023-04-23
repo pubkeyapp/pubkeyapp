@@ -13,7 +13,19 @@ fragment CollectionDetails on Collection {
   name
   cluster
   address
+  twitter
+  mintCount
   explorerUrl
+}
+
+fragment MintDetails on Mint {
+  id
+  updatedAt
+  createdAt
+  name
+  cluster
+  address
+  metadata
 }
 
 mutation AdminCreateCollection($input: AdminCreateCollectionInput!) {
@@ -32,6 +44,14 @@ mutation AdminDeleteCollection($collectionId: String!) {
   item: adminDeleteCollection(collectionId: $collectionId)
 }
 
+mutation AdminSyncCollection($collectionId: String!) {
+  item: adminSyncCollection(collectionId: $collectionId)
+}
+
+mutation AdminSyncCollectionMeta($collectionId: String!) {
+  item: adminSyncCollectionMeta(collectionId: $collectionId)
+}
+
 query AdminGetCollections($input: AdminGetCollectionsInput!) {
   items: adminGetCollections(input: $input) {
     ...CollectionDetails
@@ -41,6 +61,12 @@ query AdminGetCollections($input: AdminGetCollectionsInput!) {
 query AdminGetCollection($collectionId: String!) {
   item: adminGetCollection(collectionId: $collectionId) {
     ...CollectionDetails
+  }
+}
+
+query AdminGetCollectionMints($collectionId: String!, $input: AdminGetCollectionMintsInput!) {
+  items: adminGetCollectionMints(collectionId: $collectionId, input: $input) {
+    ...MintDetails
   }
 }
 

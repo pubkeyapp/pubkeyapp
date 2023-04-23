@@ -1,11 +1,10 @@
 import { Field, ObjectType } from '@nestjs/graphql'
 import { ApiProperty } from '@nestjs/swagger'
 import { ClusterType } from '@pubkeyapp/api/cluster/data-access'
-import { GraphQLDateTime } from 'graphql-scalars'
-import { Mint } from './mint.entity'
+import { GraphQLDateTime, GraphQLJSON } from 'graphql-scalars'
 
 @ObjectType()
-export class Collection {
+export class Mint {
   @ApiProperty()
   @Field({ nullable: true })
   id: string
@@ -24,14 +23,10 @@ export class Collection {
   @Field({ nullable: true })
   name: string
 
-  @ApiProperty()
-  @Field({ nullable: true })
-  twitter: string
+  @Field(() => GraphQLJSON, { nullable: true })
+  metadata: unknown
 
   @ApiProperty({ enum: ClusterType, enumName: 'ClusterType' })
   @Field(() => ClusterType, { nullable: true })
   cluster: ClusterType
-
-  @Field(() => [Mint], { nullable: true })
-  mints: Mint[]
 }

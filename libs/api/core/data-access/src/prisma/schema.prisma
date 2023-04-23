@@ -84,6 +84,22 @@ model Collection {
   cluster   ClusterType
   metadata  Json?
   name      String
+  twitter   String?
+  mints     Mint[]
+
+  @@unique([address, cluster])
+}
+
+model Mint {
+  id           String      @id @default(cuid())
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @default(now()) @updatedAt
+  address      String
+  cluster      ClusterType
+  metadata     Json?
+  name         String
+  collection   Collection  @relation(fields: [collectionId], references: [id])
+  collectionId String
 
   @@unique([address, cluster])
 }

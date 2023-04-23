@@ -327,14 +327,27 @@ enum ClusterType {
   SolanaTestnet
 }
 
+type Mint {
+  id: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  address: String
+  name: String
+  metadata: JSON
+  cluster: ClusterType
+}
+
 type Collection {
   id: String
   createdAt: DateTime
   updatedAt: DateTime
   address: String
   name: String
+  twitter: String
   cluster: ClusterType
+  mints: [Mint!]
   explorerUrl: String
+  mintCount: Int
 }
 
 type HeliusTransaction {
@@ -402,6 +415,7 @@ type Query {
   userGetCluster(clusterId: String!): Cluster
   userGetClusters: Cluster
   adminGetCollection(collectionId: String!): Collection
+  adminGetCollectionMints(collectionId: String!, input: AdminGetCollectionMintsInput!): [Mint!]
   adminGetCollections(input: AdminGetCollectionsInput!): [Collection!]
   userGetCollection(cluster: ClusterType!, address: String!): Collection
   userGetCollections: Collection
@@ -459,6 +473,12 @@ input AdminGetClustersInput {
   name: String
 }
 
+input AdminGetCollectionMintsInput {
+  take: Int
+  skip: Int
+  search: String
+}
+
 input AdminGetCollectionsInput {
   cluster: ClusterType
   address: String
@@ -505,6 +525,8 @@ type Mutation {
   adminUpdateCluster(clusterId: String!, input: AdminUpdateClusterInput!): Cluster
   adminCreateCollection(input: AdminCreateCollectionInput!): Collection
   adminDeleteCollection(collectionId: String!): Boolean
+  adminSyncCollection(collectionId: String!): Boolean
+  adminSyncCollectionMeta(collectionId: String!): Boolean
   adminUpdateCollection(collectionId: String!, input: AdminUpdateCollectionInput!): Collection
   adminCreateDomain(input: AdminCreateDomainInput!): Domain
   adminDeleteDomain(domainId: String!): Domain

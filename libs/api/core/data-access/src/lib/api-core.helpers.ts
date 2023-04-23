@@ -66,7 +66,7 @@ export function getUsername(name: string) {
 }
 
 export function slugify(name: string) {
-  return name.replace(/[^a-z0-9]/gi, '').replace(/-+/g, '')
+  return name.replace(/[^a-z0-9]/gi, '')
 }
 
 export function getProfileUsername(username: string) {

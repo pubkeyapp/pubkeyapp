@@ -25,7 +25,8 @@ export function AdminUiCollectionTable({ collections, deleteCollection }: AdminU
             accessor: 'publicKey',
             render: (collection) => <AdminUiCollectionLabel collection={collection} />,
           },
-          { accessor: 'network' },
+          { accessor: 'cluster' },
+          { accessor: 'mintCount' },
           {
             accessor: 'actions',
             title: <Text mr="xs">Actions</Text>,

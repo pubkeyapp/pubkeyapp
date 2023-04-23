@@ -132,6 +132,12 @@ export type AdminGetClustersInput = {
   type?: InputMaybe<ClusterType>
 }
 
+export type AdminGetCollectionMintsInput = {
+  search?: InputMaybe<Scalars['String']>
+  skip?: InputMaybe<Scalars['Int']>
+  take?: InputMaybe<Scalars['Int']>
+}
+
 export type AdminGetCollectionsInput = {
   address?: InputMaybe<Scalars['String']>
   cluster?: InputMaybe<ClusterType>
@@ -262,7 +268,10 @@ export type Collection = {
   createdAt?: Maybe<Scalars['DateTime']>
   explorerUrl?: Maybe<Scalars['String']>
   id?: Maybe<Scalars['String']>
+  mintCount?: Maybe<Scalars['Int']>
+  mints?: Maybe<Array<Mint>>
   name?: Maybe<Scalars['String']>
+  twitter?: Maybe<Scalars['String']>
   updatedAt?: Maybe<Scalars['DateTime']>
 }
 
@@ -379,6 +388,17 @@ export enum JobStatus {
   Waiting = 'waiting',
 }
 
+export type Mint = {
+  __typename?: 'Mint'
+  address?: Maybe<Scalars['String']>
+  cluster?: Maybe<ClusterType>
+  createdAt?: Maybe<Scalars['DateTime']>
+  id?: Maybe<Scalars['String']>
+  metadata?: Maybe<Scalars['JSON']>
+  name?: Maybe<Scalars['String']>
+  updatedAt?: Maybe<Scalars['DateTime']>
+}
+
 export type Mutation = {
   __typename?: 'Mutation'
   adminAddPageBlock?: Maybe<PageBlock>
@@ -407,6 +427,8 @@ export type Mutation = {
   adminRemovePageDomain?: Maybe<PageDomain>
   adminResumeQueue?: Maybe<Scalars['Boolean']>
   adminSetSetting?: Maybe<Setting>
+  adminSyncCollection?: Maybe<Scalars['Boolean']>
+  adminSyncCollectionMeta?: Maybe<Scalars['Boolean']>
   adminUpdateCluster?: Maybe<Cluster>
   adminUpdateCollection?: Maybe<Collection>
   adminUpdateDomain?: Maybe<Domain>
@@ -550,6 +572,14 @@ export type MutationAdminResumeQueueArgs = {
 export type MutationAdminSetSettingArgs = {
   key: Scalars['String']
   value: Scalars['String']
+}
+
+export type MutationAdminSyncCollectionArgs = {
+  collectionId: Scalars['String']
+}
+
+export type MutationAdminSyncCollectionMetaArgs = {
+  collectionId: Scalars['String']
 }
 
 export type MutationAdminUpdateClusterArgs = {
@@ -855,6 +885,7 @@ export type Query = {
   adminGetCluster?: Maybe<Cluster>
   adminGetClusters?: Maybe<Array<Cluster>>
   adminGetCollection?: Maybe<Collection>
+  adminGetCollectionMints?: Maybe<Array<Mint>>
   adminGetCollections?: Maybe<Array<Collection>>
   adminGetDomain?: Maybe<Domain>
   adminGetDomains?: Maybe<Array<Domain>>
@@ -925,6 +956,11 @@ export type QueryAdminGetClustersArgs = {
 
 export type QueryAdminGetCollectionArgs = {
   collectionId: Scalars['String']
+}
+
+export type QueryAdminGetCollectionMintsArgs = {
+  collectionId: Scalars['String']
+  input: AdminGetCollectionMintsInput
 }
 
 export type QueryAdminGetCollectionsArgs = {
@@ -3201,7 +3237,20 @@ export type CollectionDetailsFragment = {
   name?: string | null
   cluster?: ClusterType | null
   address?: string | null
+  twitter?: string | null
+  mintCount?: number | null
   explorerUrl?: string | null
+}
+
+export type MintDetailsFragment = {
+  __typename?: 'Mint'
+  id?: string | null
+  updatedAt?: any | null
+  createdAt?: any | null
+  name?: string | null
+  cluster?: ClusterType | null
+  address?: string | null
+  metadata?: any | null
 }
 
 export type AdminCreateCollectionMutationVariables = Exact<{
@@ -3218,6 +3267,8 @@ export type AdminCreateCollectionMutation = {
     name?: string | null
     cluster?: ClusterType | null
     address?: string | null
+    twitter?: string | null
+    mintCount?: number | null
     explorerUrl?: string | null
   } | null
 }
@@ -3237,6 +3288,8 @@ export type AdminUpdateCollectionMutation = {
     name?: string | null
     cluster?: ClusterType | null
     address?: string | null
+    twitter?: string | null
+    mintCount?: number | null
     explorerUrl?: string | null
   } | null
 }
@@ -3246,6 +3299,18 @@ export type AdminDeleteCollectionMutationVariables = Exact<{
 }>
 
 export type AdminDeleteCollectionMutation = { __typename?: 'Mutation'; item?: boolean | null }
+
+export type AdminSyncCollectionMutationVariables = Exact<{
+  collectionId: Scalars['String']
+}>
+
+export type AdminSyncCollectionMutation = { __typename?: 'Mutation'; item?: boolean | null }
+
+export type AdminSyncCollectionMetaMutationVariables = Exact<{
+  collectionId: Scalars['String']
+}>
+
+export type AdminSyncCollectionMetaMutation = { __typename?: 'Mutation'; item?: boolean | null }
 
 export type AdminGetCollectionsQueryVariables = Exact<{
   input: AdminGetCollectionsInput
@@ -3261,6 +3326,8 @@ export type AdminGetCollectionsQuery = {
     name?: string | null
     cluster?: ClusterType | null
     address?: string | null
+    twitter?: string | null
+    mintCount?: number | null
     explorerUrl?: string | null
   }> | null
 }
@@ -3279,8 +3346,29 @@ export type AdminGetCollectionQuery = {
     name?: string | null
     cluster?: ClusterType | null
     address?: string | null
+    twitter?: string | null
+    mintCount?: number | null
     explorerUrl?: string | null
   } | null
+}
+
+export type AdminGetCollectionMintsQueryVariables = Exact<{
+  collectionId: Scalars['String']
+  input: AdminGetCollectionMintsInput
+}>
+
+export type AdminGetCollectionMintsQuery = {
+  __typename?: 'Query'
+  items?: Array<{
+    __typename?: 'Mint'
+    id?: string | null
+    updatedAt?: any | null
+    createdAt?: any | null
+    name?: string | null
+    cluster?: ClusterType | null
+    address?: string | null
+    metadata?: any | null
+  }> | null
 }
 
 export type UserGetCollectionQueryVariables = Exact<{
@@ -3298,6 +3386,8 @@ export type UserGetCollectionQuery = {
     name?: string | null
     cluster?: ClusterType | null
     address?: string | null
+    twitter?: string | null
+    mintCount?: number | null
     explorerUrl?: string | null
   } | null
 }
@@ -3314,6 +3404,8 @@ export type UserGetCollectionsQuery = {
     name?: string | null
     cluster?: ClusterType | null
     address?: string | null
+    twitter?: string | null
+    mintCount?: number | null
     explorerUrl?: string | null
   } | null
 }
@@ -9472,7 +9564,20 @@ export const CollectionDetailsFragmentDoc = gql`
     name
     cluster
     address
+    twitter
+    mintCount
     explorerUrl
+  }
+`
+export const MintDetailsFragmentDoc = gql`
+  fragment MintDetails on Mint {
+    id
+    updatedAt
+    createdAt
+    name
+    cluster
+    address
+    metadata
   }
 `
 export const ConfigApiDetailsFragmentDoc = gql`
@@ -10043,6 +10148,28 @@ export function useAdminDeleteCollectionMutation() {
     AdminDeleteCollectionDocument,
   )
 }
+export const AdminSyncCollectionDocument = gql`
+  mutation AdminSyncCollection($collectionId: String!) {
+    item: adminSyncCollection(collectionId: $collectionId)
+  }
+`
+
+export function useAdminSyncCollectionMutation() {
+  return Urql.useMutation<AdminSyncCollectionMutation, AdminSyncCollectionMutationVariables>(
+    AdminSyncCollectionDocument,
+  )
+}
+export const AdminSyncCollectionMetaDocument = gql`
+  mutation AdminSyncCollectionMeta($collectionId: String!) {
+    item: adminSyncCollectionMeta(collectionId: $collectionId)
+  }
+`
+
+export function useAdminSyncCollectionMetaMutation() {
+  return Urql.useMutation<AdminSyncCollectionMetaMutation, AdminSyncCollectionMetaMutationVariables>(
+    AdminSyncCollectionMetaDocument,
+  )
+}
 export const AdminGetCollectionsDocument = gql`
   query AdminGetCollections($input: AdminGetCollectionsInput!) {
     items: adminGetCollections(input: $input) {
@@ -10074,6 +10201,23 @@ export function useAdminGetCollectionQuery(
 ) {
   return Urql.useQuery<AdminGetCollectionQuery, AdminGetCollectionQueryVariables>({
     query: AdminGetCollectionDocument,
+    ...options,
+  })
+}
+export const AdminGetCollectionMintsDocument = gql`
+  query AdminGetCollectionMints($collectionId: String!, $input: AdminGetCollectionMintsInput!) {
+    items: adminGetCollectionMints(collectionId: $collectionId, input: $input) {
+      ...MintDetails
+    }
+  }
+  ${MintDetailsFragmentDoc}
+`
+
+export function useAdminGetCollectionMintsQuery(
+  options: Omit<Urql.UseQueryArgs<AdminGetCollectionMintsQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<AdminGetCollectionMintsQuery, AdminGetCollectionMintsQueryVariables>({
+    query: AdminGetCollectionMintsDocument,
     ...options,
   })
 }
