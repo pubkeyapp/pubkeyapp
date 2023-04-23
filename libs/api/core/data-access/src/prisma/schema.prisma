@@ -53,6 +53,29 @@ enum NetworkType {
   SolanaTestnet
 }
 
+model Cluster {
+  id              String        @id @default(cuid())
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @default(now()) @updatedAt
+  endpointPrivate String
+  endpointPublic  String
+  explorer        String
+  name            String
+  status          ClusterStatus @default(Active)
+  type            ClusterType
+}
+
+enum ClusterStatus {
+  Active
+  Inactive
+}
+
+enum ClusterType {
+  SolanaDevnet
+  SolanaMainnet
+  SolanaTestnet
+}
+
 model Collection {
   id        String      @id @default(cuid())
   createdAt DateTime    @default(now())

@@ -15,8 +15,10 @@ function ConfigProvider({ children }: { children: ReactNode }) {
 
   const value: ConfigProviderContext = {
     apiUrl: data?.config?.api?.url,
-    cluster: data?.config?.cluster,
-    clusters: data?.config?.clusters || [],
+    // cluster: data?.config?.cluster,
+    // clusters: data?.config?.clusters || [],
+    cluster: undefined,
+    clusters: [],
   }
 
   if (fetching) {

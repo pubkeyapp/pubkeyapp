@@ -72,11 +72,11 @@ export class PubKeySdk {
       this.config?.logger?.log(`${tag()}: initializing SDK: ${this.config.endpoint}`)
 
       const config = await this.internal.getConfig()
-      const { endpoint, type, explorerUrl } = config.cluster as Cluster
+      // const { endpoint, type, explorerUrl } = config.cluster as Cluster
 
-      const connection = new Connection(endpoint, 'confirmed')
-      this.solana = new Solana({ type, connection, explorerUrl })
-      this.config?.logger?.log(`${tag()}: connected to '${type}', endpoint '${endpoint}'`)
+      // const connection = new Connection(endpoint, 'confirmed')
+      // this.solana = new Solana({ type, connection, explorerUrl })
+      // this.config?.logger?.log(`${tag()}: connected to '${type}', endpoint '${endpoint}'`)
     } catch (e) {
       console.error(`${tag()}: Error initializing SDK: ${e}`)
       this.config?.logger?.error(`Error initializing Server: ${e}`)

@@ -47,7 +47,7 @@ export class ApiSolanaService {
 
   private async setupConnections() {
     const config = await this.core.config.getConfig()
-    for (const cluster of config.clusters) {
+    for (const cluster of []) {
       // Bail if the endpoint is not a valid URL
       if (!cluster.endpoint.startsWith('http')) {
         this.logger.warn(`Invalid endpoint for ${cluster.type} cluster: ${cluster.endpoint}`)

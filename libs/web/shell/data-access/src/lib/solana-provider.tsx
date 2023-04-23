@@ -20,10 +20,10 @@ export function SolanaProvider({ children }: { children: ReactNode }) {
   const { cluster, clusters } = useConfig()
 
   const endpoint = useMemo(() => {
-    const value = cluster?.endpoint ?? ''
+    const value = cluster?.endpointPublic ?? ''
 
     if (!value?.startsWith('http')) {
-      const defaultUrl = clusterApiUrl(cluster?.id.toLowerCase() as WalletAdapterNetwork)
+      const defaultUrl = clusterApiUrl(cluster?.id?.toLowerCase() as WalletAdapterNetwork)
       console.warn(`Solana Provider endpoint invalid (${value}), using default: ${defaultUrl}`)
       return defaultUrl
     }

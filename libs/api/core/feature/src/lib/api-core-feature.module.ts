@@ -6,6 +6,7 @@ import { ServeStaticModule } from '@nestjs/serve-static'
 import { OgmaModule } from '@ogma/nestjs-module'
 import { ApiAccountFeatureModule } from '@pubkeyapp/api/account/feature'
 import { ApiAuthFeatureModule } from '@pubkeyapp/api/auth/feature'
+import { ApiClusterFeatureModule } from '@pubkeyapp/api/cluster/feature'
 import { ApiCollectionFeatureModule } from '@pubkeyapp/api/collection/feature'
 import { ApiConfigDataAccessModule, ApiConfigService } from '@pubkeyapp/api/config/data-access'
 import { ApiConfigFeatureModule } from '@pubkeyapp/api/config/feature'
@@ -37,6 +38,7 @@ import { serveStaticFactory } from './serve-static.factory'
   imports: [
     ApiAccountFeatureModule,
     ApiAuthFeatureModule,
+    ApiClusterFeatureModule,
     ApiCollectionFeatureModule,
     ApiConfigFeatureModule,
     ApiCoreDataAccessModule,

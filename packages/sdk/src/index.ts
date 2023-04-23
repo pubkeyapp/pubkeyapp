@@ -1,7 +1,7 @@
 export * from './lib/pub-key-sdk'
 export type {
-  Cluster,
-  ClusterType,
+  // Cluster,
+  // ClusterType,
   Config,
   ConfigApi,
   ConfigApp,

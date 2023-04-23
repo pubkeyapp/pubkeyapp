@@ -2,21 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Cluster {
-  id: String!
-  name: String!
-  type: ClusterType!
-  endpoint: String!
-  explorerUrl: String!
-}
-
-enum ClusterType {
-  Custom
-  Devnet
-  Mainnet
-  Testnet
-}
-
 type ConfigApi {
   name: String!
   version: String!
@@ -32,8 +17,6 @@ type ConfigApp {
 type Config {
   api: ConfigApi!
   app: ConfigApp!
-  cluster: Cluster!
-  clusters: [Cluster!]!
 }
 
 type Setting {
@@ -321,6 +304,29 @@ enum ProfileStatus {
   Published
 }
 
+type Cluster {
+  id: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  endpointPrivate: String
+  endpointPublic: String
+  explorer: String
+  name: String
+  status: ClusterStatus
+  type: ClusterType
+}
+
+enum ClusterStatus {
+  Active
+  Inactive
+}
+
+enum ClusterType {
+  SolanaDevnet
+  SolanaMainnet
+  SolanaTestnet
+}
+
 type Collection {
   id: String
   createdAt: DateTime
@@ -391,6 +397,10 @@ type Query {
   userGetAccountHistory(network: NetworkType!, address: String!): JSON
   getMe: User
   anonRequestChallenge(publicKey: String!): AuthChallengeRequest
+  adminGetCluster(clusterId: String!): Cluster
+  adminGetClusters(input: AdminGetClustersInput!): [Cluster!]
+  userGetCluster(clusterId: String!): Cluster
+  userGetClusters: Cluster
   adminGetCollection(collectionId: String!): Collection
   adminGetCollections(input: AdminGetCollectionsInput!): [Collection!]
   userGetCollection(network: NetworkType!, address: String!): Collection
@@ -444,6 +454,11 @@ input AdminGetAccountsInput {
   name: String
 }
 
+input AdminGetClustersInput {
+  type: ClusterType
+  name: String
+}
+
 input AdminGetCollectionsInput {
   network: NetworkType
   address: String
@@ -485,6 +500,9 @@ type Mutation {
   adminIndexGumAccounts: JSON
   userLogout: Boolean
   anonRespondChallenge(challenge: String!, publicKey: String!, signature: String!): User
+  adminCreateCluster(input: AdminCreateClusterInput!): Cluster
+  adminDeleteCluster(clusterId: String!): Boolean
+  adminUpdateCluster(clusterId: String!, input: AdminUpdateClusterInput!): Cluster
   adminCreateCollection(input: AdminCreateCollectionInput!): Collection
   adminDeleteCollection(collectionId: String!): Boolean
   adminUpdateCollection(collectionId: String!, input: AdminUpdateCollectionInput!): Collection
@@ -540,6 +558,20 @@ type Mutation {
   adminCreateUser(input: AdminCreateUserInput!): User
   adminDeleteUser(userId: String!): User
   adminUpdateUser(userId: String!, input: AdminUpdateUserInput!): User
+}
+
+input AdminCreateClusterInput {
+  endpoint: String!
+  name: String!
+  type: ClusterType!
+}
+
+input AdminUpdateClusterInput {
+  endpointPrivate: String
+  endpointPublic: String
+  explorer: String
+  name: String
+  status: ClusterStatus
 }
 
 input AdminCreateCollectionInput {

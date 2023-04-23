@@ -597,31 +597,6 @@
         },
         "required": ["description", "name", "url"]
       },
-      "ClusterType": {
-        "type": "string",
-        "enum": ["Custom", "Devnet", "Mainnet", "Testnet"]
-      },
-      "Cluster": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "type": {
-            "$ref": "#/components/schemas/ClusterType"
-          },
-          "endpoint": {
-            "type": "string"
-          },
-          "explorerUrl": {
-            "type": "string"
-          }
-        },
-        "required": ["id", "name", "type", "endpoint", "explorerUrl"]
-      },
       "Config": {
         "type": "object",
         "properties": {
@@ -640,24 +615,9 @@
                 "$ref": "#/components/schemas/ConfigApp"
               }
             ]
-          },
-          "cluster": {
-            "nullable": true,
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/Cluster"
-              }
-            ]
-          },
-          "clusters": {
-            "nullable": true,
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Cluster"
-            }
           }
         },
-        "required": ["api", "app", "cluster", "clusters"]
+        "required": ["api", "app"]
       },
       "PageStatus": {
         "type": "string",

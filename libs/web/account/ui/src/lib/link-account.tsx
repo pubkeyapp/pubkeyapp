@@ -27,7 +27,7 @@ export function LinkAccount(
 
 export function LinkExplorer({ label, path, value }: { label?: string; path: string; value: string | number }) {
   const { cluster } = useSolana()
-  const clusterSuffix = cluster?.id === ClusterType.Mainnet ? '' : `?cluster=${cluster?.id?.toLowerCase()}`
+  const clusterSuffix = cluster?.id === ClusterType.SolanaMainnet ? '' : `?cluster=${cluster?.id?.toLowerCase()}`
   return (
     <Flex align="center">
       <UiCopyButton text={value.toString()} />

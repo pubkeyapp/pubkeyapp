@@ -120,59 +120,6 @@ export type AccountType = (typeof AccountType)[keyof typeof AccountType]
 /**
  *
  * @export
- * @interface Cluster
- */
-export interface Cluster {
-  /**
-   *
-   * @type {string}
-   * @memberof Cluster
-   */
-  id: string
-  /**
-   *
-   * @type {string}
-   * @memberof Cluster
-   */
-  name: string
-  /**
-   *
-   * @type {ClusterType}
-   * @memberof Cluster
-   */
-  type: ClusterType
-  /**
-   *
-   * @type {string}
-   * @memberof Cluster
-   */
-  endpoint: string
-  /**
-   *
-   * @type {string}
-   * @memberof Cluster
-   */
-  explorerUrl: string
-}
-
-/**
- *
- * @export
- * @enum {string}
- */
-
-export const ClusterType = {
-  Custom: 'Custom',
-  Devnet: 'Devnet',
-  Mainnet: 'Mainnet',
-  Testnet: 'Testnet',
-} as const
-
-export type ClusterType = (typeof ClusterType)[keyof typeof ClusterType]
-
-/**
- *
- * @export
  * @interface Config
  */
 export interface Config {
@@ -188,18 +135,6 @@ export interface Config {
    * @memberof Config
    */
   app: ConfigApp | null
-  /**
-   *
-   * @type {Cluster}
-   * @memberof Config
-   */
-  cluster: Cluster | null
-  /**
-   *
-   * @type {Array<Cluster>}
-   * @memberof Config
-   */
-  clusters: Array<Cluster> | null
 }
 /**
  *

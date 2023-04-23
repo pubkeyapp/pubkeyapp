@@ -18,6 +18,7 @@ import { useMemo } from 'react'
 import { Link, Navigate, Outlet, Route, Routes } from 'react-router-dom'
 import { AdminAccountRoutes } from './account/admin-account.routes'
 import { AdminDashboardFeature } from './admin-dashboard-feature'
+import { AdminClusterRoutes } from './cluster/admin-cluster.routes'
 import { AdminCollectionRoutes } from './collection/admin-collection.routes'
 import { AdminDomainRoutes } from './domain/admin-domain.routes'
 import { AdminInviteRoutes } from './invite/admin-invite.routes'
@@ -32,6 +33,7 @@ export function AdminRoutes() {
   const links: UiDashboardItem[] = useMemo(() => {
     return [
       { label: 'Accounts', icon: IconNotes, link: '/admin/accounts' },
+      { label: 'Cluster', icon: IconColumns3, link: '/admin/clusters' },
       { label: 'Collections', icon: IconColumns3, link: '/admin/collections' },
       { label: 'Domains', icon: IconGlobe, link: '/admin/domains' },
       { label: 'Invites', icon: IconCards, link: '/admin/invites' },
@@ -51,6 +53,7 @@ export function AdminRoutes() {
       <Route index element={<Navigate replace to="dashboard" />} />
       <Route element={<AdminLayout links={links} />}>
         <Route path="accounts/*" element={<AdminAccountRoutes />} />
+        <Route path="clusters/*" element={<AdminClusterRoutes />} />
         <Route path="collections/*" element={<AdminCollectionRoutes />} />
         <Route path="dashboard" element={<AdminDashboardFeature links={links} />} />
         <Route path="domains/*" element={<AdminDomainRoutes />} />

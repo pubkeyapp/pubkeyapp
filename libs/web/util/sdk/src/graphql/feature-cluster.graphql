@@ -1,0 +1,58 @@
+fragment ClusterSummary on Cluster {
+  id
+  endpointPublic
+  explorer
+  name
+  type
+}
+
+fragment ClusterDetails on Cluster {
+  id
+  updatedAt
+  createdAt
+  endpointPrivate
+  endpointPublic
+  explorer
+  name
+  status
+  type
+}
+
+mutation AdminCreateCluster($input: AdminCreateClusterInput!) {
+  item: adminCreateCluster(input: $input) {
+    ...ClusterDetails
+  }
+}
+
+mutation AdminUpdateCluster($clusterId: String!, $input: AdminUpdateClusterInput!) {
+  item: adminUpdateCluster(clusterId: $clusterId, input: $input) {
+    ...ClusterDetails
+  }
+}
+
+mutation AdminDeleteCluster($clusterId: String!) {
+  item: adminDeleteCluster(clusterId: $clusterId)
+}
+
+query AdminGetClusters($input: AdminGetClustersInput!) {
+  items: adminGetClusters(input: $input) {
+    ...ClusterDetails
+  }
+}
+
+query AdminGetCluster($clusterId: String!) {
+  item: adminGetCluster(clusterId: $clusterId) {
+    ...ClusterDetails
+  }
+}
+
+query UserGetCluster($clusterId: String!) {
+  item: userGetCluster(clusterId: $clusterId) {
+    ...ClusterDetails
+  }
+}
+query UserGetClusters {
+  items: userGetClusters {
+    ...ClusterDetails
+  }
+}

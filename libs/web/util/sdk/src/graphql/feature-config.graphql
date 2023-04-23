@@ -5,12 +5,12 @@ fragment ConfigDetails on Config {
   app {
     ...ConfigAppDetails
   }
-  cluster {
-    ...ClusterDetails
-  }
-  clusters {
-    ...ClusterDetails
-  }
+  #  cluster {
+  #    ...ClusterDetails
+  #  }
+  #  clusters {
+  #    ...ClusterDetails
+  #  }
 }
 
 fragment ConfigApiDetails on ConfigApi {
@@ -23,13 +23,13 @@ fragment ConfigAppDetails on ConfigApp {
   url
 }
 
-fragment ClusterDetails on Cluster {
-  id
-  name
-  type
-  endpoint
-  explorerUrl
-}
+#fragment ClusterDetails on Cluster {
+#  id
+#  name
+#  type
+##  endpoint
+##  explorerUrl
+#}
 
 query Config {
   config {

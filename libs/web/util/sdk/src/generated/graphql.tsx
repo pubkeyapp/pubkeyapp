@@ -69,6 +69,12 @@ export type AdminAddPageDomainInput = {
   path: Scalars['String']
 }
 
+export type AdminCreateClusterInput = {
+  endpoint: Scalars['String']
+  name: Scalars['String']
+  type: ClusterType
+}
+
 export type AdminCreateCollectionInput = {
   address: Scalars['String']
   name: Scalars['String']
@@ -121,6 +127,11 @@ export type AdminGetAccountsInput = {
   type?: InputMaybe<AccountType>
 }
 
+export type AdminGetClustersInput = {
+  name?: InputMaybe<Scalars['String']>
+  type?: InputMaybe<ClusterType>
+}
+
 export type AdminGetCollectionsInput = {
   address?: InputMaybe<Scalars['String']>
   name?: InputMaybe<Scalars['String']>
@@ -145,6 +156,14 @@ export type AdminGetPlansInput = {
 
 export type AdminGetProfilesInput = {
   ownerId?: InputMaybe<Scalars['String']>
+}
+
+export type AdminUpdateClusterInput = {
+  endpointPrivate?: InputMaybe<Scalars['String']>
+  endpointPublic?: InputMaybe<Scalars['String']>
+  explorer?: InputMaybe<Scalars['String']>
+  name?: InputMaybe<Scalars['String']>
+  status?: InputMaybe<ClusterStatus>
 }
 
 export type AdminUpdateCollectionInput = {
@@ -214,18 +233,26 @@ export type AuthChallengeRequest = {
 
 export type Cluster = {
   __typename?: 'Cluster'
-  endpoint: Scalars['String']
-  explorerUrl: Scalars['String']
-  id: Scalars['String']
-  name: Scalars['String']
-  type: ClusterType
+  createdAt?: Maybe<Scalars['DateTime']>
+  endpointPrivate?: Maybe<Scalars['String']>
+  endpointPublic?: Maybe<Scalars['String']>
+  explorer?: Maybe<Scalars['String']>
+  id?: Maybe<Scalars['String']>
+  name?: Maybe<Scalars['String']>
+  status?: Maybe<ClusterStatus>
+  type?: Maybe<ClusterType>
+  updatedAt?: Maybe<Scalars['DateTime']>
+}
+
+export enum ClusterStatus {
+  Active = 'Active',
+  Inactive = 'Inactive',
 }
 
 export enum ClusterType {
-  Custom = 'Custom',
-  Devnet = 'Devnet',
-  Mainnet = 'Mainnet',
-  Testnet = 'Testnet',
+  SolanaDevnet = 'SolanaDevnet',
+  SolanaMainnet = 'SolanaMainnet',
+  SolanaTestnet = 'SolanaTestnet',
 }
 
 export type Collection = {
@@ -243,8 +270,6 @@ export type Config = {
   __typename?: 'Config'
   api: ConfigApi
   app: ConfigApp
-  cluster: Cluster
-  clusters: Array<Cluster>
 }
 
 export type ConfigApi = {
@@ -359,6 +384,7 @@ export type Mutation = {
   adminAddPageBlock?: Maybe<PageBlock>
   adminAddPageDomain?: Maybe<PageDomain>
   adminCleanQueue?: Maybe<Scalars['Boolean']>
+  adminCreateCluster?: Maybe<Cluster>
   adminCreateCollection?: Maybe<Collection>
   adminCreateDomain?: Maybe<Domain>
   adminCreateInvite?: Maybe<Invite>
@@ -366,6 +392,7 @@ export type Mutation = {
   adminCreatePlan?: Maybe<Plan>
   adminCreateUser?: Maybe<User>
   adminDeleteAccount?: Maybe<Scalars['Boolean']>
+  adminDeleteCluster?: Maybe<Scalars['Boolean']>
   adminDeleteCollection?: Maybe<Scalars['Boolean']>
   adminDeleteDomain?: Maybe<Domain>
   adminDeleteInvite?: Maybe<Invite>
@@ -380,6 +407,7 @@ export type Mutation = {
   adminRemovePageDomain?: Maybe<PageDomain>
   adminResumeQueue?: Maybe<Scalars['Boolean']>
   adminSetSetting?: Maybe<Setting>
+  adminUpdateCluster?: Maybe<Cluster>
   adminUpdateCollection?: Maybe<Collection>
   adminUpdateDomain?: Maybe<Domain>
   adminUpdateInvite?: Maybe<Invite>
@@ -432,6 +460,10 @@ export type MutationAdminCleanQueueArgs = {
   type: QueueType
 }
 
+export type MutationAdminCreateClusterArgs = {
+  input: AdminCreateClusterInput
+}
+
 export type MutationAdminCreateCollectionArgs = {
   input: AdminCreateCollectionInput
 }
@@ -458,6 +490,10 @@ export type MutationAdminCreateUserArgs = {
 
 export type MutationAdminDeleteAccountArgs = {
   accountId: Scalars['String']
+}
+
+export type MutationAdminDeleteClusterArgs = {
+  clusterId: Scalars['String']
 }
 
 export type MutationAdminDeleteCollectionArgs = {
@@ -514,6 +550,11 @@ export type MutationAdminResumeQueueArgs = {
 export type MutationAdminSetSettingArgs = {
   key: Scalars['String']
   value: Scalars['String']
+}
+
+export type MutationAdminUpdateClusterArgs = {
+  clusterId: Scalars['String']
+  input: AdminUpdateClusterInput
 }
 
 export type MutationAdminUpdateCollectionArgs = {
@@ -811,6 +852,8 @@ export type Query = {
   __typename?: 'Query'
   adminGetAccount?: Maybe<Account>
   adminGetAccounts?: Maybe<Array<Account>>
+  adminGetCluster?: Maybe<Cluster>
+  adminGetClusters?: Maybe<Array<Cluster>>
   adminGetCollection?: Maybe<Collection>
   adminGetCollections?: Maybe<Array<Collection>>
   adminGetDomain?: Maybe<Domain>
@@ -847,6 +890,8 @@ export type Query = {
   uptime: Scalars['Float']
   userGetAccount?: Maybe<Account>
   userGetAccountHistory?: Maybe<Scalars['JSON']>
+  userGetCluster?: Maybe<Cluster>
+  userGetClusters?: Maybe<Cluster>
   userGetCollection?: Maybe<Collection>
   userGetCollections?: Maybe<Collection>
   userGetDomains?: Maybe<Array<Domain>>
@@ -868,6 +913,14 @@ export type QueryAdminGetAccountArgs = {
 
 export type QueryAdminGetAccountsArgs = {
   input: AdminGetAccountsInput
+}
+
+export type QueryAdminGetClusterArgs = {
+  clusterId: Scalars['String']
+}
+
+export type QueryAdminGetClustersArgs = {
+  input: AdminGetClustersInput
 }
 
 export type QueryAdminGetCollectionArgs = {
@@ -990,6 +1043,10 @@ export type QueryUserGetAccountArgs = {
 export type QueryUserGetAccountHistoryArgs = {
   address: Scalars['String']
   network: NetworkType
+}
+
+export type QueryUserGetClusterArgs = {
+  clusterId: Scalars['String']
 }
 
 export type QueryUserGetCollectionArgs = {
@@ -2980,6 +3037,153 @@ export type AnonRespondChallengeMutation = {
   } | null
 }
 
+export type ClusterSummaryFragment = {
+  __typename?: 'Cluster'
+  id?: string | null
+  endpointPublic?: string | null
+  explorer?: string | null
+  name?: string | null
+  type?: ClusterType | null
+}
+
+export type ClusterDetailsFragment = {
+  __typename?: 'Cluster'
+  id?: string | null
+  updatedAt?: any | null
+  createdAt?: any | null
+  endpointPrivate?: string | null
+  endpointPublic?: string | null
+  explorer?: string | null
+  name?: string | null
+  status?: ClusterStatus | null
+  type?: ClusterType | null
+}
+
+export type AdminCreateClusterMutationVariables = Exact<{
+  input: AdminCreateClusterInput
+}>
+
+export type AdminCreateClusterMutation = {
+  __typename?: 'Mutation'
+  item?: {
+    __typename?: 'Cluster'
+    id?: string | null
+    updatedAt?: any | null
+    createdAt?: any | null
+    endpointPrivate?: string | null
+    endpointPublic?: string | null
+    explorer?: string | null
+    name?: string | null
+    status?: ClusterStatus | null
+    type?: ClusterType | null
+  } | null
+}
+
+export type AdminUpdateClusterMutationVariables = Exact<{
+  clusterId: Scalars['String']
+  input: AdminUpdateClusterInput
+}>
+
+export type AdminUpdateClusterMutation = {
+  __typename?: 'Mutation'
+  item?: {
+    __typename?: 'Cluster'
+    id?: string | null
+    updatedAt?: any | null
+    createdAt?: any | null
+    endpointPrivate?: string | null
+    endpointPublic?: string | null
+    explorer?: string | null
+    name?: string | null
+    status?: ClusterStatus | null
+    type?: ClusterType | null
+  } | null
+}
+
+export type AdminDeleteClusterMutationVariables = Exact<{
+  clusterId: Scalars['String']
+}>
+
+export type AdminDeleteClusterMutation = { __typename?: 'Mutation'; item?: boolean | null }
+
+export type AdminGetClustersQueryVariables = Exact<{
+  input: AdminGetClustersInput
+}>
+
+export type AdminGetClustersQuery = {
+  __typename?: 'Query'
+  items?: Array<{
+    __typename?: 'Cluster'
+    id?: string | null
+    updatedAt?: any | null
+    createdAt?: any | null
+    endpointPrivate?: string | null
+    endpointPublic?: string | null
+    explorer?: string | null
+    name?: string | null
+    status?: ClusterStatus | null
+    type?: ClusterType | null
+  }> | null
+}
+
+export type AdminGetClusterQueryVariables = Exact<{
+  clusterId: Scalars['String']
+}>
+
+export type AdminGetClusterQuery = {
+  __typename?: 'Query'
+  item?: {
+    __typename?: 'Cluster'
+    id?: string | null
+    updatedAt?: any | null
+    createdAt?: any | null
+    endpointPrivate?: string | null
+    endpointPublic?: string | null
+    explorer?: string | null
+    name?: string | null
+    status?: ClusterStatus | null
+    type?: ClusterType | null
+  } | null
+}
+
+export type UserGetClusterQueryVariables = Exact<{
+  clusterId: Scalars['String']
+}>
+
+export type UserGetClusterQuery = {
+  __typename?: 'Query'
+  item?: {
+    __typename?: 'Cluster'
+    id?: string | null
+    updatedAt?: any | null
+    createdAt?: any | null
+    endpointPrivate?: string | null
+    endpointPublic?: string | null
+    explorer?: string | null
+    name?: string | null
+    status?: ClusterStatus | null
+    type?: ClusterType | null
+  } | null
+}
+
+export type UserGetClustersQueryVariables = Exact<{ [key: string]: never }>
+
+export type UserGetClustersQuery = {
+  __typename?: 'Query'
+  items?: {
+    __typename?: 'Cluster'
+    id?: string | null
+    updatedAt?: any | null
+    createdAt?: any | null
+    endpointPrivate?: string | null
+    endpointPublic?: string | null
+    explorer?: string | null
+    name?: string | null
+    status?: ClusterStatus | null
+    type?: ClusterType | null
+  } | null
+}
+
 export type CollectionSummaryFragment = {
   __typename?: 'Collection'
   id?: string | null
@@ -3118,36 +3322,11 @@ export type ConfigDetailsFragment = {
   __typename?: 'Config'
   api: { __typename?: 'ConfigApi'; name: string; url: string; version: string }
   app: { __typename?: 'ConfigApp'; url: string }
-  cluster: {
-    __typename?: 'Cluster'
-    id: string
-    name: string
-    type: ClusterType
-    endpoint: string
-    explorerUrl: string
-  }
-  clusters: Array<{
-    __typename?: 'Cluster'
-    id: string
-    name: string
-    type: ClusterType
-    endpoint: string
-    explorerUrl: string
-  }>
 }
 
 export type ConfigApiDetailsFragment = { __typename?: 'ConfigApi'; name: string; url: string; version: string }
 
 export type ConfigAppDetailsFragment = { __typename?: 'ConfigApp'; url: string }
-
-export type ClusterDetailsFragment = {
-  __typename?: 'Cluster'
-  id: string
-  name: string
-  type: ClusterType
-  endpoint: string
-  explorerUrl: string
-}
 
 export type ConfigQueryVariables = Exact<{ [key: string]: never }>
 
@@ -3157,22 +3336,6 @@ export type ConfigQuery = {
     __typename?: 'Config'
     api: { __typename?: 'ConfigApi'; name: string; url: string; version: string }
     app: { __typename?: 'ConfigApp'; url: string }
-    cluster: {
-      __typename?: 'Cluster'
-      id: string
-      name: string
-      type: ClusterType
-      endpoint: string
-      explorerUrl: string
-    }
-    clusters: Array<{
-      __typename?: 'Cluster'
-      id: string
-      name: string
-      type: ClusterType
-      endpoint: string
-      explorerUrl: string
-    }>
   } | null
 }
 
@@ -9270,6 +9433,28 @@ export const AuthChallengeRequestDetailsFragmentDoc = gql`
     message
   }
 `
+export const ClusterSummaryFragmentDoc = gql`
+  fragment ClusterSummary on Cluster {
+    id
+    endpointPublic
+    explorer
+    name
+    type
+  }
+`
+export const ClusterDetailsFragmentDoc = gql`
+  fragment ClusterDetails on Cluster {
+    id
+    updatedAt
+    createdAt
+    endpointPrivate
+    endpointPublic
+    explorer
+    name
+    status
+    type
+  }
+`
 export const CollectionSummaryFragmentDoc = gql`
   fragment CollectionSummary on Collection {
     id
@@ -9302,15 +9487,6 @@ export const ConfigAppDetailsFragmentDoc = gql`
     url
   }
 `
-export const ClusterDetailsFragmentDoc = gql`
-  fragment ClusterDetails on Cluster {
-    id
-    name
-    type
-    endpoint
-    explorerUrl
-  }
-`
 export const ConfigDetailsFragmentDoc = gql`
   fragment ConfigDetails on Config {
     api {
@@ -9319,16 +9495,9 @@ export const ConfigDetailsFragmentDoc = gql`
     app {
       ...ConfigAppDetails
     }
-    cluster {
-      ...ClusterDetails
-    }
-    clusters {
-      ...ClusterDetails
-    }
   }
   ${ConfigApiDetailsFragmentDoc}
   ${ConfigAppDetailsFragmentDoc}
-  ${ClusterDetailsFragmentDoc}
 `
 export const SettingDetailFragmentDoc = gql`
   fragment SettingDetail on Setting {
@@ -9744,6 +9913,96 @@ export function useAnonRespondChallengeMutation() {
   return Urql.useMutation<AnonRespondChallengeMutation, AnonRespondChallengeMutationVariables>(
     AnonRespondChallengeDocument,
   )
+}
+export const AdminCreateClusterDocument = gql`
+  mutation AdminCreateCluster($input: AdminCreateClusterInput!) {
+    item: adminCreateCluster(input: $input) {
+      ...ClusterDetails
+    }
+  }
+  ${ClusterDetailsFragmentDoc}
+`
+
+export function useAdminCreateClusterMutation() {
+  return Urql.useMutation<AdminCreateClusterMutation, AdminCreateClusterMutationVariables>(AdminCreateClusterDocument)
+}
+export const AdminUpdateClusterDocument = gql`
+  mutation AdminUpdateCluster($clusterId: String!, $input: AdminUpdateClusterInput!) {
+    item: adminUpdateCluster(clusterId: $clusterId, input: $input) {
+      ...ClusterDetails
+    }
+  }
+  ${ClusterDetailsFragmentDoc}
+`
+
+export function useAdminUpdateClusterMutation() {
+  return Urql.useMutation<AdminUpdateClusterMutation, AdminUpdateClusterMutationVariables>(AdminUpdateClusterDocument)
+}
+export const AdminDeleteClusterDocument = gql`
+  mutation AdminDeleteCluster($clusterId: String!) {
+    item: adminDeleteCluster(clusterId: $clusterId)
+  }
+`
+
+export function useAdminDeleteClusterMutation() {
+  return Urql.useMutation<AdminDeleteClusterMutation, AdminDeleteClusterMutationVariables>(AdminDeleteClusterDocument)
+}
+export const AdminGetClustersDocument = gql`
+  query AdminGetClusters($input: AdminGetClustersInput!) {
+    items: adminGetClusters(input: $input) {
+      ...ClusterDetails
+    }
+  }
+  ${ClusterDetailsFragmentDoc}
+`
+
+export function useAdminGetClustersQuery(options: Omit<Urql.UseQueryArgs<AdminGetClustersQueryVariables>, 'query'>) {
+  return Urql.useQuery<AdminGetClustersQuery, AdminGetClustersQueryVariables>({
+    query: AdminGetClustersDocument,
+    ...options,
+  })
+}
+export const AdminGetClusterDocument = gql`
+  query AdminGetCluster($clusterId: String!) {
+    item: adminGetCluster(clusterId: $clusterId) {
+      ...ClusterDetails
+    }
+  }
+  ${ClusterDetailsFragmentDoc}
+`
+
+export function useAdminGetClusterQuery(options: Omit<Urql.UseQueryArgs<AdminGetClusterQueryVariables>, 'query'>) {
+  return Urql.useQuery<AdminGetClusterQuery, AdminGetClusterQueryVariables>({
+    query: AdminGetClusterDocument,
+    ...options,
+  })
+}
+export const UserGetClusterDocument = gql`
+  query UserGetCluster($clusterId: String!) {
+    item: userGetCluster(clusterId: $clusterId) {
+      ...ClusterDetails
+    }
+  }
+  ${ClusterDetailsFragmentDoc}
+`
+
+export function useUserGetClusterQuery(options: Omit<Urql.UseQueryArgs<UserGetClusterQueryVariables>, 'query'>) {
+  return Urql.useQuery<UserGetClusterQuery, UserGetClusterQueryVariables>({ query: UserGetClusterDocument, ...options })
+}
+export const UserGetClustersDocument = gql`
+  query UserGetClusters {
+    items: userGetClusters {
+      ...ClusterDetails
+    }
+  }
+  ${ClusterDetailsFragmentDoc}
+`
+
+export function useUserGetClustersQuery(options?: Omit<Urql.UseQueryArgs<UserGetClustersQueryVariables>, 'query'>) {
+  return Urql.useQuery<UserGetClustersQuery, UserGetClustersQueryVariables>({
+    query: UserGetClustersDocument,
+    ...options,
+  })
 }
 export const AdminCreateCollectionDocument = gql`
   mutation AdminCreateCollection($input: AdminCreateCollectionInput!) {

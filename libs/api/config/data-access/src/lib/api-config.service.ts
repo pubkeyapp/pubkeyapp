@@ -7,7 +7,7 @@ import { CookieOptions } from 'express-serve-static-core'
 import * as fs from 'fs'
 import { RedisOptions } from 'ioredis'
 import { ApiConfigSettingsService } from './api-config-settings.service'
-import { Cluster } from './entity/cluster.entity'
+
 import { Config } from './entity/config.entity'
 
 @Injectable()
@@ -92,21 +92,6 @@ export class ApiConfigService {
     return this.config.get('environment')
   }
   async getConfig(): Promise<Config> {
-    const clusterDevnet: Cluster = {
-      id: 'devnet',
-      name: 'Devnet',
-      endpoint: this.settings.get('solana:devnet:endpoint'),
-      explorerUrl: this.settings.get('solana:devnet:explorerUrl'),
-      type: ClusterType.Devnet,
-    }
-    const clusterMainnet: Cluster = {
-      id: 'mainnet',
-      name: 'Mainnet',
-      endpoint: process.env.SOLANA_MAINNET_ENDPOINT,
-      explorerUrl: `https://solscan.io/{path}`,
-      type: ClusterType.Mainnet,
-    }
-
     return {
       api: {
         name: this.apiName,
@@ -118,8 +103,8 @@ export class ApiConfigService {
         description: this.appDescription,
         url: this.webUrl,
       },
-      cluster: clusterDevnet,
-      clusters: [clusterDevnet, clusterMainnet],
+      // cluster: clusterDevnet,
+      // clusters: [clusterDevnet, clusterMainnet],
     }
   }
 
