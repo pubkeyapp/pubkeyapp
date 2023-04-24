@@ -136,7 +136,7 @@ export type AdminGetCollectionMintsInput = {
   search?: InputMaybe<Scalars['String']>
   skip?: InputMaybe<Scalars['Int']>
   take?: InputMaybe<Scalars['Int']>
-  traits?: InputMaybe<Array<Trait>>
+  traits?: InputMaybe<Array<TraitFilter>>
 }
 
 export type AdminGetCollectionsInput = {
@@ -890,6 +890,7 @@ export type Query = {
   adminGetClusters?: Maybe<Array<Cluster>>
   adminGetCollection?: Maybe<Collection>
   adminGetCollectionMints?: Maybe<Array<Mint>>
+  adminGetCollectionTraits?: Maybe<Array<Trait>>
   adminGetCollections?: Maybe<Array<Collection>>
   adminGetDomain?: Maybe<Domain>
   adminGetDomains?: Maybe<Array<Domain>>
@@ -965,6 +966,10 @@ export type QueryAdminGetCollectionArgs = {
 export type QueryAdminGetCollectionMintsArgs = {
   collectionId: Scalars['String']
   input: AdminGetCollectionMintsInput
+}
+
+export type QueryAdminGetCollectionTraitsArgs = {
+  collectionId: Scalars['String']
 }
 
 export type QueryAdminGetCollectionsArgs = {
@@ -1163,6 +1168,13 @@ export type Setting = {
 }
 
 export type Trait = {
+  __typename?: 'Trait'
+  count?: Maybe<Scalars['Int']>
+  key: Scalars['String']
+  value: Scalars['String']
+}
+
+export type TraitFilter = {
   key: Scalars['String']
   value: Scalars['String']
 }
@@ -3265,6 +3277,8 @@ export type MintDetailsFragment = {
   symbol?: string | null
 }
 
+export type TraitDetailsFragment = { __typename?: 'Trait'; count?: number | null; key: string; value: string }
+
 export type AdminCreateCollectionMutationVariables = Exact<{
   input: AdminCreateCollectionInput
 }>
@@ -3362,6 +3376,15 @@ export type AdminGetCollectionQuery = {
     mintCount?: number | null
     explorerUrl?: string | null
   } | null
+}
+
+export type AdminGetCollectionTraitsQueryVariables = Exact<{
+  collectionId: Scalars['String']
+}>
+
+export type AdminGetCollectionTraitsQuery = {
+  __typename?: 'Query'
+  items?: Array<{ __typename?: 'Trait'; count?: number | null; key: string; value: string }> | null
 }
 
 export type AdminGetCollectionMintsQueryVariables = Exact<{
@@ -9598,6 +9621,13 @@ export const MintDetailsFragmentDoc = gql`
     symbol
   }
 `
+export const TraitDetailsFragmentDoc = gql`
+  fragment TraitDetails on Trait {
+    count
+    key
+    value
+  }
+`
 export const ConfigApiDetailsFragmentDoc = gql`
   fragment ConfigApiDetails on ConfigApi {
     name
@@ -10219,6 +10249,23 @@ export function useAdminGetCollectionQuery(
 ) {
   return Urql.useQuery<AdminGetCollectionQuery, AdminGetCollectionQueryVariables>({
     query: AdminGetCollectionDocument,
+    ...options,
+  })
+}
+export const AdminGetCollectionTraitsDocument = gql`
+  query AdminGetCollectionTraits($collectionId: String!) {
+    items: adminGetCollectionTraits(collectionId: $collectionId) {
+      ...TraitDetails
+    }
+  }
+  ${TraitDetailsFragmentDoc}
+`
+
+export function useAdminGetCollectionTraitsQuery(
+  options: Omit<Urql.UseQueryArgs<AdminGetCollectionTraitsQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<AdminGetCollectionTraitsQuery, AdminGetCollectionTraitsQueryVariables>({
+    query: AdminGetCollectionTraitsDocument,
     ...options,
   })
 }

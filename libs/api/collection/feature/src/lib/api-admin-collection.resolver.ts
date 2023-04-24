@@ -9,6 +9,8 @@ import {
   ApiAdminCollectionService,
   Collection,
   Mint,
+  Trait,
+  TraitFilter,
 } from '@pubkeyapp/api/collection/data-access'
 import { User } from '@pubkeyapp/api/user/data-access'
 
@@ -40,6 +42,11 @@ export class ApiAdminCollectionResolver {
   @Query(() => Collection, { nullable: true })
   adminGetCollection(@CtxUser() user: User, @Args('collectionId') collectionId: string) {
     return this.service.adminGetCollection(user.id, collectionId, { includeMints: true })
+  }
+
+  @Query(() => [Trait], { nullable: true })
+  adminGetCollectionTraits(@CtxUser() user: User, @Args('collectionId') collectionId: string) {
+    return this.service.adminGetCollectionTraits(user.id, collectionId)
   }
 
   @Query(() => [Mint], { nullable: true })

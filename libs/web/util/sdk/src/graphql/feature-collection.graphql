@@ -31,6 +31,12 @@ fragment MintDetails on Mint {
   symbol
 }
 
+fragment TraitDetails on Trait {
+  count
+  key
+  value
+}
+
 mutation AdminCreateCollection($input: AdminCreateCollectionInput!) {
   item: adminCreateCollection(input: $input) {
     ...CollectionDetails
@@ -64,6 +70,12 @@ query AdminGetCollections($input: AdminGetCollectionsInput!) {
 query AdminGetCollection($collectionId: String!) {
   item: adminGetCollection(collectionId: $collectionId) {
     ...CollectionDetails
+  }
+}
+
+query AdminGetCollectionTraits($collectionId: String!) {
+  items: adminGetCollectionTraits(collectionId: $collectionId) {
+    ...TraitDetails
   }
 }
 

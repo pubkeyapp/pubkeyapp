@@ -7,7 +7,7 @@ import axios from 'axios'
 import * as process from 'process'
 import slugify from 'slugify'
 import { AdminCreateCollectionInput } from './dto/admin-create-collection.input'
-import { AdminGetCollectionMintsInput, Trait } from './dto/admin-get-collection-mints.input'
+import { AdminGetCollectionMintsInput, Trait, TraitFilter } from './dto/admin-get-collection-mints.input'
 import { AdminGetCollectionsInput } from './dto/admin-get-collections.input'
 import { AdminUpdateCollectionInput } from './dto/admin-update-collection.input'
 import { Mint } from './entity/mint.entity'
@@ -123,10 +123,6 @@ export class ApiAdminCollectionService implements OnModuleInit {
         this.logger.log(`Created collection ${created.id} => ${created.cluster}`)
       }
     }
-
-    // setTimeout(() => {
-    //   this.normalizeMints()
-    // }, 4000)
   }
 
   normalizeMint(mint: Mint): Mint {
@@ -314,7 +310,7 @@ export class ApiAdminCollectionService implements OnModuleInit {
       where.OR = [{ name: { contains: input.search, mode: 'insensitive' } }, { address: { contains: input.search } }]
     }
 
-    const traits: Trait[] = input.traits ?? []
+    const traits: TraitFilter[] = input.traits ?? []
 
     if (traits?.length) {
       where.AND = [
@@ -341,9 +337,16 @@ export class ApiAdminCollectionService implements OnModuleInit {
     })
 
     if (metadata?.json) {
+      mint = this.normalizeMint({ ...mint, metadata: JSON.parse(JSON.stringify(metadata.json)) })
       const updated = await this.core.data.mint.update({
         where: { id: mint.id },
-        data: { metadata: JSON.parse(JSON.stringify(metadata.json)) },
+        data: {
+          metadata: JSON.parse(JSON.stringify(metadata.json)),
+          attributes: mint.attributes as Record<string, string>,
+          name: mint.name,
+          image: mint.image,
+          symbol: mint.symbol,
+        },
       })
       this.logger.verbose(
         ` updated ${updated.id} --> ${mint.address}: ${metadata?.json?.name} ${metadata?.json?.image} `,
@@ -429,5 +432,43 @@ export class ApiAdminCollectionService implements OnModuleInit {
 
       this.logger.verbose(`Processing ${items.length} mints ${i + 1}/${pages}`)
     }
+  }
+
+  async adminGetCollectionTraits(adminId: string, collectionId: string) {
+    await this.core.ensureUserAdmin(adminId)
+    const collection = await this.core.data.collection.findUnique({
+      where: { id: collectionId },
+      include: { mints: true },
+    })
+
+    const mints = ((collection.mints as Mint[]) ?? []).filter((m) => m.attributes)
+    const empty = ((collection.mints as Mint[]) ?? []).filter((m) => !m.attributes)
+
+    if (empty?.length) {
+      this.logger.warn(`Collection ${collection.name} has ${empty.length} mints without attributes`)
+      empty.forEach((mint) => {
+        this.logger.warn(` --> ${mint.name}`)
+      })
+      await this.queue.processCollectionMintsMeta({ mints: empty })
+    }
+
+    this.logger.verbose(`Collection ${collection.name} has ${mints.length} mints`)
+
+    const attributes: Trait[] = []
+
+    mints.forEach((mint) => {
+      Object.entries(mint.attributes).forEach(([key, value]) => {
+        const exists = attributes.find((a) => a.key === key && a.value === value)
+        if (exists) {
+          exists.count++
+        } else {
+          attributes.push({ key, value, count: 1 })
+        }
+      })
+    })
+
+    this.logger.verbose(`Collection ${collection.name} has ${Object.keys(attributes).length} attributes`)
+
+    return attributes
   }
 }

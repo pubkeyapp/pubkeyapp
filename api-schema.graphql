@@ -327,6 +327,12 @@ enum ClusterType {
   SolanaTestnet
 }
 
+type Trait {
+  key: String!
+  value: String!
+  count: Int
+}
+
 type Mint {
   id: String
   createdAt: DateTime
@@ -418,6 +424,7 @@ type Query {
   userGetCluster(clusterId: String!): Cluster
   userGetClusters: Cluster
   adminGetCollection(collectionId: String!): Collection
+  adminGetCollectionTraits(collectionId: String!): [Trait!]
   adminGetCollectionMints(collectionId: String!, input: AdminGetCollectionMintsInput!): [Mint!]
   adminGetCollections(input: AdminGetCollectionsInput!): [Collection!]
   userGetCollection(cluster: ClusterType!, address: String!): Collection
@@ -480,10 +487,10 @@ input AdminGetCollectionMintsInput {
   take: Int
   skip: Int
   search: String
-  traits: [Trait!]
+  traits: [TraitFilter!]
 }
 
-input Trait {
+input TraitFilter {
   key: String!
   value: String!
 }

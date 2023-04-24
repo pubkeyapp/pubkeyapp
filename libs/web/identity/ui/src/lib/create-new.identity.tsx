@@ -1,5 +1,8 @@
 import { Button, SimpleGrid } from '@mantine/core'
+import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/notifications'
+import { IdentityProvider, useUserLinkIdentityMutation } from '@pubkeyapp/web/util/sdk'
 import {
+  IconAt,
   IconBrandDiscord,
   IconBrandGithub,
   IconBrandGoogle,
@@ -9,6 +12,7 @@ import {
 import { ComponentType } from 'react'
 
 export function CreateNewIdentity() {
+  const [, linkIdentity] = useUserLinkIdentityMutation()
   const items: { label: string; link: string; icon: ComponentType<{ size: number }> }[] = [
     {
       label: 'Twitter',
