@@ -95,9 +95,12 @@ model Mint {
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @default(now()) @updatedAt
   address      String
+  attributes   Json?
   cluster      ClusterType
+  image        String?
   metadata     Json?
   name         String
+  symbol       String?
   collection   Collection  @relation(fields: [collectionId], references: [id])
   collectionId String
 

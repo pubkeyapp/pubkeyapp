@@ -19,12 +19,23 @@ export class Mint {
   @Field({ nullable: true })
   address: string
 
+  @Field(() => GraphQLJSON, { nullable: true })
+  attributes?: unknown
+
+  @ApiProperty()
+  @Field({ nullable: true })
+  image?: string
+
+  @Field(() => GraphQLJSON, { nullable: true })
+  metadata?: unknown
+
   @ApiProperty()
   @Field({ nullable: true })
   name: string
 
-  @Field(() => GraphQLJSON, { nullable: true })
-  metadata: unknown
+  @ApiProperty()
+  @Field({ nullable: true })
+  symbol?: string
 
   @ApiProperty({ enum: ClusterType, enumName: 'ClusterType' })
   @Field(() => ClusterType, { nullable: true })

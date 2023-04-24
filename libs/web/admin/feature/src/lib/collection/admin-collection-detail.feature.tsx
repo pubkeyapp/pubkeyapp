@@ -1,7 +1,13 @@
-import { Anchor, Badge, Box, Group, Stack, Text } from '@mantine/core'
+import { Anchor, Badge, Box, Button, Group, Stack, Text } from '@mantine/core'
 import { UiBackButton, UiDebug, UiErrorLoader, UiTabRoutes } from '@pubkeyapp/web/ui/core'
+import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/notifications'
 import { UiPage } from '@pubkeyapp/web/ui/page'
-import { Collection, useAdminGetCollectionQuery } from '@pubkeyapp/web/util/sdk'
+import {
+  Collection,
+  useAdminGetCollectionQuery,
+  useAdminSyncCollectionMetaMutation,
+  useAdminSyncCollectionMutation,
+} from '@pubkeyapp/web/util/sdk'
 import { Link, useParams } from 'react-router-dom'
 import { CollectionMintList } from './collection-mint.list'
 
@@ -34,6 +40,35 @@ export function AdminCollectionDetailFeature() {
 }
 
 export function CollectionMintOverview({ collection }: { collection: Collection }) {
+  const [, syncCollectionMutation] = useAdminSyncCollectionMutation()
+  const [, syncCollectionMetaMutation] = useAdminSyncCollectionMetaMutation()
+
+  function syncCollection() {
+    syncCollectionMutation({ collectionId: collection.id! })
+      .then((res) => {
+        if (res.error) {
+          return showNotificationError(res.error.message)
+        }
+        if (!res.error && res.data?.item) {
+          return showNotificationSuccess('Success')
+        }
+      })
+      .catch((err) => showNotificationError(err.message))
+  }
+
+  function syncCollectionMeta() {
+    syncCollectionMetaMutation({ collectionId: collection.id! })
+      .then((res) => {
+        if (res.error) {
+          return showNotificationError(res.error.message)
+        }
+        if (!res.error && res.data?.item) {
+          return showNotificationSuccess('Success')
+        }
+      })
+      .catch((err) => showNotificationError(err.message))
+  }
+
   return (
     <Stack>
       <Box p="md">
@@ -50,6 +85,11 @@ export function CollectionMintOverview({ collection }: { collection: Collection 
           </Text>
         </Stack>
       </Box>
+
+      <Group position="center">
+        <Button onClick={() => syncCollection()}>Sync</Button>
+        <Button onClick={() => syncCollectionMeta()}>Sync Meta</Button>
+      </Group>
       <UiDebug data={collection} open />
     </Stack>
   )

@@ -22,10 +22,13 @@ fragment MintDetails on Mint {
   id
   updatedAt
   createdAt
-  name
-  cluster
   address
+  attributes
+  cluster
+  image
   metadata
+  name
+  symbol
 }
 
 mutation AdminCreateCollection($input: AdminCreateCollectionInput!) {

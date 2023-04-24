@@ -10,4 +10,16 @@ export class AdminGetCollectionMintsInput {
 
   @Field(() => String, { nullable: true })
   search?: string
+
+  @Field(() => [Trait], { nullable: true })
+  traits?: Trait[]
+}
+
+@InputType()
+export class Trait {
+  @Field(() => String)
+  key: string
+
+  @Field(() => String)
+  value: string
 }

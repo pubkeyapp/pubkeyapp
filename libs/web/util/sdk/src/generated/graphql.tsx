@@ -136,6 +136,7 @@ export type AdminGetCollectionMintsInput = {
   search?: InputMaybe<Scalars['String']>
   skip?: InputMaybe<Scalars['Int']>
   take?: InputMaybe<Scalars['Int']>
+  traits?: InputMaybe<Array<Trait>>
 }
 
 export type AdminGetCollectionsInput = {
@@ -391,11 +392,14 @@ export enum JobStatus {
 export type Mint = {
   __typename?: 'Mint'
   address?: Maybe<Scalars['String']>
+  attributes?: Maybe<Scalars['JSON']>
   cluster?: Maybe<ClusterType>
   createdAt?: Maybe<Scalars['DateTime']>
   id?: Maybe<Scalars['String']>
+  image?: Maybe<Scalars['String']>
   metadata?: Maybe<Scalars['JSON']>
   name?: Maybe<Scalars['String']>
+  symbol?: Maybe<Scalars['String']>
   updatedAt?: Maybe<Scalars['DateTime']>
 }
 
@@ -1138,7 +1142,7 @@ export type QueueCount = {
 export enum QueueType {
   AccountClose = 'AccountClose',
   AccountDiscover = 'AccountDiscover',
-  BlockParse = 'BlockParse',
+  CollectionMint = 'CollectionMint',
 }
 
 export type SearchResult = {
@@ -1156,6 +1160,11 @@ export type Setting = {
   key?: Maybe<Scalars['String']>
   updatedAt?: Maybe<Scalars['DateTime']>
   value?: Maybe<Scalars['String']>
+}
+
+export type Trait = {
+  key: Scalars['String']
+  value: Scalars['String']
 }
 
 export type User = {
@@ -3247,10 +3256,13 @@ export type MintDetailsFragment = {
   id?: string | null
   updatedAt?: any | null
   createdAt?: any | null
-  name?: string | null
-  cluster?: ClusterType | null
   address?: string | null
+  attributes?: any | null
+  cluster?: ClusterType | null
+  image?: string | null
   metadata?: any | null
+  name?: string | null
+  symbol?: string | null
 }
 
 export type AdminCreateCollectionMutationVariables = Exact<{
@@ -3364,10 +3376,13 @@ export type AdminGetCollectionMintsQuery = {
     id?: string | null
     updatedAt?: any | null
     createdAt?: any | null
-    name?: string | null
-    cluster?: ClusterType | null
     address?: string | null
+    attributes?: any | null
+    cluster?: ClusterType | null
+    image?: string | null
     metadata?: any | null
+    name?: string | null
+    symbol?: string | null
   }> | null
 }
 
@@ -9574,10 +9589,13 @@ export const MintDetailsFragmentDoc = gql`
     id
     updatedAt
     createdAt
-    name
-    cluster
     address
+    attributes
+    cluster
+    image
     metadata
+    name
+    symbol
   }
 `
 export const ConfigApiDetailsFragmentDoc = gql`

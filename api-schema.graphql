@@ -54,7 +54,7 @@ type Queue {
 enum QueueType {
   AccountDiscover
   AccountClose
-  BlockParse
+  CollectionMint
 }
 
 """
@@ -332,8 +332,11 @@ type Mint {
   createdAt: DateTime
   updatedAt: DateTime
   address: String
-  name: String
+  attributes: JSON
+  image: String
   metadata: JSON
+  name: String
+  symbol: String
   cluster: ClusterType
 }
 
@@ -477,6 +480,12 @@ input AdminGetCollectionMintsInput {
   take: Int
   skip: Int
   search: String
+  traits: [Trait!]
+}
+
+input Trait {
+  key: String!
+  value: String!
 }
 
 input AdminGetCollectionsInput {
