@@ -3,11 +3,7 @@ import { AdminUiClusterTable } from '@pubkeyapp/web/admin/ui'
 import { UiActionLink, UiErrorLoader } from '@pubkeyapp/web/ui/core'
 import { showNotificationError, showNotificationSuccess } from '@pubkeyapp/web/ui/notifications'
 import { UiPage } from '@pubkeyapp/web/ui/page'
-import {
-  AdminGetClustersInput,
-  useAdminDeleteClusterMutation,
-  useAdminGetClustersQuery,
-} from '@pubkeyapp/web/util/sdk'
+import { AdminGetClustersInput, useAdminDeleteClusterMutation, useAdminGetClustersQuery } from '@pubkeyapp/web/util/sdk'
 import { IconColumns3, IconPlus } from '@tabler/icons-react'
 import React, { useState } from 'react'
 

@@ -54,9 +54,7 @@
             }
           }
         },
-        "tags": [
-          "auth"
-        ]
+        "tags": ["auth"]
       }
     },
     "/api/auth/logout": {
@@ -76,9 +74,7 @@
             }
           }
         },
-        "tags": [
-          "auth"
-        ]
+        "tags": ["auth"]
       }
     },
     "/api/auth/request-challenge/{publicKey}": {
@@ -107,9 +103,7 @@
             }
           }
         },
-        "tags": [
-          "auth"
-        ]
+        "tags": ["auth"]
       }
     },
     "/api/auth/respond-challenge": {
@@ -139,9 +133,7 @@
             }
           }
         },
-        "tags": [
-          "auth"
-        ]
+        "tags": ["auth"]
       }
     },
     "/api/config": {
@@ -161,9 +153,7 @@
             }
           }
         },
-        "tags": [
-          "config"
-        ]
+        "tags": ["config"]
       }
     },
     "/api/page/get-page-by-id/{pageId}": {
@@ -192,9 +182,7 @@
             }
           }
         },
-        "tags": [
-          "page"
-        ]
+        "tags": ["page"]
       }
     },
     "/api/page/get-page-by-url": {
@@ -223,9 +211,7 @@
             }
           }
         },
-        "tags": [
-          "page"
-        ]
+        "tags": ["page"]
       }
     },
     "/api/solana/bonfida/lookup/{publicKey}": {
@@ -274,9 +260,7 @@
             }
           }
         },
-        "tags": [
-          "user"
-        ]
+        "tags": ["user"]
       }
     },
     "/api/user/get-user-by-identity/{provider}/{providerId}": {
@@ -313,9 +297,7 @@
             }
           }
         },
-        "tags": [
-          "user"
-        ]
+        "tags": ["user"]
       }
     },
     "/api/user/get-user-by-username/{username}": {
@@ -344,9 +326,7 @@
             }
           }
         },
-        "tags": [
-          "user"
-        ]
+        "tags": ["user"]
       }
     },
     "/api/user/meta/{username}": {
@@ -375,9 +355,7 @@
             }
           }
         },
-        "tags": [
-          "user"
-        ]
+        "tags": ["user"]
       }
     }
   },
@@ -409,11 +387,7 @@
     "schemas": {
       "NetworkType": {
         "type": "string",
-        "enum": [
-          "SolanaDevnet",
-          "SolanaMainnet",
-          "SolanaTestnet"
-        ]
+        "enum": ["SolanaDevnet", "SolanaMainnet", "SolanaTestnet"]
       },
       "AccountType": {
         "type": "string",
@@ -472,31 +446,15 @@
             "$ref": "#/components/schemas/AccountType"
           }
         },
-        "required": [
-          "id",
-          "owner",
-          "tokens",
-          "name",
-          "program",
-          "address",
-          "network",
-          "type"
-        ]
+        "required": ["id", "owner", "tokens", "name", "program", "address", "network", "type"]
       },
       "UserRole": {
         "type": "string",
-        "enum": [
-          "Admin",
-          "User"
-        ]
+        "enum": ["Admin", "User"]
       },
       "UserStatus": {
         "type": "string",
-        "enum": [
-          "Active",
-          "Created",
-          "Inactive"
-        ]
+        "enum": ["Active", "Created", "Inactive"]
       },
       "Identity": {
         "type": "object",
@@ -518,12 +476,7 @@
             "type": "boolean"
           }
         },
-        "required": [
-          "id",
-          "provider",
-          "providerId",
-          "verified"
-        ]
+        "required": ["id", "provider", "providerId", "verified"]
       },
       "User": {
         "type": "object",
@@ -579,9 +532,7 @@
             ]
           }
         },
-        "required": [
-          "id"
-        ]
+        "required": ["id"]
       },
       "RequestChallenge": {
         "type": "object",
@@ -599,12 +550,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "challenge",
-          "expiresAt",
-          "publicKey",
-          "message"
-        ]
+        "required": ["challenge", "expiresAt", "publicKey", "message"]
       },
       "ResponseChallengeOptions": {
         "type": "object",
@@ -619,11 +565,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "challenge",
-          "publicKey",
-          "signature"
-        ]
+        "required": ["challenge", "publicKey", "signature"]
       },
       "ConfigApi": {
         "type": "object",
@@ -638,11 +580,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "name",
-          "version",
-          "url"
-        ]
+        "required": ["name", "version", "url"]
       },
       "ConfigApp": {
         "type": "object",
@@ -657,11 +595,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "description",
-          "name",
-          "url"
-        ]
+        "required": ["description", "name", "url"]
       },
       "Config": {
         "type": "object",
@@ -683,39 +617,19 @@
             ]
           }
         },
-        "required": [
-          "api",
-          "app"
-        ]
+        "required": ["api", "app"]
       },
       "PageStatus": {
         "type": "string",
-        "enum": [
-          "Demo",
-          "Draft",
-          "Published"
-        ]
+        "enum": ["Demo", "Draft", "Published"]
       },
       "PageType": {
         "type": "string",
-        "enum": [
-          "Degen",
-          "Gaming",
-          "Personal",
-          "Professional"
-        ]
+        "enum": ["Degen", "Gaming", "Personal", "Professional"]
       },
       "PageBlockType": {
         "type": "string",
-        "enum": [
-          "Discord",
-          "Github",
-          "Google",
-          "Header",
-          "Link",
-          "Solana",
-          "Twitter"
-        ]
+        "enum": ["Discord", "Github", "Google", "Header", "Link", "Solana", "Twitter"]
       },
       "PageBlock": {
         "type": "object",
@@ -737,12 +651,7 @@
             "$ref": "#/components/schemas/PageBlockType"
           }
         },
-        "required": [
-          "id",
-          "name",
-          "order",
-          "type"
-        ]
+        "required": ["id", "name", "order", "type"]
       },
       "Page": {
         "type": "object",
@@ -805,14 +714,7 @@
       },
       "IdentityProvider": {
         "type": "string",
-        "enum": [
-          "Atp",
-          "Discord",
-          "Github",
-          "Google",
-          "Solana",
-          "Twitter"
-        ]
+        "enum": ["Atp", "Discord", "Github", "Google", "Solana", "Twitter"]
       }
     }
   }
