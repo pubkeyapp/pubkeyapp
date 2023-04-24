@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql'
-import { ClusterType } from '@pubkeyapp/api/cluster/data-access'
+import { ClusterType } from '../entity/cluster-type.enum'
 
 @InputType()
 export class AdminGetClustersInput {

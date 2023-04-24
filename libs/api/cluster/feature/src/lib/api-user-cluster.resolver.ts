@@ -1,6 +1,5 @@
 import { UseGuards } from '@nestjs/common'
 import { Args, Query, Resolver } from '@nestjs/graphql'
-import { ClusterType } from '@pubkeyapp/api/cluster/data-access'
 import { ApiAuthGraphqlGuard, CtxUser } from '@pubkeyapp/api/auth/data-access'
 import { ApiUserClusterService, Cluster } from '@pubkeyapp/api/cluster/data-access'
 import { User } from '@pubkeyapp/api/user/data-access'

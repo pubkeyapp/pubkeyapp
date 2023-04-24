@@ -4,11 +4,11 @@ import { ApiAuthGraphqlGuard, CtxUser } from '@pubkeyapp/api/auth/data-access'
 import {
   AdminCreateClusterInput,
   AdminGetClustersInput,
+  AdminUpdateClusterInput,
   ApiAdminClusterService,
   Cluster,
 } from '@pubkeyapp/api/cluster/data-access'
 import { User } from '@pubkeyapp/api/user/data-access'
-import { AdminUpdateClusterInput } from '../../../data-access/src/lib/dto/admin-update-cluster.input'
 
 @Resolver()
 @UseGuards(ApiAuthGraphqlGuard)

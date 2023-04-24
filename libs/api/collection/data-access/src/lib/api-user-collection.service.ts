@@ -11,7 +11,7 @@ export class ApiUserCollectionService {
   async userGetCollections(userId: string) {
     await this.core.ensureUserActive(userId)
 
-    let found = await this.core.data.collection.findMany({ orderBy: { name: 'asc' } })
+    const found = await this.core.data.collection.findMany({ orderBy: { name: 'asc' } })
 
     if (!found.length) {
       throw new NotFoundException(`No collections found`)
@@ -23,7 +23,7 @@ export class ApiUserCollectionService {
   async userGetCollection(userId: string, cluster: ClusterType, address: string) {
     await this.core.ensureUserActive(userId)
 
-    let found = await this.findCollection(cluster, address)
+    const found = await this.findCollection(cluster, address)
 
     if (!found) {
       throw new NotFoundException(`Collection ${address} not found on ${cluster} (after discovery)`)

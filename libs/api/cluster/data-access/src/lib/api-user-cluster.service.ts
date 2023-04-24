@@ -1,7 +1,5 @@
-import { Injectable, Logger, NotFoundException, OnModuleInit } from '@nestjs/common'
-import { ClusterType } from '@prisma/client'
+import { Injectable, Logger, NotFoundException } from '@nestjs/common'
 import { ApiCoreService } from '@pubkeyapp/api/core/data-access'
-import { ApiSolanaService } from '@pubkeyapp/api/solana/data-access'
 
 @Injectable()
 export class ApiUserClusterService {
@@ -12,7 +10,7 @@ export class ApiUserClusterService {
   async userGetClusters(userId: string) {
     await this.core.ensureUserActive(userId)
 
-    let found = await this.core.data.cluster.findMany({ orderBy: { name: 'asc' } })
+    const found = await this.core.data.cluster.findMany({ orderBy: { name: 'asc' } })
 
     if (!found.length) {
       throw new NotFoundException(`No clusters found`)
@@ -24,7 +22,7 @@ export class ApiUserClusterService {
   async userGetCluster(userId: string, clusterId: string) {
     await this.core.ensureUserActive(userId)
 
-    let found = await this.findCluster(clusterId)
+    const found = await this.findCluster(clusterId)
 
     if (!found) {
       throw new NotFoundException(`Cluster ${clusterId} not found on  (after discovery)`)

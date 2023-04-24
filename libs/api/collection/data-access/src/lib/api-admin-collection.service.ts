@@ -1,10 +1,9 @@
-import { Metaplex, NftWithToken } from '@metaplex-foundation/js'
+import { Metaplex } from '@metaplex-foundation/js'
 import { BadRequestException, Injectable, Logger, NotFoundException, OnModuleInit } from '@nestjs/common'
 import { ClusterType, Prisma } from '@prisma/client'
 import { ApiCoreService } from '@pubkeyapp/api/core/data-access'
 import { Connection, PublicKey } from '@solana/web3.js'
 import axios from 'axios'
-import * as process from 'process'
 import slugify from 'slugify'
 import { AdminCreateCollectionInput } from './dto/admin-create-collection.input'
 import { AdminGetCollectionMintsInput, Trait, TraitFilter } from './dto/admin-get-collection-mints.input'
@@ -56,7 +55,7 @@ export class PubKeyHelius {
     const { data } = await axios.post(this.getUrl(cluster, 'v1/mintlist'), {
       query: { verifiedCollectionAddresses },
       options: {
-        limit: 10000,
+        limit,
         paginationToken,
       },
     })
@@ -161,7 +160,7 @@ export class ApiAdminCollectionService implements OnModuleInit {
 
     let id = slugify(input.name)
     // Make sure the id is unique, else add cluster to the id
-    let exists = await this.core.data.collection.findUnique({
+    const exists = await this.core.data.collection.findUnique({
       where: {
         id,
       },
