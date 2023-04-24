@@ -2,6 +2,7 @@ import { Avatar, Badge, Box, ThemeIcon, Tooltip } from '@mantine/core'
 import { SolanaLogo } from '@pubkeyapp/web/ui/core'
 import { Identity, IdentityProvider } from '@pubkeyapp/web/util/sdk'
 import {
+  IconAt,
   IconBrandDiscord,
   IconBrandGithub,
   IconBrandGoogle,
@@ -9,6 +10,7 @@ import {
   IconCurrencySolana,
   IconQuestionCircle,
 } from '@tabler/icons-react'
+
 export function ellipsify(str = '', len = 4) {
   if (str.length > 30) {
     return str.substring(0, len) + '..' + str.substring(str.length - len, str.length)
@@ -18,6 +20,8 @@ export function ellipsify(str = '', len = 4) {
 
 export function IdentityProviderAvatar({ provider, size = 48 }: { provider: IdentityProvider; size?: number }) {
   switch (provider) {
+    case IdentityProvider.Atp:
+      return <IconAt size={size} />
     case IdentityProvider.Discord:
       return <IconBrandDiscord size={size} />
     case IdentityProvider.Github:
@@ -33,6 +37,8 @@ export function IdentityProviderAvatar({ provider, size = 48 }: { provider: Iden
 }
 export function IdentityProviderLabel({ identity }: { identity: Identity }): string {
   switch (identity.provider) {
+    case IdentityProvider.Atp:
+      return identity.profile?.handle ?? identity.name ?? identity.providerId
     case IdentityProvider.Solana:
       return ellipsify(identity.providerId)
   }
@@ -40,7 +46,7 @@ export function IdentityProviderLabel({ identity }: { identity: Identity }): str
 }
 
 export function IdentityBadge({ identity }: { identity: Identity }) {
-  const avatarUrl = identity?.profile?.avatarUrl
+  const avatarUrl = identity?.profile?.avatarUrl || identity?.profile?.avatar
   return (
     <Tooltip label={`${identity.provider} identity`} withArrow position="right">
       <Badge
@@ -54,7 +60,8 @@ export function IdentityBadge({ identity }: { identity: Identity }) {
             <Avatar size={32} mr={4} src={avatarUrl} radius="xl" />
           ) : (
             <Box w={32} h={32} pt={4} pl={8}>
-              <SolanaLogo width={18} height={18} />
+              {identity.provider === IdentityProvider.Atp && <IconAt width={24} height={24} />}
+              {identity.provider === IdentityProvider.Solana && <SolanaLogo width={18} height={18} />}
             </Box>
           )
         }

@@ -230,6 +230,7 @@ export interface Identity {
  */
 
 export const IdentityProvider = {
+  Atp: 'Atp',
   Discord: 'Discord',
   Github: 'Github',
   Google: 'Google',

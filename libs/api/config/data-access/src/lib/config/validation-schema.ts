@@ -4,6 +4,9 @@ import * as Joi from 'joi'
 const LOG_LEVELS = ['ALL', 'SILLY', 'FINE', 'VERBOSE', 'DEBUG', 'INFO', 'LOG', 'WARN', 'ERROR', 'FATAL', 'OFF']
 
 export const validationSchema = Joi.object({
+  ATP_ENDPOINT: Joi.string().required(),
+  ATP_IDENTIFIER: Joi.string().required(),
+  ATP_PASSWORD: Joi.string().required(),
   ADMIN_PUBLIC_KEYS: Joi.string().required(),
   API_URL: Joi.string().required().error(new Error(`API_URL is required.`)),
   COOKIE_NAME: Joi.string().default('__session'),

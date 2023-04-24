@@ -47,6 +47,18 @@ export class ApiConfigService {
     return this.config.get('app.name')
   }
 
+  get aptEndpoint(): string {
+    return this.config.get('atp.endpoint')
+  }
+
+  get aptIdentifier(): string {
+    return this.config.get('atp.identifier')
+  }
+
+  get aptPassword(): string {
+    return this.config.get('atp.password')
+  }
+
   get cookieDomains(): string[] {
     return this.config.get('cookie.domains')
   }

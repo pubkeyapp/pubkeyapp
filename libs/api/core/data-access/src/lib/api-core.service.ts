@@ -1,3 +1,4 @@
+import { AtpAgent } from '@atproto/api'
 import { Injectable, Logger, NotFoundException, OnApplicationBootstrap } from '@nestjs/common'
 import { EventEmitter2 } from '@nestjs/event-emitter'
 import { Identity, IdentityProvider, UserRole, UserStatus } from '@prisma/client'
@@ -12,6 +13,8 @@ import { ApiCoreSettingsService } from './settings/api-core-settings.service'
 @Injectable()
 export class ApiCoreService implements OnApplicationBootstrap {
   private readonly logger = new Logger(ApiCoreService.name)
+  readonly atp = new AtpAgent({ service: process.env.ATP_ENDPOINT })
+  readonly bsky = this.atp.api.app.bsky
   readonly gum = new GumSdk({ endpoint: process.env.GUM_ENDPOINT })
   constructor(
     readonly cache: ApiCoreCacheService,
@@ -233,5 +236,22 @@ export class ApiCoreService implements OnApplicationBootstrap {
       this.reload()
       return res
     })
+  }
+
+  async getAtpSession() {
+    const session = await this.cache.wrap('atp', 'session', async () => {
+      const result = await this.atp.login({
+        identifier: this.config.aptIdentifier,
+        password: this.config.aptPassword,
+      })
+
+      if (!result.success) {
+        this.logger.verbose(`Failed to login to ATP: ${result}`)
+        throw new Error('Failed to login to ATP')
+      }
+      return result.data
+    })
+
+    return this.atp.resumeSession(session)
   }
 }

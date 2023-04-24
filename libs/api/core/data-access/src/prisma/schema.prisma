@@ -173,6 +173,7 @@ model Identity {
 }
 
 enum IdentityProvider {
+  Atp
   Discord
   Github
   Google

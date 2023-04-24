@@ -11,6 +11,12 @@ export function IdentityProviderLink({
   username?: string
 }) {
   switch (provider) {
+    case IdentityProvider.Atp:
+      return (
+        <Anchor color="brand" component={'a'} href={`https://staging.bsky.app/profile/${providerId}`} target="_blank">
+          {providerId}
+        </Anchor>
+      )
     case IdentityProvider.Discord:
       return (
         <Anchor color="brand" component={'a'} href={`https://discordapp.com/users/${providerId}`} target="_blank">

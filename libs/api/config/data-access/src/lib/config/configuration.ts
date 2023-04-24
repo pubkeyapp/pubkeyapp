@@ -42,6 +42,11 @@ export default () => ({
     name: appName,
     url: WEB_URL,
   },
+  atp: {
+    endpoint: process.env.ATP_ENDPOINT,
+    identifier: process.env.ATP_IDENTIFIER,
+    password: process.env.ATP_PASSWORD,
+  },
   cors: {
     bypass: !origins.length,
     origins,

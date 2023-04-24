@@ -138,6 +138,7 @@ type Identity {
 }
 
 enum IdentityProvider {
+  Atp
   Discord
   Github
   Google

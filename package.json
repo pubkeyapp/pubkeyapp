@@ -30,6 +30,8 @@
   },
   "private": true,
   "dependencies": {
+    "@atproto/api": "^0.2.8",
+    "@atproto/uri": "^0.0.2",
     "@emotion/react": "^11.10.6",
     "@emotion/server": "^11.10.0",
     "@golevelup/nestjs-modules": "^0.6.1",
