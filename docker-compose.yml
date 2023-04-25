@@ -16,3 +16,10 @@ services:
       - '6379:6379'
     volumes:
       - ./tmp/redis:/data
+  typesense:
+    image: typesense/typesense:0.24.1
+    ports:
+      - '8108:8108'
+    volumes:
+      - ./tmp/typesense:/data
+    command: '--data-dir /data --api-key=mgap18HZhT1dZinm2AgN7N6D4nrSMi --enable-cors'

@@ -4,6 +4,9 @@ import { EventEmitter2 } from '@nestjs/event-emitter'
 import { Identity, IdentityProvider, UserRole, UserStatus } from '@prisma/client'
 import { ApiConfigService } from '@pubkeyapp/api/config/data-access'
 import { GumSdk } from '@pubkeyapp/api/gum/data-access'
+import { readFile } from 'fs-extra'
+import { Client as Typesense } from 'typesense'
+import { CollectionCreateSchema } from 'typesense/lib/Typesense/Collections'
 import { convertCoreDbUser, CoreDbUser, CoreUser } from './api-core.helpers'
 import { ApiCoreCacheService } from './cache/api-core-cache.service'
 import { ApiCoreDataService } from './data/api-core-data.service'
@@ -16,6 +19,18 @@ export class ApiCoreService implements OnApplicationBootstrap {
   readonly atp = new AtpAgent({ service: process.env.ATP_ENDPOINT })
   readonly bsky = this.atp.api.app.bsky
   readonly gum = new GumSdk({ endpoint: process.env.GUM_ENDPOINT })
+  readonly typesense = new Typesense({
+    nodes: [
+      {
+        host: process.env.TYPESENSE_HOST,
+        port: parseInt(process.env.TYPESENSE_PORT, 10),
+        protocol: process.env.TYPESENSE_PROTOCOL,
+      },
+    ],
+    apiKey: process.env.TYPESENSE_API_KEY,
+    connectionTimeoutSeconds: 2,
+  })
+
   constructor(
     readonly cache: ApiCoreCacheService,
     readonly config: ApiConfigService,
@@ -23,7 +38,60 @@ export class ApiCoreService implements OnApplicationBootstrap {
     private eventEmitter: EventEmitter2,
     readonly queue: ApiCoreQueueService,
     readonly settings: ApiCoreSettingsService,
-  ) {}
+  ) {
+    setTimeout(async () => {
+      // await this.createSchema()
+      // await this.importBooks()
+
+      let searchParameters = {
+        q: 'harry potter',
+        query_by: 'title',
+        sort_by: 'ratings_count:desc',
+      }
+
+      this.typesense
+        .collections('books')
+        .documents()
+        .search(searchParameters)
+        .then(function (searchResults) {
+          // console.log(searchResults)
+          for (const hit of searchResults?.hits) {
+            console.log(`hit`, JSON.stringify(hit, null, 2))
+          }
+        })
+    }, 3000)
+  }
+
+  async importBooks() {
+    const booksInJsonl = await readFile(`${process.cwd()}/tmp/books.jsonl`)
+    await this.typesense
+      .collections('books')
+      .documents()
+      .import(booksInJsonl.toString())
+      .then((res) => {
+        console.log('res', res)
+      })
+  }
+  async createSchema() {
+    await this.typesense.collections('books').delete()
+    const bookSchema: CollectionCreateSchema = {
+      name: 'books',
+      fields: [
+        { name: 'title', type: 'string' },
+        { name: 'authors', type: 'string[]', facet: true },
+        { name: 'publication_year', type: 'int32', facet: true },
+        { name: 'ratings_count', type: 'int32' },
+        { name: 'average_rating', type: 'float' },
+      ],
+      default_sorting_field: 'ratings_count',
+    }
+    this.typesense
+      .collections()
+      .create(bookSchema)
+      .then((res) => {
+        console.log('Created collection', res)
+      })
+  }
 
   async onApplicationBootstrap(): Promise<void> {
     this.logger.verbose('  => BOOTSTRAPPING CORE')

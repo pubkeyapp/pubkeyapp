@@ -86,6 +86,10 @@ export default () => ({
   redis: {
     url: process.env.REDIS_URL,
   },
+  typesense: {
+    apiKey: process.env.TYPESENSE_API_KEY,
+    endpoint: process.env.TYPESENSE_ENDPOINT,
+  },
   web: {
     url: WEB_URL,
   },
